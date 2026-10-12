@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".PlanTripActivity">
+
+    <!-- 1. Image Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_image"
+        android:layout_width="0dp"
+        android:layout_height="360dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/product" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- 2. Title Text -->
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="sans-serif-black"
+        android:lineSpacingExtra="4dp"
+        android:text="Support Local\n&amp; Plan Your Trip"
+        android:textColor="#1A2B4C"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_image" />
+
+    <!-- 3. Subtitle Text -->
+    <TextView
+        android:id="@+id/tv_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="sans-serif"
+        android:lineSpacingExtra="4dp"
+        android:text="Find local products, nearby rentals, and everything you need to plan your trip."
+        android:textColor="#8A8F98"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+    <!-- 4. Dots Indicator (3 weni eka Active) -->
+    <LinearLayout
+        android:id="@+id/dots_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_subtitle">
+
+        <!-- 1. Inactive -->
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/dot_inactive" />
+
+        <!-- 2. Inactive -->
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/dot_inactive" />
+
+        <!-- 3. Active -->
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/dot_active" />
+
+        <!-- 4. Inactive -->
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/dot_inactive" />
+    </LinearLayout>
+
+    <!-- 5. Get Started Button -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_get_started"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/button_bg"
+        android:fontFamily="sans-serif-medium"
+        android:text="Get Started"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

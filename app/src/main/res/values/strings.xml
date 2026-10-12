@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">LankaGo</string>
+    <string name="tagline">Smart Travel Companion\nfor Sri Lanka</string>
+    <string name="bottom_text">Discover · Explore · Experience</string>
+    <string name="background_desc">Background image</string>
+    <string name="logo_desc">App logo</string>
 </resources>

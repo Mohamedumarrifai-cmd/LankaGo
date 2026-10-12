@@ -1,0 +1,56 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="200dp"
+    android:height="400dp"
+    android:viewportWidth="400"
+    android:viewportHeight="800">
+
+    <!-- Sky Gradient Background -->
+    <path android:pathData="M0,0 L400,0 L400,800 L0,800 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="200"
+                android:startY="0"
+                android:endX="200"
+                android:endY="800">
+                <item android:color="#1A2A6C" android:offset="0.0" />
+                <item android:color="#4B2354" android:offset="0.2" />
+                <item android:color="#B21F1F" android:offset="0.35" />
+                <item android:color="#FDBB2D" android:offset="0.5" />
+                <item android:color="#2E5A27" android:offset="0.7" />
+                <item android:color="#0B3B0B" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Distant Mountains / Hills -->
+    <path
+        android:fillColor="#3A3B3C"
+        android:fillAlpha="0.6"
+        android:pathData="M0,500 Q100,450 200,480 T400,460 L400,800 L0,800 Z" />
+
+    <!-- Sigiriya Rock Fortress -->
+    <path
+        android:fillColor="#4A3B32"
+        android:pathData="M150,420 Q160,360 180,350 L220,350 Q240,360 250,420 Q270,450 280,500 Q200,510 120,500 Q130,450 150,420 Z" />
+
+    <!-- Trees on top of Sigiriya Rock -->
+    <path
+        android:fillColor="#1B4D1B"
+        android:pathData="M175,355 Q180,345 190,350 Q200,342 210,348 Q220,345 225,355 Z" />
+
+    <!-- Foreground Jungle Canopy (Rolling Hills) -->
+    <path
+        android:fillColor="#133813"
+        android:pathData="M0,520 Q80,480 200,530 T400,500 L400,800 L0,800 Z" />
+
+    <path
+        android:fillColor="#0D2B0D"
+        android:pathData="M0,600 Q120,560 250,610 T400,580 L400,800 L0,800 Z" />
+
+    <path
+        android:fillColor="#071A07"
+        android:pathData="M0,690 Q150,650 300,700 T400,680 L400,800 L0,800 Z" />
+
+</vector>
