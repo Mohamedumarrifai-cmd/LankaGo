@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="500dp"
+    android:viewportWidth="400"
+    android:viewportHeight="500">
+    <!-- Light green map background -->
+    <path android:fillColor="#E6F0E6" android:pathData="M0,0 L400,0 L400,500 L0,500 Z"/>
+
+    <!-- Contour circles / terrain rings -->
+    <path android:strokeColor="#D0E3D0" android:strokeWidth="1.5" android:fillColor="#00000000" android:pathData="M50,150 Q150,50 300,100 T380,350 Q300,450 150,400 T50,150 Z"/>
+    <path android:strokeColor="#C2DCC2" android:strokeWidth="1" android:fillColor="#00000000" android:pathData="M100,200 Q200,100 320,150 T350,300 Q280,400 180,350 T100,200 Z"/>
+    <path android:strokeColor="#D0E3D0" android:strokeWidth="1.5" android:fillColor="#00000000" android:pathData="M200,250 Q300,150 380,250 T300,480 Q200,450 150,350 T200,250 Z"/>
+
+    <!-- Roads (curved white/grey paths) -->
+    <path android:strokeColor="#FFFFFF" android:strokeWidth="8" android:strokeLineCap="round" android:fillColor="#00000000" android:pathData="M150,50 Q220,150 100,300 T250,480"/>
+    <path android:strokeColor="#D1DCD1" android:strokeWidth="4" android:strokeLineCap="round" android:fillColor="#00000000" android:pathData="M150,50 Q220,150 100,300 T250,480"/>
+
+    <path android:strokeColor="#FFFFFF" android:strokeWidth="6" android:strokeLineCap="round" android:fillColor="#00000000" android:pathData="M50,100 Q200,50 350,200"/>
+    <path android:strokeColor="#D1DCD1" android:strokeWidth="3" android:strokeLineCap="round" android:fillColor="#00000000" android:pathData="M50,100 Q200,50 350,200"/>
+
+    <!-- Active Route Line -->
+    <path android:strokeColor="#4A80B5" android:strokeWidth="6" android:strokeLineCap="round" android:fillColor="#00000000" android:pathData="M180,220 Q280,120 310,180 T260,320"/>
+</vector>
