@@ -515,7 +515,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/batik_Wotksop"
+                                android:src="@drawable/product"
                                 android:contentDescription="Batik workshop" />
                             <ImageView
                                 android:layout_width="32dp"

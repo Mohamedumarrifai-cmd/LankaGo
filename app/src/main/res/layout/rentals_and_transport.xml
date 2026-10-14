@@ -6,87 +6,139 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".RentalsAndTransportActivity">
+    tools:context=".RentalsTransportActivity">
 
-    <!-- Title -->
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
+    <!-- 1. TOP BAR -->
+    <LinearLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Rentals &amp; Transport"
-        android:textColor="#1A2B4C"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="24dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <!-- Category Tabs -->
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="#1A2B4C"
+            android:contentDescription="Back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Rentals &amp; Transport"
+            android:textColor="#1A2B4C"
+            android:textSize="22sp" />
+    </LinearLayout>
+
+    <!-- 2. FILTER TABS -->
     <HorizontalScrollView
-        android:id="@+id/scroll_tabs"
-        android:layout_width="0dp"
+        android:id="@+id/scroll_chips"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:scrollbars="none"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/top_bar">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="24dp">
+            android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/chip_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_chip_selected"
+                android:background="@drawable/chip_active"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
-                android:text="Bikes"
+                android:text="All"
                 android:textColor="#FFFFFF"
-                android:textSize="13sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/chip_scooters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_chip_unselected"
+                android:background="@drawable/chip_inactive"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
                 android:text="Scooters"
-                android:textColor="#666666"
-                android:textSize="13sp" />
+                android:textColor="#1A2B4C"
+                android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/chip_bikes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_chip_unselected"
+                android:background="@drawable/chip_inactive"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:text="Bikes"
+                android:textColor="#1A2B4C"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/chip_cars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/chip_inactive"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
                 android:text="Cars"
-                android:textColor="#666666"
-                android:textSize="13sp" />
+                android:textColor="#1A2B4C"
+                android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/chip_vans"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_chip_unselected"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/chip_inactive"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:text="Vans"
+                android:textColor="#1A2B4C"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/chip_tuktuk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/chip_inactive"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
                 android:text="Tuk Tuk"
-                android:textColor="#666666"
-                android:textSize="13sp" />
+                android:textColor="#1A2B4C"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/chip_buses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/chip_inactive"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:text="Buses"
+                android:textColor="#1A2B4C"
+                android:textSize="14sp" />
 
         </LinearLayout>
     </HorizontalScrollView>
 
-    <!-- Rental Cards List -->
+    <!-- 3. RENTAL LIST -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -95,117 +147,1612 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scroll_tabs">
+        app:layout_constraintTop_toBottomOf="@id/scroll_chips">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingBottom="24dp">
+            android:padding="16dp">
 
-            <!-- Card 1 -->
+            <!-- 1. Epic Ride Scooter Rental -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_epic_ride"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="0dp">
-
-                <LinearLayout
+                android:layout_marginBottom="12dp"
+                android:tag="scooter"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_card_24"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
+                    android:padding="12dp">
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp"
+                        android:id="@+id/img_epic_ride"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/product"
-                        android:contentDescription="Vehicle" />
-
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/epic_ride"
+                        tools:src="@drawable/epic_ride"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Epic Ride" />
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/title_epic_ride"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="12dp"
                         android:fontFamily="sans-serif-black"
-                        android:text="Mountain Bicycle"
                         android:textColor="#1A2B4C"
-                        android:textSize="18sp" />
-
+                        android:textSize="16sp"
+                        android:text="Epic Ride Scooter Rental"
+                        tools:text="Epic Ride Scooter Rental"
+                        app:layout_constraintStart_toEndOf="@id/img_epic_ride"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_epic_ride"
+                        app:layout_constraintTop_toTopOf="@id/img_epic_ride" />
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/subtitle_epic_ride"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="LKR 1,500 / day · Available in Ella"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
-                        android:textSize="14sp" />
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/button_primary"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="Book Now"
-                        android:textAllCaps="false"
-                        android:textColor="#FFFFFF"
-                        android:textSize="15sp" />
-                </LinearLayout>
+                        android:textSize="13sp"
+                        android:text="Scooter · LKR 3,500/day · Galle Fort"
+                        tools:text="Scooter · LKR 3,500/day · Galle Fort"
+                        app:layout_constraintStart_toEndOf="@id/img_epic_ride"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_epic_ride"
+                        app:layout_constraintTop_toBottomOf="@id/title_epic_ride" />
+                    <TextView
+                        android:id="@+id/rating_epic_ride"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.9"
+                        tools:text="★ 4.9"
+                        app:layout_constraintStart_toEndOf="@id/img_epic_ride"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_epic_ride" />
+                    <ImageView
+                        android:id="@+id/arrow_epic_ride"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card 2 -->
+            <!-- 2. Colombo Scooter Rentals -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_colombo_scooter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="0dp">
-
-                <LinearLayout
+                android:layout_marginBottom="12dp"
+                android:tag="scooter"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_card_24"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
+                    android:padding="12dp">
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp"
+                        android:id="@+id/img_colombo_scooter"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/experience"
-                        android:contentDescription="Vehicle" />
-
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/colombo_scotter"
+                        tools:src="@drawable/colombo_scotter"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Colombo Scooter" />
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/title_colombo_scooter"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="12dp"
                         android:fontFamily="sans-serif-black"
-                        android:text="Honda Scooter"
                         android:textColor="#1A2B4C"
-                        android:textSize="18sp" />
-
+                        android:textSize="16sp"
+                        android:text="Colombo Scooter Rentals"
+                        tools:text="Colombo Scooter Rentals"
+                        app:layout_constraintStart_toEndOf="@id/img_colombo_scooter"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_colombo_scooter"
+                        app:layout_constraintTop_toTopOf="@id/img_colombo_scooter" />
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/subtitle_colombo_scooter"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="LKR 3,000 / day · Available in Mirissa"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
-                        android:textSize="14sp" />
+                        android:textSize="13sp"
+                        android:text="Scooter · LKR 3,800/day · Colombo 03"
+                        tools:text="Scooter · LKR 3,800/day · Colombo 03"
+                        app:layout_constraintStart_toEndOf="@id/img_colombo_scooter"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_colombo_scooter"
+                        app:layout_constraintTop_toBottomOf="@id/title_colombo_scooter" />
+                    <TextView
+                        android:id="@+id/rating_colombo_scooter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.6"
+                        tools:text="★ 4.6"
+                        app:layout_constraintStart_toEndOf="@id/img_colombo_scooter"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_colombo_scooter" />
+                    <ImageView
+                        android:id="@+id/arrow_colombo_scooter"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/button_primary"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="Book Now"
-                        android:textAllCaps="false"
-                        android:textColor="#FFFFFF"
-                        android:textSize="15sp" />
-                </LinearLayout>
+            <!-- 3. Unawatuna Scooter Rental -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_unawatuna"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="scooter"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_unawatuna"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/unawatune_bike"
+                        tools:src="@drawable/unawatune_bike"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Unawatuna Scooter" />
+                    <TextView
+                        android:id="@+id/title_unawatuna"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Unawatuna Scooter Rental"
+                        tools:text="Unawatuna Scooter Rental"
+                        app:layout_constraintStart_toEndOf="@id/img_unawatuna"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_unawatuna"
+                        app:layout_constraintTop_toTopOf="@id/img_unawatuna" />
+                    <TextView
+                        android:id="@+id/subtitle_unawatuna"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Scooter · LKR 3,300/day · Unawatuna"
+                        tools:text="Scooter · LKR 3,300/day · Unawatuna"
+                        app:layout_constraintStart_toEndOf="@id/img_unawatuna"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_unawatuna"
+                        app:layout_constraintTop_toBottomOf="@id/title_unawatuna" />
+                    <TextView
+                        android:id="@+id/rating_unawatuna"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.7"
+                        tools:text="★ 4.7"
+                        app:layout_constraintStart_toEndOf="@id/img_unawatuna"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_unawatuna" />
+                    <ImageView
+                        android:id="@+id/arrow_unawatuna"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 4. Dambulla Scooter Rentals -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_dambulla_scooter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="scooter"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_dambulla_scooter"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/dambulla_bike"
+                        tools:src="@drawable/dambulla_bike"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Dambulla Scooter" />
+                    <TextView
+                        android:id="@+id/title_dambulla_scooter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Dambulla Scooter Rentals"
+                        tools:text="Dambulla Scooter Rentals"
+                        app:layout_constraintStart_toEndOf="@id/img_dambulla_scooter"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_dambulla_scooter"
+                        app:layout_constraintTop_toTopOf="@id/img_dambulla_scooter" />
+                    <TextView
+                        android:id="@+id/subtitle_dambulla_scooter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Scooter · LKR 3,400/day · Dambulla"
+                        tools:text="Scooter · LKR 3,400/day · Dambulla"
+                        app:layout_constraintStart_toEndOf="@id/img_dambulla_scooter"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_dambulla_scooter"
+                        app:layout_constraintTop_toBottomOf="@id/title_dambulla_scooter" />
+                    <TextView
+                        android:id="@+id/rating_dambulla_scooter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.5"
+                        tools:text="★ 4.5"
+                        app:layout_constraintStart_toEndOf="@id/img_dambulla_scooter"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_dambulla_scooter" />
+                    <ImageView
+                        android:id="@+id/arrow_dambulla_scooter"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 5. Hikkaduwa Scooter Rental -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_hikkaduwa_scooter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="scooter"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_hikkaduwa_scooter"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/hikka_rent"
+                        tools:src="@drawable/hikka_rent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Hikkaduwa Scooter" />
+                    <TextView
+                        android:id="@+id/title_hikkaduwa_scooter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Hikkaduwa Scooter Rental"
+                        tools:text="Hikkaduwa Scooter Rental"
+                        app:layout_constraintStart_toEndOf="@id/img_hikkaduwa_scooter"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_hikkaduwa_scooter"
+                        app:layout_constraintTop_toTopOf="@id/img_hikkaduwa_scooter" />
+                    <TextView
+                        android:id="@+id/subtitle_hikkaduwa_scooter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Scooter · LKR 3,200/day · Hikkaduwa"
+                        tools:text="Scooter · LKR 3,200/day · Hikkaduwa"
+                        app:layout_constraintStart_toEndOf="@id/img_hikkaduwa_scooter"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_hikkaduwa_scooter"
+                        app:layout_constraintTop_toBottomOf="@id/title_hikkaduwa_scooter" />
+                    <TextView
+                        android:id="@+id/rating_hikkaduwa_scooter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.7"
+                        tools:text="★ 4.7"
+                        app:layout_constraintStart_toEndOf="@id/img_hikkaduwa_scooter"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_hikkaduwa_scooter" />
+                    <ImageView
+                        android:id="@+id/arrow_hikkaduwa_scooter"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 6. Kandy Bike Rental -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_kandy_bike"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="bike"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_kandy_bike"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/kandy_bike"
+                        tools:src="@drawable/kandy_bike"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Kandy Bike" />
+                    <TextView
+                        android:id="@+id/title_kandy_bike"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Kandy Bike Rental"
+                        tools:text="Kandy Bike Rental"
+                        app:layout_constraintStart_toEndOf="@id/img_kandy_bike"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_kandy_bike"
+                        app:layout_constraintTop_toTopOf="@id/img_kandy_bike" />
+                    <TextView
+                        android:id="@+id/subtitle_kandy_bike"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Bicycle · LKR 2,000/day · Kandy Lake"
+                        tools:text="Bicycle · LKR 2,000/day · Kandy Lake"
+                        app:layout_constraintStart_toEndOf="@id/img_kandy_bike"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_kandy_bike"
+                        app:layout_constraintTop_toBottomOf="@id/title_kandy_bike" />
+                    <TextView
+                        android:id="@+id/rating_kandy_bike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.7"
+                        tools:text="★ 4.7"
+                        app:layout_constraintStart_toEndOf="@id/img_kandy_bike"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_kandy_bike" />
+                    <ImageView
+                        android:id="@+id/arrow_kandy_bike"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 7. Mirissa Bike Rental -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_mirissa_bike"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="bike"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_mirissa_bike"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/mirissa_taxi"
+                        tools:src="@drawable/mirissa_taxi"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Mirissa Bike" />
+                    <TextView
+                        android:id="@+id/title_mirissa_bike"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Mirissa Bike Rental"
+                        tools:text="Mirissa Bike Rental"
+                        app:layout_constraintStart_toEndOf="@id/img_mirissa_bike"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_mirissa_bike"
+                        app:layout_constraintTop_toTopOf="@id/img_mirissa_bike" />
+                    <TextView
+                        android:id="@+id/subtitle_mirissa_bike"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Bicycle · LKR 1,800/day · Mirissa Beach"
+                        tools:text="Bicycle · LKR 1,800/day · Mirissa Beach"
+                        app:layout_constraintStart_toEndOf="@id/img_mirissa_bike"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_mirissa_bike"
+                        app:layout_constraintTop_toBottomOf="@id/title_mirissa_bike" />
+                    <TextView
+                        android:id="@+id/rating_mirissa_bike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.5"
+                        tools:text="★ 4.5"
+                        app:layout_constraintStart_toEndOf="@id/img_mirissa_bike"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_mirissa_bike" />
+                    <ImageView
+                        android:id="@+id/arrow_mirissa_bike"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 8. Ella Adventure Rentals -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_ella_bike"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="bike"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_ella_bike"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/ella_rental"
+                        tools:src="@drawable/ella_rental"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Ella Bike" />
+                    <TextView
+                        android:id="@+id/title_ella_bike"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Ella Adventure Rentals"
+                        tools:text="Ella Adventure Rentals"
+                        app:layout_constraintStart_toEndOf="@id/img_ella_bike"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_ella_bike"
+                        app:layout_constraintTop_toTopOf="@id/img_ella_bike" />
+                    <TextView
+                        android:id="@+id/subtitle_ella_bike"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Mountain Bike · LKR 2,500/day · Ella"
+                        tools:text="Mountain Bike · LKR 2,500/day · Ella"
+                        app:layout_constraintStart_toEndOf="@id/img_ella_bike"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_ella_bike"
+                        app:layout_constraintTop_toBottomOf="@id/title_ella_bike" />
+                    <TextView
+                        android:id="@+id/rating_ella_bike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.8"
+                        tools:text="★ 4.8"
+                        app:layout_constraintStart_toEndOf="@id/img_ella_bike"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_ella_bike" />
+                    <ImageView
+                        android:id="@+id/arrow_ella_bike"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 9. Arugam Bay Surf & Bike -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_arugam_bike"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="bike"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_arugam_bike"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/dambulla_bike"
+                        tools:src="@drawable/dambulla_bike"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arugam Bike" />
+                    <TextView
+                        android:id="@+id/title_arugam_bike"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Arugam Bay Surf &amp; Bike"
+                        tools:text="Arugam Bay Surf &amp; Bike"
+                        app:layout_constraintStart_toEndOf="@id/img_arugam_bike"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_arugam_bike"
+                        app:layout_constraintTop_toTopOf="@id/img_arugam_bike" />
+                    <TextView
+                        android:id="@+id/subtitle_arugam_bike"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Bicycle · LKR 1,500/day · Arugam Bay"
+                        tools:text="Bicycle · LKR 1,500/day · Arugam Bay"
+                        app:layout_constraintStart_toEndOf="@id/img_arugam_bike"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_arugam_bike"
+                        app:layout_constraintTop_toBottomOf="@id/title_arugam_bike" />
+                    <TextView
+                        android:id="@+id/rating_arugam_bike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.9"
+                        tools:text="★ 4.9"
+                        app:layout_constraintStart_toEndOf="@id/img_arugam_bike"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_arugam_bike" />
+                    <ImageView
+                        android:id="@+id/arrow_arugam_bike"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 10. Malkey Rent A Car -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_malkey_car"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="car"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_malkey_car"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/malkey_rent"
+                        tools:src="@drawable/malkey_rent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Malkey Car" />
+                    <TextView
+                        android:id="@+id/title_malkey_car"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Malkey Rent A Car"
+                        tools:text="Malkey Rent A Car"
+                        app:layout_constraintStart_toEndOf="@id/img_malkey_car"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_malkey_car"
+                        app:layout_constraintTop_toTopOf="@id/img_malkey_car" />
+                    <TextView
+                        android:id="@+id/subtitle_malkey_car"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Car · Toyota Axio · LKR 8,500/day · Colombo"
+                        tools:text="Car · Toyota Axio · LKR 8,500/day · Colombo"
+                        app:layout_constraintStart_toEndOf="@id/img_malkey_car"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_malkey_car"
+                        app:layout_constraintTop_toBottomOf="@id/title_malkey_car" />
+                    <TextView
+                        android:id="@+id/rating_malkey_car"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.8"
+                        tools:text="★ 4.8"
+                        app:layout_constraintStart_toEndOf="@id/img_malkey_car"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_malkey_car" />
+                    <ImageView
+                        android:id="@+id/arrow_malkey_car"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 11. Casons Rent A Car -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_casons_car"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="car"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_casons_car"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/casons_rent"
+                        tools:src="@drawable/casons_rent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Casons Car" />
+                    <TextView
+                        android:id="@+id/title_casons_car"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Casons Rent A Car"
+                        tools:text="Casons Rent A Car"
+                        app:layout_constraintStart_toEndOf="@id/img_casons_car"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_casons_car"
+                        app:layout_constraintTop_toTopOf="@id/img_casons_car" />
+                    <TextView
+                        android:id="@+id/subtitle_casons_car"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Car · Suzuki Wagon R · LKR 7,500/day · Colombo"
+                        tools:text="Car · Suzuki Wagon R · LKR 7,500/day · Colombo"
+                        app:layout_constraintStart_toEndOf="@id/img_casons_car"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_casons_car"
+                        app:layout_constraintTop_toBottomOf="@id/title_casons_car" />
+                    <TextView
+                        android:id="@+id/rating_casons_car"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.7"
+                        tools:text="★ 4.7"
+                        app:layout_constraintStart_toEndOf="@id/img_casons_car"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_casons_car" />
+                    <ImageView
+                        android:id="@+id/arrow_casons_car"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 12. Kings Rent A Car -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_kings_car"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="car"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_kings_car"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/malkey_rent"
+                        tools:src="@drawable/malkey_rent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Kings Car" />
+                    <TextView
+                        android:id="@+id/title_kings_car"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Kings Rent A Car"
+                        tools:text="Kings Rent A Car"
+                        app:layout_constraintStart_toEndOf="@id/img_kings_car"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_kings_car"
+                        app:layout_constraintTop_toTopOf="@id/img_kings_car" />
+                    <TextView
+                        android:id="@+id/subtitle_kings_car"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Car · Honda Fit · LKR 8,000/day · Kandy"
+                        tools:text="Car · Honda Fit · LKR 8,000/day · Kandy"
+                        app:layout_constraintStart_toEndOf="@id/img_kings_car"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_kings_car"
+                        app:layout_constraintTop_toBottomOf="@id/title_kings_car" />
+                    <TextView
+                        android:id="@+id/rating_kings_car"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.6"
+                        tools:text="★ 4.6"
+                        app:layout_constraintStart_toEndOf="@id/img_kings_car"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_kings_car" />
+                    <ImageView
+                        android:id="@+id/arrow_kings_car"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 13. Euro Car Rental -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_euro_car"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="car"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_euro_car"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/casons_rent"
+                        tools:src="@drawable/casons_rent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Euro Car" />
+                    <TextView
+                        android:id="@+id/title_euro_car"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Euro Car Rental"
+                        tools:text="Euro Car Rental"
+                        app:layout_constraintStart_toEndOf="@id/img_euro_car"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_euro_car"
+                        app:layout_constraintTop_toTopOf="@id/img_euro_car" />
+                    <TextView
+                        android:id="@+id/subtitle_euro_car"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Car · Toyota Prius · LKR 10,000/day · Colombo"
+                        tools:text="Car · Toyota Prius · LKR 10,000/day · Colombo"
+                        app:layout_constraintStart_toEndOf="@id/img_euro_car"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_euro_car"
+                        app:layout_constraintTop_toBottomOf="@id/title_euro_car" />
+                    <TextView
+                        android:id="@+id/rating_euro_car"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.5"
+                        tools:text="★ 4.5"
+                        app:layout_constraintStart_toEndOf="@id/img_euro_car"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_euro_car" />
+                    <ImageView
+                        android:id="@+id/arrow_euro_car"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 14. Casons Van Rental -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_casons_van"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="van"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_casons_van"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/casons_rent"
+                        tools:src="@drawable/casons_rent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Casons Van" />
+                    <TextView
+                        android:id="@+id/title_casons_van"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Casons Van Rental"
+                        tools:text="Casons Van Rental"
+                        app:layout_constraintStart_toEndOf="@id/img_casons_van"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_casons_van"
+                        app:layout_constraintTop_toTopOf="@id/img_casons_van" />
+                    <TextView
+                        android:id="@+id/subtitle_casons_van"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Van · KDH 10 Seater · LKR 15,000/day · Colombo"
+                        tools:text="Van · KDH 10 Seater · LKR 15,000/day · Colombo"
+                        app:layout_constraintStart_toEndOf="@id/img_casons_van"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_casons_van"
+                        app:layout_constraintTop_toBottomOf="@id/title_casons_van" />
+                    <TextView
+                        android:id="@+id/rating_casons_van"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.7"
+                        tools:text="★ 4.7"
+                        app:layout_constraintStart_toEndOf="@id/img_casons_van"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_casons_van" />
+                    <ImageView
+                        android:id="@+id/arrow_casons_van"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 15. Malkey Van Rental -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_malkey_van"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="van"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_malkey_van"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/malkey_rent"
+                        tools:src="@drawable/malkey_rent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Malkey Van" />
+                    <TextView
+                        android:id="@+id/title_malkey_van"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Malkey Van Rental"
+                        tools:text="Malkey Van Rental"
+                        app:layout_constraintStart_toEndOf="@id/img_malkey_van"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_malkey_van"
+                        app:layout_constraintTop_toTopOf="@id/img_malkey_van" />
+                    <TextView
+                        android:id="@+id/subtitle_malkey_van"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Van · Toyota HiAce · LKR 16,500/day · Colombo"
+                        tools:text="Van · Toyota HiAce · LKR 16,500/day · Colombo"
+                        app:layout_constraintStart_toEndOf="@id/img_malkey_van"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_malkey_van"
+                        app:layout_constraintTop_toBottomOf="@id/title_malkey_van" />
+                    <TextView
+                        android:id="@+id/rating_malkey_van"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.6"
+                        tools:text="★ 4.6"
+                        app:layout_constraintStart_toEndOf="@id/img_malkey_van"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_malkey_van" />
+                    <ImageView
+                        android:id="@+id/arrow_malkey_van"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 16. Kandy Van Tours -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_kandy_van"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="van"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_kandy_van"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/kandy_bike"
+                        tools:src="@drawable/kandy_bike"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Kandy Van" />
+                    <TextView
+                        android:id="@+id/title_kandy_van"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Kandy Van Tours"
+                        tools:text="Kandy Van Tours"
+                        app:layout_constraintStart_toEndOf="@id/img_kandy_van"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_kandy_van"
+                        app:layout_constraintTop_toTopOf="@id/img_kandy_van" />
+                    <TextView
+                        android:id="@+id/subtitle_kandy_van"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Van · 14 Seater · LKR 14,000/day · Kandy"
+                        tools:text="Van · 14 Seater · LKR 14,000/day · Kandy"
+                        app:layout_constraintStart_toEndOf="@id/img_kandy_van"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_kandy_van"
+                        app:layout_constraintTop_toBottomOf="@id/title_kandy_van" />
+                    <TextView
+                        android:id="@+id/rating_kandy_van"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.5"
+                        tools:text="★ 4.5"
+                        app:layout_constraintStart_toEndOf="@id/img_kandy_van"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_kandy_van" />
+                    <ImageView
+                        android:id="@+id/arrow_kandy_van"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 17. Negombo Tuk Tuk Rentals -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_negombo_tuktuk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="tuktuk"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_negombo_tuktuk"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/green_son"
+                        tools:src="@drawable/green_son"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Negombo Tuk Tuk" />
+                    <TextView
+                        android:id="@+id/title_negombo_tuktuk"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Negombo Tuk Tuk Rentals"
+                        tools:text="Negombo Tuk Tuk Rentals"
+                        app:layout_constraintStart_toEndOf="@id/img_negombo_tuktuk"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_negombo_tuktuk"
+                        app:layout_constraintTop_toTopOf="@id/img_negombo_tuktuk" />
+                    <TextView
+                        android:id="@+id/subtitle_negombo_tuktuk"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Tuk Tuk · LKR 5,000/day · Negombo"
+                        tools:text="Tuk Tuk · LKR 5,000/day · Negombo"
+                        app:layout_constraintStart_toEndOf="@id/img_negombo_tuktuk"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_negombo_tuktuk"
+                        app:layout_constraintTop_toBottomOf="@id/title_negombo_tuktuk" />
+                    <TextView
+                        android:id="@+id/rating_negombo_tuktuk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.4"
+                        tools:text="★ 4.4"
+                        app:layout_constraintStart_toEndOf="@id/img_negombo_tuktuk"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_negombo_tuktuk" />
+                    <ImageView
+                        android:id="@+id/arrow_negombo_tuktuk"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 18. Galle Tuk Tuk Rental -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_galle_tuktuk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="tuktuk"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_galle_tuktuk"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/green_son"
+                        tools:src="@drawable/green_son"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Galle Tuk Tuk" />
+                    <TextView
+                        android:id="@+id/title_galle_tuktuk"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Galle Tuk Tuk Rental"
+                        tools:text="Galle Tuk Tuk Rental"
+                        app:layout_constraintStart_toEndOf="@id/img_galle_tuktuk"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_galle_tuktuk"
+                        app:layout_constraintTop_toTopOf="@id/img_galle_tuktuk" />
+                    <TextView
+                        android:id="@+id/subtitle_galle_tuktuk"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Tuk Tuk · LKR 4,500/day · Galle Fort"
+                        tools:text="Tuk Tuk · LKR 4,500/day · Galle Fort"
+                        app:layout_constraintStart_toEndOf="@id/img_galle_tuktuk"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_galle_tuktuk"
+                        app:layout_constraintTop_toBottomOf="@id/title_galle_tuktuk" />
+                    <TextView
+                        android:id="@+id/rating_galle_tuktuk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.6"
+                        tools:text="★ 4.6"
+                        app:layout_constraintStart_toEndOf="@id/img_galle_tuktuk"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_galle_tuktuk" />
+                    <ImageView
+                        android:id="@+id/arrow_galle_tuktuk"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 19. Colombo Tuk Tuk Tours -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_colombo_tuktuk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="tuktuk"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_colombo_tuktuk"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/green_son"
+                        tools:src="@drawable/green_son"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Colombo Tuk Tuk" />
+                    <TextView
+                        android:id="@+id/title_colombo_tuktuk"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Colombo Tuk Tuk Tours"
+                        tools:text="Colombo Tuk Tuk Tours"
+                        app:layout_constraintStart_toEndOf="@id/img_colombo_tuktuk"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_colombo_tuktuk"
+                        app:layout_constraintTop_toTopOf="@id/img_colombo_tuktuk" />
+                    <TextView
+                        android:id="@+id/subtitle_colombo_tuktuk"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Tuk Tuk · LKR 5,500/day · Colombo"
+                        tools:text="Tuk Tuk · LKR 5,500/day · Colombo"
+                        app:layout_constraintStart_toEndOf="@id/img_colombo_tuktuk"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_colombo_tuktuk"
+                        app:layout_constraintTop_toBottomOf="@id/title_colombo_tuktuk" />
+                    <TextView
+                        android:id="@+id/rating_colombo_tuktuk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.5"
+                        tools:text="★ 4.5"
+                        app:layout_constraintStart_toEndOf="@id/img_colombo_tuktuk"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_colombo_tuktuk" />
+                    <ImageView
+                        android:id="@+id/arrow_colombo_tuktuk"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 20. Lanka Coach Tours -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_lanka_bus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:tag="bus"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+                    <ImageView
+                        android:id="@+id/img_lanka_bus"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:scaleType="centerCrop"
+                        android:background="#F0F2F5"
+                        android:clipToOutline="true"
+                        android:src="@drawable/casons_rent"
+                        tools:src="@drawable/casons_rent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Lanka Coach" />
+                    <TextView
+                        android:id="@+id/title_lanka_bus"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp"
+                        android:text="Lanka Coach Tours"
+                        tools:text="Lanka Coach Tours"
+                        app:layout_constraintStart_toEndOf="@id/img_lanka_bus"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_lanka_bus"
+                        app:layout_constraintTop_toTopOf="@id/img_lanka_bus" />
+                    <TextView
+                        android:id="@+id/subtitle_lanka_bus"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        android:text="Bus · 45 Seater · LKR 45,000/day · Colombo"
+                        tools:text="Bus · 45 Seater · LKR 45,000/day · Colombo"
+                        app:layout_constraintStart_toEndOf="@id/img_lanka_bus"
+                        app:layout_constraintEnd_toStartOf="@id/arrow_lanka_bus"
+                        app:layout_constraintTop_toBottomOf="@id/title_lanka_bus" />
+                    <TextView
+                        android:id="@+id/rating_lanka_bus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFA500"
+                        android:textSize="13sp"
+                        android:text="★ 4.7"
+                        tools:text="★ 4.7"
+                        app:layout_constraintStart_toEndOf="@id/img_lanka_bus"
+                        app:layout_constraintTop_toBottomOf="@id/subtitle_lanka_bus" />
+                    <ImageView
+                        android:id="@+id/arrow_lanka_bus"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_forward"
+                        app:tint="#8A8F98"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="Arrow" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
