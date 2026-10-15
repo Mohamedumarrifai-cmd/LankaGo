@@ -1,339 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E6F0E6"
+    android:background="#D3E3F3"
     tools:context=".MapRouteActivity">
 
-    <!-- Real-world Google MapView -->
+    <!-- MapView -->
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="420dp" />
+        android:layout_height="match_parent" />
 
-    <!-- Top Left Back Button -->
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/bg_white_circle"
-        android:elevation="4dp"
-        android:padding="8dp"
-        android:src="@drawable/ic_arrow_back"
-        android:contentDescription="Back" />
-
-    <!-- Top Right Map Action Buttons (Location & Layers) -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal">
-
-        <!-- Location Target Button -->
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/bg_white_circle"
-            android:elevation="4dp"
-            android:padding="10dp"
-            android:src="@android:drawable/ic_menu_mylocation"
-            app:tint="#1A73E8"
-            android:contentDescription="My Location" />
-
-        <!-- Layers Button -->
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/bg_white_circle"
-            android:elevation="4dp"
-            android:padding="10dp"
-            android:src="@android:drawable/ic_menu_mapmode"
-            app:tint="#333333"
-            android:contentDescription="Layers" />
-    </LinearLayout>
-
-    <!-- Route Duration Badge on Map ("12 min · 3.2 km") -->
+    <!-- Map Placeholder Text -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal"
-        android:layout_marginTop="150dp"
-        android:background="@drawable/button_blue"
-        android:elevation="6dp"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp"
-        android:text="12 min · 3.2 km"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif-medium"
+        android:text="Google Map Placeholder"
+        android:textColor="#1A2B4C"
+        android:textSize="18sp" />
 
-    <!-- Map Markers / Pins Overlays -->
-    <!-- Nine Arches Bridge Marker at Top Right -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:layout_marginEnd="70dp"
-        android:layout_marginTop="100dp"
-        android:elevation="6dp"
-        android:gravity="center"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:background="@drawable/bg_circle_blue"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_menu_compass"
-            app:tint="#1A2B4C"
-            android:contentDescription="Destination Pin" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/bg_white_circle"
-            android:backgroundTint="#FFFFFF"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:text="Nine Arches Bridge"
-            android:textColor="#1A2B4C"
-            android:textSize="11sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <!-- Ella Railway Station Marker at Bottom Left -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|start"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="230dp"
-        android:elevation="6dp"
-        android:gravity="center"
-        android:orientation="vertical">
-        <View
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:background="@drawable/bg_badge" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/bg_white_circle"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:text="Ella Railway Station"
-            android:textColor="#1A2B4C"
-            android:textSize="11sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <!-- Bottom Sheet Content -->
-    <androidx.core.widget.NestedScrollView
+    <!-- Top Floating Card -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="370dp"
-        android:background="@drawable/bg_bottom_sheet"
-        android:elevation="8dp"
-        android:scrollbars="none">
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="40dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="#FFFFFF">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="#1A2B4C"
+                android:contentDescription="Back" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Sigiriya Rock Fortress"
+                    android:textColor="#1A2B4C"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="2.5 km · 15 min away"
+                    android:textColor="#8A8F98"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Bottom Sheet Navigation Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#FFFFFF">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp"
-            android:paddingBottom="40dp">
+            android:padding="20dp">
 
             <!-- Drag Handle -->
             <View
                 android:layout_width="40dp"
                 android:layout_height="4dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_drag_handle" />
+                android:background="#E5E7EB" />
 
-            <!-- Title & Subtitle -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:text="Nine Arches Bridge"
-                android:textColor="#1A2B4C"
-                android:textSize="24sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="From Ella Railway Station"
-                android:textColor="#8A8F98"
-                android:textSize="14sp" />
-
-            <!-- ================= TRANSPORT MODE CARDS ================= -->
+            <!-- Stats Row (3 Columns) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal"
                 android:weightSum="3">
 
-                <!-- Drive (Selected) -->
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/bg_card_selected"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_directions"
-                        app:tint="#1A73E8"
-                        android:contentDescription="Drive" />
+                    android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="12 min"
-                        android:textColor="#1A73E8"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Drive"
-                        android:textColor="#1A73E8"
+                        android:text="Distance"
+                        android:textColor="#8A8F98"
                         android:textSize="12sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="12.5 km"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
-                <!-- Cycle (Unselected) -->
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginHorizontal="4dp"
-                    android:background="@drawable/bg_card_unselected"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_compass"
-                        app:tint="#666666"
-                        android:contentDescription="Cycle" />
+                    android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="18 min"
-                        android:textColor="#333333"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cycle"
-                        android:textColor="#666666"
+                        android:text="Time"
+                        android:textColor="#8A8F98"
                         android:textSize="12sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="25 min"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
-                <!-- Walk (Unselected) -->
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/bg_card_unselected"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_myplaces"
-                        app:tint="#666666"
-                        android:contentDescription="Walk" />
+                    android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="42 min"
-                        android:textColor="#333333"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Walk"
-                        android:textColor="#666666"
+                        android:text="Traffic"
+                        android:textColor="#8A8F98"
                         android:textSize="12sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Moderate"
+                        android:textColor="#1A2B4C"
+                        android:textSize="16sp" />
                 </LinearLayout>
-
             </LinearLayout>
 
-            <!-- Distance & Elevation Row -->
+            <!-- Transport Mode Selector -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-black"
-                    android:text="3.2 km"
-                    android:textColor="#1A2B4C"
-                    android:textSize="22sp" />
+                <!-- Mode 1: Car (Active) -->
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/button_primary"
+                    android:padding="12dp"
+                    android:src="@android:drawable/ic_menu_directions"
+                    app:tint="#FFFFFF"
+                    android:contentDescription="Car Mode" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#E8F5E9"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="4dp"
-                    android:text="⛰️ +90 m"
-                    android:textColor="#2E7D32"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                <!-- Mode 2: Bike -->
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/bg_white_circle"
+                    android:padding="12dp"
+                    android:src="@android:drawable/ic_menu_compass"
+                    app:tint="#8A8F98"
+                    android:contentDescription="Bike Mode" />
+
+                <!-- Mode 3: Walk -->
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/bg_white_circle"
+                    android:padding="12dp"
+                    android:src="@android:drawable/ic_menu_mylocation"
+                    app:tint="#8A8F98"
+                    android:contentDescription="Walk Mode" />
+
+                <!-- Mode 4: Bus -->
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_white_circle"
+                    android:padding="12dp"
+                    android:src="@android:drawable/ic_menu_day"
+                    app:tint="#8A8F98"
+                    android:contentDescription="Bus Mode" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="Fastest route"
-                android:textColor="#8A8F98"
-                android:textSize="13sp" />
-
-            <!-- Start Navigation Button (Google Blue) -->
-            <Button
+            <!-- Start Navigation Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_start_nav"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/button_blue"
+                android:layout_height="56dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_primary"
                 android:fontFamily="sans-serif-medium"
-                android:text="Start navigation"
+                android:text="Start Navigation"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                app:icon="@android:drawable/ic_menu_send"
-                app:iconTint="#FFFFFF"
-                app:iconGravity="start" />
+                android:textSize="16sp" />
 
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    </androidx.cardview.widget.CardView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

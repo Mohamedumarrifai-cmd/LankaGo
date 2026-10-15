@@ -8,78 +8,53 @@
     android:background="#FFFFFF"
     tools:context=".SearchActivity">
 
-    <!-- Top Bar (Back Arrow & Search Title) -->
+    <!-- Top Bar: Back Arrow & Search Field -->
     <LinearLayout
         android:id="@+id/top_bar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/btn_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_arrow_back"
+            app:tint="#1A2B4C"
             android:contentDescription="Back" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="Search"
-            android:textColor="#1A2B4C"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    <!-- Search Input Bar -->
-    <LinearLayout
-        android:id="@+id/layout_search"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/bg_search"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_bar">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@android:drawable/ic_menu_search"
-            app:tint="#8A8F98"
-            android:contentDescription="Search Icon" />
-
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:background="@null"
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/bg_input"
             android:fontFamily="sans-serif"
-            android:hint="Search"
+            android:hint="Search destinations, products, events..."
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textColor="#1A2B4C"
             android:textColorHint="#8A8F98"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:inputType="text"
             android:autofillHints="name" />
     </LinearLayout>
 
-    <!-- Filter Chips -->
+    <!-- Category Chips -->
     <HorizontalScrollView
         android:id="@+id/scroll_chips"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_search">
+        app:layout_constraintTop_toBottomOf="@id/top_bar">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -87,62 +62,74 @@
             android:orientation="horizontal"
             android:paddingHorizontal="16dp">
 
-            <!-- Chip 1: All -->
             <TextView
+                android:id="@+id/chip_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_chip_selected"
-                android:paddingHorizontal="24dp"
+                android:background="@drawable/chip_active"
+                android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
                 android:text="All"
                 android:textColor="#FFFFFF"
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
-            <!-- Chip 2: Places -->
             <TextView
+                android:id="@+id/chip_places"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_chip_unselected"
+                android:background="@drawable/chip_inactive"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
                 android:text="Places"
-                android:textColor="#666666"
+                android:textColor="#1A2B4C"
                 android:textSize="13sp" />
 
-            <!-- Chip 3: Locations -->
             <TextView
+                android:id="@+id/chip_products"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_chip_unselected"
+                android:background="@drawable/chip_inactive"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
-                android:text="Locations"
-                android:textColor="#666666"
+                android:text="Products"
+                android:textColor="#1A2B4C"
                 android:textSize="13sp" />
 
-            <!-- Chip 4: Nearby -->
             <TextView
+                android:id="@+id/chip_events"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_chip_unselected"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/chip_inactive"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
-                android:text="Nearby"
-                android:textColor="#666666"
+                android:text="Events"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/chip_rentals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/chip_inactive"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:text="Rentals"
+                android:textColor="#1A2B4C"
                 android:textSize="13sp" />
 
         </LinearLayout>
     </HorizontalScrollView>
 
-    <!-- Search Results List -->
+    <!-- Scrollable Search Results Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -156,324 +143,618 @@
             android:paddingHorizontal="16dp"
             android:paddingBottom="24dp">
 
-            <!-- Result 1: Sigiriya -->
+            <!-- Section 1: Nearby Attractions -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="#FFFFFF"
-                android:padding="8dp">
+                android:layout_marginBottom="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Nearby Attractions"
+                    android:textColor="#1A2B4C"
+                    android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="See all"
+                    android:textColor="#8A8F98"
+                    android:textSize="14sp" />
+            </RelativeLayout>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card1"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/sigiriya1"
-                        android:contentDescription="Sigiriya" />
-                </androidx.cardview.widget.CardView>
-
+            <!-- 5 Place Cards -->
+            <!-- Place 1 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/card1"
-                    android:layout_toStartOf="@id/heart1"
-                    android:layout_marginStart="12dp"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sigiriya"
-                        android:textColor="#1A2B4C"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sigiriya"
+                        tools:src="@drawable/sigiriya"
+                        android:contentDescription="Place" />
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:src="@android:drawable/btn_star_big_on"
-                            app:tint="#FFC107"
-                            android:contentDescription="Star" />
+                        android:orientation="vertical">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:text="4.8 · 7 min"
-                            android:textColor="#666666"
-                            android:textSize="13sp" />
+                            android:fontFamily="sans-serif-black"
+                            android:textColor="#1A2B4C"
+                            android:textSize="16sp"
+                            tools:text="Sigiriya Rock Fortress" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textColor="#8A8F98"
+                            android:textSize="13sp"
+                            tools:text="Central Province" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#FFA500"
+                                android:textSize="13sp"
+                                tools:text="★ 4.8 (1.2k)" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:background="#D3E3F3"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="2dp"
+                                android:textColor="#1A2B4C"
+                                android:textSize="11sp"
+                                tools:text="2.5 km away" />
+                        </LinearLayout>
                     </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Fort"
-                        android:textColor="#8A8F98"
-                        android:textSize="13sp" />
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-                <ImageView
-                    android:id="@+id/heart1"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@android:drawable/btn_star_big_off"
-                    app:tint="#E53935"
-                    android:contentDescription="Favorite" />
-            </RelativeLayout>
-
-            <!-- Result 2: Nine Arches Bridge -->
-            <RelativeLayout
+            <!-- Place 2 -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="#FFFFFF"
-                android:padding="8dp">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card2"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/bridge"
-                        android:contentDescription="Nine Arches Bridge" />
-                </androidx.cardview.widget.CardView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/card2"
-                    android:layout_toStartOf="@id/heart2"
-                    android:layout_marginStart="12dp"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nine Arches Bridge"
-                        android:textColor="#1A2B4C"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
+                        tools:src="@drawable/bridge"
+                        android:contentDescription="Place" />
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:src="@android:drawable/btn_star_big_on"
-                            app:tint="#FFC107"
-                            android:contentDescription="Star" />
+                        android:orientation="vertical">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:text="4.7 · 7 min"
-                            android:textColor="#666666"
-                            android:textSize="13sp" />
+                            android:fontFamily="sans-serif-black"
+                            android:textColor="#1A2B4C"
+                            android:textSize="16sp"
+                            tools:text="Nine Arches Bridge" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textColor="#8A8F98"
+                            android:textSize="13sp"
+                            tools:text="Ella, Badulla" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#FFA500"
+                                android:textSize="13sp"
+                                tools:text="★ 4.7 (950)" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:background="#D3E3F3"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="2dp"
+                                android:textColor="#1A2B4C"
+                                android:textSize="11sp"
+                                tools:text="4.1 km away" />
+                        </LinearLayout>
                     </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Bridge"
-                        android:textColor="#8A8F98"
-                        android:textSize="13sp" />
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-                <ImageView
-                    android:id="@+id/heart2"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@android:drawable/btn_star_big_off"
-                    app:tint="#8A8F98"
-                    android:contentDescription="Favorite" />
-            </RelativeLayout>
-
-            <!-- Result 3: Ella Rock -->
-            <RelativeLayout
+            <!-- Place 3 -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="#FFFFFF"
-                android:padding="8dp">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card3"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ella"
-                        android:contentDescription="Ella Rock" />
-                </androidx.cardview.widget.CardView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/card3"
-                    android:layout_toStartOf="@id/heart3"
-                    android:layout_marginStart="12dp"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ella Rock"
-                        android:textColor="#1A2B4C"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
+                        tools:src="@drawable/ella"
+                        android:contentDescription="Place" />
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:src="@android:drawable/btn_star_big_on"
-                            app:tint="#FFC107"
-                            android:contentDescription="Star" />
+                        android:orientation="vertical">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:text="4.8 · 7 min"
-                            android:textColor="#666666"
-                            android:textSize="13sp" />
+                            android:fontFamily="sans-serif-black"
+                            android:textColor="#1A2B4C"
+                            android:textSize="16sp"
+                            tools:text="Ella Rock Viewpoint" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textColor="#8A8F98"
+                            android:textSize="13sp"
+                            tools:text="Ella Town" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#FFA500"
+                                android:textSize="13sp"
+                                tools:text="★ 4.8 (810)" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:background="#D3E3F3"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="2dp"
+                                android:textColor="#1A2B4C"
+                                android:textSize="11sp"
+                                tools:text="5.0 km away" />
+                        </LinearLayout>
                     </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Hike"
-                        android:textColor="#8A8F98"
-                        android:textSize="13sp" />
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-                <ImageView
-                    android:id="@+id/heart3"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@android:drawable/btn_star_big_off"
-                    app:tint="#8A8F98"
-                    android:contentDescription="Favorite" />
-            </RelativeLayout>
-
-            <!-- Result 4: Ravana Falls -->
-            <RelativeLayout
+            <!-- Place 4 -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:padding="8dp">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card4"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ravana"
-                        android:contentDescription="Ravana Falls" />
-                </androidx.cardview.widget.CardView>
-
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/card4"
-                    android:layout_toStartOf="@id/heart4"
-                    android:layout_marginStart="12dp"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ravana Falls"
-                        android:textColor="#1A2B4C"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ravana"
+                        tools:src="@drawable/ravana"
+                        android:contentDescription="Place" />
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:src="@android:drawable/btn_star_big_on"
-                            app:tint="#FFC107"
-                            android:contentDescription="Star" />
+                        android:orientation="vertical">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:text="4.3 · 7 min"
-                            android:textColor="#666666"
-                            android:textSize="13sp" />
+                            android:fontFamily="sans-serif-black"
+                            android:textColor="#1A2B4C"
+                            android:textSize="16sp"
+                            tools:text="Ravana Waterfalls" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textColor="#8A8F98"
+                            android:textSize="13sp"
+                            tools:text="Ravana Wildlife Sanctuary" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#FFA500"
+                                android:textSize="13sp"
+                                tools:text="★ 4.6 (640)" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:background="#D3E3F3"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="2dp"
+                                android:textColor="#1A2B4C"
+                                android:textSize="11sp"
+                                tools:text="6.2 km away" />
+                        </LinearLayout>
                     </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Falls"
-                        android:textColor="#8A8F98"
-                        android:textSize="13sp" />
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-                <ImageView
-                    android:id="@+id/heart4"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@android:drawable/btn_star_big_off"
-                    app:tint="#8A8F98"
-                    android:contentDescription="Favorite" />
-            </RelativeLayout>
+            <!-- Place 5 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/tea_state"
+                        tools:src="@drawable/tea_state"
+                        android:contentDescription="Place" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:textColor="#1A2B4C"
+                            android:textSize="16sp"
+                            tools:text="Nuwara Eliya Tea Gardens" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textColor="#8A8F98"
+                            android:textSize="13sp"
+                            tools:text="Nuwara Eliya" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#FFA500"
+                                android:textSize="13sp"
+                                tools:text="★ 4.9 (1.5k)" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:background="#D3E3F3"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="2dp"
+                                android:textColor="#1A2B4C"
+                                android:textSize="11sp"
+                                tools:text="8.0 km away" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Section 2: Popular Products -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Popular Products"
+                android:textColor="#1A2B4C"
+                android:textSize="18sp" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Product 1 -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="140dp"
+                        android:layout_height="160dp"
+                        android:layout_marginEnd="12dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#E5E7EB"
+                        app:strokeWidth="1dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="8dp">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="90dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ceylon_tea_set"
+                                tools:src="@drawable/ceylon_tea_set"
+                                android:contentDescription="Tea" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="sans-serif-black"
+                                android:textColor="#1A2B4C"
+                                android:textSize="14sp"
+                                tools:text="Ceylon Tea Set" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:textColor="#8A8F98"
+                                android:textSize="12sp"
+                                tools:text="LKR 2,500" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Product 2 -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="140dp"
+                        android:layout_height="160dp"
+                        android:layout_marginEnd="12dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="#E5E7EB"
+                        app:strokeWidth="1dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="8dp">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="90dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/sri_lankan_spices"
+                                tools:src="@drawable/sri_lankan_spices"
+                                android:contentDescription="Spices" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="sans-serif-black"
+                                android:textColor="#1A2B4C"
+                                android:textSize="14sp"
+                                tools:text="Cinnamon Pack" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:textColor="#8A8F98"
+                                android:textSize="12sp"
+                                tools:text="LKR 1,200" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Section 3: Upcoming Events -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Upcoming Events"
+                android:textColor="#1A2B4C"
+                android:textSize="18sp" />
+
+            <!-- Event 1 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/kandy_esala"
+                        tools:src="@drawable/kandy_esala"
+                        android:contentDescription="Event" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp"
+                            tools:text="Kandy Esala Perahera" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:textColor="#8A8F98"
+                            android:textSize="13sp"
+                            tools:text="Kandy · Aug 15 - Aug 25" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Event 2 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/literacy_festival"
+                        tools:src="@drawable/literacy_festival"
+                        android:contentDescription="Event" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp"
+                            tools:text="Galle Literary Festival" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:textColor="#8A8F98"
+                            android:textSize="13sp"
+                            tools:text="Galle Fort · Jan 24 - Jan 28" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Event 3 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/vel_festival"
+                        tools:src="@drawable/vel_festival"
+                        android:contentDescription="Event" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp"
+                            tools:text="Vel Festival Parade" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:textColor="#8A8F98"
+                            android:textSize="13sp"
+                            tools:text="Colombo · Jul 28 - Jul 30" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
