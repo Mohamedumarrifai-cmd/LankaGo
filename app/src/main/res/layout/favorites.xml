@@ -32,6 +32,7 @@
             android:layout_marginStart="16dp"
             android:fontFamily="sans-serif-black"
             android:text="My Favorites"
+            tools:text="My Favorites"
             android:textColor="#1A2B4C"
             android:textSize="20sp" />
     </LinearLayout>
@@ -51,6 +52,7 @@
             android:paddingHorizontal="16dp">
 
             <TextView
+                android:id="@+id/chip_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -58,11 +60,13 @@
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
                 android:text="All"
+                tools:text="All"
                 android:textColor="#FFFFFF"
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/chip_destinations"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -70,10 +74,12 @@
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
                 android:text="Destinations"
+                tools:text="Destinations"
                 android:textColor="#1A2B4C"
                 android:textSize="13sp" />
 
             <TextView
+                android:id="@+id/chip_stores"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -81,10 +87,12 @@
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
                 android:text="Stores"
+                tools:text="Stores"
                 android:textColor="#1A2B4C"
                 android:textSize="13sp" />
 
             <TextView
+                android:id="@+id/chip_rentals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -92,16 +100,19 @@
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
                 android:text="Rentals"
+                tools:text="Rentals"
                 android:textColor="#1A2B4C"
                 android:textSize="13sp" />
 
             <TextView
+                android:id="@+id/chip_activities"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/chip_inactive"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
                 android:text="Activities"
+                tools:text="Activities"
                 android:textColor="#1A2B4C"
                 android:textSize="13sp" />
 
@@ -136,11 +147,12 @@
 
                 <!-- Card 1 -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_fav_1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
-                    app:cardCornerRadius="24dp"
+                    app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
                     app:strokeColor="#E5E7EB"
                     app:strokeWidth="1dp">
@@ -157,17 +169,18 @@
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/sigiriya"
                                 tools:src="@drawable/sigiriya"
-                                android:contentDescription="Favorite Spot" />
+                                android:contentDescription="Favorite Spot Image" />
                             <ImageView
+                                android:id="@+id/btn_remove_fav_1"
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:layout_gravity="top|end"
                                 android:layout_margin="8dp"
                                 android:background="@drawable/bg_white_circle"
                                 android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite Heart" />
+                                android:src="@android:drawable/btn_star_big_on"
+                                app:tint="#7C3AED"
+                                android:contentDescription="Remove Favorite" />
                         </FrameLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -178,34 +191,38 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-black"
+                                android:text="Sigiriya Rock"
+                                tools:text="Sigiriya Rock"
                                 android:textColor="#1A2B4C"
-                                android:textSize="15sp"
-                                tools:text="Sigiriya Rock" />
+                                android:textSize="15sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
+                                android:text="Central Province"
+                                tools:text="Central Province"
                                 android:textColor="#8A8F98"
-                                android:textSize="12sp"
-                                tools:text="Central Province" />
+                                android:textSize="12sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
+                                android:text="★ 4.8"
+                                tools:text="★ 4.8"
                                 android:textColor="#FFA500"
-                                android:textSize="12sp"
-                                tools:text="★ 4.8" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
                 <!-- Card 2 -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_fav_2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
-                    app:cardCornerRadius="24dp"
+                    app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
                     app:strokeColor="#E5E7EB"
                     app:strokeWidth="1dp">
@@ -222,17 +239,18 @@
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/bridge"
                                 tools:src="@drawable/bridge"
-                                android:contentDescription="Favorite Spot" />
+                                android:contentDescription="Favorite Spot Image" />
                             <ImageView
+                                android:id="@+id/btn_remove_fav_2"
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:layout_gravity="top|end"
                                 android:layout_margin="8dp"
                                 android:background="@drawable/bg_white_circle"
                                 android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite Heart" />
+                                android:src="@android:drawable/btn_star_big_on"
+                                app:tint="#7C3AED"
+                                android:contentDescription="Remove Favorite" />
                         </FrameLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -243,23 +261,26 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-black"
+                                android:text="Nine Arches Bridge"
+                                tools:text="Nine Arches Bridge"
                                 android:textColor="#1A2B4C"
-                                android:textSize="15sp"
-                                tools:text="Nine Arches" />
+                                android:textSize="15sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
+                                android:text="Ella Town"
+                                tools:text="Ella Town"
                                 android:textColor="#8A8F98"
-                                android:textSize="12sp"
-                                tools:text="Ella Town" />
+                                android:textSize="12sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
+                                android:text="★ 4.7"
+                                tools:text="★ 4.7"
                                 android:textColor="#FFA500"
-                                android:textSize="12sp"
-                                tools:text="★ 4.7" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -275,11 +296,12 @@
 
                 <!-- Card 3 -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_fav_3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
-                    app:cardCornerRadius="24dp"
+                    app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
                     app:strokeColor="#E5E7EB"
                     app:strokeWidth="1dp">
@@ -296,17 +318,18 @@
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/pottery"
                                 tools:src="@drawable/pottery"
-                                android:contentDescription="Favorite Spot" />
+                                android:contentDescription="Favorite Spot Image" />
                             <ImageView
+                                android:id="@+id/btn_remove_fav_3"
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:layout_gravity="top|end"
                                 android:layout_margin="8dp"
                                 android:background="@drawable/bg_white_circle"
                                 android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite Heart" />
+                                android:src="@android:drawable/btn_star_big_on"
+                                app:tint="#7C3AED"
+                                android:contentDescription="Remove Favorite" />
                         </FrameLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -317,34 +340,38 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-black"
+                                android:text="Clay Crafts Shop"
+                                tools:text="Clay Crafts Shop"
                                 android:textColor="#1A2B4C"
-                                android:textSize="15sp"
-                                tools:text="Clay Crafts" />
+                                android:textSize="15sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
+                                android:text="Kalutara"
+                                tools:text="Kalutara"
                                 android:textColor="#8A8F98"
-                                android:textSize="12sp"
-                                tools:text="Kalutara" />
+                                android:textSize="12sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
+                                android:text="★ 4.5"
+                                tools:text="★ 4.5"
                                 android:textColor="#FFA500"
-                                android:textSize="12sp"
-                                tools:text="★ 4.5" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
                 <!-- Card 4 -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_fav_4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
-                    app:cardCornerRadius="24dp"
+                    app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
                     app:strokeColor="#E5E7EB"
                     app:strokeWidth="1dp">
@@ -361,17 +388,18 @@
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/epic_ride"
                                 tools:src="@drawable/epic_ride"
-                                android:contentDescription="Favorite Spot" />
+                                android:contentDescription="Favorite Spot Image" />
                             <ImageView
+                                android:id="@+id/btn_remove_fav_4"
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:layout_gravity="top|end"
                                 android:layout_margin="8dp"
                                 android:background="@drawable/bg_white_circle"
                                 android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite Heart" />
+                                android:src="@android:drawable/btn_star_big_on"
+                                app:tint="#7C3AED"
+                                android:contentDescription="Remove Favorite" />
                         </FrameLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -382,161 +410,26 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-black"
+                                android:text="Epic Scooter Rental"
+                                tools:text="Epic Scooter Rental"
                                 android:textColor="#1A2B4C"
-                                android:textSize="15sp"
-                                tools:text="Epic Scooter" />
+                                android:textSize="15sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
+                                android:text="Galle Fort"
+                                tools:text="Galle Fort"
                                 android:textColor="#8A8F98"
-                                android:textSize="12sp"
-                                tools:text="Galle Fort" />
+                                android:textSize="12sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
+                                android:text="★ 4.9"
+                                tools:text="★ 4.9"
                                 android:textColor="#FFA500"
-                                android:textSize="12sp"
-                                tools:text="★ 4.9" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-
-            <!-- Row 3 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <!-- Card 5 -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="0dp"
-                    app:strokeColor="#E5E7EB"
-                    app:strokeWidth="1dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="140dp">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/tea_state"
-                                tools:src="@drawable/tea_state"
-                                android:contentDescription="Favorite Spot" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="top|end"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/bg_white_circle"
-                                android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite Heart" />
-                        </FrameLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-black"
-                                android:textColor="#1A2B4C"
-                                android:textSize="15sp"
-                                tools:text="Tea Tour" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="2dp"
-                                android:textColor="#8A8F98"
-                                android:textSize="12sp"
-                                tools:text="Nuwara Eliya" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:textColor="#FFA500"
-                                android:textSize="12sp"
-                                tools:text="★ 4.7" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Card 6 -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="0dp"
-                    app:strokeColor="#E5E7EB"
-                    app:strokeWidth="1dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="140dp">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/traditional_dance"
-                                tools:src="@drawable/traditional_dance"
-                                android:contentDescription="Favorite Spot" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="top|end"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/bg_white_circle"
-                                android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite Heart" />
-                        </FrameLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-black"
-                                android:textColor="#1A2B4C"
-                                android:textSize="15sp"
-                                tools:text="Kandy Dance" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="2dp"
-                                android:textColor="#8A8F98"
-                                android:textSize="12sp"
-                                tools:text="Kandy" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:textColor="#FFA500"
-                                android:textSize="12sp"
-                                tools:text="★ 4.9" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
