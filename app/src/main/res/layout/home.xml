@@ -559,7 +559,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/img"
+                                android:src="@drawable/negombo_beach_fest"
                                 android:contentDescription="Destination 1" />
                             <TextView
                                 android:layout_width="wrap_content"
