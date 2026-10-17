@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".PlanTripActivity">
+
+    <!-- Top Bar -->
+    <LinearLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="#1A2B4C"
+            android:contentDescription="Back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:fontFamily="sans-serif-black"
+            android:text="My Trip Planner"
+            tools:text="My Trip Planner"
+            android:textColor="#1A2B4C"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/btn_save_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_save"
+            app:tint="#1A2B4C"
+            android:contentDescription="Save" />
+    </LinearLayout>
+
+    <!-- Scrollable Content -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/bottom_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_bar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Current Trip Card Banner -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_trip_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#D3E3F3">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_trip_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:text="7-Day Sri Lanka Adventure"
+                            tools:text="7-Day Sri Lanka Adventure"
+                            android:textColor="#1A2B4C"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/tv_trip_subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Mar 15 - Mar 21 · 4 Places"
+                            tools:text="Mar 15 - Mar 21 · 4 Places"
+                            android:textColor="#1A2B4C"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/btn_edit_trip"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@android:drawable/ic_menu_edit"
+                        app:tint="#1A2B4C"
+                        android:contentDescription="Edit Trip" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Offline Toggle Row -->
+            <RelativeLayout
+                android:id="@+id/layout_offline_toggle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_card_24"
+                android:padding="12dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@android:drawable/stat_sys_download_done"
+                        app:tint="#1A2B4C"
+                        android:contentDescription="Offline Download Icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Available Offline"
+                        tools:text="Available Offline"
+                        android:textColor="#1A2B4C"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/switch_offline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:checked="true" />
+            </RelativeLayout>
+
+            <!-- Day Tabs -->
+            <HorizontalScrollView
+                android:id="@+id/scroll_day_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tab_day_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/chip_active"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
+                        android:text="Day 1"
+                        tools:text="Day 1"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tab_day_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/chip_inactive"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
+                        android:text="Day 2"
+                        tools:text="Day 2"
+                        android:textColor="#1A2B4C"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tab_day_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/chip_inactive"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
+                        android:text="Day 3"
+                        tools:text="Day 3"
+                        android:textColor="#1A2B4C"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tab_day_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/chip_inactive"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
+                        android:text="Day 4"
+                        tools:text="Day 4"
+                        android:textColor="#1A2B4C"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tab_add_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/chip_inactive"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="10dp"
+                        android:text="+ Add Day"
+                        tools:text="+ Add Day"
+                        android:textColor="#1A2B4C"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Day 1 Itinerary Timeline List Title -->
+            <TextView
+                android:id="@+id/tv_schedule_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Day 1 Schedule"
+                tools:text="Day 1 Schedule"
+                android:textColor="#1A2B4C"
+                android:textSize="16sp" />
+
+            <!-- Item 1 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="09:00 AM"
+                    tools:text="09:00 AM"
+                    android:textColor="#8A8F98"
+                    android:textSize="12sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#E5E7EB"
+                    app:strokeWidth="1dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:text="Sigiriya Rock Fortress"
+                                tools:text="Sigiriya Rock Fortress"
+                                android:textColor="#1A2B4C"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Sightseeing &amp; Climbing"
+                                tools:text="Sightseeing &amp; Climbing"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_delete"
+                            app:tint="#E53935"
+                            android:contentDescription="Remove" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!-- Item 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="01:00 PM"
+                    tools:text="01:00 PM"
+                    android:textColor="#8A8F98"
+                    android:textSize="12sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#E5E7EB"
+                    app:strokeWidth="1dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:text="Lunch at Local Restaurant"
+                                tools:text="Lunch at Local Restaurant"
+                                android:textColor="#1A2B4C"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Traditional Rice &amp; Curry"
+                                tools:text="Traditional Rice &amp; Curry"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_delete"
+                            app:tint="#E53935"
+                            android:contentDescription="Remove" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!-- Item 3 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="03:30 PM"
+                    tools:text="03:30 PM"
+                    android:textColor="#8A8F98"
+                    android:textSize="12sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#E5E7EB"
+                    app:strokeWidth="1dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-black"
+                                android:text="Dambulla Cave Temple"
+                                tools:text="Dambulla Cave Temple"
+                                android:textColor="#1A2B4C"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Ancient Cultural Site"
+                                tools:text="Ancient Cultural Site"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_delete"
+                            app:tint="#E53935"
+                            android:contentDescription="Remove" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Action Bar -->
+    <LinearLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_add_place"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/chip_inactive"
+            android:fontFamily="sans-serif-medium"
+            android:text="+ Add Place"
+            tools:text="+ Add Place"
+            android:textAllCaps="false"
+            android:textColor="#1A2B4C"
+            android:textSize="15sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_save_trip"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/button_primary"
+            android:fontFamily="sans-serif-medium"
+            android:text="Save Trip"
+            tools:text="Save Trip"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

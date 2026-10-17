@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".ProfileActivity">
+
+    <!-- Scrollable Content -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_profile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
+            <!-- Profile Header Banner -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:background="@drawable/bg_profile_header"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="20dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="84dp"
+                    android:layout_height="84dp"
+                    app:cardCornerRadius="42dp"
+                    app:cardElevation="4dp">
+                    <ImageView
+                        android:id="@+id/img_avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/logo"
+                        tools:src="@drawable/logo"
+                        android:contentDescription="Profile Avatar" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Saman Perera"
+                    tools:text="Saman Perera"
+                    android:textColor="#FFFFFF"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="saman.perera@lankago.com"
+                    tools:text="saman.perera@lankago.com"
+                    android:textColor="#E0E0E0"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- Stats Row Banner Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="-24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="16dp"
+                    android:weightSum="3">
+
+                    <!-- Stat 1: Trips -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_stat_trips_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:text="12"
+                            tools:text="12"
+                            android:textColor="#1A2B4C"
+                            android:textSize="18sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Trips"
+                            tools:text="Trips"
+                            android:textColor="#8A8F98"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!-- Stat 2: Favorites -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_stat_favorites_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:text="24"
+                            tools:text="24"
+                            android:textColor="#1A2B4C"
+                            android:textSize="18sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Favorites"
+                            tools:text="Favorites"
+                            android:textColor="#8A8F98"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!-- Stat 3: Reviews -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_stat_reviews_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:text="8"
+                            tools:text="8"
+                            android:textColor="#1A2B4C"
+                            android:textSize="18sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Reviews"
+                            tools:text="Reviews"
+                            android:textColor="#8A8F98"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Menu Card Container -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:orientation="vertical"
+                    android:paddingVertical="8dp">
+
+                    <!-- Menu Item 1: My Trips -->
+                    <RelativeLayout
+                        android:id="@+id/menu_trips"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
+                        <ImageView
+                            android:id="@+id/icon1"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_month"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="Trips Icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/icon1"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="My Trips"
+                            tools:text="My Trips"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="#8A8F98"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                    <!-- Menu Item 2: Favorites -->
+                    <RelativeLayout
+                        android:id="@+id/menu_favorites"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
+                        <ImageView
+                            android:id="@+id/icon2"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/btn_star_big_off"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="Favorites Icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/icon2"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Favorites"
+                            tools:text="Favorites"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="#8A8F98"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                    <!-- Menu Item 3: Offline Saved -->
+                    <RelativeLayout
+                        android:id="@+id/menu_offline_saved"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
+                        <ImageView
+                            android:id="@+id/icon_offline"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/stat_sys_download_done"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="Offline Saved Icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/icon_offline"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Offline Downloads"
+                            tools:text="Offline Downloads"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="#8A8F98"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                    <!-- Menu Item 4: Notifications -->
+                    <RelativeLayout
+                        android:id="@+id/menu_notifications"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
+                        <ImageView
+                            android:id="@+id/icon3"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_popup_reminder"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="Notifications Icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/icon3"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Notifications"
+                            tools:text="Notifications"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="#8A8F98"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                    <!-- Menu Item 5: Settings -->
+                    <RelativeLayout
+                        android:id="@+id/menu_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
+                        <ImageView
+                            android:id="@+id/icon4"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_manage"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="Settings Icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/icon4"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Settings"
+                            tools:text="Settings"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="#8A8F98"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Logout Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/chip_inactive"
+                android:fontFamily="sans-serif-medium"
+                android:text="Log Out"
+                tools:text="Log Out"
+                android:textAllCaps="false"
+                android:textColor="#E53935"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Home -->
+        <LinearLayout
+            android:id="@+id/nav_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_view"
+                app:tint="#8A8F98"
+                android:contentDescription="Home" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Home"
+                tools:text="Home"
+                android:textColor="#8A8F98"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Places -->
+        <LinearLayout
+            android:id="@+id/nav_places"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_compass"
+                app:tint="#8A8F98"
+                android:contentDescription="Places" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Places"
+                tools:text="Places"
+                android:textColor="#8A8F98"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Trips -->
+        <LinearLayout
+            android:id="@+id/nav_trips"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_month"
+                app:tint="#8A8F98"
+                android:contentDescription="Trips" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Trips"
+                tools:text="Trips"
+                android:textColor="#8A8F98"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Profile (Active) -->
+        <LinearLayout
+            android:id="@+id/nav_profile"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_myplaces"
+                app:tint="#1A2B4C"
+                android:contentDescription="Profile" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Profile"
+                tools:text="Profile"
+                android:textColor="#1A2B4C"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

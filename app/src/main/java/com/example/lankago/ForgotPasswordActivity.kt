@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 
-class RentalsAndTransportActivity : AppCompatActivity() {
+class ForgotPasswordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -15,6 +15,6 @@ class RentalsAndTransportActivity : AppCompatActivity() {
         }
         window.statusBarColor = Color.parseColor("#FFFFFF")
 
-        setContentView(R.layout.rentals_and_transport)
+        setContentView(R.layout.forgot_password)
     }
 }

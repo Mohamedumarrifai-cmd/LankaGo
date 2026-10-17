@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <!-- 1. Splash Fragment -->
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.lankago.SplashFragment"
+        android:label="Splash"
+        tools:layout="@layout/activity_main">
+        <action
+            android:id="@+id/action_splashFragment_to_discoverFragment"
+            app:destination="@id/discoverFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- 2. Discover Fragment (Onboarding 1) -->
+    <fragment
+        android:id="@+id/discoverFragment"
+        android:name="com.example.lankago.DiscoverFragment"
+        android:label="Discover"
+        tools:layout="@layout/discover">
+        <action
+            android:id="@+id/action_discoverFragment_to_experienceFragment"
+            app:destination="@id/experienceFragment" />
+        <action
+            android:id="@+id/action_discoverFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/discoverFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- 3. Experience Fragment (Onboarding 2) -->
+    <fragment
+        android:id="@+id/experienceFragment"
+        android:name="com.example.lankago.ExperienceFragment"
+        android:label="Experience"
+        tools:layout="@layout/experience">
+        <action
+            android:id="@+id/action_experienceFragment_to_planTripFragment"
+            app:destination="@id/planTripFragment" />
+        <action
+            android:id="@+id/action_experienceFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/experienceFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- 4. Plan Trip Fragment (Onboarding 3) -->
+    <fragment
+        android:id="@+id/planTripFragment"
+        android:name="com.example.lankago.PlanTripFragment"
+        android:label="Plan Trip"
+        tools:layout="@layout/plan_trip">
+        <action
+            android:id="@+id/action_planTripFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/planTripFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- 5. Login Fragment -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.lankago.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/login">
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- 6. Register Fragment -->
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.lankago.RegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/register">
+        <action
+            android:id="@+id/action_registerFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/registerFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- 7. Forgot Password Fragment -->
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.example.lankago.ForgotPasswordFragment"
+        android:label="Forgot Password"
+        tools:layout="@layout/forgot_password" />
+
+    <!-- 8. Home Fragment -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.lankago.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/home">
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_localProductsFragment"
+            app:destination="@id/localProductsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_traditionalActivitiesFragment"
+            app:destination="@id/traditionalActivitiesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_showsAndFestivalsFragment"
+            app:destination="@id/showsAndFestivalsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_rentalsTransportFragment"
+            app:destination="@id/rentalsTransportFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_destinationDetailFragment"
+            app:destination="@id/destinationDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+
+    <!-- 9. Search Fragment -->
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.lankago.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/search" />
+
+    <!-- 10. Local Products Fragment -->
+    <fragment
+        android:id="@+id/localProductsFragment"
+        android:name="com.example.lankago.LocalProductsFragment"
+        android:label="Local Products"
+        tools:layout="@layout/local_products" />
+
+    <!-- 11. Traditional Activities Fragment -->
+    <fragment
+        android:id="@+id/traditionalActivitiesFragment"
+        android:name="com.example.lankago.TraditionalActivitiesFragment"
+        android:label="Traditional Activities"
+        tools:layout="@layout/traditional_activities" />
+
+    <!-- 12. Shows & Festivals Fragment -->
+    <fragment
+        android:id="@+id/showsAndFestivalsFragment"
+        android:name="com.example.lankago.ShowsAndFestivalsFragment"
+        android:label="Shows &amp; Festivals"
+        tools:layout="@layout/shows_and_festivals" />
+
+    <!-- 13. Rentals & Transport Fragment -->
+    <fragment
+        android:id="@+id/rentalsTransportFragment"
+        android:name="com.example.lankago.RentalsTransportFragment"
+        android:label="Rentals &amp; Transport"
+        tools:layout="@layout/rentals_and_transport" />
+
+    <!-- 14. Notifications Fragment -->
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.lankago.NotificationsFragment"
+        android:label="Notifications"
+        tools:layout="@layout/notifications" />
+
+    <!-- 15. Destination Detail Fragment -->
+    <fragment
+        android:id="@+id/destinationDetailFragment"
+        android:name="com.example.lankago.DestinationDetailFragment"
+        android:label="Destination Detail"
+        tools:layout="@layout/destination_detail">
+        <action
+            android:id="@+id/action_destinationDetailFragment_to_mapRouteFragment"
+            app:destination="@id/mapRouteFragment" />
+        <action
+            android:id="@+id/action_destinationDetailFragment_to_reviewsFragment"
+            app:destination="@id/reviewsFragment" />
+    </fragment>
+
+    <!-- 16. Map Route Fragment -->
+    <fragment
+        android:id="@+id/mapRouteFragment"
+        android:name="com.example.lankago.MapRouteFragment"
+        android:label="Map Route"
+        tools:layout="@layout/map_route" />
+
+    <!-- 17. Trip Planner Fragment -->
+    <fragment
+        android:id="@+id/tripPlannerFragment"
+        android:name="com.example.lankago.TripPlannerFragment"
+        android:label="Trip Planner"
+        tools:layout="@layout/trip_planner" />
+
+    <!-- 18. Favorites Fragment -->
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.lankago.FavoritesFragment"
+        android:label="Favorites"
+        tools:layout="@layout/favorites" />
+
+    <!-- 19. Reviews Fragment -->
+    <fragment
+        android:id="@+id/reviewsFragment"
+        android:name="com.example.lankago.ReviewsFragment"
+        android:label="Reviews"
+        tools:layout="@layout/reviews" />
+
+    <!-- 20. Profile Fragment -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.lankago.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/profile">
+        <action
+            android:id="@+id/action_profileFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_offlineSavedFragment"
+            app:destination="@id/offlineSavedFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- 21. Settings Fragment -->
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.lankago.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/settings" />
+
+    <!-- 22. Offline Saved Fragment -->
+    <fragment
+        android:id="@+id/offlineSavedFragment"
+        android:name="com.example.lankago.OfflineSavedFragment"
+        android:label="Offline Saved"
+        tools:layout="@layout/offline_saved" />
+
+</navigation>

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,16 +13,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LankaGo">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".RentalsTransportActivity" android:exported="false" />
+        <activity android:name=".RentalsAndTransportActivity" android:exported="false" />
+        <activity android:name=".LoginActivity" android:exported="false" />
+        <activity android:name=".RegisterActivity" android:exported="false" />
+        <activity android:name=".HomeActivity" android:exported="false" />
+        <activity android:name=".SearchActivity" android:exported="false" />
+        <activity android:name=".LocalProductsActivity" android:exported="false" />
+        <activity android:name=".TraditionalActivitiesActivity" android:exported="false" />
+        <activity android:name=".ShowsAndFestivalsActivity" android:exported="false" />
+        <activity android:name=".DestinationDetailActivity" android:exported="false" />
+        <activity android:name=".MapRouteActivity" android:exported="false" />
+        <activity android:name=".PlanTripActivity" android:exported="false" />
+        <activity android:name=".NotificationsActivity" android:exported="false" />
+        <activity android:name=".FavoritesActivity" android:exported="false" />
+        <activity android:name=".OfflineAccessActivity" android:exported="false" />
+        <activity android:name=".OfflineSavedActivity" android:exported="false" />
+        <activity android:name=".ProfileActivity" android:exported="false" />
+        <activity android:name=".ReviewsActivity" android:exported="false" />
+        <activity android:name=".DiscoverActivity" android:exported="false" />
+        <activity android:name=".ExperienceActivity" android:exported="false" />
+
     </application>
 
 </manifest>

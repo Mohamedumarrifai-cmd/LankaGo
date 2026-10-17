@@ -19,9 +19,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/btn_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_arrow_back"
+            app:tint="#1A2B4C"
             android:contentDescription="Back" />
 
         <TextView
@@ -31,6 +33,7 @@
             android:layout_marginStart="16dp"
             android:fontFamily="sans-serif-medium"
             android:text="Your Trip"
+            tools:text="Your Trip"
             android:textColor="#1A2B4C"
             android:textSize="20sp" />
 
@@ -39,113 +42,18 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:text="Solo"
+            tools:text="Solo"
             android:textColor="#673AB7"
             android:textSize="16sp" />
     </LinearLayout>
 
-    <!-- ================= BOTTOM NAVIGATION ================= -->
-    <LinearLayout
-        android:id="@+id/bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="#FFFFFF"
-        android:elevation="8dp"
-        android:orientation="horizontal"
-        android:weightSum="4"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <!-- Home -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_view"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Home"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Trips -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_agenda"
-                app:tint="#673AB7" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Trips"
-                android:textColor="#673AB7"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <!-- Explore -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_compass"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Explore"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Profile -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_myplaces"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Profile"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
-    </LinearLayout>
-
     <!-- ================= SCROLLABLE CONTENT ================= -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_content"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
+        app:layout_constraintBottom_toTopOf="@+id/btn_get_started"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top_bar">
@@ -164,6 +72,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="TRIP NAME"
+                tools:text="TRIP NAME"
                 android:textColor="#8A8F98"
                 android:textSize="12sp" />
 
@@ -188,6 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:text="Sri Lankan Adventure"
+                    tools:text="Sri Lankan Adventure"
                     android:textColor="#1A2B4C"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -200,6 +110,7 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="DATES"
+                tools:text="DATES"
                 android:textColor="#8A8F98"
                 android:textSize="12sp" />
 
@@ -224,6 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:text="26 Apr 2028 – 30 Apr 2028"
+                    tools:text="26 Apr 2028 – 30 Apr 2028"
                     android:textColor="#1A2B4C"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -236,6 +148,7 @@
                 android:layout_marginTop="20dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="DESTINATIONS"
+                tools:text="DESTINATIONS"
                 android:textColor="#8A8F98"
                 android:textSize="12sp" />
 
@@ -265,6 +178,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mirissa"
+                        tools:text="Mirissa"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -273,6 +187,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="Apr 26 – 27"
+                        tools:text="Apr 26 – 27"
                         android:textColor="#8A8F98"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -311,6 +226,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Kandy"
+                        tools:text="Kandy"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -319,6 +235,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="Apr 28"
+                        tools:text="Apr 28"
                         android:textColor="#8A8F98"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -357,6 +274,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ella"
+                        tools:text="Ella"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -365,6 +283,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="Apr 29 – 30"
+                        tools:text="Apr 29 – 30"
                         android:textColor="#8A8F98"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -379,6 +298,7 @@
 
             <!-- Add Destination Button -->
             <LinearLayout
+                android:id="@+id/btn_add_destination"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginTop="10dp"
@@ -399,6 +319,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="Add destination"
+                    tools:text="Add destination"
                     android:textColor="#673AB7"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -410,6 +331,7 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="YOUR ITINERARY"
+                tools:text="YOUR ITINERARY"
                 android:textColor="#8A8F98"
                 android:textSize="12sp" />
 
@@ -436,6 +358,7 @@
                     android:layout_weight="1"
                     android:layout_marginStart="12dp"
                     android:text="Day 1 - Sigiriya"
+                    tools:text="Day 1 - Sigiriya"
                     android:textColor="#1A2B4C"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -471,6 +394,7 @@
                     android:layout_weight="1"
                     android:layout_marginStart="12dp"
                     android:text="Day 2 - Temple of the Tooth"
+                    tools:text="Day 2 - Temple of the Tooth"
                     android:textColor="#1A2B4C"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -506,6 +430,7 @@
                     android:layout_weight="1"
                     android:layout_marginStart="12dp"
                     android:text="Day 3 - Nine Arches Bridge"
+                    tools:text="Day 3 - Nine Arches Bridge"
                     android:textColor="#1A2B4C"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -520,5 +445,23 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <!-- Get Started Button -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_get_started"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/button_primary"
+        android:fontFamily="sans-serif-medium"
+        android:text="Get Started"
+        tools:text="Get Started"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
