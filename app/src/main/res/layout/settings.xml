@@ -8,7 +8,7 @@
     android:background="#FFFFFF"
     tools:context=".SettingsActivity">
 
-    <!-- ================= TOP BAR ================= -->
+    <!-- Top Bar -->
     <LinearLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
@@ -19,132 +19,33 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/btn_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_arrow_back"
+            app:tint="#1A2B4C"
             android:contentDescription="Back" />
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="16dp"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="sans-serif-black"
             android:text="Settings"
+            tools:text="Settings"
             android:textColor="#1A2B4C"
             android:textSize="20sp" />
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@android:drawable/ic_menu_share"
-            app:tint="#1A2B4C"
-            android:contentDescription="Share" />
     </LinearLayout>
 
-    <!-- ================= BOTTOM NAVIGATION ================= -->
-    <LinearLayout
-        android:id="@+id/bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="#FFFFFF"
-        android:elevation="8dp"
-        android:orientation="horizontal"
-        android:weightSum="4"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <!-- Home -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_view"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Home"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Places -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_compass"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Places"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Trips -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_month"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Trips"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Profile (Active) -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_myplaces"
-                app:tint="#673AB7" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Profile"
-                android:textColor="#673AB7"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- ================= SCROLLABLE CONTENT ================= -->
+    <!-- Scrollable Content -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_settings"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_bar">
@@ -157,56 +58,138 @@
             android:paddingTop="8dp"
             android:paddingBottom="24dp">
 
-            <!-- Settings Card -->
+            <!-- Section 1: Notifications -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Notifications"
+                tools:text="Notifications"
+                android:textColor="#1A2B4C"
+                android:textSize="16sp" />
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp">
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_menu_card"
                     android:orientation="vertical"
-                    android:paddingVertical="8dp">
+                    android:padding="8dp">
 
-                    <!-- Item 1: Location -->
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="20dp">
-                        <ImageView
-                            android:id="@+id/set_icon1"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_centerVertical="true"
-                            android:src="@android:drawable/ic_menu_mylocation"
-                            app:tint="#1A2B4C"
-                            android:contentDescription="Location Icon" />
+                        android:paddingHorizontal="12dp">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/set_icon1"
+                            android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="16dp"
-                            android:text="Location"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Push Notifications"
+                            tools:text="Push Notifications"
                             android:textColor="#1A2B4C"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:id="@+id/tv_loc_status"
+                            android:textSize="15sp" />
+                        <Switch
+                            android:id="@+id/switch_push_notif"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toStartOf="@id/arrow1"
+                            android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginEnd="12dp"
-                            android:text="GPS enabled"
+                            android:checked="true" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#E5E7EB" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:paddingHorizontal="12dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Nearby Event Alerts"
+                            tools:text="Nearby Event Alerts"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp" />
+                        <Switch
+                            android:id="@+id/switch_event_alerts"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:checked="true" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Section 2: Preferences -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Preferences"
+                tools:text="Preferences"
+                android:textColor="#1A2B4C"
+                android:textSize="16sp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <RelativeLayout
+                        android:id="@+id/btn_select_language"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:paddingHorizontal="12dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Language"
+                            tools:text="Language"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:id="@+id/tv_current_language"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@id/arrow_lang"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="8dp"
+                            android:text="English"
+                            tools:text="English"
                             android:textColor="#8A8F98"
                             android:textSize="14sp" />
                         <ImageView
-                            android:id="@+id/arrow1"
+                            android:id="@+id/arrow_lang"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_alignParentEnd="true"
@@ -216,186 +199,88 @@
                             android:contentDescription="Arrow" />
                     </RelativeLayout>
 
-                    <!-- Item 2: Wi-Fi -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#E5E7EB" />
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="20dp">
-                        <ImageView
-                            android:id="@+id/set_icon2"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_centerVertical="true"
-                            android:src="@android:drawable/ic_menu_manage"
-                            app:tint="#1A2B4C"
-                            android:contentDescription="WiFi Icon" />
+                        android:paddingHorizontal="12dp">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/set_icon2"
+                            android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="16dp"
-                            android:text="Wi-Fi"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Dark Mode"
+                            tools:text="Dark Mode"
                             android:textColor="#1A2B4C"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:id="@+id/tv_wifi_status"
+                            android:textSize="15sp" />
+                        <Switch
+                            android:id="@+id/switch_dark_mode"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toStartOf="@id/arrow2"
+                            android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginEnd="12dp"
-                            android:text="Connected"
+                            android:checked="false" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Section 3: Data & Storage -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Data &amp; Storage"
+                tools:text="Data &amp; Storage"
+                android:textColor="#1A2B4C"
+                android:textSize="16sp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <RelativeLayout
+                        android:id="@+id/btn_clear_cache"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:paddingHorizontal="12dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Clear Offline Cache"
+                            tools:text="Clear Offline Cache"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:id="@+id/tv_cache_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="22.7 MB"
+                            tools:text="22.7 MB"
                             android:textColor="#8A8F98"
                             android:textSize="14sp" />
-                        <ImageView
-                            android:id="@+id/arrow2"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_arrow_forward"
-                            app:tint="#8A8F98"
-                            android:contentDescription="Arrow" />
                     </RelativeLayout>
-
-                    <!-- Item 3: Notifications (Switch) -->
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="20dp">
-                        <ImageView
-                            android:id="@+id/set_icon3"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_centerVertical="true"
-                            android:src="@android:drawable/ic_popup_reminder"
-                            app:tint="#1A2B4C"
-                            android:contentDescription="Notifications Icon" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/set_icon3"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="16dp"
-                            android:text="Notifications"
-                            android:textColor="#1A2B4C"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:checked="true"
-                            tools:ignore="UseSwitchCompatOrMaterialXml" />
-                    </RelativeLayout>
-
-                    <!-- Item 4: Location Services -->
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="20dp">
-                        <ImageView
-                            android:id="@+id/set_icon4"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_centerVertical="true"
-                            android:src="@android:drawable/ic_menu_mapmode"
-                            app:tint="#1A2B4C"
-                            android:contentDescription="Services Icon" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/set_icon4"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="16dp"
-                            android:text="Location Services"
-                            android:textColor="#1A2B4C"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_arrow_forward"
-                            app:tint="#8A8F98"
-                            android:contentDescription="Arrow" />
-                    </RelativeLayout>
-
-                    <!-- Item 5: Offline Downloads -->
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="20dp">
-                        <ImageView
-                            android:id="@+id/set_icon5"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_centerVertical="true"
-                            android:src="@android:drawable/ic_menu_save"
-                            app:tint="#1A2B4C"
-                            android:contentDescription="Downloads Icon" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/set_icon5"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="16dp"
-                            android:text="Offline Downloads"
-                            android:textColor="#1A2B4C"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_arrow_forward"
-                            app:tint="#8A8F98"
-                            android:contentDescription="Arrow" />
-                    </RelativeLayout>
-
-                    <!-- Item 6: Help & Support -->
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="20dp">
-                        <ImageView
-                            android:id="@+id/set_icon6"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_centerVertical="true"
-                            android:src="@android:drawable/ic_menu_help"
-                            app:tint="#1A2B4C"
-                            android:contentDescription="Help Icon" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/set_icon6"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="16dp"
-                            android:text="Help &amp; Support"
-                            android:textColor="#1A2B4C"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_arrow_forward"
-                            app:tint="#8A8F98"
-                            android:contentDescription="Arrow" />
-                    </RelativeLayout>
-
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

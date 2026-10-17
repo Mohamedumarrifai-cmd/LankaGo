@@ -14,18 +14,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- Map Placeholder Text -->
+    <!-- Map Placeholder Text (for layout preview) -->
     <TextView
+        android:id="@+id/tv_map_placeholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:fontFamily="sans-serif-medium"
-        android:text="Google Map Placeholder"
+        android:text="Google Maps Interface"
+        tools:text="Google Maps Interface"
         android:textColor="#1A2B4C"
         android:textSize="18sp" />
 
-    <!-- Top Floating Card -->
+    <!-- Top Floating Card / Search Bar -->
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_top_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
@@ -58,18 +61,22 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_destination_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-black"
                     android:text="Sigiriya Rock Fortress"
+                    tools:text="Sigiriya Rock Fortress"
                     android:textColor="#1A2B4C"
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tv_destination_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="2.5 km · 15 min away"
+                    android:text="12.5 km · 25 min away"
+                    tools:text="12.5 km · 25 min away"
                     android:textColor="#8A8F98"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -78,6 +85,7 @@
 
     <!-- Bottom Sheet Navigation Card -->
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -117,14 +125,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Distance"
+                        tools:text="Distance"
                         android:textColor="#8A8F98"
                         android:textSize="12sp" />
                     <TextView
+                        android:id="@+id/tv_distance_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:fontFamily="sans-serif-black"
                         android:text="12.5 km"
+                        tools:text="12.5 km"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -139,14 +150,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Time"
+                        tools:text="Time"
                         android:textColor="#8A8F98"
                         android:textSize="12sp" />
                     <TextView
+                        android:id="@+id/tv_time_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:fontFamily="sans-serif-black"
                         android:text="25 min"
+                        tools:text="25 min"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -161,14 +175,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Traffic"
+                        tools:text="Traffic"
                         android:textColor="#8A8F98"
                         android:textSize="12sp" />
                     <TextView
+                        android:id="@+id/tv_traffic_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:fontFamily="sans-serif-black"
                         android:text="Moderate"
+                        tools:text="Moderate"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -184,6 +201,7 @@
 
                 <!-- Mode 1: Car (Active) -->
                 <ImageView
+                    android:id="@+id/btn_mode_car"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginEnd="16dp"
@@ -195,6 +213,7 @@
 
                 <!-- Mode 2: Bike -->
                 <ImageView
+                    android:id="@+id/btn_mode_bike"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginEnd="16dp"
@@ -206,6 +225,7 @@
 
                 <!-- Mode 3: Walk -->
                 <ImageView
+                    android:id="@+id/btn_mode_walk"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginEnd="16dp"
@@ -217,6 +237,7 @@
 
                 <!-- Mode 4: Bus -->
                 <ImageView
+                    android:id="@+id/btn_mode_bus"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="@drawable/bg_white_circle"
@@ -235,6 +256,7 @@
                 android:background="@drawable/button_primary"
                 android:fontFamily="sans-serif-medium"
                 android:text="Start Navigation"
+                tools:text="Start Navigation"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />

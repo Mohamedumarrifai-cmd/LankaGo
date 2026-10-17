@@ -5,76 +5,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#1A2B4C"
     tools:context=".MainActivity">
 
-    <!-- 1. Background Image (home.png) - Full Screen -->
+    <!-- 1. Background Image -->
     <ImageView
         android:id="@+id/bg_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:src="@drawable/home"
+        tools:src="@drawable/home"
+        android:contentDescription="Splash Background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 2. Top Section (Logo + App Name + Subtitle) -->
-    <LinearLayout
-        android:id="@+id/top_section"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
+    <!-- Dark Overlay for better text visibility -->
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#66000000"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Logo -->
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/logo" />
+    <!-- 2. Center Content: Logo -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logo"
+        tools:src="@drawable/logo"
+        android:contentDescription="LankaGo Logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.35" />
 
-        <!-- App Name -->
-        <TextView
-            android:id="@+id/tv_app_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="LankaGo"
-            android:textColor="#FFFFFF"
-            android:textSize="38sp" />
-
-        <!-- Subtitle -->
-        <TextView
-            android:id="@+id/tv_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="sans-serif"
-            android:gravity="center"
-            android:lineSpacingExtra="2dp"
-            android:text="Smart Travel Companion\nfor Sri Lanka"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp" />
-
-    </LinearLayout>
-
-    <!-- 3. Bottom Text -->
+    <!-- Title -->
     <TextView
-        android:id="@+id/tv_bottom"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:fontFamily="sans-serif"
-        android:text="Discover · Explore · Experience"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-black"
+        android:letterSpacing="0.02"
+        android:text="LankaGo"
+        tools:text="LankaGo"
         android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        android:textSize="42sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+    <!-- Subtitle -->
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:text="Smart Travel Companion for Sri Lanka"
+        tools:text="Smart Travel Companion for Sri Lanka"
+        android:textColor="#E0E0E0"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <!-- 3. Bottom Content: Tagline -->
+    <TextView
+        android:id="@+id/tv_tagline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:fontFamily="sans-serif"
+        android:letterSpacing="0.05"
+        android:text="Discover · Explore · Experience"
+        tools:text="Discover · Explore · Experience"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- 4. Loading Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="20dp"
+        android:indeterminateTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
