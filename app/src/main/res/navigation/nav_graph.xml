@@ -116,6 +116,9 @@
         <action
             android:id="@+id/action_homeFragment_to_favoritesFragment"
             app:destination="@id/favoritesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_mapRouteFragment"
+            app:destination="@id/mapRouteFragment" />
     </fragment>
 
     <!-- Destination Fragments (Teammate Fragments & Feature Screens) -->

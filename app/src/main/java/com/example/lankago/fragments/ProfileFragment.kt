@@ -32,16 +32,16 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.homeFragment)
         }
 
-        view.findViewById<View>(R.id.nav_explore)?.setOnClickListener {
-            findNavController().navigate(R.id.searchFragment)
+        view.findViewById<View>(R.id.nav_products)?.setOnClickListener {
+            findNavController().navigate(R.id.localProductsFragment)
+        }
+
+        view.findViewById<View>(R.id.nav_maps)?.setOnClickListener {
+            findNavController().navigate(R.id.mapRouteFragment)
         }
 
         view.findViewById<View>(R.id.nav_profile)?.setOnClickListener {
-            findNavController().navigate(R.id.profileFragment)
-        }
-
-        view.findViewById<View>(R.id.nav_trips)?.setOnClickListener {
-            findNavController().navigate(R.id.tripPlannerFragment)
+            // Already on ProfileFragment
         }
     }
 }
