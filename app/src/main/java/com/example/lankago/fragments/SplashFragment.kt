@@ -1,18 +1,23 @@
 package com.example.lankago.fragments
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.lankago.R
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SplashFragment : Fragment() {
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_splash, container, false)
@@ -21,17 +26,26 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 2 seconds nawaathila Discover ekata yanna
-        Handler(Looper.getMainLooper()).postDelayed({
-            // check karanna fragment eka thama active da kiyala
-            if (isAdded && view != null) {
-                try {
-                    findNavController().navigate(R.id.action_splashFragment_to_discoverFragment)
-                } catch (e: Exception) {
-                    // Error ekak awoth app eka crash wenna denne nathiwa handle karanawa
-                    e.printStackTrace()
-                }
+        // Lifecycle-safe navigation: only executes when fragment is in RESUMED state
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                delay(2000L)
+                safeNavigateToDiscover()
             }
-        }, 2000)
+        }
+    }
+
+    private fun safeNavigateToDiscover() {
+        if (!isAdded || isStateSaved) return
+
+        try {
+            val navController = findNavController()
+            // Verify we are still on the splash screen before triggering navigation
+            if (navController.currentDestination?.id == R.id.splashFragment) {
+                navController.navigate(R.id.action_splashFragment_to_discoverFragment)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
