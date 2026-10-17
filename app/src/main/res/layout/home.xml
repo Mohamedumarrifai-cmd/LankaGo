@@ -559,7 +559,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/discover"
+                                android:src="@drawable/img"
                                 android:contentDescription="Destination 1" />
                             <TextView
                                 android:layout_width="wrap_content"
@@ -587,7 +587,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/experience"
+                                android:src="@drawable/lake"
                                 android:contentDescription="Destination 2" />
                             <TextView
                                 android:layout_width="wrap_content"
@@ -615,7 +615,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/product"
+                                android:src="@drawable/hills"
                                 android:contentDescription="Destination 3" />
                             <TextView
                                 android:layout_width="wrap_content"

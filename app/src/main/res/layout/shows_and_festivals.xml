@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:orientation="vertical"
     tools:context=".ShowsAndFestivalsActivity">
 
-    <!-- ================= TOP BAR ================= -->
+    <!-- Top Bar -->
     <LinearLayout
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:layout_width="24dp"
@@ -33,109 +34,107 @@
             android:textSize="20sp" />
     </LinearLayout>
 
-    <!-- ================= BOTTOM NAVIGATION ================= -->
+    <!-- Search Bar -->
     <LinearLayout
-        android:id="@+id/bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="#FFFFFF"
-        android:elevation="8dp"
+        android:id="@+id/layout_search"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/bg_search"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:weightSum="4"
-        android:layout_gravity="bottom">
+        android:paddingHorizontal="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_bar">
 
-        <!-- Home -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_view"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Home"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@android:drawable/ic_menu_search"
+            app:tint="#8A8F98"
+            android:contentDescription="Search" />
 
-        <!-- Explore -->
-        <LinearLayout
-            android:layout_width="0dp"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_compass"
-                app:tint="#673AB7" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Explore"
-                android:textColor="#673AB7"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <!-- Events -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_month"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Events"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Profile -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_myplaces"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Profile"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
+            android:layout_marginStart="8dp"
+            android:background="@null"
+            android:fontFamily="sans-serif"
+            android:hint="Search festivals, shows..."
+            android:textColorHint="#8A8F98"
+            android:textSize="15sp"
+            android:inputType="text"
+            android:autofillHints="name" />
     </LinearLayout>
 
-    <!-- ================= SCROLLABLE CONTENT ================= -->
+    <!-- Filter Chips -->
+    <HorizontalScrollView
+        android:id="@+id/scroll_chips"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_search">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp">
+
+            <!-- Chip 1: Upcoming -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_chip_selected"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="10dp"
+                android:text="Upcoming"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <!-- Chip 2: All -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_chip_unselected"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="10dp"
+                android:text="All"
+                android:textColor="#666666"
+                android:textSize="13sp" />
+
+            <!-- Chip 3: Completed -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_chip_unselected"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="10dp"
+                android:text="Completed"
+                android:textColor="#666666"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- Festival Cards List -->
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="none">
+        android:layout_marginTop="16dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scroll_chips">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -144,93 +143,11 @@
             android:paddingHorizontal="16dp"
             android:paddingBottom="24dp">
 
-            <!-- Search Bar -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/bg_search"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@android:drawable/ic_menu_search"
-                    app:tint="#8A8F98"
-                    android:contentDescription="Search" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    android:hint="Search festivals, shows..."
-                    android:textColorHint="#8A8F98"
-                    android:textSize="15sp"
-                    android:inputType="text"
-                    android:autofillHints="name" />
-            </LinearLayout>
-
-            <!-- Filter Chips -->
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:scrollbars="none">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <!-- Chip 1: Upcoming -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/bg_chip_selected"
-                        android:paddingHorizontal="24dp"
-                        android:paddingVertical="10dp"
-                        android:text="Upcoming"
-                        android:textColor="#FFFFFF"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <!-- Chip 2: All -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/bg_chip_unselected"
-                        android:paddingHorizontal="24dp"
-                        android:paddingVertical="10dp"
-                        android:text="All"
-                        android:textColor="#666666"
-                        android:textSize="13sp" />
-
-                    <!-- Chip 3: Completed -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_chip_unselected"
-                        android:paddingHorizontal="24dp"
-                        android:paddingVertical="10dp"
-                        android:text="Completed"
-                        android:textColor="#666666"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-            </HorizontalScrollView>
-
-            <!-- ================= FESTIVAL CARDS LIST ================= -->
-
             <!-- Card 1: Kandy Esala Perahera -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="12dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp">
 
@@ -250,7 +167,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/sigiriya"
+                            android:src="@drawable/kandy_esala"
                             android:contentDescription="Kandy Esala Perahera" />
                     </androidx.cardview.widget.CardView>
 
@@ -348,7 +265,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp">
 
@@ -368,7 +285,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/discover"
+                            android:src="@drawable/literacy_festival"
                             android:contentDescription="Galle Literary Festival" />
                     </androidx.cardview.widget.CardView>
 
@@ -466,7 +383,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp">
 
@@ -486,7 +403,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/experience"
+                            android:src="@drawable/vel_festival"
                             android:contentDescription="Vel Festival parade" />
                     </androidx.cardview.widget.CardView>
 
@@ -583,4 +500,105 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+    <!-- Bottom Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Home -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_view"
+                app:tint="#8A8F98" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Home"
+                android:textColor="#8A8F98"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Explore (Active with pill background) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="28dp"
+                android:background="@drawable/bg_pill_purple"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:src="@android:drawable/ic_menu_compass"
+                app:tint="#673AB7"
+                android:contentDescription="Explore Active" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Explore"
+                android:textColor="#673AB7"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Events -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_month"
+                app:tint="#8A8F98" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Events"
+                android:textColor="#8A8F98"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Profile -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_myplaces"
+                app:tint="#8A8F98" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Profile"
+                android:textColor="#8A8F98"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

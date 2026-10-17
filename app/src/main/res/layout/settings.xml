@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".SettingsActivity">
+
+    <!-- ================= TOP BAR ================= -->
+    <LinearLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="Back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Settings"
+            android:textColor="#1A2B4C"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_share"
+            app:tint="#1A2B4C"
+            android:contentDescription="Share" />
+    </LinearLayout>
+
+    <!-- ================= BOTTOM NAVIGATION ================= -->
+    <LinearLayout
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Home -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_view"
+                app:tint="#8A8F98" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Home"
+                android:textColor="#8A8F98"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Places -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_compass"
+                app:tint="#8A8F98" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Places"
+                android:textColor="#8A8F98"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Trips -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_month"
+                app:tint="#8A8F98" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Trips"
+                android:textColor="#8A8F98"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Profile (Active) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_myplaces"
+                app:tint="#673AB7" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Profile"
+                android:textColor="#673AB7"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ================= SCROLLABLE CONTENT ================= -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_bar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="24dp">
+
+            <!-- Settings Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_menu_card"
+                    android:orientation="vertical"
+                    android:paddingVertical="8dp">
+
+                    <!-- Item 1: Location -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
+                        <ImageView
+                            android:id="@+id/set_icon1"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_mylocation"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="Location Icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/set_icon1"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Location"
+                            android:textColor="#1A2B4C"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_loc_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@id/arrow1"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:text="GPS enabled"
+                            android:textColor="#8A8F98"
+                            android:textSize="14sp" />
+                        <ImageView
+                            android:id="@+id/arrow1"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="#8A8F98"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                    <!-- Item 2: Wi-Fi -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
+                        <ImageView
+                            android:id="@+id/set_icon2"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_manage"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="WiFi Icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/set_icon2"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Wi-Fi"
+                            android:textColor="#1A2B4C"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_wifi_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@id/arrow2"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:text="Connected"
+                            android:textColor="#8A8F98"
+                            android:textSize="14sp" />
+                        <ImageView
+                            android:id="@+id/arrow2"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="#8A8F98"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                    <!-- Item 3: Notifications (Switch) -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
+                        <ImageView
+                            android:id="@+id/set_icon3"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_popup_reminder"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="Notifications Icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/set_icon3"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Notifications"
+                            android:textColor="#1A2B4C"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:checked="true"
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    </RelativeLayout>
+
+                    <!-- Item 4: Location Services -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
+                        <ImageView
+                            android:id="@+id/set_icon4"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_mapmode"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="Services Icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/set_icon4"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Location Services"
+                            android:textColor="#1A2B4C"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="#8A8F98"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                    <!-- Item 5: Offline Downloads -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
+                        <ImageView
+                            android:id="@+id/set_icon5"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_save"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="Downloads Icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/set_icon5"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Offline Downloads"
+                            android:textColor="#1A2B4C"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="#8A8F98"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                    <!-- Item 6: Help & Support -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
+                        <ImageView
+                            android:id="@+id/set_icon6"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_help"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="Help Icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/set_icon6"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Help &amp; Support"
+                            android:textColor="#1A2B4C"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="#8A8F98"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

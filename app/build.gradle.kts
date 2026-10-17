@@ -36,6 +36,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.material)
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     testImplementation(libs.junit)
