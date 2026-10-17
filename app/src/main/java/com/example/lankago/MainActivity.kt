@@ -1,19 +1,22 @@
 package com.example.lankago
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
-import android.view.WindowManager
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Full screen karanna (Uda thiyena status bar eka pinhuthu wenna)
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
+        // Status bar eka sudu karanna
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+        window.statusBarColor = Color.parseColor("#FFFFFF")
 
+        // Meka thamai NavHost eka load karana eka
         setContentView(R.layout.activity_main)
     }
 }

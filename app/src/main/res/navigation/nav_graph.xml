@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.lankago.fragments.SplashFragment"
+        android:label="Splash"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_discoverFragment"
+            app:destination="@id/discoverFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/discoverFragment"
+        android:name="com.example.lankago.fragments.DiscoverFragment"
+        android:label="Discover"
+        tools:layout="@layout/discover">
+        <action
+            android:id="@+id/action_discoverFragment_to_experienceFragment"
+            app:destination="@id/experienceFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/experienceFragment"
+        android:name="com.example.lankago.fragments.ExperienceFragment"
+        android:label="Experience"
+        tools:layout="@layout/experience">
+        <action
+            android:id="@+id/action_experienceFragment_to_planTripFragment"
+            app:destination="@id/planTripFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/planTripFragment"
+        android:name="com.example.lankago.fragments.PlanTripFragment"
+        android:label="Plan Trip"
+        tools:layout="@layout/plan_trip" />
+
+</navigation>

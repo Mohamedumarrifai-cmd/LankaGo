@@ -8,14 +8,15 @@
     android:background="#FFFFFF"
     tools:context=".RegisterActivity">
 
-    <!-- Top Bar -->
+    <!-- Top Bar: Back Arrow -->
     <ImageView
-        android:id="@+id/iv_back"
+        android:id="@+id/btn_back"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         android:src="@drawable/ic_arrow_back"
+        app:tint="#1A2B4C"
         android:contentDescription="Back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,22 +27,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="sans-serif-black"
         android:text="Create Account"
         android:textColor="#1A2B4C"
-        android:textSize="28sp"
+        android:textSize="32sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_back" />
+        app:layout_constraintTop_toBottomOf="@id/btn_back" />
 
+    <!-- Subtitle -->
     <TextView
         android:id="@+id/tv_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
-        android:text="Start your adventure with LankaGo"
+        android:text="Start exploring Sri Lanka today"
         android:textColor="#8A8F98"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +60,8 @@
         android:fontFamily="sans-serif"
         android:hint="Full Name"
         android:inputType="textPersonName"
-        android:paddingHorizontal="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:textColor="#1A2B4C"
         android:textColorHint="#8A8F98"
         android:textSize="15sp"
@@ -76,9 +79,10 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_input"
         android:fontFamily="sans-serif"
-        android:hint="Email address"
+        android:hint="Email Address"
         android:inputType="textEmailAddress"
-        android:paddingHorizontal="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:textColor="#1A2B4C"
         android:textColorHint="#8A8F98"
         android:textSize="15sp"
@@ -87,52 +91,87 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_name" />
 
-    <!-- Password Input -->
-    <EditText
-        android:id="@+id/et_password"
+    <!-- Password Input Container -->
+    <FrameLayout
+        android:id="@+id/layout_password"
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/bg_input"
-        android:fontFamily="sans-serif"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:paddingHorizontal="16dp"
-        android:textColor="#1A2B4C"
-        android:textColorHint="#8A8F98"
-        android:textSize="15sp"
-        android:autofillHints="password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_email" />
+        app:layout_constraintTop_toBottomOf="@id/et_email">
 
-    <!-- Confirm Password Input -->
-    <EditText
-        android:id="@+id/et_confirm_password"
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_input"
+            android:fontFamily="sans-serif"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingStart="16dp"
+            android:paddingEnd="48dp"
+            android:textColor="#1A2B4C"
+            android:textColorHint="#8A8F98"
+            android:textSize="15sp"
+            android:autofillHints="password" />
+
+        <ImageView
+            android:id="@+id/btn_toggle_password"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="16dp"
+            android:src="@android:drawable/ic_menu_view"
+            app:tint="#8A8F98"
+            android:contentDescription="Toggle Password Visibility" />
+    </FrameLayout>
+
+    <!-- Confirm Password Input Container -->
+    <FrameLayout
+        android:id="@+id/layout_confirm_password"
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/bg_input"
-        android:fontFamily="sans-serif"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
-        android:paddingHorizontal="16dp"
-        android:textColor="#1A2B4C"
-        android:textColorHint="#8A8F98"
-        android:textSize="15sp"
-        android:autofillHints="password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_password" />
+        app:layout_constraintTop_toBottomOf="@id/layout_password">
+
+        <EditText
+            android:id="@+id/et_confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_input"
+            android:fontFamily="sans-serif"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:paddingStart="16dp"
+            android:paddingEnd="48dp"
+            android:textColor="#1A2B4C"
+            android:textColorHint="#8A8F98"
+            android:textSize="15sp"
+            android:autofillHints="password" />
+
+        <ImageView
+            android:id="@+id/btn_toggle_confirm_password"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="16dp"
+            android:src="@android:drawable/ic_menu_view"
+            app:tint="#8A8F98"
+            android:contentDescription="Toggle Confirm Password Visibility" />
+    </FrameLayout>
 
     <!-- Terms Checkbox -->
     <CheckBox
         android:id="@+id/cb_terms"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginTop="20dp"
         android:fontFamily="sans-serif"
         android:text="I agree to Terms &amp; Conditions"
@@ -140,10 +179,10 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_confirm_password" />
+        app:layout_constraintTop_toBottomOf="@id/layout_confirm_password" />
 
     <!-- Register Button -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_register"
         android:layout_width="0dp"
         android:layout_height="56dp"
@@ -151,12 +190,26 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/button_primary"
         android:fontFamily="sans-serif-medium"
-        android:text="Register"
+        android:text="Create Account"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cb_terms" />
+
+    <!-- Login Link -->
+    <TextView
+        android:id="@+id/tv_login_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif"
+        android:text="Already have an account? Login"
+        android:textColor="#8A8F98"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_register" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

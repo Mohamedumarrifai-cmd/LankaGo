@@ -10,9 +10,9 @@
 
     <!-- LankaGo Logo -->
     <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:id="@+id/img_logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginTop="80dp"
         android:src="@drawable/logo"
         android:contentDescription="LankaGo Logo"
@@ -29,18 +29,19 @@
         android:fontFamily="sans-serif-black"
         android:text="Welcome Back"
         android:textColor="#1A2B4C"
-        android:textSize="28sp"
+        android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_logo" />
+        app:layout_constraintTop_toBottomOf="@id/img_logo" />
 
+    <!-- Subtitle -->
     <TextView
         android:id="@+id/tv_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
-        android:text="Sign in to continue your journey"
+        android:text="Login to continue your journey"
         android:textColor="#8A8F98"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,12 +54,13 @@
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/bg_input"
         android:fontFamily="sans-serif"
-        android:hint="Email address"
+        android:hint="Email Address"
         android:inputType="textEmailAddress"
-        android:paddingHorizontal="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:textColor="#1A2B4C"
         android:textColorHint="#8A8F98"
         android:textSize="15sp"
@@ -67,50 +69,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_subtitle" />
 
-    <!-- Password Input -->
-    <RelativeLayout
+    <!-- Password Input Container -->
+    <FrameLayout
         android:id="@+id/layout_password"
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/bg_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_email">
 
         <EditText
+            android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toStartOf="@id/iv_eye"
-            android:background="@null"
+            android:background="@drawable/bg_input"
             android:fontFamily="sans-serif"
             android:hint="Password"
             android:inputType="textPassword"
-            android:paddingHorizontal="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="48dp"
             android:textColor="#1A2B4C"
             android:textColorHint="#8A8F98"
             android:textSize="15sp"
             android:autofillHints="password" />
 
         <ImageView
-            android:id="@+id/iv_eye"
+            android:id="@+id/btn_toggle_password"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="16dp"
             android:src="@android:drawable/ic_menu_view"
             app:tint="#8A8F98"
-            android:contentDescription="Toggle Password" />
-    </RelativeLayout>
+            android:contentDescription="Toggle Password Visibility" />
+    </FrameLayout>
 
     <!-- Forgot Password -->
     <TextView
-        android:id="@+id/tv_forgot"
+        android:id="@+id/tv_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:fontFamily="sans-serif-medium"
         android:text="Forgot Password?"
@@ -120,12 +121,12 @@
         app:layout_constraintTop_toBottomOf="@id/layout_password" />
 
     <!-- Login Button -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_login"
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/button_primary"
         android:fontFamily="sans-serif-medium"
         android:text="Login"
@@ -134,20 +135,20 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_forgot" />
+        app:layout_constraintTop_toBottomOf="@id/tv_forgot_password" />
 
-    <!-- Register Prompt -->
+    <!-- Register Link -->
     <TextView
-        android:id="@+id/tv_register"
+        android:id="@+id/tv_register_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="sans-serif"
-        android:text="Don't have account? Register"
+        android:text="Don't have an account? Register"
         android:textColor="#8A8F98"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
