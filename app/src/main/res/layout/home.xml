@@ -39,6 +39,7 @@
 
         <!-- Notification Icon with Red Badge -->
         <FrameLayout
+            android:id="@+id/btn_notifications"
             android:layout_width="32dp"
             android:layout_height="32dp">
             <ImageView
@@ -71,6 +72,7 @@
 
         <!-- Home -->
         <LinearLayout
+            android:id="@+id/nav_home"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -93,6 +95,7 @@
 
         <!-- Explore -->
         <LinearLayout
+            android:id="@+id/nav_explore"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -114,6 +117,7 @@
 
         <!-- Favorites -->
         <LinearLayout
+            android:id="@+id/nav_trips"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -135,6 +139,7 @@
 
         <!-- Profile -->
         <LinearLayout
+            android:id="@+id/nav_profile"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -173,6 +178,7 @@
 
             <!-- Search Bar -->
             <LinearLayout
+                android:id="@+id/search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="16dp"
@@ -190,6 +196,7 @@
                     android:contentDescription="Search" />
 
                 <EditText
+                    android:id="@+id/et_search"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
@@ -218,6 +225,7 @@
 
                     <!-- Local Malls -->
                     <LinearLayout
+                        android:id="@+id/btn_local_products"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -268,6 +276,7 @@
 
                     <!-- Shows -->
                     <LinearLayout
+                        android:id="@+id/btn_shows_festivals"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -293,6 +302,7 @@
 
                     <!-- Activities -->
                     <LinearLayout
+                        android:id="@+id/btn_traditional_activities"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -328,6 +338,7 @@
 
                     <!-- Rentals -->
                     <LinearLayout
+                        android:id="@+id/btn_rentals_transport"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -353,6 +364,7 @@
 
                     <!-- Trips -->
                     <LinearLayout
+                        android:id="@+id/btn_trip_planner"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -378,6 +390,7 @@
 
                     <!-- Favorites -->
                     <LinearLayout
+                        android:id="@+id/btn_favorites"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
