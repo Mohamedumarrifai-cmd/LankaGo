@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
         }
         window.statusBarColor = Color.parseColor("#FFFFFF")
 
-        // Meka thamai NavHost eka load karana eka
         setContentView(R.layout.activity_main)
     }
 }
