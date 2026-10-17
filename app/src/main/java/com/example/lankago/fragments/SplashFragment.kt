@@ -11,10 +11,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.lankago.R
 
 class SplashFragment : Fragment() {
-
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_splash, container, false)
@@ -23,11 +21,17 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 2-second delay to DiscoverFragment
+        // 2 seconds nawaathila Discover ekata yanna
         Handler(Looper.getMainLooper()).postDelayed({
-            if (isAdded) {
-                findNavController().navigate(R.id.action_splashFragment_to_discoverFragment)
+            // check karanna fragment eka thama active da kiyala
+            if (isAdded && view != null) {
+                try {
+                    findNavController().navigate(R.id.action_splashFragment_to_discoverFragment)
+                } catch (e: Exception) {
+                    // Error ekak awoth app eka crash wenna denne nathiwa handle karanawa
+                    e.printStackTrace()
+                }
             }
-        }, 2000L)
+        }, 2000)
     }
 }
