@@ -115,7 +115,7 @@
                             android:textColor="#1A2B4C"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            tools:text="Clay Pot Making Workshop" />
+                            android:text="Clay Pot Making Workshop" />
 
                         <!-- Location | Duration | Price Row -->
                         <LinearLayout
@@ -138,7 +138,7 @@
                                 android:layout_marginStart="4dp"
                                 android:textColor="#8A8F98"
                                 android:textSize="13sp"
-                                tools:text="Kandy" />
+                                android:text="Kandy" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -161,7 +161,7 @@
                                 android:layout_marginStart="4dp"
                                 android:textColor="#8A8F98"
                                 android:textSize="13sp"
-                                tools:text="2 hours" />
+                                android:text="2 hours" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -177,7 +177,7 @@
                                 android:textColor="#1A2B4C"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
-                                tools:text="LKR 3,500" />
+                                android:text="LKR 3,500" />
                         </LinearLayout>
 
                         <!-- Rating & Book Now Row -->
@@ -203,7 +203,7 @@
                                 android:textColor="#1A2B4C"
                                 android:textSize="13sp"
                                 android:textStyle="bold"
-                                tools:text="★ 4.8 (123 reviews)" />
+                                android:text="★ 4.8 (123 reviews)" />
 
                             <Button
                                 android:layout_width="wrap_content"
@@ -256,7 +256,7 @@
                             android:textColor="#1A2B4C"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            tools:text="Traditional Cooking Class" />
+                            android:text="Traditional Cooking Class" />
 
                         <!-- Location | Duration | Price Row -->
                         <LinearLayout
@@ -279,7 +279,7 @@
                                 android:layout_marginStart="4dp"
                                 android:textColor="#8A8F98"
                                 android:textSize="13sp"
-                                tools:text="Galle" />
+                                android:text="Galle" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -302,7 +302,7 @@
                                 android:layout_marginStart="4dp"
                                 android:textColor="#8A8F98"
                                 android:textSize="13sp"
-                                tools:text="3 hours" />
+                                android:text="3 hours" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -318,7 +318,7 @@
                                 android:textColor="#1A2B4C"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
-                                tools:text="LKR 5,000" />
+                                android:text="LKR 5,000" />
                         </LinearLayout>
 
                         <!-- Rating & Book Now Row -->
@@ -344,7 +344,7 @@
                                 android:textColor="#1A2B4C"
                                 android:textSize="13sp"
                                 android:textStyle="bold"
-                                tools:text="★ 4.9 (210 reviews)" />
+                                android:text="★ 4.9 (210 reviews)" />
 
                             <Button
                                 android:layout_width="wrap_content"
@@ -397,7 +397,7 @@
                             android:textColor="#1A2B4C"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            tools:text="Wood Carving Workshop" />
+                            android:text="Wood Carving Workshop" />
 
                         <!-- Location | Duration | Price Row -->
                         <LinearLayout
@@ -420,7 +420,7 @@
                                 android:layout_marginStart="4dp"
                                 android:textColor="#8A8F98"
                                 android:textSize="13sp"
-                                tools:text="Moratuwa" />
+                                android:text="Moratuwa" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -443,7 +443,7 @@
                                 android:layout_marginStart="4dp"
                                 android:textColor="#8A8F98"
                                 android:textSize="13sp"
-                                tools:text="2.5 hours" />
+                                android:text="2.5 hours" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -459,7 +459,7 @@
                                 android:textColor="#1A2B4C"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
-                                tools:text="LKR 4,200" />
+                                android:text="LKR 4,200" />
                         </LinearLayout>
 
                         <!-- Rating & Book Now Row -->
@@ -485,7 +485,7 @@
                                 android:textColor="#1A2B4C"
                                 android:textSize="13sp"
                                 android:textStyle="bold"
-                                tools:text="★ 4.7 (88 reviews)" />
+                                android:text="★ 4.7 (88 reviews)" />
 
                             <Button
                                 android:layout_width="wrap_content"
@@ -538,7 +538,7 @@
                             android:textColor="#1A2B4C"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            tools:text="Kandyan Dance Performance" />
+                            android:text="Kandyan Dance Performance" />
 
                         <!-- Location | Duration | Price Row -->
                         <LinearLayout
@@ -561,7 +561,7 @@
                                 android:layout_marginStart="4dp"
                                 android:textColor="#8A8F98"
                                 android:textSize="13sp"
-                                tools:text="Kandy" />
+                                android:text="Kandy" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -584,7 +584,7 @@
                                 android:layout_marginStart="4dp"
                                 android:textColor="#8A8F98"
                                 android:textSize="13sp"
-                                tools:text="1.5 hours" />
+                                android:text="1.5 hours" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -600,7 +600,7 @@
                                 android:textColor="#1A2B4C"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
-                                tools:text="LKR 3,000" />
+                                android:text="LKR 3,000" />
                         </LinearLayout>
 
                         <!-- Rating & Book Now Row -->
@@ -626,7 +626,7 @@
                                 android:textColor="#1A2B4C"
                                 android:textSize="13sp"
                                 android:textStyle="bold"
-                                tools:text="★ 4.8 (156 reviews)" />
+                                android:text="★ 4.8 (156 reviews)" />
 
                             <Button
                                 android:layout_width="wrap_content"
@@ -679,7 +679,7 @@
                             android:textColor="#1A2B4C"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            tools:text="Tea Estate Tour" />
+                            android:text="Tea Estate Tour" />
 
                         <!-- Location | Duration | Price Row -->
                         <LinearLayout
@@ -702,7 +702,7 @@
                                 android:layout_marginStart="4dp"
                                 android:textColor="#8A8F98"
                                 android:textSize="13sp"
-                                tools:text="Nuwara Eliya" />
+                                android:text="Nuwara Eliya" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -725,7 +725,7 @@
                                 android:layout_marginStart="4dp"
                                 android:textColor="#8A8F98"
                                 android:textSize="13sp"
-                                tools:text="4 hours" />
+                                android:text="4 hours" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -741,7 +741,7 @@
                                 android:textColor="#1A2B4C"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
-                                tools:text="LKR 6,500" />
+                                android:text="LKR 6,500" />
                         </LinearLayout>
 
                         <!-- Rating & Book Now Row -->
@@ -767,7 +767,7 @@
                                 android:textColor="#1A2B4C"
                                 android:textSize="13sp"
                                 android:textStyle="bold"
-                                tools:text="★ 4.9 (320 reviews)" />
+                                android:text="★ 4.9 (320 reviews)" />
 
                             <Button
                                 android:layout_width="wrap_content"
