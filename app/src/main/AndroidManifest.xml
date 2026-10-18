@@ -21,6 +21,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".DestinationDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DiscoverActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ExperienceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LocalProductsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MapRouteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlanTripActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RentalsAndTransportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ShowsAndFestivalsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TraditionalActivitiesActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
