@@ -1,141 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
+    android:background="#F0F2F5"
     tools:context=".TraditionalActivitiesActivity">
 
     <!-- ================= TOP BAR ================= -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/top_bar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:elevation="2dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/btn_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:contentDescription="Back"
             android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Back" />
+            app:tint="#1A2B4C" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
-            android:text="Traditional Activities"
+            android:text="Experience Local Culture"
             android:textColor="#1A2B4C"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- ================= BOTTOM NAVIGATION ================= -->
-    <LinearLayout
-        android:id="@+id/bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="#FFFFFF"
-        android:elevation="8dp"
-        android:orientation="horizontal"
-        android:weightSum="4"
-        android:layout_gravity="bottom">
-
-        <!-- Home -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_view"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Home"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Explore -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_compass"
-                app:tint="#673AB7" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Explore"
-                android:textColor="#673AB7"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <!-- Events -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_month"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Events"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Profile -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_myplaces"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Profile"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
-    </LinearLayout>
+    <!-- ================= SUBTITLE ================= -->
+    <TextView
+        android:id="@+id/tv_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:text="Learn traditional Sri Lankan crafts from local artisans"
+        android:textColor="#8A8F98"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_bar" />
 
     <!-- ================= SCROLLABLE CONTENT ================= -->
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
+        android:id="@+id/scroll_view"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="none">
+        android:layout_marginTop="8dp"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_subtitle">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -144,614 +79,712 @@
             android:paddingHorizontal="16dp"
             android:paddingBottom="24dp">
 
-            <!-- Search Bar -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/bg_search"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@android:drawable/ic_menu_search"
-                    app:tint="#8A8F98"
-                    android:contentDescription="Search" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:background="@null"
-                    android:hint="Search activities..."
-                    android:textColorHint="#8A8F98"
-                    android:textSize="15sp"
-                    android:inputType="text"
-                    android:autofillHints="name" />
-            </LinearLayout>
-
-            <!-- Filter Chips -->
-            <HorizontalScrollView
+            <!-- Card 1: Clay Pot Making Workshop -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:scrollbars="none">
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:background="@drawable/bg_card_box"
+                    android:orientation="vertical">
 
-                    <!-- Chip 1: All -->
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:contentDescription="Clay Pot Making Workshop"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/pottery"
+                        tools:src="@drawable/pottery" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/bg_chip_selected"
-                        android:paddingHorizontal="24dp"
-                        android:paddingVertical="10dp"
-                        android:text="All"
-                        android:textColor="#FFFFFF"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                    <!-- Chip 2: Crafts -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/bg_chip_unselected"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="10dp"
-                        android:text="Crafts"
-                        android:textColor="#666666"
-                        android:textSize="13sp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="#1A2B4C"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            tools:text="Clay Pot Making Workshop" />
 
-                    <!-- Chip 3: Tours -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/bg_chip_unselected"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="10dp"
-                        android:text="Tours"
-                        android:textColor="#666666"
-                        android:textSize="13sp" />
+                        <!-- Location | Duration | Price Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
-                    <!-- Chip 4: Workshops -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_chip_unselected"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="10dp"
-                        android:text="Workshops"
-                        android:textColor="#666666"
-                        android:textSize="13sp" />
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Location"
+                                android:src="@drawable/ic_location"
+                                app:tint="#8A8F98" />
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp"
+                                tools:text="Kandy" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="6dp"
+                                android:text="•"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Duration"
+                                android:src="@drawable/ic_clock"
+                                app:tint="#8A8F98" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp"
+                                tools:text="2 hours" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="6dp"
+                                android:text="•"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#1A2B4C"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                tools:text="LKR 3,500" />
+                        </LinearLayout>
+
+                        <!-- Rating & Book Now Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Rating Star"
+                                android:src="@android:drawable/btn_star_big_on"
+                                app:tint="#FFC107" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:layout_weight="1"
+                                android:textColor="#1A2B4C"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                tools:text="★ 4.8 (123 reviews)" />
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:background="@drawable/button_bg"
+                                android:paddingHorizontal="20dp"
+                                android:text="Book Now"
+                                android:textAllCaps="false"
+                                android:textColor="#FFFFFF"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
-            </HorizontalScrollView>
+            </androidx.cardview.widget.CardView>
 
-            <!-- ================= ACTIVITY CARDS GRID (2 COLUMNS) ================= -->
-
-            <!-- Row 1 -->
-            <LinearLayout
+            <!-- Card 2: Traditional Cooking Class -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
 
-                <!-- Activity 1: Clay Pot Making -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
+                    android:background="@drawable/bg_card_box"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:contentDescription="Traditional Cooking Class"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/discover"
+                        tools:src="@drawable/discover" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_product_card"
                         android:orientation="vertical"
-                        android:paddingBottom="12dp">
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="120dp">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/product"
-                                android:contentDescription="Clay Pot Making" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="top|end"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/bg_white_circle"
-                                android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite" />
-                        </FrameLayout>
+                        android:padding="16dp">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="10dp"
-                            android:text="Clay Pot Making"
+                            android:fontFamily="sans-serif-medium"
                             android:textColor="#1A2B4C"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            tools:text="Traditional Cooking Class" />
 
-                        <TextView
+                        <!-- Location | Duration | Price Row -->
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="2dp"
-                            android:text="Kalutara"
-                            android:textColor="#8A8F98"
-                            android:textSize="12sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="8dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
+
                             <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@android:drawable/btn_star_big_on"
-                                app:tint="#FFC107"
-                                android:contentDescription="Star" />
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Location"
+                                android:src="@drawable/ic_location"
+                                app:tint="#8A8F98" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
-                                android:text="4.5"
-                                android:textColor="#444444"
+                                android:textColor="#8A8F98"
                                 android:textSize="13sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                                tools:text="Galle" />
 
-                <!-- Activity 2: Tea Estate Tour -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="6dp"
+                                android:text="•"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_product_card"
-                        android:orientation="vertical"
-                        android:paddingBottom="12dp">
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="120dp">
                             <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/sigiriya"
-                                android:contentDescription="Tea Estate Tour" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="top|end"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/bg_white_circle"
-                                android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite" />
-                        </FrameLayout>
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Duration"
+                                android:src="@drawable/ic_clock"
+                                app:tint="#8A8F98" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="10dp"
-                            android:text="Tea Estate Tour"
-                            android:textColor="#1A2B4C"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="2dp"
-                            android:text="Nuwara Eliya"
-                            android:textColor="#8A8F98"
-                            android:textSize="12sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="6dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@android:drawable/btn_star_big_on"
-                                app:tint="#FFC107"
-                                android:contentDescription="Star" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
-                                android:text="4.7"
-                                android:textColor="#444444"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp"
+                                tools:text="3 hours" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="6dp"
+                                android:text="•"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#1A2B4C"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                tools:text="LKR 5,000" />
+                        </LinearLayout>
+
+                        <!-- Rating & Book Now Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Rating Star"
+                                android:src="@android:drawable/btn_star_big_on"
+                                app:tint="#FFC107" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:layout_weight="1"
+                                android:textColor="#1A2B4C"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                tools:text="★ 4.9 (210 reviews)" />
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:background="@drawable/button_bg"
+                                android:paddingHorizontal="20dp"
+                                android:text="Book Now"
+                                android:textAllCaps="false"
+                                android:textColor="#FFFFFF"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            <!-- Row 2 -->
-            <LinearLayout
+            <!-- Card 3: Wood Carving Workshop -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
 
-                <!-- Activity 3: Mask Painting -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
+                    android:background="@drawable/bg_card_box"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:contentDescription="Wood Carving Workshop"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/experience"
+                        tools:src="@drawable/experience" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_product_card"
                         android:orientation="vertical"
-                        android:paddingBottom="12dp">
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="120dp">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/discover"
-                                android:contentDescription="Mask Painting" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="top|end"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/bg_white_circle"
-                                android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite" />
-                        </FrameLayout>
+                        android:padding="16dp">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="10dp"
-                            android:text="Mask Painting"
+                            android:fontFamily="sans-serif-medium"
                             android:textColor="#1A2B4C"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            tools:text="Wood Carving Workshop" />
 
-                        <TextView
+                        <!-- Location | Duration | Price Row -->
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="2dp"
-                            android:text="Galle"
-                            android:textColor="#8A8F98"
-                            android:textSize="12sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="8dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
+
                             <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@android:drawable/btn_star_big_on"
-                                app:tint="#FFC107"
-                                android:contentDescription="Star" />
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Location"
+                                android:src="@drawable/ic_location"
+                                app:tint="#8A8F98" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
-                                android:text="4.8"
-                                android:textColor="#444444"
+                                android:textColor="#8A8F98"
                                 android:textSize="13sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                                tools:text="Moratuwa" />
 
-                <!-- Activity 4: Spice garden visit -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="6dp"
+                                android:text="•"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_product_card"
-                        android:orientation="vertical"
-                        android:paddingBottom="12dp">
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="120dp">
                             <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/experience"
-                                android:contentDescription="Spice garden visit" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="top|end"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/bg_white_circle"
-                                android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite" />
-                        </FrameLayout>
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Duration"
+                                android:src="@drawable/ic_clock"
+                                app:tint="#8A8F98" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="10dp"
-                            android:text="Spice garden visit"
-                            android:textColor="#1A2B4C"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="2dp"
-                            android:text="Matale"
-                            android:textColor="#8A8F98"
-                            android:textSize="12sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="6dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@android:drawable/btn_star_big_on"
-                                app:tint="#FFC107"
-                                android:contentDescription="Star" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
-                                android:text="4.6"
-                                android:textColor="#444444"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp"
+                                tools:text="2.5 hours" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="6dp"
+                                android:text="•"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#1A2B4C"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                tools:text="LKR 4,200" />
+                        </LinearLayout>
+
+                        <!-- Rating & Book Now Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Rating Star"
+                                android:src="@android:drawable/btn_star_big_on"
+                                app:tint="#FFC107" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:layout_weight="1"
+                                android:textColor="#1A2B4C"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                tools:text="★ 4.7 (88 reviews)" />
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:background="@drawable/button_bg"
+                                android:paddingHorizontal="20dp"
+                                android:text="Book Now"
+                                android:textAllCaps="false"
+                                android:textColor="#FFFFFF"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            <!-- Row 3 -->
-            <LinearLayout
+            <!-- Card 4: Kandyan Dance Performance -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
 
-                <!-- Activity 5: Batik workshop -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
+                    android:background="@drawable/bg_card_box"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:contentDescription="Kandyan Dance Performance"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sigiriya"
+                        tools:src="@drawable/sigiriya" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_product_card"
                         android:orientation="vertical"
-                        android:paddingBottom="12dp">
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="120dp">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/home"
-                                android:contentDescription="Batik workshop" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="top|end"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/bg_white_circle"
-                                android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite" />
-                        </FrameLayout>
+                        android:padding="16dp">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="10dp"
-                            android:text="Batik workshop"
+                            android:fontFamily="sans-serif-medium"
                             android:textColor="#1A2B4C"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            tools:text="Kandyan Dance Performance" />
 
-                        <TextView
+                        <!-- Location | Duration | Price Row -->
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="2dp"
-                            android:text="Colombo"
-                            android:textColor="#8A8F98"
-                            android:textSize="12sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="8dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
+
                             <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@android:drawable/btn_star_big_on"
-                                app:tint="#FFC107"
-                                android:contentDescription="Star" />
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Location"
+                                android:src="@drawable/ic_location"
+                                app:tint="#8A8F98" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
-                                android:text="4.7"
-                                android:textColor="#444444"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp"
+                                tools:text="Kandy" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="6dp"
+                                android:text="•"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Duration"
+                                android:src="@drawable/ic_clock"
+                                app:tint="#8A8F98" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp"
+                                tools:text="1.5 hours" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="6dp"
+                                android:text="•"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#1A2B4C"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                tools:text="LKR 3,000" />
+                        </LinearLayout>
+
+                        <!-- Rating & Book Now Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Rating Star"
+                                android:src="@android:drawable/btn_star_big_on"
+                                app:tint="#FFC107" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:layout_weight="1"
+                                android:textColor="#1A2B4C"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                tools:text="★ 4.8 (156 reviews)" />
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:background="@drawable/button_bg"
+                                android:paddingHorizontal="20dp"
+                                android:text="Book Now"
+                                android:textAllCaps="false"
+                                android:textColor="#FFFFFF"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-                <!-- Activity 6: Traditional dance -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
+            <!-- Card 5: Tea Estate Tour -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
+                    android:background="@drawable/bg_card_box"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:contentDescription="Tea Estate Tour"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/product"
+                        tools:src="@drawable/product" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_product_card"
                         android:orientation="vertical"
-                        android:paddingBottom="12dp">
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="120dp">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/discover"
-                                android:contentDescription="Traditional dance" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="top|end"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/bg_white_circle"
-                                android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite" />
-                        </FrameLayout>
+                        android:padding="16dp">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="10dp"
-                            android:text="Traditional dance"
+                            android:fontFamily="sans-serif-medium"
                             android:textColor="#1A2B4C"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            tools:text="Tea Estate Tour" />
 
-                        <TextView
+                        <!-- Location | Duration | Price Row -->
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="2dp"
-                            android:text="Kandy"
-                            android:textColor="#8A8F98"
-                            android:textSize="12sp" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="8dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
+
                             <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@android:drawable/btn_star_big_on"
-                                app:tint="#FFC107"
-                                android:contentDescription="Star" />
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Location"
+                                android:src="@drawable/ic_location"
+                                app:tint="#8A8F98" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
-                                android:text="4.9"
-                                android:textColor="#444444"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp"
+                                tools:text="Nuwara Eliya" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="6dp"
+                                android:text="•"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Duration"
+                                android:src="@drawable/ic_clock"
+                                app:tint="#8A8F98" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp"
+                                tools:text="4 hours" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="6dp"
+                                android:text="•"
+                                android:textColor="#8A8F98"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#1A2B4C"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                tools:text="LKR 6,500" />
+                        </LinearLayout>
+
+                        <!-- Rating & Book Now Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Rating Star"
+                                android:src="@android:drawable/btn_star_big_on"
+                                app:tint="#FFC107" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:layout_weight="1"
+                                android:textColor="#1A2B4C"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                tools:text="★ 4.9 (320 reviews)" />
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:background="@drawable/button_bg"
+                                android:paddingHorizontal="20dp"
+                                android:text="Book Now"
+                                android:textAllCaps="false"
+                                android:textColor="#FFFFFF"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
