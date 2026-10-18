@@ -1,141 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
+    android:background="#F0F2F5"
     tools:context=".LocalProductsActivity">
 
     <!-- ================= TOP BAR ================= -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/top_bar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:elevation="2dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/btn_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:contentDescription="Back"
             android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Back" />
+            app:tint="#1A2B4C" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
             android:text="Local Products"
             android:textColor="#1A2B4C"
-            android:textSize="20sp" />
-    </LinearLayout>
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <!-- ================= BOTTOM NAVIGATION ================= -->
-    <LinearLayout
-        android:id="@+id/bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="#FFFFFF"
-        android:elevation="8dp"
-        android:orientation="horizontal"
-        android:weightSum="4"
-        android:layout_gravity="bottom">
+        <!-- Cart Icon with Badge "3" -->
+        <FrameLayout
+            android:id="@+id/cart_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="4dp">
 
-        <!-- Home -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_view"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Home"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
+                android:id="@+id/iv_cart"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:contentDescription="Cart"
+                android:src="@drawable/ic_shopping_cart"
+                app:tint="#1A2B4C" />
 
-        <!-- Products -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_compass"
-                app:tint="#673AB7" />
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Products"
-                android:textColor="#673AB7"
-                android:textSize="12sp"
+                android:id="@+id/tv_cart_badge"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="top|end"
+                android:layout_marginStart="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_badge"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
                 android:textStyle="bold" />
-        </LinearLayout>
+        </FrameLayout>
 
-        <!-- Maps -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_mapmode"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Maps"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Profile -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_myplaces"
-                app:tint="#8A8F98" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Profile"
-                android:textColor="#8A8F98"
-                android:textSize="12sp" />
-        </LinearLayout>
     </LinearLayout>
 
     <!-- ================= SCROLLABLE CONTENT ================= -->
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
+        android:id="@+id/scroll_view"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="none">
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_bar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -144,11 +96,11 @@
             android:paddingHorizontal="16dp"
             android:paddingBottom="24dp">
 
-            <!-- Search Bar -->
+            <!-- Search EditText (marginTop 16dp, rounded) -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="4dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/bg_search"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -157,23 +109,25 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:contentDescription="Search"
                     android:src="@android:drawable/ic_menu_search"
-                    app:tint="#8A8F98"
-                    android:contentDescription="Search" />
+                    app:tint="#8A8F98" />
 
                 <EditText
+                    android:id="@+id/et_search"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="10dp"
+                    android:autofillHints="name"
                     android:background="@null"
-                    android:hint="Search items..."
-                    android:textColorHint="#8A8F98"
-                    android:textSize="15sp"
+                    android:hint="Search products or stores..."
                     android:inputType="text"
-                    android:autofillHints="name" />
+                    android:textColor="#1A2B4C"
+                    android:textColorHint="#8A8F98"
+                    android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- Filter Chips -->
+            <!-- Category Chips (HorizontalScrollView) -->
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -185,497 +139,675 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <!-- Chip 1: Arts & Crafts -->
+                    <!-- Chip 1: All (Active) -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/bg_chip_selected"
-                        android:paddingHorizontal="18dp"
-                        android:paddingVertical="10dp"
-                        android:text="Arts &amp; Crafts"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="9dp"
+                        android:text="All"
                         android:textColor="#FFFFFF"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
-                    <!-- Chip 2: Products -->
+                    <!-- Chip 2: Handicrafts -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/bg_chip_unselected"
-                        android:paddingHorizontal="18dp"
-                        android:paddingVertical="10dp"
-                        android:text="Products"
-                        android:textColor="#666666"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="9dp"
+                        android:text="Handicrafts"
+                        android:textColor="#8A8F98"
                         android:textSize="13sp" />
 
-                    <!-- Chip 3: Markets -->
+                    <!-- Chip 3: Spices -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/bg_chip_unselected"
-                        android:paddingHorizontal="18dp"
-                        android:paddingVertical="10dp"
-                        android:text="Markets"
-                        android:textColor="#666666"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="9dp"
+                        android:text="Spices"
+                        android:textColor="#8A8F98"
                         android:textSize="13sp" />
 
-                    <!-- Chip 4: Medicines -->
+                    <!-- Chip 4: Textiles -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/bg_chip_unselected"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="9dp"
+                        android:text="Textiles"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp" />
+
+                    <!-- Chip 5: Tea -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/bg_chip_unselected"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="9dp"
+                        android:text="Tea"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp" />
+
+                    <!-- Chip 6: Souvenirs -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_chip_unselected"
-                        android:paddingHorizontal="18dp"
-                        android:paddingVertical="10dp"
-                        android:text="Medicines"
-                        android:textColor="#666666"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="9dp"
+                        android:text="Souvenirs"
+                        android:textColor="#8A8F98"
                         android:textSize="13sp" />
 
                 </LinearLayout>
             </HorizontalScrollView>
 
-            <!-- ================= PRODUCT CARDS GRID (2 COLUMNS) ================= -->
+            <!-- Section Title "Nearby Stores" -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Nearby Stores"
+                android:textColor="#1A2B4C"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- ================= 2-COLUMN GRID OF STORE CARDS ================= -->
 
             <!-- Row 1 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-                <!-- Product 1: Handmade pottery -->
+                <!-- Card 1: Handmade pottery -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginBottom="12dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_product_card"
+                        android:background="@drawable/bg_card_box"
                         android:orientation="vertical"
                         android:paddingBottom="12dp">
 
-                        <FrameLayout
+                        <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="120dp">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/pottery"
-                                android:contentDescription="Handmade pottery" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="top|end"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/bg_white_circle"
-                                android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite" />
-                        </FrameLayout>
+                            android:layout_height="150dp"
+                            android:contentDescription="Handmade pottery"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/pottery"
+                            tools:src="@drawable/pottery" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginTop="10dp"
-                            android:text="Handmade pottery"
                             android:textColor="#1A2B4C"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="Handmade pottery" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginTop="2dp"
-                            android:text="Trincomalee"
                             android:textColor="#8A8F98"
-                            android:textSize="12sp" />
+                            android:textSize="13sp"
+                            tools:text="Trincomalee Craft Store" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginTop="6dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="#8A8F98"
+                                android:textSize="12sp"
+                                tools:text="1.2 km away" />
+
                             <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:contentDescription="Rating"
                                 android:src="@android:drawable/btn_star_big_on"
-                                app:tint="#FFC107"
-                                android:contentDescription="Star" />
+                                app:tint="#FFC107" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="4dp"
-                                android:text="4.5"
-                                android:textColor="#444444"
-                                android:textSize="13sp"
-                                android:textStyle="bold" />
+                                android:layout_marginStart="3dp"
+                                android:textColor="#1A2B4C"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="★ 4.7" />
                         </LinearLayout>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="38dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/bg_button_outlined"
+                            android:text="Get Directions"
+                            android:textAllCaps="false"
+                            android:textColor="#1A2B4C"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Product 2: Sri Lankan spices -->
+                <!-- Card 2: Sri Lankan spices -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginBottom="12dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_product_card"
+                        android:background="@drawable/bg_card_box"
                         android:orientation="vertical"
                         android:paddingBottom="12dp">
 
-                        <FrameLayout
+                        <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="120dp">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/discover"
-                                android:contentDescription="Sri Lankan spices" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="top|end"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/bg_white_circle"
-                                android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite" />
-                        </FrameLayout>
+                            android:layout_height="150dp"
+                            android:contentDescription="Sri Lankan spices"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/discover"
+                            tools:src="@drawable/discover" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginTop="10dp"
-                            android:text="Sri Lankan spices"
                             android:textColor="#1A2B4C"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="Sri Lankan spices" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginTop="2dp"
-                            android:text="LKR 950 - Matale"
                             android:textColor="#8A8F98"
-                            android:textSize="12sp" />
+                            android:textSize="13sp"
+                            tools:text="Matale Spice Garden" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginTop="6dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="#8A8F98"
+                                android:textSize="12sp"
+                                tools:text="0.8 km away" />
+
                             <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:contentDescription="Rating"
                                 android:src="@android:drawable/btn_star_big_on"
-                                app:tint="#FFC107"
-                                android:contentDescription="Star" />
+                                app:tint="#FFC107" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="4dp"
-                                android:text="4.5"
-                                android:textColor="#444444"
-                                android:textSize="13sp"
-                                android:textStyle="bold" />
+                                android:layout_marginStart="3dp"
+                                android:textColor="#1A2B4C"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="★ 4.8" />
                         </LinearLayout>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="38dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/bg_button_outlined"
+                            android:text="Get Directions"
+                            android:textAllCaps="false"
+                            android:textColor="#1A2B4C"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
             </LinearLayout>
 
             <!-- Row 2 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-                <!-- Product 3: Wooden elephant -->
+                <!-- Card 3: Wooden elephant -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginBottom="12dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_product_card"
+                        android:background="@drawable/bg_card_box"
                         android:orientation="vertical"
                         android:paddingBottom="12dp">
 
-                        <FrameLayout
+                        <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="120dp">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/experience"
-                                android:contentDescription="Wooden elephant" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="top|end"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/bg_white_circle"
-                                android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite" />
-                        </FrameLayout>
+                            android:layout_height="150dp"
+                            android:contentDescription="Wooden elephant"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/experience"
+                            tools:src="@drawable/experience" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginTop="10dp"
-                            android:text="Wooden elephant"
                             android:textColor="#1A2B4C"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="Wooden elephant" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginTop="2dp"
-                            android:text="LKR 1,300 - Lakmali"
                             android:textColor="#8A8F98"
-                            android:textSize="12sp" />
+                            android:textSize="13sp"
+                            tools:text="Kandy Wood Carvings" />
 
-                        <View
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="19dp" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="#8A8F98"
+                                android:textSize="12sp"
+                                tools:text="1.5 km away" />
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:contentDescription="Rating"
+                                android:src="@android:drawable/btn_star_big_on"
+                                app:tint="#FFC107" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="3dp"
+                                android:textColor="#1A2B4C"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="★ 4.9" />
+                        </LinearLayout>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="38dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/bg_button_outlined"
+                            android:text="Get Directions"
+                            android:textAllCaps="false"
+                            android:textColor="#1A2B4C"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Product 4: Woven textiles -->
+                <!-- Card 4: Woven textiles -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginBottom="12dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_product_card"
+                        android:background="@drawable/bg_card_box"
                         android:orientation="vertical"
                         android:paddingBottom="12dp">
 
-                        <FrameLayout
+                        <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="120dp">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/sigiriya"
-                                android:contentDescription="Woven textiles" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="top|end"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/bg_white_circle"
-                                android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite" />
-                        </FrameLayout>
+                            android:layout_height="150dp"
+                            android:contentDescription="Woven textiles"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/sigiriya"
+                            tools:src="@drawable/sigiriya" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginTop="10dp"
-                            android:text="Woven textiles"
                             android:textColor="#1A2B4C"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="Woven textiles" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginTop="2dp"
-                            android:text="LKR 2,900 - Loomcrafts"
                             android:textColor="#8A8F98"
-                            android:textSize="12sp" />
+                            android:textSize="13sp"
+                            tools:text="Heritage Handlooms" />
 
-                        <View
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="19dp" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="#8A8F98"
+                                android:textSize="12sp"
+                                tools:text="2.3 km away" />
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:contentDescription="Rating"
+                                android:src="@android:drawable/btn_star_big_on"
+                                app:tint="#FFC107" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="3dp"
+                                android:textColor="#1A2B4C"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="★ 4.6" />
+                        </LinearLayout>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="38dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/bg_button_outlined"
+                            android:text="Get Directions"
+                            android:textAllCaps="false"
+                            android:textColor="#1A2B4C"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
             </LinearLayout>
 
             <!-- Row 3 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-                <!-- Product 5: Coconut shell bowls -->
+                <!-- Card 5: Coconut shell bowls -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginBottom="12dp"
                     android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_product_card"
+                        android:background="@drawable/bg_card_box"
                         android:orientation="vertical"
                         android:paddingBottom="12dp">
 
-                        <FrameLayout
+                        <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="120dp">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/home"
-                                android:contentDescription="Coconut shell bowls" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="top|end"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/bg_white_circle"
-                                android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite" />
-                        </FrameLayout>
+                            android:layout_height="150dp"
+                            android:contentDescription="Coconut shell bowls"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/home"
+                            tools:src="@drawable/home" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginTop="10dp"
-                            android:text="Coconut shell bowls"
                             android:textColor="#1A2B4C"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="Coconut shell bowls" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginTop="2dp"
-                            android:text="LKR 1,850 - Galle"
                             android:textColor="#8A8F98"
-                            android:textSize="12sp" />
+                            android:textSize="13sp"
+                            tools:text="Galle Eco Crafts" />
 
-                        <View
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="19dp" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="#8A8F98"
+                                android:textSize="12sp"
+                                tools:text="3.1 km away" />
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:contentDescription="Rating"
+                                android:src="@android:drawable/btn_star_big_on"
+                                app:tint="#FFC107" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="3dp"
+                                android:textColor="#1A2B4C"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="★ 4.7" />
+                        </LinearLayout>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="38dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/bg_button_outlined"
+                            android:text="Get Directions"
+                            android:textAllCaps="false"
+                            android:textColor="#1A2B4C"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Product 6: Ceylon tea set -->
+                <!-- Card 6: Ceylon tea set -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginBottom="12dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="8dp"
+                    app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_product_card"
+                        android:background="@drawable/bg_card_box"
                         android:orientation="vertical"
                         android:paddingBottom="12dp">
 
-                        <FrameLayout
+                        <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="120dp">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/product"
-                                android:contentDescription="Ceylon tea set" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_gravity="top|end"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/bg_white_circle"
-                                android:padding="6dp"
-                                android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#E53935"
-                                android:contentDescription="Favorite" />
-                        </FrameLayout>
+                            android:layout_height="150dp"
+                            android:contentDescription="Ceylon tea set"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/product"
+                            tools:src="@drawable/product" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginTop="10dp"
-                            android:text="Ceylon tea set"
                             android:textColor="#1A2B4C"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="Ceylon tea set" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
                             android:layout_marginTop="2dp"
-                            android:text="LKR 3,400 - Kandy"
                             android:textColor="#8A8F98"
-                            android:textSize="12sp" />
+                            android:textSize="13sp"
+                            tools:text="Ceylon Tea Boutique" />
 
-                        <View
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="19dp" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="#8A8F98"
+                                android:textSize="12sp"
+                                tools:text="4.0 km away" />
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:contentDescription="Rating"
+                                android:src="@android:drawable/btn_star_big_on"
+                                app:tint="#FFC107" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="3dp"
+                                android:textColor="#1A2B4C"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="★ 4.8" />
+                        </LinearLayout>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="38dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/bg_button_outlined"
+                            android:text="Get Directions"
+                            android:textAllCaps="false"
+                            android:textColor="#1A2B4C"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
             </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
