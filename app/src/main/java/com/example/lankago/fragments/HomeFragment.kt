@@ -34,17 +34,17 @@ class HomeFragment : Fragment() {
 
         // 2. Products Button -> Navigate to LocalProductsFragment
         view.findViewById<View>(R.id.nav_products)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_localProductsFragment)
+            findNavController().navigate(R.id.localProductsFragment)
         }
 
         // 3. Maps Button -> Navigate to MapRouteFragment
         view.findViewById<View>(R.id.nav_maps)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_mapRouteFragment)
+            findNavController().navigate(R.id.mapRouteFragment)
         }
 
         // 4. Profile Button -> Navigate to ProfileFragment
         view.findViewById<View>(R.id.nav_profile)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
+            findNavController().navigate(R.id.profileFragment)
         }
     }
 
