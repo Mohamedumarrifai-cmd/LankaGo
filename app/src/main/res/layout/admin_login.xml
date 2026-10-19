@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".fragments.admin.AdminLoginFragment">
+
+    <!-- Top decorative accent / shield -->
+    <ImageView
+        android:id="@+id/img_admin_shield"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/bg_badge_admin"
+        android:padding="20dp"
+        android:src="@drawable/ic_shield"
+        app:tint="#1A2B4C"
+        android:contentDescription="Admin Shield"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tv_admin_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Admin Portal"
+        android:textColor="#1A2B4C"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_admin_shield" />
+
+    <!-- Subtitle -->
+    <TextView
+        android:id="@+id/tv_admin_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:text="Secure access for LankaGo platform management and moderation"
+        android:textColor="#8A8F98"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_admin_title" />
+
+    <!-- Card Container for Login Inputs -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_login_form"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="32dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:strokeColor="#E5E7EB"
+        app:strokeWidth="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_admin_subtitle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Email Label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="Admin Email"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
+
+            <!-- Email Input -->
+            <EditText
+                android:id="@+id/et_admin_email"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_input"
+                android:fontFamily="sans-serif"
+                android:hint="admin@lankago.lk"
+                android:inputType="textEmailAddress"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#1A2B4C"
+                android:textColorHint="#8A8F98"
+                android:textSize="15sp"
+                android:autofillHints="emailAddress"
+                tools:text="admin@lankago.lk" />
+
+            <!-- Password Label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Master Password"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
+
+            <!-- Password Input -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/et_admin_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_input"
+                    android:fontFamily="sans-serif"
+                    android:hint="••••••••••••"
+                    android:inputType="textPassword"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="48dp"
+                    android:textColor="#1A2B4C"
+                    android:textColorHint="#8A8F98"
+                    android:textSize="15sp"
+                    android:autofillHints="password" />
+
+                <ImageView
+                    android:id="@+id/btn_admin_toggle_password"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="16dp"
+                    android:src="@android:drawable/ic_menu_view"
+                    app:tint="#8A8F98"
+                    android:contentDescription="Toggle Password" />
+            </FrameLayout>
+
+            <!-- Login as Admin Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_admin_login"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/button_primary"
+                android:fontFamily="sans-serif-medium"
+                android:text="Login as Admin"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Security Note -->
+    <TextView
+        android:id="@+id/tv_admin_security_footer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="sans-serif"
+        android:text="Authorized Access Only • LankaGo 2026"
+        android:textColor="#8A8F98"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
