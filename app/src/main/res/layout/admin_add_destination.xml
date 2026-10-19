@@ -10,7 +10,7 @@
 
     <!-- Top App Bar -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/top_bar_add_destination"
+        android:id="@+id/top_bar_add_dest"
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:background="#FFFFFF"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/btn_back_add_destination"
+            android:id="@+id/btn_back_add_dest"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -35,16 +35,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_add_destination_title"
+            android:id="@+id/tv_add_dest_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:fontFamily="sans-serif-black"
-            android:text="Add New Destination"
+            android:text="Add Destination"
             android:textColor="#1A2B4C"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btn_back_add_destination"
+            app:layout_constraintStart_toEndOf="@id/btn_back_add_dest"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -56,7 +56,7 @@
         android:background="#E5E7EB"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_bar_add_destination" />
+        app:layout_constraintTop_toBottomOf="@id/top_bar_add_dest" />
 
     <!-- Scrollable Form Container -->
     <androidx.core.widget.NestedScrollView
@@ -76,278 +76,192 @@
             android:paddingHorizontal="20dp"
             android:paddingTop="20dp">
 
-            <!-- Section Label: Cover Photo -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- Camera Capture UI Label -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:fontFamily="sans-serif-medium"
+                android:text="Cover Photo (Camera Capture)"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Cover Photo (Camera Capture)"
-                    android:textColor="#1A2B4C"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/tv_camera_indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_badge_admin"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="2dp"
-                    android:text="Live Camera"
-                    android:textColor="#1A2B4C"
-                    android:textSize="11sp" />
-            </LinearLayout>
-
-            <!-- Camera Upload & Live Preview Card (160dp height) -->
-            <FrameLayout
+            <!-- Large CardView with ivCapturedImage and Placeholder (180dp height) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_camera_trigger"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:layout_marginTop="8dp">
+                android:layout_height="180dp"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="#F0F2F5"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_upload_image"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground"
-                    app:cardBackgroundColor="#F0F2F5"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp"
-                    app:strokeColor="#E5E7EB"
-                    app:strokeWidth="1dp">
+                    android:layout_height="match_parent">
 
-                    <FrameLayout
+                    <!-- Captured Photo Preview -->
+                    <ImageView
+                        android:id="@+id/ivCapturedImage"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:contentDescription="Captured Destination Image"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        tools:src="@drawable/sigiriya"
+                        tools:visibility="visible" />
 
-                        <!-- Preview ImageView (Shown after photo is captured) -->
-                        <ImageView
-                            android:id="@+id/img_cover_preview"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:contentDescription="Captured Destination Cover"
-                            android:scaleType="centerCrop"
-                            android:visibility="gone"
-                            tools:src="@drawable/sigiriya"
-                            tools:visibility="visible" />
+                    <!-- Placeholder View Container -->
+                    <LinearLayout
+                        android:id="@+id/layout_placeholder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                        <!-- Placeholder Container (Shown before capture) -->
-                        <LinearLayout
-                            android:id="@+id/layout_camera_placeholder"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:padding="16dp">
+                        <FrameLayout
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/bg_badge_admin">
 
-                            <FrameLayout
-                                android:id="@+id/btn_trigger_camera_circle"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:background="@drawable/bg_badge_admin">
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="Camera Icon"
+                                android:src="@drawable/ic_camera"
+                                app:tint="#1A2B4C" />
+                        </FrameLayout>
 
-                                <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    android:layout_gravity="center"
-                                    android:contentDescription="Open Camera"
-                                    android:src="@drawable/ic_camera"
-                                    app:tint="#1A2B4C" />
-                            </FrameLayout>
+                        <TextView
+                            android:id="@+id/tv_placeholder_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Tap to Capture Image"
+                            android:textColor="#1A2B4C"
+                            android:textSize="14sp" />
 
-                            <TextView
-                                android:id="@+id/tv_upload_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:fontFamily="sans-serif-black"
-                                android:text="Take Destination Photo"
-                                android:textColor="#1A2B4C"
-                                android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Launches your device camera"
+                            android:textColor="#8A8F98"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/tv_upload_subtitle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="2dp"
-                                android:fontFamily="sans-serif"
-                                android:text="Tap to open device camera and capture"
-                                android:textColor="#8A8F98"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
-                    </FrameLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Retake Photo Action Floating Badge (Appears when photo is taken) -->
-                <TextView
-                    android:id="@+id/btn_retake_photo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|end"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/bg_admin_chip_active"
-                    android:clickable="true"
-                    android:elevation="4dp"
-                    android:focusable="true"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="6dp"
-                    android:text="Retake Photo"
-                    android:textColor="#FFFFFF"
-                    android:textSize="11sp"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
-            </FrameLayout>
+                </FrameLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Destination Name Input -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_destination_name"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:hint="Destination Name"
-                app:boxBackgroundColor="#FFFFFF"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeColor="#1A2B4C"
-                app:hintTextColor="#1A2B4C">
+                android:fontFamily="sans-serif-medium"
+                android:text="Destination Name"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_destination_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:inputType="textCapWords"
-                    android:textColor="#1A2B4C"
-                    android:textSize="15sp"
-                    tools:text="Dambulla Cave Temple" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Category Dropdown Input -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_category"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            <EditText
+                android:id="@+id/et_place_name"
                 android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_input"
+                android:fontFamily="sans-serif"
+                android:hint="e.g. Pidurangala Rock"
+                android:inputType="textCapWords"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#1A2B4C"
+                android:textColorHint="#8A8F98"
+                android:textSize="15sp" />
+
+            <!-- Category Input -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                android:hint="Category"
-                app:boxBackgroundColor="#FFFFFF"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeColor="#1A2B4C"
-                app:hintTextColor="#1A2B4C">
+                android:fontFamily="sans-serif-medium"
+                android:text="Category"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/act_category"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:inputType="none"
-                    android:text="Heritage &amp; History"
-                    android:textColor="#1A2B4C"
-                    android:textSize="15sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:id="@+id/et_place_category"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_input"
+                android:fontFamily="sans-serif"
+                android:hint="e.g. Hiking &amp; Viewpoint"
+                android:inputType="textCapWords"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#1A2B4C"
+                android:textColorHint="#8A8F98"
+                android:textSize="15sp" />
 
             <!-- Location Input -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_location"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                android:hint="Location (City, Province)"
-                app:boxBackgroundColor="#FFFFFF"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeColor="#1A2B4C"
-                app:hintTextColor="#1A2B4C">
+                android:fontFamily="sans-serif-medium"
+                android:text="Location"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_location"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:inputType="textPostalAddress"
-                    android:textColor="#1A2B4C"
-                    android:textSize="15sp"
-                    tools:text="Dambulla, Central Province" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Entrance Fee Input -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_entrance_fee"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <EditText
+                android:id="@+id/et_place_location"
                 android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_input"
+                android:fontFamily="sans-serif"
+                android:hint="e.g. Sigiriya, Central Province"
+                android:inputType="textPostalAddress"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#1A2B4C"
+                android:textColorHint="#8A8F98"
+                android:textSize="15sp" />
+
+            <!-- Description Input -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                android:hint="Entrance Fee"
-                app:boxBackgroundColor="#FFFFFF"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeColor="#1A2B4C"
-                app:hintTextColor="#1A2B4C">
+                android:fontFamily="sans-serif-medium"
+                android:text="Description"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_entrance_fee"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:inputType="text"
-                    android:textColor="#1A2B4C"
-                    android:textSize="15sp"
-                    tools:text="LKR 2,000 / $10" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Detailed Description Input -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_description"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <EditText
+                android:id="@+id/et_place_description"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:hint="Detailed Description"
-                app:boxBackgroundColor="#FFFFFF"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeColor="#1A2B4C"
-                app:hintTextColor="#1A2B4C">
+                android:layout_height="120dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_input"
+                android:fontFamily="sans-serif"
+                android:gravity="top"
+                android:hint="Provide details about accessibility, history, and travel tips..."
+                android:inputType="textMultiLine"
+                android:padding="16dp"
+                android:textColor="#1A2B4C"
+                android:textColorHint="#8A8F98"
+                android:textSize="15sp" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="top"
-                    android:inputType="textMultiLine"
-                    android:lines="4"
-                    android:minLines="3"
-                    android:textColor="#1A2B4C"
-                    android:textSize="15sp"
-                    tools:text="The largest and best-preserved cave temple complex in Sri Lanka." />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Publish to App Button -->
+            <!-- Publish Destination Button (56dp height, #1A2B4C bg, 50dp radius, white text) -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_publish_destination"
                 android:layout_width="match_parent"
@@ -355,7 +269,7 @@
                 android:layout_marginTop="28dp"
                 android:background="@drawable/button_primary"
                 android:fontFamily="sans-serif-medium"
-                android:text="Publish to App"
+                android:text="Publish Destination"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />
