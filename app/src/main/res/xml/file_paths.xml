@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Grants access to the internal cache directory where camera photos are temporarily created -->
+    <cache-path
+        name="camera_photos"
+        path="." />
+    <!-- Grants access to the external cache directory -->
+    <external-cache-path
+        name="external_camera_photos"
+        path="." />
+    <!-- Grants access to internal files directory -->
+    <files-path
+        name="destination_images"
+        path="images/" />
+</paths>
