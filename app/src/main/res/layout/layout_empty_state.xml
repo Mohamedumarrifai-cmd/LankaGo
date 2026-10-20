@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_empty_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:background="@color/background_primary"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <!-- Soft Pill Container for Icon -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:cardCornerRadius="50dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/admin_input_bg"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/admin_border">
+
+        <ImageView
+            android:id="@+id/iv_empty_icon"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center"
+            android:contentDescription="Empty state illustration"
+            android:src="@drawable/ic_empty_box"
+            app:tint="@color/text_secondary" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Empty State Title -->
+    <TextView
+        android:id="@+id/tv_empty_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Nothing found here yet"
+        android:textAlignment="center"
+        android:textColor="@color/text_primary"
+        android:textSize="20sp" />
+
+    <!-- Empty State Subtitle -->
+    <TextView
+        android:id="@+id/tv_empty_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif"
+        android:lineSpacingExtra="4dp"
+        android:maxWidth="280dp"
+        android:text="We couldn't find any listings for this category at the moment. Try selecting another tab or check back later."
+        android:textAlignment="center"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp" />
+
+    <!-- Optional Reset / Retry Action Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_empty_action"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Explore All Categories"
+        android:textColor="@color/admin_primary_navy"
+        app:cornerRadius="24dp" />
+
+</LinearLayout>

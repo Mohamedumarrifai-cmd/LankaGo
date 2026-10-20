@@ -52,6 +52,9 @@
         android:label="Plan Trip"
         tools:layout="@layout/fragment_plan_trip">
         <action
+            android:id="@+id/action_planTripFragment_to_rentalAgenciesListFragment"
+            app:destination="@id/rentalAgenciesListFragment" />
+        <action
             android:id="@+id/action_planTripFragment_to_rentalListFragment"
             app:destination="@id/rentalListFragment" />
         <action
@@ -123,6 +126,9 @@
             android:id="@+id/action_homeFragment_to_rentalsTransportFragment"
             app:destination="@id/rentalsTransportFragment" />
         <action
+            android:id="@+id/action_homeFragment_to_transportHubFragment"
+            app:destination="@id/transportHubFragment" />
+        <action
             android:id="@+id/action_homeFragment_to_notificationsFragment"
             app:destination="@id/notificationsFragment" />
         <action
@@ -190,8 +196,12 @@
     <fragment
         android:id="@+id/localProductsFragment"
         android:name="com.example.lankago.fragments.LocalProductsFragment"
-        android:label="Local Products"
-        tools:layout="@layout/local_products" />
+        android:label="Local Products &amp; Culture Hub"
+        tools:layout="@layout/fragment_local_products">
+        <action
+            android:id="@+id/action_localProductsFragment_to_localItemDetailsFragment"
+            app:destination="@id/localItemDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/traditionalActivitiesFragment"
@@ -447,6 +457,71 @@
         <action
             android:id="@+id/action_rentalListFragment_to_rentalDetailsFragment"
             app:destination="@id/rentalDetailsFragment" />
+    </fragment>
+
+    <!-- Transport & Rentals Standalone Hub -->
+    <fragment
+        android:id="@+id/transportHubFragment"
+        android:name="com.example.lankago.fragments.TransportHubFragment"
+        android:label="Rentals &amp; Transport Hub"
+        tools:layout="@layout/fragment_transport_hub">
+        <action
+            android:id="@+id/action_transportHubFragment_to_agencyDetailsFragment"
+            app:destination="@id/agencyDetailsFragment" />
+        <action
+            android:id="@+id/action_transportHubFragment_to_rentalAgenciesListFragment"
+            app:destination="@id/rentalAgenciesListFragment" />
+        <action
+            android:id="@+id/action_transportHubFragment_to_rentalDetailsFragment"
+            app:destination="@id/rentalDetailsFragment" />
+    </fragment>
+
+    <!-- Rental Agencies Listing (Places & Hubs, NOT individual vehicles) -->
+    <fragment
+        android:id="@+id/rentalAgenciesListFragment"
+        android:name="com.example.lankago.fragments.RentalAgenciesListFragment"
+        android:label="Rental Agencies &amp; Hubs"
+        tools:layout="@layout/fragment_rental_agencies_list">
+        <argument
+            android:name="destinationLocation"
+            app:argType="string"
+            android:defaultValue="All Sri Lanka" />
+        <action
+            android:id="@+id/action_rentalAgenciesListFragment_to_agencyDetailsFragment"
+            app:destination="@id/agencyDetailsFragment" />
+    </fragment>
+
+    <!-- Agency Details Screen -->
+    <fragment
+        android:id="@+id/agencyDetailsFragment"
+        android:name="com.example.lankago.fragments.AgencyDetailsFragment"
+        android:label="Agency Details"
+        tools:layout="@layout/fragment_agency_details">
+        <argument
+            android:name="agencyId"
+            app:argType="string"
+            android:defaultValue="agency_galle_bike" />
+        <action
+            android:id="@+id/action_agencyDetailsFragment_to_self"
+            app:destination="@id/agencyDetailsFragment" />
+        <action
+            android:id="@+id/action_agencyDetailsFragment_to_mapRouteFragment"
+            app:destination="@id/mapRouteFragment" />
+    </fragment>
+
+    <!-- Local Item Details Screen (Products, Markets, Traditional Medicine) -->
+    <fragment
+        android:id="@+id/localItemDetailsFragment"
+        android:name="com.example.lankago.fragments.LocalItemDetailsFragment"
+        android:label="Local Culture &amp; Heritage"
+        tools:layout="@layout/fragment_local_item_details">
+        <argument
+            android:name="itemId"
+            app:argType="string"
+            android:defaultValue="item_ceylon_tea" />
+        <action
+            android:id="@+id/action_localItemDetailsFragment_to_mapRouteFragment"
+            app:destination="@id/mapRouteFragment" />
     </fragment>
 
 </navigation>
