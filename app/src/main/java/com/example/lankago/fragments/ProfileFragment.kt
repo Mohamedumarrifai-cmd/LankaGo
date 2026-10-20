@@ -1,13 +1,17 @@
 package com.example.lankago.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.lankago.LankaGoApp
 import com.example.lankago.R
+import com.google.android.material.materialswitch.MaterialSwitch
 
 class ProfileFragment : Fragment() {
 
@@ -21,6 +25,23 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Dark Mode Toggle Switch
+        val switchDarkMode = view.findViewById<MaterialSwitch>(R.id.switch_profile_dark_mode)
+        val prefs = requireContext().getSharedPreferences(LankaGoApp.PREFS_SETTINGS, Context.MODE_PRIVATE)
+
+        val isDarkMode = prefs.getBoolean(LankaGoApp.KEY_DARK_MODE, false)
+        switchDarkMode?.isChecked = isDarkMode
+
+        switchDarkMode?.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean(LankaGoApp.KEY_DARK_MODE, isChecked).apply()
+
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
 
         // Favorite Places
         view.findViewById<View>(R.id.layout_profile_favorites)?.setOnClickListener {

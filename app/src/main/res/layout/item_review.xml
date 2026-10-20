@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
+    app:cardBackgroundColor="@color/surface_card"
     app:cardCornerRadius="14dp"
-    app:cardElevation="0dp"
-    app:cardBackgroundColor="#F8F9FB">
+    app:cardElevation="1dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/admin_border">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,23 +17,30 @@
         android:orientation="vertical"
         android:padding="14dp">
 
+        <!-- User Information Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <!-- Avatar Initial Box -->
-            <TextView
-                android:id="@+id/tv_avatar_initial"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:background="@drawable/bg_category_tag"
-                android:gravity="center"
-                android:fontFamily="sans-serif-black"
-                android:textColor="#1A2B4C"
-                android:textSize="15sp"
-                tools:text="S" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                app:cardBackgroundColor="@color/admin_indigo_soft"
+                app:cardCornerRadius="19dp"
+                app:cardElevation="0dp">
+
+                <TextView
+                    android:id="@+id/tv_avatar_initial"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="@color/admin_accent_indigo"
+                    android:textSize="15sp"
+                    tools:text="M" />
+            </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -45,33 +53,37 @@
                     android:id="@+id/tv_reviewer_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-black"
-                    android:textColor="#1A2B4C"
+                    android:fontFamily="sans-serif-bold"
+                    android:textColor="@color/text_primary"
                     android:textSize="14sp"
-                    tools:text="Sarah Jenkins" />
+                    tools:text="Marcus Vance" />
 
                 <TextView
                     android:id="@+id/tv_review_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#8A8F98"
-                    android:textSize="11sp"
-                    tools:text="12 Oct 2026" />
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    tools:text="15 Oct 2024" />
             </LinearLayout>
 
-            <!-- Star Rating Badge -->
+            <!-- Star rating badge -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_badge"
                 android:gravity="center_vertical"
-                android:background="#FEF3C7"
-                android:paddingHorizontal="6dp"
-                android:paddingVertical="2dp">
+                android:paddingStart="8dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="3dp">
 
                 <ImageView
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:src="@android:drawable/star_on" />
+                    android:src="@drawable/ic_star_filled"
+                    app:tint="@color/rating_gold" />
 
                 <TextView
                     android:id="@+id/tv_review_rating"
@@ -79,20 +91,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:fontFamily="sans-serif-black"
-                    android:textColor="#B45309"
+                    android:textColor="@color/text_primary"
                     android:textSize="12sp"
                     tools:text="5.0" />
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Review Comment -->
         <TextView
             android:id="@+id/tv_review_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="#475569"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/text_primary"
             android:textSize="13sp"
-            android:lineSpacingExtra="2dp"
-            tools:text="Smooth engine for climbing Little Adam's Peak roads. Helmets were spotless." />
+            tools:text="Rented two 125cc scooters for four days to tour Galle, Unawatuna, and Weligama. Helmets were brand new and the bikes were immaculate!" />
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

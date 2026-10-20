@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Dark Mode Palette -->
-    <color name="text_primary">#FFFFFFFF</color>
-    <color name="text_secondary">#B0B3B8</color>
-    <color name="background_primary">#121212</color>
-    <color name="surface_card">#1E1E1E</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#94A3B8</color>
+    <color name="background_primary">#0F172A</color>
+    <color name="surface_card">#1E293B</color>
     
     <color name="admin_dark_blue">#FFFFFF</color>
-    <color name="admin_light_blue">#2A3B5C</color>
-    <color name="admin_grey">#B0B3B8</color>
-    <color name="admin_input_bg">#252830</color>
-    <color name="admin_border">#374151</color>
+    <color name="admin_light_blue">#1E293B</color>
+    <color name="admin_grey">#94A3B8</color>
+    <color name="admin_input_bg">#1E293B</color>
+    <color name="admin_border">#334155</color>
     
-    <color name="admin_primary_navy">#FFFFFF</color>
-    <color name="admin_accent_indigo">#818cf8</color>
+    <color name="admin_primary_navy">#F8FAFC</color>
+    <color name="admin_accent_indigo">#818CF8</color>
     <color name="admin_indigo_soft">#2E335A</color>
-    <color name="admin_card_stroke">#374151</color>
-    <color name="admin_bg_start">#121212</color>
-    <color name="admin_bg_end">#1E1E1E</color>
+    <color name="admin_card_stroke">#334155</color>
+    <color name="admin_bg_start">#0F172A</color>
+    <color name="admin_bg_end">#1E293B</color>
+
+    <color name="whatsapp_green">#25D366</color>
+    <color name="whatsapp_dark_green">#34D399</color>
+    <color name="whatsapp_bg_light">#064E3B</color>
+    <color name="rating_gold">#FBBF24</color>
+    <color name="chip_bg">#1E293B</color>
+    <color name="cultural_gold">#F59E0B</color>
+    <color name="cultural_gold_light">#45300B</color>
+    <color name="heritage_card_bg">#282315</color>
+    <color name="heritage_card_stroke">#785E1A</color>
+    <color name="market_card_bg">#14291F</color>
+    <color name="market_card_stroke">#166534</color>
 </resources>

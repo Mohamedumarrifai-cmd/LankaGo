@@ -21,7 +21,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupBottomNavigation(view)
         setupCategoryButtons(view)
         setupSearchBar(view)
         setupHeroDestination(view)
@@ -36,29 +35,12 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupBottomNavigation(view: View) {
-        // 1. Home Button (Already on Home)
-        view.findViewById<View>(R.id.nav_home)?.setOnClickListener {
-            // Already on home screen
-        }
-
-        // 2. Products Button -> Navigate to LocalProductsFragment
-        view.findViewById<View>(R.id.nav_products)?.setOnClickListener {
-            findNavController().navigate(R.id.localProductsFragment)
-        }
-
-        // 3. Maps Button -> Navigate to MapRouteFragment
-        view.findViewById<View>(R.id.nav_maps)?.setOnClickListener {
-            findNavController().navigate(R.id.mapRouteFragment)
-        }
-
-        // 4. Profile Button -> Navigate to ProfileFragment
-        view.findViewById<View>(R.id.nav_profile)?.setOnClickListener {
-            findNavController().navigate(R.id.profileFragment)
-        }
-    }
-
     private fun setupCategoryButtons(view: View) {
+        // Products Hub (from Category Grid)
+        view.findViewById<View>(R.id.btn_products_hub)?.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_localProductsFragment)
+        }
+
         // Local Products (Malls)
         view.findViewById<View>(R.id.btn_local_products)?.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_localProductsFragment)
@@ -74,9 +56,9 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_showsAndFestivalsFragment)
         }
 
-        // Rentals & Transport
+        // Rentals & Transport Hub
         view.findViewById<View>(R.id.btn_rentals_transport)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_rentalsTransportFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_rentalShopsListFragment)
         }
 
         // Trip Planner

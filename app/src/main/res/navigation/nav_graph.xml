@@ -55,6 +55,9 @@
             android:id="@+id/action_planTripFragment_to_rentalAgenciesListFragment"
             app:destination="@id/rentalAgenciesListFragment" />
         <action
+            android:id="@+id/action_planTripFragment_to_rentalShopsListFragment"
+            app:destination="@id/rentalShopsListFragment" />
+        <action
             android:id="@+id/action_planTripFragment_to_rentalListFragment"
             app:destination="@id/rentalListFragment" />
         <action
@@ -164,6 +167,9 @@
         <action
             android:id="@+id/action_homeFragment_to_rentalListFragment"
             app:destination="@id/rentalListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_rentalShopsListFragment"
+            app:destination="@id/rentalShopsListFragment" />
     </fragment>
 
     <!-- Destination Fragments (Teammate Fragments & Feature Screens) -->
@@ -522,6 +528,29 @@
         <action
             android:id="@+id/action_localItemDetailsFragment_to_mapRouteFragment"
             app:destination="@id/mapRouteFragment" />
+    </fragment>
+
+    <!-- Rental Shops List Screen (Shops & Places, NOT individual vehicles) -->
+    <fragment
+        android:id="@+id/rentalShopsListFragment"
+        android:name="com.example.lankago.fragments.RentalShopsListFragment"
+        android:label="Rental Shops"
+        tools:layout="@layout/fragment_rental_shops_list">
+        <action
+            android:id="@+id/action_rentalShopsListFragment_to_shopDetailsFragment"
+            app:destination="@id/shopDetailsFragment" />
+    </fragment>
+
+    <!-- Separate Full-Page Shop Details Screen -->
+    <fragment
+        android:id="@+id/shopDetailsFragment"
+        android:name="com.example.lankago.fragments.ShopDetailsFragment"
+        android:label="Shop Details"
+        tools:layout="@layout/fragment_shop_details">
+        <argument
+            android:name="shopId"
+            app:argType="string"
+            android:defaultValue="shop_galle_bike" />
     </fragment>
 
 </navigation>

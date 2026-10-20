@@ -133,7 +133,7 @@ class PlanTripFragment : Fragment() {
             if (switchRental?.isChecked == true) {
                 val bundle = bundleOf("destinationLocation" to destination)
                 findNavController().navigate(
-                    R.id.action_planTripFragment_to_rentalListFragment,
+                    R.id.action_planTripFragment_to_rentalShopsListFragment,
                     bundle
                 )
             } else {
