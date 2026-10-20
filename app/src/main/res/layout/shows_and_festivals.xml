@@ -19,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/btn_back_shows"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_arrow_back"
@@ -145,9 +146,13 @@
 
             <!-- Card 1: Kandy Esala Perahera -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_kandy_esala"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp">
 
@@ -263,9 +268,13 @@
 
             <!-- Card 2: Galle Literary Festival -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_vesak_literary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp">
 
@@ -381,9 +390,13 @@
 
             <!-- Card 3: Vel Festival parade -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_vel_parade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp">
 

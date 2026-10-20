@@ -19,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/btn_back_traditional"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_arrow_back"
@@ -165,10 +166,14 @@
 
                 <!-- Activity 1: Clay Pot Making -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_clay_pottery"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="0dp">
 
@@ -243,10 +248,14 @@
 
                 <!-- Activity 2: Tea Estate Tour -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_tea_estate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="0dp">
 
@@ -330,10 +339,14 @@
 
                 <!-- Activity 3: Mask Painting -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_mask_carving"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="0dp">
 
@@ -408,10 +421,14 @@
 
                 <!-- Activity 4: Spice garden visit -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_cooking_village"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="0dp">
 
@@ -494,10 +511,14 @@
 
                 <!-- Activity 5: Batik workshop -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_batik_workshop"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="0dp">
 
@@ -572,10 +593,14 @@
 
                 <!-- Activity 6: Traditional dance -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_traditional_dance"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="0dp">
 

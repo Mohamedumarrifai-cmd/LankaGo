@@ -132,6 +132,12 @@
         <action
             android:id="@+id/action_homeFragment_to_activityBookingFragment"
             app:destination="@id/activityBookingFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_traditionalActivityDetailFragment"
+            app:destination="@id/traditionalActivityDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_festivalDetailFragment"
+            app:destination="@id/festivalDetailFragment" />
     </fragment>
 
     <!-- Destination Fragments (Teammate Fragments & Feature Screens) -->
@@ -161,13 +167,21 @@
         android:id="@+id/traditionalActivitiesFragment"
         android:name="com.example.lankago.fragments.TraditionalActivitiesFragment"
         android:label="Traditional Activities"
-        tools:layout="@layout/traditional_activities" />
+        tools:layout="@layout/traditional_activities">
+        <action
+            android:id="@+id/action_traditionalActivitiesFragment_to_traditionalActivityDetailFragment"
+            app:destination="@id/traditionalActivityDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/showsAndFestivalsFragment"
         android:name="com.example.lankago.fragments.ShowsAndFestivalsFragment"
         android:label="Shows &amp; Festivals"
-        tools:layout="@layout/shows_and_festivals" />
+        tools:layout="@layout/shows_and_festivals">
+        <action
+            android:id="@+id/action_showsAndFestivalsFragment_to_festivalDetailFragment"
+            app:destination="@id/festivalDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/rentalsTransportFragment"
@@ -364,6 +378,30 @@
             android:name="activityId"
             app:argType="string"
             android:defaultValue="act_sigiriya_hike" />
+    </fragment>
+
+    <!-- Traditional Activity Details -->
+    <fragment
+        android:id="@+id/traditionalActivityDetailFragment"
+        android:name="com.example.lankago.fragments.TraditionalActivityDetailFragment"
+        android:label="Traditional Activity Details"
+        tools:layout="@layout/fragment_traditional_activity_detail">
+        <argument
+            android:name="traditionalActivityId"
+            app:argType="string"
+            android:defaultValue="act_pottery_making" />
+    </fragment>
+
+    <!-- Cultural Festival Details -->
+    <fragment
+        android:id="@+id/festivalDetailFragment"
+        android:name="com.example.lankago.fragments.FestivalDetailFragment"
+        android:label="Festival Details"
+        tools:layout="@layout/fragment_festival_detail">
+        <argument
+            android:name="festivalId"
+            app:argType="string"
+            android:defaultValue="fest_kandy_perahera" />
     </fragment>
 
 </navigation>
