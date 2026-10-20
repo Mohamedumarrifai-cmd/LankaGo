@@ -202,11 +202,20 @@
     <fragment
         android:id="@+id/localProductsFragment"
         android:name="com.example.lankago.fragments.LocalProductsFragment"
-        android:label="Local Products &amp; Culture Hub"
-        tools:layout="@layout/fragment_local_products">
+        android:label="Local Products"
+        tools:layout="@layout/local_products">
         <action
             android:id="@+id/action_localProductsFragment_to_localItemDetailsFragment"
             app:destination="@id/localItemDetailsFragment" />
+        <action
+            android:id="@+id/action_localProductsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_localProductsFragment_to_mapRouteFragment"
+            app:destination="@id/mapRouteFragment" />
+        <action
+            android:id="@+id/action_localProductsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 
     <fragment
@@ -234,6 +243,9 @@
         android:name="com.example.lankago.fragments.RentalsTransportFragment"
         android:label="Rentals &amp; Transport"
         tools:layout="@layout/rentals_and_transport">
+        <action
+            android:id="@+id/action_rentalsTransportFragment_to_shopDetailsFragment"
+            app:destination="@id/shopDetailsFragment" />
         <action
             android:id="@+id/action_rentalsTransportFragment_to_rentalDetailsFragment"
             app:destination="@id/rentalDetailsFragment" />

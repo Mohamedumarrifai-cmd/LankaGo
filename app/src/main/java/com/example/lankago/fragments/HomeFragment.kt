@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
 
         // Rentals & Transport Hub
         view.findViewById<View>(R.id.btn_rentals_transport)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_rentalShopsListFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_rentalsTransportFragment)
         }
 
         // Trip Planner

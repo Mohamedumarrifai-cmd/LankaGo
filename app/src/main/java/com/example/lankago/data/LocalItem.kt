@@ -39,18 +39,108 @@ data class LocalItem(
 object LocalItemDataProvider {
 
     val items: List<LocalItem> = listOf(
-        // 1. Pure Ceylon Tea (Local Products)
+        // 1. Handmade Pottery (Arts & Crafts)
+        LocalItem(
+            id = "item_pottery",
+            title = "Handmade Clay Pottery & Terracotta Cookware",
+            category = "Arts & Crafts",
+            description = "Authentic handmade earthen pots crafted from riverbed clay on traditional kick-wheels and pit-fired with dried coconut husks. The porous clay allows moisture and heat to circulate evenly during cooking.",
+            primaryUsage = "Used across Sri Lankan households for slow-cooking traditional fish ambul thiyal, curries, and setting thick creamy buffalo curd. Enhances natural aroma, preserves nutrients, and imparts an earthy flavor.",
+            famousCity = "Trincomalee & Molagoda (Kegalle)",
+            culturalImportance = "Dating back to the Anuradhapura Kingdom (circa 4th century BC), clay pottery making is one of Sri Lanka's oldest indigenous craft traditions passed down through generations of rural artisan families.",
+            imageUrl = "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261",
+            imageRes = R.drawable.pottery,
+            priceIndication = "LKR 450 – 1,800",
+            rating = 4.6f,
+            reviewCount = 142,
+            latitude = 8.5874,
+            longitude = 81.2152
+        ),
+
+        // 2. Sri Lankan Spices (Products)
+        LocalItem(
+            id = "item_spices",
+            title = "Pure Sri Lankan Spices & Alba True Cinnamon",
+            category = "Products",
+            description = "Grade Alba true Ceylon cinnamon quills, fragrant green cardamom pods, pungent black peppercorns, cloves, and whole nutmeg freshly harvested from organic highland spice gardens.",
+            primaryUsage = "Essential culinary foundation for signature Sri Lankan curries, herbal infusions, desserts, and ancient Ayurvedic remedies. True cinnamon lowers blood sugar and possesses powerful antioxidant properties.",
+            famousCity = "Matale & Kandy (Central Spice Belt)",
+            culturalImportance = "Sri Lanka's true cinnamon (Cinnamomum verum) and spice wealth attracted Arab, Portuguese, Dutch, and British merchant voyagers, fundamentally shaping the island's colonial history and maritime trade routes.",
+            imageUrl = "https://images.unsplash.com/photo-1596040033229-a9821ebd058d",
+            imageRes = R.drawable.sri_lankan_spices,
+            priceIndication = "LKR 950 – 3,500",
+            rating = 4.5f,
+            reviewCount = 268,
+            latitude = 7.4675,
+            longitude = 80.6234
+        ),
+
+        // 3. Wooden Elephant (Arts & Crafts)
+        LocalItem(
+            id = "item_elephant",
+            title = "Hand-Carved Wooden Elephant & Ebony Sculptures",
+            category = "Arts & Crafts",
+            description = "Finely sculpted Sri Lankan tusker figurine hand-carved by master woodworkers from seasoned teak, mahogany, and sustainably harvested rosewood with intricate ceremonial blankets.",
+            primaryUsage = "Cherished symbol of good fortune, royalty, and majestic Sri Lankan wildlife. Displayed as a premium decorative home centerpiece and beloved souvenir.",
+            famousCity = "Colombo & Galle Fort",
+            culturalImportance = "The Asian elephant is deeply revered in Sri Lankan culture, Buddhism, and the sacred Esala Perahera where tuskers carry the sacred tooth relic of the Buddha.",
+            imageUrl = "https://images.unsplash.com/photo-1534567153574-2b12153a87f0",
+            imageRes = R.drawable.elephent,
+            priceIndication = "LKR 1,300 – 8,500",
+            rating = 4.5f,
+            reviewCount = 195,
+            latitude = 6.9271,
+            longitude = 79.8612
+        ),
+
+        // 4. Woven Textiles (Arts & Crafts)
+        LocalItem(
+            id = "item_textiles",
+            title = "Traditional Handloom Woven Textiles & Sarongs",
+            category = "Arts & Crafts",
+            description = "Brightly colored artisanal fabrics, cotton sarongs, table runners, and tapestries woven on wooden pit-looms and handlooms using natural vegetable-dyed yarns.",
+            primaryUsage = "Worn as traditional festive attire during National New Year (Avurudu) and weddings. Also used for vibrant bohemian home furnishings and eco-friendly garments.",
+            famousCity = "Embilipitiya & Thalagune (Kandy)",
+            culturalImportance = "Tracing roots to ancient Indian weavers who arrived with Queen Kuveni, Sri Lanka's handloom industry is a cottage-craft heritage preserving intricate geometric motifs like 'Gal Bindu'.",
+            imageUrl = "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d",
+            imageRes = R.drawable.textiles,
+            priceIndication = "LKR 2,500 – 12,000",
+            rating = 4.7f,
+            reviewCount = 176,
+            latitude = 6.3421,
+            longitude = 80.8522
+        ),
+
+        // 5. Coconut Shell Bowls (Arts & Crafts)
+        LocalItem(
+            id = "item_shell_bowls",
+            title = "Eco-Friendly Polished Coconut Shell Bowls & Utensils",
+            category = "Arts & Crafts",
+            description = "Natural reclaimed coconut shells cut, sanded by hand to a silky finish, and conditioned with organic virgin coconut oil without artificial lacquers or chemicals.",
+            primaryUsage = "Used as smoothie bowls, soup basins, salad servers, and eco-friendly kitchenware. Lightweight, 100% biodegradable, and sustainable.",
+            famousCity = "Galle & Southern Coastal Belt",
+            culturalImportance = "Represents the traditional Sri Lankan ethos of zero-waste living, where every part of the coconut palm ('Kapruka' - tree of life) serves purpose in daily island life.",
+            imageUrl = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
+            imageRes = R.drawable.shell_bowls,
+            priceIndication = "LKR 1,850 – 4,200",
+            rating = 4.8f,
+            reviewCount = 154,
+            latitude = 6.0535,
+            longitude = 80.2210
+        ),
+
+        // 6. Pure Ceylon Tea (Products)
         LocalItem(
             id = "item_ceylon_tea",
-            title = "Pure Ceylon Single-Estate Black Tea & Silver Tips",
-            category = "Local Products",
+            title = "Pure Ceylon Single-Estate Black Tea & Ceramic Set",
+            category = "Products",
             description = "Hand-plucked tender two leaves and a bud, processed using traditional orthodox rolling and fermentation techniques at high-elevation plantations surrounded by misty cloud forests.",
-            primaryUsage = "Brewed as a world-renowned energizing daily beverage, rich in natural polyphenols, theaflavins, and protective antioxidants. Also packaged in handcrafted wooden boxes as Sri Lanka's most cherished souvenir for travelers worldwide.",
-            famousCity = "Nuwara Eliya (Central Highlands)",
+            primaryUsage = "Brewed as a world-renowned energizing daily beverage, rich in natural polyphenols, theaflavins, and protective antioxidants. Packaged with ceramic handcrafted tea cups as Sri Lanka's most cherished gift.",
+            famousCity = "Kandy & Nuwara Eliya",
             culturalImportance = "Introduced in 1867 by James Taylor at Loolecondera Estate, Ceylon Tea transformed Sri Lanka into the tea capital of the world. Offering freshly brewed tea with jug of hot milk and kitul jaggery is the ultimate national symbol of hospitality ('Ayubowan') in every Sri Lankan household.",
             imageUrl = "https://images.unsplash.com/photo-1576092768241-dec231879fc3",
             imageRes = R.drawable.ceylon_tea_set,
-            priceIndication = "LKR 1,500 – 6,500 (approx. $5 – $22)",
+            priceIndication = "LKR 3,400 – 9,500",
             rating = 4.96f,
             reviewCount = 385,
             latitude = 6.9497,
