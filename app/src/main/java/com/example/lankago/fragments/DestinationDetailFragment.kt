@@ -63,6 +63,16 @@ class DestinationDetailFragment : Fragment() {
             updateFavoriteIcon(btnFavorite, isFav)
         }
 
+        // Add to Trip Navigation
+        root.findViewById<View>(R.id.btn_add_to_trip)?.setOnClickListener {
+            findNavController().navigate(R.id.action_destinationDetailFragment_to_planTripFragment)
+        }
+
+        // View Route on Map Navigation
+        root.findViewById<View>(R.id.btn_view_map)?.setOnClickListener {
+            findNavController().navigate(R.id.action_destinationDetailFragment_to_mapRouteFragment)
+        }
+
         return root
     }
 

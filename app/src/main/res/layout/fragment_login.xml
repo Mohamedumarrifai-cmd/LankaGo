@@ -113,12 +113,25 @@
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Forgot Password Link -->
+            <TextView
+                android:id="@+id/tv_forgot_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Forgot Password?"
+                android:textColor="#5D5FEF"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_password" />
+
             <!-- Login Action Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_login"
                 android:layout_width="0dp"
                 android:layout_height="54dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="20dp"
                 android:backgroundTint="#1A2B4C"
                 android:fontFamily="sans-serif-black"
                 android:text="Log In"
@@ -128,7 +141,7 @@
                 app:cornerRadius="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_password" />
+                app:layout_constraintTop_toBottomOf="@id/tv_forgot_password" />
 
             <!-- Loading Spinner -->
             <ProgressBar

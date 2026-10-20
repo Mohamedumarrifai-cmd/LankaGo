@@ -78,6 +78,9 @@
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
     </fragment>
 
     <!-- 6. Register Screen -->
@@ -172,7 +175,17 @@
         android:id="@+id/destinationDetailFragment"
         android:name="com.example.lankago.fragments.DestinationDetailFragment"
         android:label="Destination Detail"
-        tools:layout="@layout/destination_detail" />
+        tools:layout="@layout/destination_detail">
+        <action
+            android:id="@+id/action_destinationDetailFragment_to_planTripFragment"
+            app:destination="@id/planTripFragment" />
+        <action
+            android:id="@+id/action_destinationDetailFragment_to_mapRouteFragment"
+            app:destination="@id/mapRouteFragment" />
+        <action
+            android:id="@+id/action_destinationDetailFragment_to_rentalListFragment"
+            app:destination="@id/rentalListFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/localProductsFragment"
@@ -220,7 +233,31 @@
         android:id="@+id/profileFragment"
         android:name="com.example.lankago.fragments.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_favoritesFragment"
+            app:destination="@id/favoritesFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_offlineSavedFragment"
+            app:destination="@id/offlineSavedFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_reviewsFragment"
+            app:destination="@id/reviewsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_rentalListFragment"
+            app:destination="@id/rentalListFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/tripPlannerFragment"
@@ -245,7 +282,13 @@
         android:id="@+id/forgotPasswordFragment"
         android:name="com.example.lankago.fragments.ForgotPasswordFragment"
         android:label="Forgot Password"
-        tools:layout="@layout/forgot_password" />
+        tools:layout="@layout/forgot_password">
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/mapRouteFragment"
@@ -270,39 +313,6 @@
         android:name="com.example.lankago.fragments.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/settings" />
-
-    <!-- ==================== ADMIN PANEL DESTINATIONS ==================== -->
-
-    <fragment
-        android:id="@+id/adminLoginFragment"
-        android:name="com.example.lankago.fragments.admin.AdminLoginFragment"
-        android:label="Admin Login"
-        tools:layout="@layout/admin_login">
-        <action
-            android:id="@+id/action_adminLoginFragment_to_adminDashboardFragment"
-            app:destination="@id/adminDashboardFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/adminDashboardFragment"
-        android:name="com.example.lankago.fragments.admin.AdminDashboardFragment"
-        android:label="Admin Dashboard"
-        tools:layout="@layout/admin_dashboard">
-        <action
-            android:id="@+id/action_adminDashboardFragment_to_adminAddDestinationFragment"
-            app:destination="@id/adminAddDestinationFragment" />
-        <action
-            android:id="@+id/action_adminDashboardFragment_to_adminLoginFragment"
-            app:destination="@id/adminLoginFragment"
-            app:popUpTo="@id/adminLoginFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/adminAddDestinationFragment"
-        android:name="com.example.lankago.fragments.admin.AdminAddDestinationFragment"
-        android:label="Add Destination"
-        tools:layout="@layout/admin_add_destination" />
 
     <!-- ==================== ADMIN PANEL DESTINATIONS ==================== -->
 
@@ -383,6 +393,9 @@
             android:name="rentalId"
             app:argType="string"
             android:defaultValue="rental_scooter_ella" />
+        <action
+            android:id="@+id/action_rentalDetailsFragment_to_mapRouteFragment"
+            app:destination="@id/mapRouteFragment" />
     </fragment>
 
     <!-- Activity & Tour Booking -->

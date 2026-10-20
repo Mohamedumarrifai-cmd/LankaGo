@@ -98,6 +98,11 @@ class LoginFragment : Fragment() {
             authViewModel.login(requireContext(), email, password)
         }
 
+        // Navigate to Forgot Password Screen
+        view.findViewById<View>(R.id.tv_forgot_password)?.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
+        }
+
         // Navigate to Register Screen
         tvRegisterLink?.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
