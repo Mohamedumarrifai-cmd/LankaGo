@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_sheet"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="sans-serif-black"
+        android:text="Write a Review"
+        android:textColor="#1A2B4C"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tv_dialog_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif"
+        android:text="Sigiriya Rock Fortress"
+        android:textColor="#8A8F98"
+        android:textSize="14sp" />
+
+    <RatingBar
+        android:id="@+id/dialog_rating_bar"
+        style="?android:attr/ratingBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:numStars="5"
+        android:rating="5"
+        android:stepSize="1.0" />
+
+    <EditText
+        android:id="@+id/et_dialog_review_text"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_input"
+        android:fontFamily="sans-serif"
+        android:gravity="top|start"
+        android:hint="Tell other travelers about your experience..."
+        android:inputType="textMultiLine"
+        android:padding="14dp"
+        android:textColor="#1A2B4C"
+        android:textColorHint="#8A8F98"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_dialog_cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="Cancel"
+            android:textColor="#8A8F98" />
+
+        <Button
+            android:id="@+id/btn_dialog_submit"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_primary"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+</LinearLayout>

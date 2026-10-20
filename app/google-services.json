@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "361819312061",
+    "firebase_url": "https://lankgo-default-rtdb.firebaseio.com",
+    "project_id": "lankgo",
+    "storage_bucket": "lankgo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361819312061:android:9b78af160cabe4be56ccd4",
+        "android_client_info": {
+          "package_name": "com.example.lankago"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm9RImyZIjuMa1W7-Zukxt8qFYzSsiuGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

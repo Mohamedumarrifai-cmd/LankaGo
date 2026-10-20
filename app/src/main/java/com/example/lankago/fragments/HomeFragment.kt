@@ -24,6 +24,16 @@ class HomeFragment : Fragment() {
         setupBottomNavigation(view)
         setupCategoryButtons(view)
         setupSearchBar(view)
+        setupHeroDestination(view)
+    }
+
+    private fun setupHeroDestination(view: View) {
+        view.findViewById<View>(R.id.card_hero_destination)?.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("place_id", "place_1")
+            }
+            findNavController().navigate(R.id.action_homeFragment_to_destinationDetailFragment, bundle)
+        }
     }
 
     private fun setupBottomNavigation(view: View) {

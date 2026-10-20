@@ -117,8 +117,8 @@
             android:id="@+id/action_homeFragment_to_favoritesFragment"
             app:destination="@id/favoritesFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_mapRouteFragment"
-            app:destination="@id/mapRouteFragment" />
+            android:id="@+id/action_homeFragment_to_destinationDetailFragment"
+            app:destination="@id/destinationDetailFragment" />
     </fragment>
 
     <!-- Destination Fragments (Teammate Fragments & Feature Screens) -->
@@ -126,7 +126,17 @@
         android:id="@+id/searchFragment"
         android:name="com.example.lankago.fragments.SearchFragment"
         android:label="Search"
-        tools:layout="@layout/search" />
+        tools:layout="@layout/search">
+        <action
+            android:id="@+id/action_searchFragment_to_destinationDetailFragment"
+            app:destination="@id/destinationDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destinationDetailFragment"
+        android:name="com.example.lankago.fragments.DestinationDetailFragment"
+        android:label="Destination Detail"
+        tools:layout="@layout/destination_detail" />
 
     <fragment
         android:id="@+id/localProductsFragment"

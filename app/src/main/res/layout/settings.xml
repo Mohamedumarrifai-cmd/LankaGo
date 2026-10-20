@@ -171,6 +171,44 @@
                     android:orientation="vertical"
                     android:paddingVertical="8dp">
 
+                    <!-- Item 0: Dark Mode Toggle -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp">
+                        <ImageView
+                            android:id="@+id/set_icon_dark"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_day"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="Dark Mode" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/set_icon_dark"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Dark Mode"
+                            android:textColor="#1A2B4C"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switch_dark_mode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true" />
+                    </RelativeLayout>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F0F2F5" />
+
                     <!-- Item 1: Location -->
                     <RelativeLayout
                         android:layout_width="match_parent"

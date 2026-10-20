@@ -2,6 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="text_primary">#1A2B4C</color>
+    <color name="text_secondary">#8A8F98</color>
+    <color name="background_primary">#F8F9FA</color>
+    <color name="surface_card">#FFFFFF</color>
     <color name="admin_dark_blue">#1A2B4C</color>
     <color name="admin_light_blue">#D3E3F3</color>
     <color name="admin_grey">#8A8F98</color>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.lankago.R
 
 class MapRouteFragment : Fragment() {
@@ -14,7 +15,10 @@ class MapRouteFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.map_route, container, false)
+        val root = inflater.inflate(R.layout.map_route, container, false)
+        root.findViewById<View>(R.id.btn_back)?.setOnClickListener {
+            findNavController().navigateUp()
+        }
+        return root
     }
 }

@@ -57,6 +57,7 @@
         app:layout_constraintTop_toBottomOf="@id/top_bar">
 
         <LinearLayout
+            android:id="@+id/layout_reviews_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -558,5 +559,19 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_add_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:text="Write a Review"
+        android:textColor="#FFFFFF"
+        android:fontFamily="sans-serif-bold"
+        app:icon="@android:drawable/ic_menu_edit"
+        app:iconTint="#FFFFFF"
+        app:backgroundTint="#5D5FEF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
