@@ -121,19 +121,36 @@ class RentalDetailsFragment : Fragment() {
         view.findViewById<TextView>(R.id.tv_bottom_daily_price)?.text = "$dailyStr / day"
 
         // Direct Call Intent
-        view.findViewById<Button>(R.id.btn_call_vendor)?.setOnClickListener {
-            val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${rental.vendorPhone}"))
-            startActivity(callIntent)
+        view.findViewById<View>(R.id.btn_call_vendor)?.setOnClickListener {
+            try {
+                val callIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${rental.vendorPhone}"))
+                startActivity(callIntent)
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Unable to place phone call", Toast.LENGTH_SHORT).show()
+            }
         }
 
-        // Direct WhatsApp Intent
-        view.findViewById<Button>(R.id.btn_whatsapp_vendor)?.setOnClickListener {
+        // Direct WhatsApp Button using https://wa.me/ API with robust error handling
+        view.findViewById<View>(R.id.btn_whatsapp_vendor)?.setOnClickListener {
             try {
-                val url = "https://api.whatsapp.com/send?phone=${rental.vendorWhatsapp}&text=Hello%20${Uri.encode(rental.vendorName)},%20I%20am%20inquiring%20about%20renting%20the%20${Uri.encode(rental.name)}%20via%20LankaGo."
-                val waIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                val cleanPhone = rental.vendorWhatsapp.replace("+", "").replace(" ", "").trim()
+                val message = "Hello ${rental.vendorName}, I am inquiring about renting the ${rental.name} via LankaGo."
+                val waUrl = "https://wa.me/$cleanPhone?text=${Uri.encode(message)}"
+                val waIntent = Intent(Intent.ACTION_VIEW, Uri.parse(waUrl))
                 startActivity(waIntent)
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "WhatsApp is not installed on this device", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Visit Website Button opening rental provider site in web browser
+        view.findViewById<View>(R.id.btn_visit_website)?.setOnClickListener {
+            try {
+                val siteUrl = "https://www.lankago.lk/rentals/${rental.id}"
+                val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(siteUrl))
+                startActivity(webIntent)
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Unable to open web browser", Toast.LENGTH_SHORT).show()
             }
         }
 

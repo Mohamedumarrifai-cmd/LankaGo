@@ -50,7 +50,15 @@
         android:id="@+id/planTripFragment"
         android:name="com.example.lankago.fragments.PlanTripFragment"
         android:label="Plan Trip"
-        tools:layout="@layout/plan_trip">
+        tools:layout="@layout/fragment_plan_trip">
+        <action
+            android:id="@+id/action_planTripFragment_to_rentalListFragment"
+            app:destination="@id/rentalListFragment" />
+        <action
+            android:id="@+id/action_planTripFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_planTripFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -138,6 +146,15 @@
         <action
             android:id="@+id/action_homeFragment_to_festivalDetailFragment"
             app:destination="@id/festivalDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_planTripFragment"
+            app:destination="@id/planTripFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_mapRouteFragment"
+            app:destination="@id/mapRouteFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_rentalListFragment"
+            app:destination="@id/rentalListFragment" />
     </fragment>
 
     <!-- Destination Fragments (Teammate Fragments & Feature Screens) -->
@@ -203,7 +220,7 @@
         android:id="@+id/profileFragment"
         android:name="com.example.lankago.fragments.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/profile" />
+        tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/tripPlannerFragment"
@@ -234,7 +251,7 @@
         android:id="@+id/mapRouteFragment"
         android:name="com.example.lankago.fragments.MapRouteFragment"
         android:label="Map Route"
-        tools:layout="@layout/map_route" />
+        tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/offlineSavedFragment"
@@ -402,6 +419,21 @@
             android:name="festivalId"
             app:argType="string"
             android:defaultValue="fest_kandy_perahera" />
+    </fragment>
+
+    <!-- Rental Listing Screen -->
+    <fragment
+        android:id="@+id/rentalListFragment"
+        android:name="com.example.lankago.fragments.RentalListFragment"
+        android:label="Vehicle &amp; Bike Rentals"
+        tools:layout="@layout/fragment_rental_list">
+        <argument
+            android:name="destinationLocation"
+            app:argType="string"
+            android:defaultValue="Sri Lanka" />
+        <action
+            android:id="@+id/action_rentalListFragment_to_rentalDetailsFragment"
+            app:destination="@id/rentalDetailsFragment" />
     </fragment>
 
 </navigation>
