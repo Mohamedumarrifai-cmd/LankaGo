@@ -3,167 +3,152 @@ package com.example.lankago.data
 import com.example.lankago.R
 
 /**
- * Data model representing local Sri Lankan heritage products, vibrant artisan markets,
+ * Domain model representing a Sri Lankan local cultural product, artisanal bazaar/market,
  * or indigenous traditional medicine (Hela Wedakama / Ayurveda).
+ *
+ * Exact required schema:
+ * - [id]: Unique identifier
+ * - [title]: Product / Market / Medicine name
+ * - [category]: "Local Products", "Markets", or "Traditional Medicine"
+ * - [description]: Detailed description of what the product actually is
+ * - [primaryUsage]: Primary usage, applications, and health/lifestyle benefits
+ * - [famousCity]: The exact local city or region best known for this product
+ * - [culturalImportance]: Cultural & historical significance to Sri Lankan heritage
+ * - [imageUrl]: High-resolution image URL (or fallback resource identifier)
  */
 data class LocalItem(
     val id: String,
     val title: String,
     val category: String, // "Local Products", "Markets", "Traditional Medicine"
-    val shortDescription: String,
-    val importance: String, // Cultural and historical significance ("Why it is important?")
-    val marketLocation: String, // Precise location details and where to buy
-    val address: String,
-    val originRegion: String,
-    val priceIndication: String,
-    val rating: Float = 4.9f,
-    val reviewCount: Int = 85,
+    val description: String,
+    val primaryUsage: String,
+    val famousCity: String,
+    val culturalImportance: String,
     val imageUrl: String = "",
     val imageRes: Int = 0,
+    val priceIndication: String = "",
+    val rating: Float = 4.9f,
+    val reviewCount: Int = 120,
     val latitude: Double = 6.9271,
-    val longitude: Double = 79.8612,
-    val isFeatured: Boolean = false,
-    val tags: List<String> = emptyList()
+    val longitude: Double = 79.8612
 )
 
 /**
- * Realistic Mock Data Provider for Sri Lanka's Local Culture, Markets and Traditional Medicine.
+ * Comprehensive Mock Data Repository for Sri Lankan Heritage & Cultural Artifacts.
  */
 object LocalItemDataProvider {
 
     val items: List<LocalItem> = listOf(
-        // CATEGORY: Local Products
+        // 1. Pure Ceylon Tea (Local Products)
         LocalItem(
             id = "item_ceylon_tea",
             title = "Pure Ceylon Single-Estate Black Tea & Silver Tips",
             category = "Local Products",
-            shortDescription = "Handpicked high-altitude orthodox black tea celebrated globally for delicate golden liquor, aroma, and natural antioxidants.",
-            importance = "Ceylon Tea remains one of Sri Lanka's greatest pride and cultural emblems. Introduced in 1867 by James Taylor at Loolecondera Estate, the unique climate of Sri Lanka's misty central highlands produces distinctive polyphenols and flavor profiles that cannot be replicated anywhere else on earth. Drinking Ceylon tea is woven into every household's daily rhythm and represents genuine Sri Lankan hospitality.",
-            marketLocation = "Available at heritage tea factory boutique outlets in Nuwara Eliya, Mlesna Tea Fortress (Kiribathkumbura), and the Ceylon Tea Museum sales counter in Hantana.",
-            address = "Hantana Estate, Kandy / Pedro Tea Estate, Nuwara Eliya",
-            originRegion = "Nuwara Eliya & Central Highlands",
-            priceIndication = "LKR 1,500 – 6,500 (approx. $5 – $22)",
-            rating = 4.95f,
-            reviewCount = 340,
+            description = "Hand-plucked tender two leaves and a bud, processed using traditional orthodox rolling and fermentation techniques at high-elevation plantations surrounded by misty cloud forests.",
+            primaryUsage = "Brewed as a world-renowned energizing daily beverage, rich in natural polyphenols, theaflavins, and protective antioxidants. Also packaged in handcrafted wooden boxes as Sri Lanka's most cherished souvenir for travelers worldwide.",
+            famousCity = "Nuwara Eliya (Central Highlands)",
+            culturalImportance = "Introduced in 1867 by James Taylor at Loolecondera Estate, Ceylon Tea transformed Sri Lanka into the tea capital of the world. Offering freshly brewed tea with jug of hot milk and kitul jaggery is the ultimate national symbol of hospitality ('Ayubowan') in every Sri Lankan household.",
+            imageUrl = "https://images.unsplash.com/photo-1576092768241-dec231879fc3",
             imageRes = R.drawable.ceylon_tea_set,
+            priceIndication = "LKR 1,500 – 6,500 (approx. $5 – $22)",
+            rating = 4.96f,
+            reviewCount = 385,
             latitude = 6.9497,
-            longitude = 80.7891,
-            isFeatured = true,
-            tags = listOf("Ceylon Tea", "Highland Harvest", "Single Estate", "Fair Trade")
+            longitude = 80.7891
         ),
-        LocalItem(
-            id = "item_ceylon_cinnamon",
-            title = "True Ceylon Alba Cinnamon (Cinnamomum Verum)",
-            category = "Local Products",
-            shortDescription = "Ultra-premium quills of genuine sweet cinnamon cultivated and peeled with generational craftsmanship in the southern coastal belt.",
-            importance = "Sri Lanka supplies over 85% of the world's 'True Cinnamon' (Cinnamomum verum), distinct from harsh cassia bark. Historically coveted by Phoenicians, ancient Egyptians, and European empires, true Ceylon cinnamon contains negligible coumarin, rendering it completely safe for liver health while delivering exquisite sweetness and deep medicinal antibacterial properties.",
-            marketLocation = "Directly from artisanal spice gardens in Matara & Galle, or Colombo Dutch Hospital precinct organic spice boutiques.",
-            address = "Mirissa-Matara Cinnamon Belt, Southern Province",
-            originRegion = "Matara & Galle District",
-            priceIndication = "LKR 2,200 / 250g bundle (approx. $7.50)",
-            rating = 4.9f,
-            reviewCount = 210,
-            imageRes = R.drawable.sri_lankan_spices,
-            latitude = 5.9549,
-            longitude = 80.5550,
-            isFeatured = true,
-            tags = listOf("True Cinnamon", "Alba Grade", "Export Quality", "Spices")
-        ),
+
+        // 2. Ambalangoda Hand-Carved Masks (Local Products)
         LocalItem(
             id = "item_ambalangoda_masks",
-            title = "Handcrafted Ambalangoda Raksha & Kolam Masks",
+            title = "Authentic Ambalangoda Kaduru Raksha Masks",
             category = "Local Products",
-            shortDescription = "Intricately carved soft kaduru wood masks adorned with natural mineral dyes, symbolizing ancient protective folklore.",
-            importance = "Originating from southern coastal ritual dances (Tovil and Kolam ceremonies), these masks are believed to ward off evil spirits and heal afflictions. Master carvers in Ambalangoda preserve centuries-old geometric guidelines and botanical pigments passed down through family lineages.",
-            marketLocation = "Ariyapala Traditional Masks Museum & Workshop, Main Street, Ambalangoda.",
-            address = "No. 426 Main Street, Ambalangoda 80300",
-            originRegion = "Ambalangoda, Southern Coast",
-            priceIndication = "LKR 4,500 – 28,000 (approx. $15 – $95)",
-            rating = 4.85f,
-            reviewCount = 175,
+            description = "Intricately hand-sculpted wooden masks made from lightweight balsa-like 'Kaduru' (Strychnos nux-vomica) wood, smoked for termite resistance, and hand-painted with organic mineral and plant pigments.",
+            primaryUsage = "Worn in ancient theatrical performances (Kolam drama) and exorcism dance rituals (Tovil). Today, widely mounted in homes, hotels, and entrance archways as protective amulets that ward off the evil eye and attract positive energy.",
+            famousCity = "Ambalangoda (Galle District)",
+            culturalImportance = "Ambalangoda's mask carving tradition dates back over three centuries. Master carvers follow strict iconographic rules handed down through generation lineages. The Ginidella (Fire Demon), Gurulu (Bird of Vishnu), and Naga (Cobra) Raksha masks represent Sri Lanka's living prehistoric demonological and theatrical heritage.",
+            imageUrl = "https://images.unsplash.com/photo-1582560475093-ba66accbc424",
             imageRes = R.drawable.mask_painting,
+            priceIndication = "LKR 4,500 – 25,000 (approx. $15 – $85)",
+            rating = 4.88f,
+            reviewCount = 210,
             latitude = 6.2358,
-            longitude = 80.0539,
-            isFeatured = false,
-            tags = listOf("Wood Craft", "Folk Art", "Raksha Mask", "Living Heritage")
+            longitude = 80.0539
         ),
 
-        // CATEGORY: Markets
+        // 3. Pettah Floating Market & Historic Bazaars (Markets)
         LocalItem(
             id = "market_pettah_floating",
-            title = "Pettah Floating Market & Gold Street Bazaars",
+            title = "Pettah Floating Market & Heritage Bazaars",
             category = "Markets",
-            shortDescription = "A vibrant waterside promenade and historic trading hub bustling with street produce, gems, textiles, and local street delicacies.",
-            importance = "Restored along the historic Beira Lake canal, the Floating Market transformed a former commercial bottleneck into an urban scenic gem. Adjoining Pettah's century-old streets (Keyzer St, Sea St), it serves as the beating commercial heartbeat of Sri Lanka, where multi-ethnic communities have engaged in free-market commerce for centuries.",
-            marketLocation = "Pettah Waterside along Bastian Mawatha, a 3-minute stroll from Colombo Fort Railway Terminal.",
-            address = "Bastian Mawatha, Pettah, Colombo 01100",
-            originRegion = "Colombo Central",
-            priceIndication = "Free entry / Street purchases from LKR 200",
-            rating = 4.7f,
-            reviewCount = 480,
+            description = "An open-air waterside market complex consisting of 92 stalls suspended over Beira Lake, flanked by centuries-old multi-ethnic trading streets selling street spices, handloom fabrics, electronics, and authentic street eats.",
+            primaryUsage = "A vibrant trading and leisure hub where travelers and locals bargain for fresh spices, tropical fruits, handmade brass souvenirs, and savor authentic street snacks like kottu roti and spiced king coconut water.",
+            famousCity = "Colombo Fort & Pettah (Colombo)",
+            culturalImportance = "Pettah has been Sri Lanka's international trading nexus since Arab, Portuguese, Dutch, and British eras. The Floating Market reflects the country's modern urban revitalization while celebrating the historic cross-cultural mercantile traditions of Sinhala, Tamil, Muslim, and Burgher communities.",
+            imageUrl = "https://images.unsplash.com/photo-1555396273-367ea4eb4db5",
             imageRes = R.drawable.home,
+            priceIndication = "Free Entry / Purchases from LKR 200",
+            rating = 4.75f,
+            reviewCount = 520,
             latitude = 6.9360,
-            longitude = 79.8550,
-            isFeatured = true,
-            tags = listOf("Night Market", "Street Food", "Historic Bazaars", "Waterfront")
-        ),
-        LocalItem(
-            id = "market_kandy_central",
-            title = "Kandy Central Heritage Market",
-            category = "Markets",
-            shortDescription = "Two-story colonial indoor market filled with hill-country vegetables, fresh spices, traditional sweetmeats, and brass handicrafts.",
-            importance = "Built in colonial architecture overlooking the historic Kandy Lake valley, this bustling bazaar is the central pantry for Kandy residents and highland farmers. Here you can witness traditional Sri Lankan bartering and sample authentic jaggery, buffalo curd, and rare hill-country herbs.",
-            marketLocation = "Located in the heart of Kandy downtown, walking distance from the sacred Temple of the Tooth Relic.",
-            address = "Market Square, Dalada Veediya, Kandy 20000",
-            originRegion = "Central Province (Kandy)",
-            priceIndication = "Free entry / Produce priced by weight",
-            rating = 4.8f,
-            reviewCount = 265,
-            imageRes = R.drawable.discover,
-            latitude = 7.2936,
-            longitude = 80.6350,
-            isFeatured = false,
-            tags = listOf("Fresh Produce", "Spice Baskets", "Colonial Market", "Kandy")
+            longitude = 79.8550
         ),
 
-        // CATEGORY: Traditional Medicine
+        // 4. Kandy Central Heritage Market (Markets)
+        LocalItem(
+            id = "market_kandy_central",
+            title = "Kandy Central Heritage Market & Spice Bazaar",
+            category = "Markets",
+            description = "A classic two-story colonial courtyard marketplace filled with colorful hill-country vegetable pyramids, fresh Ceylon spices, woven cane baskets, and brassware.",
+            primaryUsage = "Central purchasing hub for highland spices (cardamom, clove, alba cinnamon), fresh artisanal jaggery, pure bee honey, and traditional handicrafts directly from rural artisan cooperatives.",
+            famousCity = "Kandy (Central Province)",
+            culturalImportance = "Located in the royal capital near the sacred Temple of the Tooth, this market has served as the highland kingdom's central pantry for centuries, preserving age-old barter traditions and generational spice-merchant families.",
+            imageUrl = "https://images.unsplash.com/photo-1533900298318-6b8da08a523e",
+            imageRes = R.drawable.discover,
+            priceIndication = "Free Entry / Spices from LKR 500",
+            rating = 4.82f,
+            reviewCount = 290,
+            latitude = 7.2936,
+            longitude = 80.6350
+        ),
+
+        // 5. Hela Wedakama Herbal Oils & Pinda Thailaya (Traditional Medicine)
         LocalItem(
             id = "med_hela_wedakama_oils",
-            title = "Hela Wedakama Herbal Oils & Pinda Thailaya",
+            title = "Hela Wedakama Pinda Thailaya & Herbal Balms",
             category = "Traditional Medicine",
-            shortDescription = "Authentic indigenous Sri Lankan medicinal oil concocted with over 40 endemic wild herbs, sesame oil, and bee honey.",
-            importance = "Sri Lanka's 'Hela Wedakama' is an ancient indigenous healing system distinct from Indian Ayurveda, practiced on the island for over 3,000 years with prehistoric roots dating to King Ravana. Pinda Thailaya and Sarva Wishadi oils are boiled continuously for 7 days in copper cauldrons according to traditional astrological horoscopes, delivering deep natural relief for joint inflammation and nerve vitality.",
-            marketLocation = "Ayurvedic Department Approved Pharmacies (Osu Sala) across Kandy, Matale Spice Gardens, and certified Ayurvedic wellness centers.",
-            address = "Rajaye Osu Sala, Colombo 07 & Matale Spice Herbal Valley",
-            originRegion = "Matale Herbal Belt & Anuradhapura",
-            priceIndication = "LKR 950 – 3,200 (approx. $3.20 – $11)",
-            rating = 4.92f,
-            reviewCount = 195,
+            description = "An authentic indigenous Sri Lankan medicinal oil concocted with over 40 wild endemic herbs, bee wax, sesame oil, and sarsaparilla, continuously brewed over wood fires for seven days according to ancient Sanskrit formulas.",
+            primaryUsage = "Topically massaged to relieve chronic rheumatoid arthritis, muscular soreness, varicose veins, and body heat exhaustion. Used in rejuvenating Ayurvedic Panchakarma treatments across coastal and highland wellness centers.",
+            famousCity = "Matale & Anuradhapura (Ancient Herbal Belt)",
+            culturalImportance = "'Hela Wedakama' is Sri Lanka's unique 3,000-year-old indigenous medicine system, distinct from Indian Ayurveda and dating back to legendary King Ravana. The knowledge of boiling roots, bark, and seeds according to lunar phases represents one of the world's oldest surviving traditional herbal pharmacopeias.",
+            imageUrl = "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108",
             imageRes = R.drawable.spice_garden,
+            priceIndication = "LKR 950 – 3,200 (approx. $3.20 – $11)",
+            rating = 4.94f,
+            reviewCount = 230,
             latitude = 7.4675,
-            longitude = 80.6234,
-            isFeatured = true,
-            tags = listOf("Hela Wedakama", "Herbal Medicine", "Natural Healing", "Ayurveda")
+            longitude = 80.6234
         ),
+
+        // 6. Peyava 14-Herb Immune Tonic & Samahan (Traditional Medicine)
         LocalItem(
             id = "med_samahan_herbal_brew",
-            title = "Peyava 14-Herb Immune Elixir & King Coconut Nectar",
+            title = "Peyava 14-Herb Indigenous Immune Decoction",
             category = "Traditional Medicine",
-            shortDescription = "Concentrated soluble extract of 14 time-tested tropical medicinal herbs, ginger, coriander, and black pepper for respiratory vitality.",
-            importance = "Derived from the ancient 'Peyava' decoction drunk by Sri Lankan families during monsoon changes. The golden combination of raw ginger, long pepper, and Pathpadagam is recognized by herbal scientists for clearing upper-respiratory passages and building long-lasting natural immunity.",
-            marketLocation = "Every verified local grocery, pharmacy, and herbal apothecary islandwide.",
-            address = "Distributed throughout all 9 provinces in Sri Lanka",
-            originRegion = "Western & Sabaragamuwa Provinces",
-            priceIndication = "LKR 500 / 10-sachet pack (approx. $1.70)",
-            rating = 4.88f,
-            reviewCount = 420,
+            description = "A 100% natural water-soluble granulate derived from 14 time-tested tropical botanicals including Coriander, Ginger, Black Pepper, Katuwelbatu, and Venivel (Coscinium fenestratum).",
+            primaryUsage = "Consumed hot dissolved in water or black tea to instantly relieve sneezing, nasal congestion, seasonal flu, body aches, and fatigue. Suitable for all age groups as an everyday immune booster.",
+            famousCity = "Colombo & Sabaragamuwa Province",
+            culturalImportance = "Derived from ancient 'Peyava' brews that royal physicians prescribed to maintain the vitality of warrior legions and monastery monks during torrential monsoon downpours.",
+            imageUrl = "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b",
             imageRes = R.drawable.green_son,
+            priceIndication = "LKR 500 / 10-sachet pack",
+            rating = 4.90f,
+            reviewCount = 450,
             latitude = 6.9271,
-            longitude = 79.8612,
-            isFeatured = false,
-            tags = listOf("Peyava", "Immunity Boost", "Botanical Tea", "Herbal Remedy")
+            longitude = 79.8612
         )
     )
+
+    fun getAllItems(): List<LocalItem> = items
 
     fun getItemById(id: String): LocalItem? {
         return items.firstOrNull { it.id == id } ?: items.firstOrNull()

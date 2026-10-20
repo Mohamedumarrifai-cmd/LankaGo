@@ -6,10 +6,11 @@
     android:layout_height="match_parent"
     android:background="@color/background_primary">
 
+    <!-- Collapsing App Bar with High-Quality Cover Image -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_local_item"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="290dp"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -25,19 +26,19 @@
                 android:id="@+id/iv_local_item_cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="Local item cover image"
+                android:contentDescription="Local cultural item cover image"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ceylon_tea_set"
                 app:layout_collapseMode="parallax" />
 
-            <!-- Dark Gradient Scrim Overlay -->
+            <!-- Dark Gradient Scrim Overlay for readability -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/top_gradient_bg" />
 
-            <!-- Top Toolbar with Back and Action Icons -->
+            <!-- Collapsing Toolbar -->
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_local_item"
                 android:layout_width="match_parent"
@@ -70,7 +71,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/bg_heart_button"
-                        android:contentDescription="Bookmark Item"
+                        android:contentDescription="Bookmark Cultural Item"
                         android:padding="6dp"
                         android:src="@drawable/ic_heart_outline"
                         app:tint="@color/admin_danger" />
@@ -79,12 +80,12 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Main Content Details -->
+    <!-- Scrollable Detailed Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="80dp"
+        android:paddingBottom="84dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -93,7 +94,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Category Badge & Origin Region -->
+            <!-- Category Badge Row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,26 +108,27 @@
                     android:background="@drawable/bg_category_tag"
                     android:fontFamily="sans-serif-bold"
                     android:paddingStart="10dp"
-                    android:paddingTop="4dp"
+                    android:paddingTop="5dp"
                     android:paddingEnd="10dp"
-                    android:paddingBottom="4dp"
+                    android:paddingBottom="5dp"
                     android:textColor="@color/admin_accent_indigo"
                     android:textSize="11sp"
                     tools:text="LOCAL PRODUCTS" />
 
                 <TextView
-                    android:id="@+id/tv_item_region"
+                    android:id="@+id/tv_item_price_estimate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="12dp"
                     android:layout_weight="1"
-                    android:fontFamily="sans-serif-medium"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="12sp"
-                    tools:text="Origin: Nuwara Eliya &amp; Central Highlands" />
+                    android:fontFamily="sans-serif-bold"
+                    android:gravity="end"
+                    android:textColor="@color/admin_primary_navy"
+                    android:textSize="13sp"
+                    tools:text="LKR 1,500 – 6,500" />
             </LinearLayout>
 
-            <!-- Title -->
+            <!-- Screen Title -->
             <TextView
                 android:id="@+id/tv_item_title"
                 android:layout_width="match_parent"
@@ -137,11 +139,11 @@
                 android:textSize="22sp"
                 tools:text="Pure Ceylon Single-Estate Black Tea &amp; Silver Tips" />
 
-            <!-- Price & Rating Row -->
+            <!-- Rating & Reviews Bar -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -159,48 +161,214 @@
                     android:fontFamily="sans-serif-bold"
                     android:textColor="@color/text_primary"
                     android:textSize="13sp"
-                    tools:text="4.95" />
+                    tools:text="4.96" />
 
                 <TextView
-                    android:id="@+id/tv_item_review_count"
+                    android:id="@+id/tv_item_reviews_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:fontFamily="sans-serif"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp"
-                    tools:text="(340 reviews)" />
-
-                <TextView
-                    android:id="@+id/tv_item_price"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-bold"
-                    android:gravity="end"
-                    android:textColor="@color/admin_primary_navy"
-                    android:textSize="13sp"
-                    tools:text="LKR 1,500 – 6,500" />
+                    tools:text="(385 verified reviews)" />
             </LinearLayout>
 
-            <!-- Short Overview -->
-            <TextView
-                android:id="@+id/tv_item_short_desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:fontFamily="sans-serif"
-                android:lineSpacingExtra="3dp"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp"
-                tools:text="Handpicked high-altitude orthodox black tea celebrated globally for delicate golden liquor, aroma, and natural antioxidants." />
-
-            <!-- SECTION 1: WHY IT IS IMPORTANT? (Cultural & Historical Significance) -->
+            <!-- SECTION 1: DETAILED DESCRIPTION CARD -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_why_important"
+                android:id="@+id/card_detailed_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/surface_card"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/admin_border">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Detailed Description"
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="sans-serif"
+                        android:text="What this product actually is"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="11sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/admin_border" />
+
+                    <TextView
+                        android:id="@+id/tv_item_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:lineSpacingExtra="5dp"
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp"
+                        tools:text="Hand-plucked tender two leaves and a bud, processed using traditional orthodox rolling and fermentation techniques at high-elevation plantations surrounded by misty cloud forests." />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- SECTION 2: PRIMARY USAGE & BENEFITS CARD -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_primary_usage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                app:cardBackgroundColor="@color/surface_card"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/admin_border">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_check"
+                            app:tint="@color/admin_accent_indigo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Primary Usage &amp; Benefits"
+                            android:textColor="@color/text_primary"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Culinary, medicinal, ritual, or souvenir applications"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="11sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/admin_border" />
+
+                    <TextView
+                        android:id="@+id/tv_item_primary_usage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:lineSpacingExtra="5dp"
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp"
+                        tools:text="Brewed as a world-renowned energizing daily beverage, rich in natural polyphenols, theaflavins, and protective antioxidants. Also packaged in handcrafted wooden boxes as Sri Lanka's most cherished souvenir for travelers worldwide." />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- SECTION 3: FAMOUS CITY / REGION CARD -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_famous_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                app:cardBackgroundColor="@color/market_card_bg"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1.5dp"
+                app:strokeColor="@color/market_card_stroke">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_map_pin"
+                            app:tint="@color/admin_success" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Famous City / Region"
+                            android:textColor="@color/admin_success"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Exact locality best known for this craft &amp; origin"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="11sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/market_card_stroke" />
+
+                    <TextView
+                        android:id="@+id/tv_item_famous_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="@color/admin_primary_navy"
+                        android:textSize="16sp"
+                        tools:text="Nuwara Eliya (Central Highlands)" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- SECTION 4: CULTURAL / HISTORICAL IMPORTANCE CARD -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_cultural_importance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
                 app:cardBackgroundColor="@color/heritage_card_bg"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
@@ -230,17 +398,17 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:fontFamily="sans-serif-black"
-                            android:text="Why It Is Important?"
+                            android:text="Cultural &amp; Historical Importance"
                             android:textColor="@color/cultural_gold"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="Cultural &amp; Historical Significance"
+                        android:fontFamily="sans-serif"
+                        android:text="Significance to Sri Lankan heritage &amp; identity"
                         android:textColor="@color/text_secondary"
                         android:textSize="11sp" />
 
@@ -252,132 +420,21 @@
                         android:background="@color/heritage_card_stroke" />
 
                     <TextView
-                        android:id="@+id/tv_item_importance"
+                        android:id="@+id/tv_item_cultural_importance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
                         android:lineSpacingExtra="5dp"
                         android:textColor="@color/text_primary"
                         android:textSize="14sp"
-                        tools:text="Ceylon Tea remains one of Sri Lanka's greatest pride and cultural emblems. Introduced in 1867 by James Taylor at Loolecondera Estate, the unique climate of Sri Lanka's misty central highlands produces distinctive polyphenols and flavor profiles that cannot be replicated anywhere else on earth. Drinking Ceylon tea is woven into every household's daily rhythm and represents genuine Sri Lankan hospitality." />
+                        tools:text="Introduced in 1867 by James Taylor at Loolecondera Estate, Ceylon Tea transformed Sri Lanka into the tea capital of the world. Offering freshly brewed tea with jug of hot milk and kitul jaggery is the ultimate national symbol of hospitality ('Ayubowan') in every Sri Lankan household." />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <!-- SECTION 2: WHERE TO BUY / MARKET AVAILABILITY -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_market_availability"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/market_card_bg"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="1.5dp"
-                app:strokeColor="@color/market_card_stroke">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:src="@drawable/ic_store"
-                            app:tint="@color/admin_success" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:fontFamily="sans-serif-black"
-                            android:text="Market Availability / Where to Buy"
-                            android:textColor="@color/admin_success"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="Authentic Local Stalls &amp; Verified Vendors"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="11sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@color/market_card_stroke" />
-
-                    <!-- Detailed Location Description -->
-                    <TextView
-                        android:id="@+id/tv_item_market_location"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif"
-                        android:lineSpacingExtra="4dp"
-                        android:textColor="@color/text_primary"
-                        android:textSize="14sp"
-                        tools:text="Available at heritage tea factory boutique outlets in Nuwara Eliya, Mlesna Tea Fortress (Kiribathkumbura), and the Ceylon Tea Museum sales counter in Hantana." />
-
-                    <!-- Precise Address with Map Pin -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_map_pin"
-                            app:tint="@color/admin_primary_navy" />
-
-                        <TextView
-                            android:id="@+id/tv_item_address"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:layout_weight="1"
-                            android:fontFamily="sans-serif-medium"
-                            android:textColor="@color/admin_primary_navy"
-                            android:textSize="13sp"
-                            tools:text="Hantana Estate, Kandy / Pedro Tea Estate, Nuwara Eliya" />
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Tags / Cultural Keywords -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-black"
-                android:text="Cultural Tags &amp; Features"
-                android:textColor="@color/text_primary"
-                android:textSize="15sp" />
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group_item_tags"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- FLOATING BOTTOM BAR WITH "EXPLORE ON MAP" BUTTON -->
+    <!-- FLOATING ACTION BOTTOM BAR WITH "EXPLORE ON MAP / FIND SELLERS" -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bottom_bar_explore"
         android:layout_width="match_parent"
@@ -417,16 +474,18 @@
                     tools:text="Pure Ceylon Tea" />
 
                 <TextView
-                    android:id="@+id/tv_bottom_coordinates"
+                    android:id="@+id/tv_bottom_famous_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
                     android:fontFamily="sans-serif"
+                    android:maxLines="1"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp"
-                    tools:text="6.9497° N, 80.7891° E" />
+                    tools:text="Nuwara Eliya (Central Highlands)" />
             </LinearLayout>
 
-            <!-- EXPLORE ON MAP BUTTON -->
+            <!-- EXPLORE ON MAP / FIND SELLERS ACTION BUTTON -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_explore_on_map"
                 android:layout_width="wrap_content"
