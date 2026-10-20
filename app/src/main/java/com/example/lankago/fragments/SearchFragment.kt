@@ -89,8 +89,8 @@ class SearchFragment : Fragment() {
                 )
                 findNavController().navigate(R.id.destinationDetailFragment, bundle)
             },
-            onFavoriteClick = { place, favoriteIcon ->
-                // Ready for Feature 2 toggle integration
+            onFavoriteToggled = { place, isFav ->
+                // Favorite toggled in search list
             }
         )
 
