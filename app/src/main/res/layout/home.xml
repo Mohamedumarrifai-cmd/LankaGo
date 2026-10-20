@@ -39,6 +39,7 @@
 
         <!-- Notification Icon with Red Badge -->
         <FrameLayout
+            android:id="@+id/btn_notifications"
             android:layout_width="32dp"
             android:layout_height="32dp">
             <ImageView
@@ -71,6 +72,7 @@
 
         <!-- Home -->
         <LinearLayout
+            android:id="@+id/nav_home"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -91,8 +93,9 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Explore -->
+        <!-- Products -->
         <LinearLayout
+            android:id="@+id/nav_products"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -107,13 +110,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Explore"
+                android:text="Products"
                 android:textColor="#8A8F98"
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <!-- Favorites -->
+        <!-- Maps -->
         <LinearLayout
+            android:id="@+id/nav_maps"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -122,19 +126,20 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/btn_star_big_off"
+                android:src="@android:drawable/ic_menu_mapmode"
                 app:tint="#8A8F98" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Favorites"
+                android:text="Maps"
                 android:textColor="#8A8F98"
                 android:textSize="12sp" />
         </LinearLayout>
 
         <!-- Profile -->
         <LinearLayout
+            android:id="@+id/nav_profile"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -173,6 +178,7 @@
 
             <!-- Search Bar -->
             <LinearLayout
+                android:id="@+id/search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="16dp"
@@ -190,6 +196,7 @@
                     android:contentDescription="Search" />
 
                 <EditText
+                    android:id="@+id/et_search"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
@@ -218,6 +225,7 @@
 
                     <!-- Local Malls -->
                     <LinearLayout
+                        android:id="@+id/btn_local_products"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -268,6 +276,7 @@
 
                     <!-- Shows -->
                     <LinearLayout
+                        android:id="@+id/btn_shows_festivals"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -293,6 +302,7 @@
 
                     <!-- Activities -->
                     <LinearLayout
+                        android:id="@+id/btn_traditional_activities"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -328,6 +338,7 @@
 
                     <!-- Rentals -->
                     <LinearLayout
+                        android:id="@+id/btn_rentals_transport"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -353,6 +364,7 @@
 
                     <!-- Trips -->
                     <LinearLayout
+                        android:id="@+id/btn_trip_planner"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -378,6 +390,7 @@
 
                     <!-- Favorites -->
                     <LinearLayout
+                        android:id="@+id/btn_favorites"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

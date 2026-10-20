@@ -32,7 +32,6 @@ class AdminLoginFragment : Fragment() {
         val etEmail = view.findViewById<EditText>(R.id.et_admin_email)
         val etPassword = view.findViewById<EditText>(R.id.et_admin_password)
         val btnLogin = view.findViewById<AppCompatButton>(R.id.btn_admin_login)
-        val btnTogglePassword = view.findViewById<ImageView>(R.id.btn_admin_toggle_password)
 
         // Password visibility toggle
         btnTogglePassword?.setOnClickListener {
@@ -45,19 +44,13 @@ class AdminLoginFragment : Fragment() {
             etPassword?.text?.let { text -> etPassword.setSelection(text.length) }
         }
 
-        // Admin login action
         btnLogin?.setOnClickListener {
             val email = etEmail?.text?.toString()?.trim() ?: ""
-            val password = etPassword?.text?.toString()?.trim() ?: ""
-
-            // Validate inputs (or allow seamless direct navigation for testing)
             if (email.isNotEmpty() && !email.contains("@")) {
                 Toast.makeText(requireContext(), "Please enter a valid admin email", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            Toast.makeText(requireContext(), "Welcome Admin!", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.adminDashboardFragment)
         }
     }
 }
