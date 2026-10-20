@@ -8,11 +8,12 @@
     android:background="#1A2B4C"
     tools:context=".fragments.SplashFragment">
 
-    <!-- 1. Background Image -->
+    <!-- Subtle Brand Background Texture -->
     <ImageView
         android:id="@+id/bg_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:alpha="0.25"
         android:scaleType="centerCrop"
         android:src="@drawable/home"
         android:contentDescription="Background"
@@ -21,22 +22,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 2. Top Section (Logo + App Name + Subtitle) -->
+    <!-- Center Brand Branding Box -->
     <LinearLayout
-        android:id="@+id/top_section"
+        android:id="@+id/center_branding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/bottom_loading_section"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside">
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
             android:scaleType="fitCenter"
             android:src="@drawable/logo"
             android:contentDescription="LankaGo Logo" />
@@ -45,8 +47,9 @@
             android:id="@+id/tv_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif-black"
+            android:letterSpacing="0.04"
             android:text="LankaGo"
             android:textColor="#FFFFFF"
             android:textSize="38sp" />
@@ -55,28 +58,44 @@
             android:id="@+id/tv_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="sans-serif"
+            android:layout_marginTop="6dp"
+            android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:lineSpacingExtra="2dp"
-            android:text="Smart Travel Companion\nfor Sri Lanka"
-            android:textColor="#FFFFFF"
+            android:text="Smart Offline Travel Companion\nfor Sri Lanka"
+            android:textColor="#CBD5E1"
             android:textSize="14sp" />
-
     </LinearLayout>
 
-    <!-- 3. Bottom Text -->
-    <TextView
-        android:id="@+id/tv_bottom"
+    <!-- Bottom Session Loading Section -->
+    <LinearLayout
+        android:id="@+id/bottom_loading_section"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:fontFamily="sans-serif"
-        android:text="Discover · Explore · Experience"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        android:layout_marginBottom="48dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ProgressBar
+            android:id="@+id/pb_splash_loading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:indeterminate="true"
+            android:indeterminateTint="#5D5FEF" />
+
+        <TextView
+            android:id="@+id/tv_bottom_tagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:fontFamily="sans-serif"
+            android:letterSpacing="0.06"
+            android:text="Discover · Explore · Experience"
+            android:textColor="#94A3B8"
+            android:textSize="13sp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
