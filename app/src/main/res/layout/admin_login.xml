@@ -8,28 +8,26 @@
     android:background="#FFFFFF"
     tools:context=".fragments.admin.AdminLoginFragment">
 
-        android:layout_width="88dp"
-        android:layout_height="88dp"
-        android:background="@drawable/bg_badge_admin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-
     <TextView
         android:id="@+id/tv_admin_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:fontFamily="sans-serif-black"
         android:text="Admin Portal"
         android:textColor="#1A2B4C"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Subtitle -->
     <TextView
         android:id="@+id/tv_admin_subtitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
+        android:text="Sign in to manage LankaGo content"
         android:textColor="#8A8F98"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,6 +37,8 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="32dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="16dp"
         app:cardElevation="0dp"
@@ -54,7 +54,6 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Email Label -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,12 +62,12 @@
                 android:textColor="#1A2B4C"
                 android:textSize="13sp" />
 
-            <!-- Email Input -->
             <EditText
                 android:id="@+id/et_admin_email"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="8dp"
+                android:autofillHints="emailAddress"
                 android:background="@drawable/bg_input"
                 android:fontFamily="sans-serif"
                 android:hint="admin@lankago.lk"
@@ -77,19 +76,17 @@
                 android:paddingEnd="16dp"
                 android:textColor="#1A2B4C"
                 android:textColorHint="#8A8F98"
-                android:textSize="15sp"
-                tools:text="admin@lankago.lk" />
+                android:textSize="15sp" />
 
-            <!-- Password Label -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="sans-serif-medium"
+                android:text="Password"
                 android:textColor="#1A2B4C"
                 android:textSize="13sp" />
 
-            <!-- Password Input -->
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -99,6 +96,7 @@
                     android:id="@+id/et_admin_password"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:autofillHints="password"
                     android:background="@drawable/bg_input"
                     android:fontFamily="sans-serif"
                     android:hint="••••••••••••"
@@ -107,13 +105,17 @@
                     android:paddingEnd="48dp"
                     android:textColor="#1A2B4C"
                     android:textColorHint="#8A8F98"
+                    android:textSize="15sp" />
 
                 <ImageView
+                    android:id="@+id/btn_toggle_password"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="end|center_vertical"
                     android:layout_marginEnd="16dp"
+                    android:contentDescription="Toggle Password"
                     android:src="@android:drawable/ic_menu_view"
+                    app:tint="#8A8F98" />
             </FrameLayout>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -130,16 +132,5 @@
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:fontFamily="sans-serif"
-        android:textColor="#8A8F98"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

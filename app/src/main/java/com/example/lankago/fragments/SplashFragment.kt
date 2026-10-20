@@ -18,15 +18,21 @@ class SplashFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_splash, container, false)
+        return inflater.inflate(R.layout.activity_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewLifecycleOwner.lifecycleScope.launch {
-                delay(2000L)
+            delay(2000L)
+            if (isAdded) {
+                try {
+                    findNavController().navigate(R.id.action_splashFragment_to_discoverFragment)
+                } catch (e: Exception) {
+                    // Ignore navigation exceptions if already navigated
+                }
+            }
         }
-    }
     }
 }

@@ -10,6 +10,11 @@ import androidx.navigation.fragment.findNavController
 import com.example.lankago.R
 
 class SearchFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.search, container, false)
     }
 
