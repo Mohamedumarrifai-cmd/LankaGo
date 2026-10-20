@@ -22,27 +22,33 @@ class LocalProductsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Back Navigation
+        // Top Back Button
         view.findViewById<ImageView>(R.id.btn_back)?.setOnClickListener {
             findNavController().navigateUp()
         }
 
-        // Bottom Navigation Bar
+        setupBottomNavigation(view)
+    }
+
+    private fun setupBottomNavigation(view: View) {
+        // 1. Home Button -> Navigate to HomeFragment
         view.findViewById<View>(R.id.nav_home)?.setOnClickListener {
             findNavController().navigate(R.id.homeFragment)
         }
 
-        view.findViewById<View>(R.id.nav_explore)?.setOnClickListener {
-            findNavController().navigate(R.id.searchFragment)
+        // 2. Products Button -> Already active on this fragment
+        view.findViewById<View>(R.id.nav_products)?.setOnClickListener {
+            // Already on LocalProductsFragment
         }
 
+        // 3. Maps Button -> Navigate to MapRouteFragment
+        view.findViewById<View>(R.id.nav_maps)?.setOnClickListener {
+            findNavController().navigate(R.id.mapRouteFragment)
+        }
+
+        // 4. Profile Button -> Navigate to ProfileFragment
         view.findViewById<View>(R.id.nav_profile)?.setOnClickListener {
             findNavController().navigate(R.id.profileFragment)
-        }
-
-        view.findViewById<View>(R.id.nav_trips)?.setOnClickListener {
-            // Meka thamai prashne thibbe. 'T' eka podi akuru wenna ona.
-            findNavController().navigate(R.id.tripPlannerFragment)
         }
     }
 }

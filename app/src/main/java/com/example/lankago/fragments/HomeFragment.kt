@@ -21,58 +21,76 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 1. Search (Search Bar input & Bottom Nav Explore)
+        setupBottomNavigation(view)
+        setupCategoryButtons(view)
+        setupSearchBar(view)
+    }
+
+    private fun setupBottomNavigation(view: View) {
+        // 1. Home Button (Already on Home)
+        view.findViewById<View>(R.id.nav_home)?.setOnClickListener {
+            // Already on home screen
+        }
+
+        // 2. Products Button -> Navigate to LocalProductsFragment
+        view.findViewById<View>(R.id.nav_products)?.setOnClickListener {
+            findNavController().navigate(R.id.localProductsFragment)
+        }
+
+        // 3. Maps Button -> Navigate to MapRouteFragment
+        view.findViewById<View>(R.id.nav_maps)?.setOnClickListener {
+            findNavController().navigate(R.id.mapRouteFragment)
+        }
+
+        // 4. Profile Button -> Navigate to ProfileFragment
+        view.findViewById<View>(R.id.nav_profile)?.setOnClickListener {
+            findNavController().navigate(R.id.profileFragment)
+        }
+    }
+
+    private fun setupCategoryButtons(view: View) {
+        // Local Products (Malls)
+        view.findViewById<View>(R.id.btn_local_products)?.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_localProductsFragment)
+        }
+
+        // Traditional Activities
+        view.findViewById<View>(R.id.btn_traditional_activities)?.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_traditionalActivitiesFragment)
+        }
+
+        // Shows & Festivals
+        view.findViewById<View>(R.id.btn_shows_festivals)?.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_showsAndFestivalsFragment)
+        }
+
+        // Rentals & Transport
+        view.findViewById<View>(R.id.btn_rentals_transport)?.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_rentalsTransportFragment)
+        }
+
+        // Trip Planner
+        view.findViewById<View>(R.id.btn_trip_planner)?.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_tripPlannerFragment)
+        }
+
+        // Favorites
+        view.findViewById<View>(R.id.btn_favorites)?.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_favoritesFragment)
+        }
+
+        // Notifications (Top bar icon)
+        view.findViewById<View>(R.id.btn_notifications)?.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_notificationsFragment)
+        }
+    }
+
+    private fun setupSearchBar(view: View) {
         view.findViewById<View>(R.id.search_bar)?.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
         }
         view.findViewById<View>(R.id.et_search)?.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
-        }
-        view.findViewById<View>(R.id.nav_explore)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
-        }
-
-        // 2. Local Products (Local Malls)
-        view.findViewById<View>(R.id.btn_local_products)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_localProductsFragment)
-        }
-
-        // 3. Traditional Activities
-        view.findViewById<View>(R.id.btn_traditional_activities)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_traditionalActivitiesFragment)
-        }
-
-        // 4. Shows & Festivals
-        view.findViewById<View>(R.id.btn_shows_festivals)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_showsAndFestivalsFragment)
-        }
-
-        // 5. Rentals & Transport
-        view.findViewById<View>(R.id.btn_rentals_transport)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_rentalsTransportFragment)
-        }
-
-        // 6. Notifications (Top Bar)
-        view.findViewById<View>(R.id.btn_notifications)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_notificationsFragment)
-        }
-
-        // 7. Profile (Bottom Nav)
-        view.findViewById<View>(R.id.nav_profile)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
-        }
-
-        // 8. Trip Planner (Trips Category & Bottom Nav)
-        view.findViewById<View>(R.id.btn_trip_planner)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_tripPlannerFragment)
-        }
-        view.findViewById<View>(R.id.nav_trips)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_tripPlannerFragment)
-        }
-
-        // 9. Favorites (Category)
-        view.findViewById<View>(R.id.btn_favorites)?.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_favoritesFragment)
         }
     }
 }

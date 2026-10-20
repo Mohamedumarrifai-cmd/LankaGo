@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".fragments.admin.AdminAddDestinationFragment">
+
+    <!-- Top App Bar -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_bar_add_dest"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:background="#FFFFFF"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btn_back_add_dest"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="#1A2B4C"
+            android:contentDescription="Back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_add_dest_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Add Destination"
+            android:textColor="#1A2B4C"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_back_add_dest"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/divider_top_add_dest"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#E5E7EB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_bar_add_dest" />
+
+    <!-- Scrollable Form Container -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_top_add_dest">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="20dp">
+
+            <!-- Camera Capture UI Label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="Cover Photo (Camera Capture)"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
+
+            <!-- Large CardView with ivCapturedImage and Placeholder (180dp height) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_camera_trigger"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="#F0F2F5"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E7EB"
+                app:strokeWidth="1dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!-- Captured Photo Preview -->
+                    <ImageView
+                        android:id="@+id/ivCapturedImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="Captured Destination Image"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        tools:src="@drawable/sigiriya"
+                        tools:visibility="visible" />
+
+                    <!-- Placeholder View Container -->
+                    <LinearLayout
+                        android:id="@+id/layout_placeholder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <FrameLayout
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/bg_badge_admin">
+
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="Camera Icon"
+                                android:src="@drawable/ic_camera"
+                                app:tint="#1A2B4C" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/tv_placeholder_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Tap to Capture Image"
+                            android:textColor="#1A2B4C"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Launches your device camera"
+                            android:textColor="#8A8F98"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                </FrameLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Destination Name Input -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Destination Name"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/et_place_name"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_input"
+                android:fontFamily="sans-serif"
+                android:hint="e.g. Pidurangala Rock"
+                android:inputType="textCapWords"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#1A2B4C"
+                android:textColorHint="#8A8F98"
+                android:textSize="15sp" />
+
+            <!-- Category Input -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Category"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/et_place_category"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_input"
+                android:fontFamily="sans-serif"
+                android:hint="e.g. Hiking &amp; Viewpoint"
+                android:inputType="textCapWords"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#1A2B4C"
+                android:textColorHint="#8A8F98"
+                android:textSize="15sp" />
+
+            <!-- Location Input -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Location"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/et_place_location"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_input"
+                android:fontFamily="sans-serif"
+                android:hint="e.g. Sigiriya, Central Province"
+                android:inputType="textPostalAddress"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#1A2B4C"
+                android:textColorHint="#8A8F98"
+                android:textSize="15sp" />
+
+            <!-- Description Input -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Description"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/et_place_description"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_input"
+                android:fontFamily="sans-serif"
+                android:gravity="top"
+                android:hint="Provide details about accessibility, history, and travel tips..."
+                android:inputType="textMultiLine"
+                android:padding="16dp"
+                android:textColor="#1A2B4C"
+                android:textColorHint="#8A8F98"
+                android:textSize="15sp" />
+
+            <!-- Publish Destination Button (56dp height, #1A2B4C bg, 50dp radius, white text) -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_publish_destination"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="28dp"
+                android:background="@drawable/button_primary"
+                android:fontFamily="sans-serif-medium"
+                android:text="Publish Destination"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -93,9 +93,9 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Explore -->
+        <!-- Products -->
         <LinearLayout
-            android:id="@+id/nav_explore"
+            android:id="@+id/nav_products"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -110,14 +110,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Explore"
+                android:text="Products"
                 android:textColor="#8A8F98"
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <!-- Favorites -->
+        <!-- Maps -->
         <LinearLayout
-            android:id="@+id/nav_trips"
+            android:id="@+id/nav_maps"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -126,13 +126,13 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/btn_star_big_off"
+                android:src="@android:drawable/ic_menu_mapmode"
                 app:tint="#8A8F98" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Favorites"
+                android:text="Maps"
                 android:textColor="#8A8F98"
                 android:textSize="12sp" />
         </LinearLayout>
