@@ -119,6 +119,12 @@
         <action
             android:id="@+id/action_homeFragment_to_destinationDetailFragment"
             app:destination="@id/destinationDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_rentalDetailsFragment"
+            app:destination="@id/rentalDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_activityBookingFragment"
+            app:destination="@id/activityBookingFragment" />
     </fragment>
 
     <!-- Destination Fragments (Teammate Fragments & Feature Screens) -->
@@ -160,7 +166,11 @@
         android:id="@+id/rentalsTransportFragment"
         android:name="com.example.lankago.fragments.RentalsTransportFragment"
         android:label="Rentals &amp; Transport"
-        tools:layout="@layout/rentals_and_transport" />
+        tools:layout="@layout/rentals_and_transport">
+        <action
+            android:id="@+id/action_rentalsTransportFragment_to_rentalDetailsFragment"
+            app:destination="@id/rentalDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/notificationsFragment"
@@ -178,13 +188,14 @@
         android:id="@+id/tripPlannerFragment"
         android:name="com.example.lankago.fragments.TripPlannerFragment"
         android:label="Trip Planner"
-        tools:layout="@layout/trip_planner" />
-
-    <fragment
-        android:id="@+id/destinationDetailFragment"
-        android:name="com.example.lankago.fragments.DestinationDetailFragment"
-        android:label="Destination Detail"
-        tools:layout="@layout/destination_detail" />
+        tools:layout="@layout/trip_planner">
+        <action
+            android:id="@+id/action_tripPlannerFragment_to_rentalDetailsFragment"
+            app:destination="@id/rentalDetailsFragment" />
+        <action
+            android:id="@+id/action_tripPlannerFragment_to_activityBookingFragment"
+            app:destination="@id/activityBookingFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/favoritesFragment"
@@ -323,5 +334,29 @@
         android:name="com.example.lankago.fragments.admin.AdminPushNotificationsFragment"
         android:label="Push Notifications"
         tools:layout="@layout/admin_push_notifications" />
+
+    <!-- Vehicle & Bike Rental Details -->
+    <fragment
+        android:id="@+id/rentalDetailsFragment"
+        android:name="com.example.lankago.fragments.RentalDetailsFragment"
+        android:label="Rental Details"
+        tools:layout="@layout/fragment_rental_details">
+        <argument
+            android:name="rentalId"
+            app:argType="string"
+            android:defaultValue="rental_scooter_ella" />
+    </fragment>
+
+    <!-- Activity & Tour Booking -->
+    <fragment
+        android:id="@+id/activityBookingFragment"
+        android:name="com.example.lankago.fragments.ActivityBookingFragment"
+        android:label="Activity Booking"
+        tools:layout="@layout/fragment_activity_booking">
+        <argument
+            android:name="activityId"
+            app:argType="string"
+            android:defaultValue="act_sigiriya_hike" />
+    </fragment>
 
 </navigation>

@@ -3,21 +3,15 @@ package com.example.lankago.fragments
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.cardview.widget.CardView
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +23,6 @@ import com.example.lankago.utils.TripManager
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import java.io.File
 
 class TripPlannerFragment : Fragment() {
 
@@ -37,23 +30,6 @@ class TripPlannerFragment : Fragment() {
     private lateinit var rvTrips: RecyclerView
     private lateinit var layoutEmptyTrips: View
     private lateinit var fabCreateTrip: ExtendedFloatingActionButton
-
-    // Camera photo capture state
-    private var currentPhotoUri: Uri? = null
-    private var activeCapturedUri: Uri? = null
-    private var activeDialogIv: ImageView? = null
-    private var activeDialogPlaceholder: View? = null
-    private var activeDialogRetakeBadge: View? = null
-
-    private val takePictureLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-        if (success && currentPhotoUri != null) {
-            activeCapturedUri = currentPhotoUri
-            activeDialogIv?.setImageURI(activeCapturedUri)
-            activeDialogIv?.visibility = View.VISIBLE
-            activeDialogPlaceholder?.visibility = View.GONE
-            activeDialogRetakeBadge?.visibility = View.VISIBLE
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -124,29 +100,15 @@ class TripPlannerFragment : Fragment() {
     }
 
     private fun showCreateTripDialog() {
-        // Reset active capture variables
-        activeCapturedUri = null
-        currentPhotoUri = null
-
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_create_trip, null)
-        val tilName = dialogView.findViewById<TextInputLayout>(R.id.til_trip_name)
-        val etName = dialogView.findViewById<EditText>(R.id.et_trip_name)
-        val etDate = dialogView.findViewById<EditText>(R.id.et_trip_date)
-        val rgTravelerType = dialogView.findViewById<RadioGroup>(R.id.rg_traveler_type)
-        val rbLocal = dialogView.findViewById<RadioButton>(R.id.rb_local)
-        val rbForeign = dialogView.findViewById<RadioButton>(R.id.rb_foreign)
-        val cardIdCapture = dialogView.findViewById<CardView>(R.id.card_id_capture)
-        val ivIdCapture = dialogView.findViewById<ImageView>(R.id.ivIdCapture)
-        val layoutPlaceholder = dialogView.findViewById<View>(R.id.layout_id_placeholder)
-        val tvIdPlaceholder = dialogView.findViewById<TextView>(R.id.tv_id_capture_placeholder)
-        val tvRetakeBadge = dialogView.findViewById<TextView>(R.id.tv_retake_badge)
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.create_trip, null)
+        val tilDestination = dialogView.findViewById<TextInputLayout>(R.id.til_destination)
+        val etDestination = dialogView.findViewById<EditText>(R.id.et_destination)
+        val tilDates = dialogView.findViewById<TextInputLayout>(R.id.til_trip_dates)
+        val etDates = dialogView.findViewById<EditText>(R.id.et_trip_dates)
+        val etTravelers = dialogView.findViewById<EditText>(R.id.et_travelers_count)
+        val cbAddRental = dialogView.findViewById<CheckBox>(R.id.cb_add_rental)
         val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel_trip)
-        val btnSave = dialogView.findViewById<Button>(R.id.btn_save_trip_dialog)
-
-        // Store dialog view references for camera callback
-        activeDialogIv = ivIdCapture
-        activeDialogPlaceholder = layoutPlaceholder
-        activeDialogRetakeBadge = tvRetakeBadge
+        val btnCreate = dialogView.findViewById<Button>(R.id.btn_confirm_create_trip)
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
@@ -154,110 +116,125 @@ class TripPlannerFragment : Fragment() {
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        // Dynamic placeholder text based on traveler type selection
-        rgTravelerType.setOnCheckedChangeListener { _, checkedId ->
-            if (checkedId == R.id.rb_foreign) {
-                tvIdPlaceholder.text = "Tap to capture Foreign Passport"
-            } else {
-                tvIdPlaceholder.text = "Tap to capture NIC"
-            }
-        }
-
-        // Camera trigger on tapping capture card or image view
-        val captureClickListener = View.OnClickListener {
-            launchCameraForIdCapture()
-        }
-        cardIdCapture.setOnClickListener(captureClickListener)
-        ivIdCapture.setOnClickListener(captureClickListener)
-
         btnCancel.setOnClickListener {
             dialog.dismiss()
         }
 
-        btnSave.setOnClickListener {
-            val name = etName.text?.toString()?.trim() ?: ""
-            val date = etDate.text?.toString()?.trim() ?: ""
+        btnCreate.setOnClickListener {
+            val destination = etDestination.text?.toString()?.trim() ?: ""
+            val dates = etDates.text?.toString()?.trim() ?: ""
+            val travelers = etTravelers.text?.toString()?.trim() ?: "2"
 
-            // 1. Validate that Trip Name is not empty
-            if (name.isEmpty()) {
-                tilName.error = "Please enter a trip name"
+            // UI Validation
+            if (destination.isEmpty()) {
+                tilDestination.error = "Please enter a destination (e.g. Ella, Sigiriya)"
+                etDestination.requestFocus()
                 return@setOnClickListener
             }
-            tilName.error = null
+            tilDestination.error = null
 
-            // 2. Validate that an ID/Passport image is captured
-            if (activeCapturedUri == null) {
-                val requiredDoc = if (rbForeign.isChecked) "Passport" else "NIC"
-                Toast.makeText(
-                    requireContext(),
-                    "Please capture traveler $requiredDoc before saving",
-                    Toast.LENGTH_SHORT
-                ).show()
+            if (dates.isEmpty()) {
+                tilDates.error = "Please specify travel dates"
+                etDates.requestFocus()
                 return@setOnClickListener
             }
+            tilDates.error = null
 
-            // 3. Create the Trip object with travelerType and idImageUri
-            val travelerType = if (rbForeign.isChecked) "Foreign" else "Local"
+            // Construct new trip
             val newTrip = Trip(
                 id = "trip_${System.currentTimeMillis()}",
-                tripName = name,
-                date = if (date.isNotEmpty()) date else "Flexible dates",
-                travelerType = travelerType,
-                idImageUri = activeCapturedUri.toString(),
-                places = mutableListOf()
+                tripName = "$destination Journey ($travelers Travelers)",
+                date = dates,
+                travelerType = "Local",
+                idImageUri = null,
+                places = mutableListOf(),
+                bookedRentals = mutableListOf(),
+                bookedActivities = mutableListOf()
             )
 
-            // 4. Save using TripManager (persist in SharedPreferences via Gson)
+            // Save persistently
             TripManager.saveTrip(requireContext(), newTrip)
+            dialog.dismiss()
+            loadTrips()
 
             Snackbar.make(
                 requireView(),
-                "Trip \"$name\" Saved Successfully!",
+                "Trip \"${newTrip.tripName}\" Created Successfully!",
                 Snackbar.LENGTH_SHORT
             ).show()
 
-            // 5. Dismiss dialog and refresh the list
-            dialog.dismiss()
-            loadTrips()
+            // SafeArgs navigation if user checked "Include Vehicle / Bike Rental"
+            if (cbAddRental.isChecked) {
+                val bundle = Bundle().apply {
+                    putString("rentalId", "rental_scooter_ella")
+                }
+                findNavController().navigate(
+                    R.id.action_tripPlannerFragment_to_rentalDetailsFragment,
+                    bundle
+                )
+            }
         }
 
         dialog.show()
     }
 
-    private fun launchCameraForIdCapture() {
-        try {
-            val tempFile = File.createTempFile("traveler_id_${System.currentTimeMillis()}", ".jpg", requireContext().cacheDir).apply {
-                createNewFile()
-            }
-            val uri = FileProvider.getUriForFile(
-                requireContext(),
-                "${requireContext().packageName}.fileprovider",
-                tempFile
-            )
-            currentPhotoUri = uri
-            takePictureLauncher.launch(uri)
-        } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Camera error: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     private fun showTripItineraryDialog(trip: Trip) {
-        val placesCount = trip.places.size
         val items = mutableListOf<String>()
 
-        items.add("Traveler Verification: ${trip.travelerType} (${if (trip.travelerType.equals("Foreign", true)) "Passport" else "NIC"})")
+        items.add("📌 Destination & Dates: ${trip.tripName} (${trip.date})")
 
-        if (placesCount > 0) {
+        // Display Destinations
+        if (trip.places.isNotEmpty()) {
             trip.places.forEachIndexed { index, place ->
-                items.add("Stop ${index + 1}: ${place.name} (${place.location})")
+                items.add("📍 Stop ${index + 1}: ${place.name} (${place.location})")
             }
         } else {
-            items.add("No destinations added yet.\nOpen any place in LankaGo and tap 'Add to Trip'!")
+            items.add("📍 No destination checkpoints added yet.")
         }
+
+        // Display Booked Rentals
+        if (trip.bookedRentals.isNotEmpty()) {
+            trip.bookedRentals.forEach { rental ->
+                items.add("🛵 Booked Vehicle: ${rental.name} (${rental.vendorName})")
+            }
+        }
+
+        // Display Booked Activities
+        if (trip.bookedActivities.isNotEmpty()) {
+            trip.bookedActivities.forEach { act ->
+                items.add("🎟 Booked Activity: ${act.title}")
+            }
+        }
+
+        // Action Options
+        items.add("➔ Explore & Book Vehicles / Bikes")
+        items.add("➔ Explore & Book Activities / Tours")
 
         AlertDialog.Builder(requireContext())
             .setTitle(trip.tripName)
-            .setItems(items.toTypedArray(), null)
+            .setItems(items.toTypedArray()) { _, which ->
+                val selectedOption = items[which]
+                when {
+                    selectedOption.contains("Book Vehicles") -> {
+                        val bundle = Bundle().apply {
+                            putString("rentalId", "rental_scooter_ella")
+                        }
+                        findNavController().navigate(
+                            R.id.action_tripPlannerFragment_to_rentalDetailsFragment,
+                            bundle
+                        )
+                    }
+                    selectedOption.contains("Book Activities") -> {
+                        val bundle = Bundle().apply {
+                            putString("activityId", "act_sigiriya_hike")
+                        }
+                        findNavController().navigate(
+                            R.id.action_tripPlannerFragment_to_activityBookingFragment,
+                            bundle
+                        )
+                    }
+                }
+            }
             .setPositiveButton("Close", null)
             .show()
     }

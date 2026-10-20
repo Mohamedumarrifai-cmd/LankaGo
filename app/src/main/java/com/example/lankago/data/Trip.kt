@@ -4,7 +4,7 @@ import com.example.lankago.utils.Place
 
 /**
  * Data model representing a user-created travel itinerary in LankaGo.
- * Includes traveler verification details (NIC for Local, Passport for Foreign).
+ * Includes traveler verification details and booked rentals / activities.
  */
 data class Trip(
     val id: String,
@@ -12,5 +12,7 @@ data class Trip(
     val date: String,
     val travelerType: String = "Local", // "Local" or "Foreign"
     val idImageUri: String? = null,      // Local FileProvider URI string
-    val places: MutableList<Place> = mutableListOf()
+    val places: MutableList<Place> = mutableListOf(),
+    val bookedRentals: MutableList<RentalVehicle> = mutableListOf(),
+    val bookedActivities: MutableList<ActivityItem> = mutableListOf()
 )

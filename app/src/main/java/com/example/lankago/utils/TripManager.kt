@@ -2,6 +2,8 @@ package com.example.lankago.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.lankago.data.ActivityItem
+import com.example.lankago.data.RentalVehicle
 import com.example.lankago.data.Trip
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -56,7 +58,6 @@ object TripManager {
 
     /**
      * Adds a Place to a specific Trip's places list.
-     * Returns true if added, false if place already existed in that trip.
      */
     fun addPlaceToTrip(context: Context, tripId: String, place: Place): Boolean {
         val currentTrips = getAllTrips(context).toMutableList()
@@ -71,6 +72,38 @@ object TripManager {
                 persistTrips(context, currentTrips)
                 return true
             }
+        }
+        return false
+    }
+
+    /**
+     * Appends a booked RentalVehicle to the active trip.
+     */
+    fun addRentalToTrip(context: Context, tripId: String, rental: RentalVehicle): Boolean {
+        val currentTrips = getAllTrips(context).toMutableList()
+        val tripIndex = if (tripId.isNotEmpty()) currentTrips.indexOfFirst { it.id == tripId } else 0
+
+        if (tripIndex != -1 && tripIndex < currentTrips.size) {
+            val targetTrip = currentTrips[tripIndex]
+            targetTrip.bookedRentals.add(rental)
+            persistTrips(context, currentTrips)
+            return true
+        }
+        return false
+    }
+
+    /**
+     * Appends a booked ActivityItem to the active trip.
+     */
+    fun addActivityToTrip(context: Context, tripId: String, activity: ActivityItem): Boolean {
+        val currentTrips = getAllTrips(context).toMutableList()
+        val tripIndex = if (tripId.isNotEmpty()) currentTrips.indexOfFirst { it.id == tripId } else 0
+
+        if (tripIndex != -1 && tripIndex < currentTrips.size) {
+            val targetTrip = currentTrips[tripIndex]
+            targetTrip.bookedActivities.add(activity)
+            persistTrips(context, currentTrips)
+            return true
         }
         return false
     }
