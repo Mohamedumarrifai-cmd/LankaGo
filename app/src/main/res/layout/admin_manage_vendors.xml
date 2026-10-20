@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#F8F9FB"
     tools:context=".fragments.admin.AdminManageVendorsFragment">
 
     <!-- Top App Bar -->
@@ -20,154 +20,114 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/btn_back_vendors"
+            android:id="@+id/btn_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/bg_white_circle"
             android:clickable="true"
+            android:contentDescription="Back"
             android:focusable="true"
             android:padding="8dp"
             android:src="@drawable/ic_arrow_back"
-            app:tint="#1A2B4C"
-            android:contentDescription="Back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#1A2B4C" />
 
         <TextView
-            android:id="@+id/tv_manage_vendors_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="12dp"
             android:fontFamily="sans-serif-black"
             android:text="Manage Vendors"
             android:textColor="#1A2B4C"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btn_back_vendors"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_vendors_pending_badge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_badge_pending"
-            android:fontFamily="sans-serif-medium"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="4dp"
-            android:text="24 Pending"
-            android:textColor="#B45309"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_back"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:id="@+id/divider_top_vendors"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="#E5E7EB"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_bar_vendors" />
-
-    <!-- Filter Chips Row: Pending, Approved, Rejected -->
+    <!-- Filter Chips HorizontalScrollView -->
     <HorizontalScrollView
-        android:id="@+id/scroll_filter_chips"
+        android:id="@+id/scroll_chips"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="12dp"
+        android:layout_marginTop="12dp"
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider_top_vendors">
+        app:layout_constraintTop_toBottomOf="@id/top_bar_vendors">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp">
 
-            <!-- Chip 1: Pending (Active by default) -->
             <TextView
                 android:id="@+id/chip_pending"
                 android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:background="@drawable/bg_admin_chip_active"
-                android:clickable="true"
-                android:focusable="true"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center"
-                android:paddingHorizontal="18dp"
-                android:text="Pending (24)"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_chip_selected"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:text="Pending (18)"
                 android:textColor="#FFFFFF"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
-            <!-- Chip 2: Approved -->
             <TextView
                 android:id="@+id/chip_approved"
                 android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/bg_admin_chip_inactive"
-                android:clickable="true"
-                android:focusable="true"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center"
-                android:paddingHorizontal="18dp"
-                android:text="Approved (152)"
-                android:textColor="#1A2B4C"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_chip_unselected"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:text="Approved"
+                android:textColor="#666666"
                 android:textSize="13sp" />
 
-            <!-- Chip 3: Rejected -->
             <TextView
                 android:id="@+id/chip_rejected"
                 android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/bg_admin_chip_inactive"
-                android:clickable="true"
-                android:focusable="true"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center"
-                android:paddingHorizontal="18dp"
-                android:text="Rejected (10)"
-                android:textColor="#1A2B4C"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_chip_unselected"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"
+                android:text="Rejected"
+                android:textColor="#666666"
                 android:textSize="13sp" />
-
         </LinearLayout>
     </HorizontalScrollView>
 
     <!-- Scrollable Vendors List -->
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/scroll_vendors_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingBottom="24dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scroll_filter_chips">
+        app:layout_constraintTop_toBottomOf="@id/scroll_chips">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="20dp">
+            android:paddingBottom="32dp">
 
-            <!-- Vendor Card 1: Ceylon Artisan Pottery -->
+            <!-- Vendor Card 1 -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_vendor_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="8dp"
                 app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="3dp"
                 app:strokeColor="#E5E7EB"
                 app:strokeWidth="1dp">
 
@@ -175,7 +135,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -183,17 +143,14 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <!-- Shop Image (80dp) -->
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/img_vendor_shop_1"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/bg_circle_blue"
+                            android:contentDescription="Store Logo"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/pottery"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
-                            tools:src="@drawable/pottery" />
+                            android:src="@drawable/logo" />
 
-                        <!-- Shop & Owner Info -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -201,106 +158,84 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
 
-                            <!-- Status Badge -->
                             <TextView
-                                android:id="@+id/tv_vendor_status_1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/bg_badge_pending"
-                                android:fontFamily="sans-serif-medium"
-                                android:paddingHorizontal="8dp"
-                                android:paddingVertical="3dp"
-                                android:text="Pending Review"
-                                android:textColor="#B45309"
-                                android:textSize="11sp"
-                                tools:text="Pending Review" />
-
-                            <TextView
-                                android:id="@+id/tv_vendor_name_1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
                                 android:fontFamily="sans-serif-black"
                                 android:text="Ceylon Artisan Pottery"
                                 android:textColor="#1A2B4C"
-                                android:textSize="15sp"
-                                tools:text="Ceylon Artisan Pottery" />
+                                android:textSize="16sp" />
 
                             <TextView
-                                android:id="@+id/tv_vendor_contact_1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
                                 android:fontFamily="sans-serif"
-                                android:text="Owner: +94 77 234 5678"
+                                android:text="Traditional Crafts · Kegalle"
                                 android:textColor="#8A8F98"
-                                android:textSize="12sp"
-                                tools:text="Owner: +94 77 234 5678" />
-
-                            <TextView
-                                android:id="@+id/tv_vendor_location_1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="2dp"
-                                android:fontFamily="sans-serif"
-                                android:text="Kegalle, Sabaragamuwa"
-                                android:textColor="#1A2B4C"
-                                android:textSize="12sp"
-                                tools:text="Kegalle, Sabaragamuwa" />
+                                android:textSize="13sp" />
                         </LinearLayout>
+
+                        <!-- Status Badge 1 -->
+                        <TextView
+                            android:id="@+id/tv_vendor_status_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_badge"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="6dp"
+                            android:text="Pending"
+                            android:textColor="#E91E63"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="12dp"
-                        android:background="#F0F2F5" />
-
-                    <!-- Action Buttons: Green Approve & Red Reject -->
+                    <!-- Action Buttons 1 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
                         android:orientation="horizontal">
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_reject_vendor_1"
-                            android:layout_width="0dp"
-                            android:layout_height="44dp"
-                            android:layout_marginEnd="6dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/bg_button_danger_solid_pill"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Reject"
-                            android:textAllCaps="false"
-                            android:textColor="#FFFFFF"
-                            android:textSize="14sp" />
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_approve_vendor_1"
                             android:layout_width="0dp"
-                            android:layout_height="44dp"
-                            android:layout_marginStart="6dp"
+                            android:layout_height="48dp"
+                            android:layout_marginEnd="6dp"
                             android:layout_weight="1"
-                            android:background="@drawable/bg_button_success_pill"
-                            android:fontFamily="sans-serif-medium"
+                            android:background="@drawable/button_primary"
                             android:text="Approve"
                             android:textAllCaps="false"
                             android:textColor="#FFFFFF"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_reject_vendor_1"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/chip_inactive"
+                            android:text="Reject"
+                            android:textAllCaps="false"
+                            android:textColor="#E53935"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Vendor Card 2: Mirissa Cinnamon Grove -->
+            <!-- Vendor Card 2 -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_vendor_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="8dp"
                 app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="3dp"
                 app:strokeColor="#E5E7EB"
                 app:strokeWidth="1dp">
 
@@ -308,7 +243,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -316,17 +251,14 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <!-- Shop Image (80dp) -->
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/img_vendor_shop_2"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/bg_circle_green"
+                            android:contentDescription="Store Logo"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/spice_garden"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
-                            tools:src="@drawable/spice_garden" />
+                            android:src="@drawable/logo" />
 
-                        <!-- Shop & Owner Info -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -335,92 +267,71 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/tv_vendor_status_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/bg_badge_pending"
-                                android:fontFamily="sans-serif-medium"
-                                android:paddingHorizontal="8dp"
-                                android:paddingVertical="3dp"
-                                android:text="Pending Review"
-                                android:textColor="#B45309"
-                                android:textSize="11sp"
-                                tools:text="Pending Review" />
-
-                            <TextView
-                                android:id="@+id/tv_vendor_name_2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
                                 android:fontFamily="sans-serif-black"
                                 android:text="Mirissa Cinnamon Grove"
                                 android:textColor="#1A2B4C"
-                                android:textSize="15sp"
-                                tools:text="Mirissa Cinnamon Grove" />
+                                android:textSize="16sp" />
 
                             <TextView
-                                android:id="@+id/tv_vendor_contact_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
                                 android:fontFamily="sans-serif"
-                                android:text="Owner: +94 71 889 1234"
+                                android:text="Organic Spices · Matara"
                                 android:textColor="#8A8F98"
-                                android:textSize="12sp"
-                                tools:text="Owner: +94 71 889 1234" />
-
-                            <TextView
-                                android:id="@+id/tv_vendor_location_2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="2dp"
-                                android:fontFamily="sans-serif"
-                                android:text="Mirissa, Southern Province"
-                                android:textColor="#1A2B4C"
-                                android:textSize="12sp"
-                                tools:text="Mirissa, Southern Province" />
+                                android:textSize="13sp" />
                         </LinearLayout>
+
+                        <!-- Status Badge 2 -->
+                        <TextView
+                            android:id="@+id/tv_vendor_status_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_badge"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="6dp"
+                            android:text="Pending"
+                            android:textColor="#E91E63"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="12dp"
-                        android:background="#F0F2F5" />
-
-                    <!-- Action Buttons: Green Approve & Red Reject -->
+                    <!-- Action Buttons 2 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
                         android:orientation="horizontal">
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/btn_reject_vendor_2"
-                            android:layout_width="0dp"
-                            android:layout_height="44dp"
-                            android:layout_marginEnd="6dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/bg_button_danger_solid_pill"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Reject"
-                            android:textAllCaps="false"
-                            android:textColor="#FFFFFF"
-                            android:textSize="14sp" />
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_approve_vendor_2"
                             android:layout_width="0dp"
-                            android:layout_height="44dp"
-                            android:layout_marginStart="6dp"
+                            android:layout_height="48dp"
+                            android:layout_marginEnd="6dp"
                             android:layout_weight="1"
-                            android:background="@drawable/bg_button_success_pill"
-                            android:fontFamily="sans-serif-medium"
+                            android:background="@drawable/button_primary"
                             android:text="Approve"
                             android:textAllCaps="false"
                             android:textColor="#FFFFFF"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_reject_vendor_2"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/chip_inactive"
+                            android:text="Reject"
+                            android:textAllCaps="false"
+                            android:textColor="#E53935"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

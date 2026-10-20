@@ -13,4 +13,10 @@
     <color name="admin_success_light">#D1FAE5</color>
     <color name="admin_warning">#F59E0B</color>
     <color name="admin_warning_light">#FEF3C7</color>
+    <color name="admin_primary_navy">#1A2B4C</color>
+    <color name="admin_accent_indigo">#5D5FEF</color>
+    <color name="admin_indigo_soft">#EEF0FF</color>
+    <color name="admin_card_stroke">#1F5D5FEF</color>
+    <color name="admin_bg_start">#F8F9FB</color>
+    <color name="admin_bg_end">#E2E8F0</color>
 </resources>

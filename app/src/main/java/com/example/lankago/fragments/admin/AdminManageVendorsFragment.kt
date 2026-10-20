@@ -25,7 +25,7 @@ class AdminManageVendorsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Back Button
-        view.findViewById<View>(R.id.btn_back_vendors)?.setOnClickListener {
+        view.findViewById<View>(R.id.btn_back)?.setOnClickListener {
             findNavController().navigateUp()
         }
 

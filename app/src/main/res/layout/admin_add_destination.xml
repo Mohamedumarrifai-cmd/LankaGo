@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#F8F9FB"
     tools:context=".fragments.admin.AdminAddDestinationFragment">
 
     <!-- Top App Bar -->
@@ -23,7 +23,7 @@
             android:id="@+id/btn_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/bg_white_circle"
             android:clickable="true"
             android:contentDescription="Back"
             android:focusable="true"
@@ -37,9 +37,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="12dp"
             android:fontFamily="sans-serif-black"
-            android:text="Add Destination"
+            android:text="Publish New Place"
             android:textColor="#1A2B4C"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -47,15 +47,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <View
-        android:id="@+id/divider_top_add_dest"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="#E5E7EB"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_bar_add" />
 
     <!-- Scrollable Form Container -->
     <androidx.core.widget.NestedScrollView
@@ -65,19 +56,71 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider_top_add_dest">
+        app:layout_constraintTop_toBottomOf="@id/top_bar_add">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="20dp"
+            android:paddingHorizontal="24dp"
             android:paddingTop="20dp"
             android:paddingBottom="40dp">
 
+            <!-- Image Upload Box -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#5D5FEF"
+                app:strokeWidth="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_circle_purple">
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="Camera"
+                            android:src="@android:drawable/ic_menu_camera"
+                            app:tint="#5D5FEF" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Upload Cover Photo"
+                        android:textColor="#1A2B4C"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="sans-serif"
+                        android:text="Tap to browse from gallery"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Destination Name -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Destination Name"
                 android:textColor="#1A2B4C"
@@ -91,21 +134,47 @@
                 android:autofillHints="name"
                 android:background="@drawable/bg_input"
                 android:fontFamily="sans-serif"
-                android:hint="e.g., Sigiriya Rock"
+                android:hint="e.g., Sigiriya Rock Fortress"
                 android:inputType="textCapWords"
                 android:paddingHorizontal="16dp"
                 android:textColor="#1A2B4C"
                 android:textColorHint="#8A8F98"
                 android:textSize="15sp" />
 
+            <!-- Category / Location -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Location / Region"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/et_dest_location"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:autofillHints="address"
+                android:background="@drawable/bg_input"
+                android:fontFamily="sans-serif"
+                android:hint="e.g., Central Province, Sigiriya"
+                android:inputType="textPostalAddress"
+                android:paddingHorizontal="16dp"
+                android:textColor="#1A2B4C"
+                android:textColorHint="#8A8F98"
+                android:textSize="15sp" />
+
+            <!-- Publish Button -->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_publish_destination"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="32dp"
                 android:background="@drawable/button_primary"
                 android:fontFamily="sans-serif-medium"
-                android:text="Publish Destination"
+                android:text="Publish to App"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />
