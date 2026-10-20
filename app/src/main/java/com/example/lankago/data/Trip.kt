@@ -1,0 +1,16 @@
+package com.example.lankago.data
+
+import com.example.lankago.utils.Place
+
+/**
+ * Data model representing a user-created travel itinerary in LankaGo.
+ * Includes traveler verification details (NIC for Local, Passport for Foreign).
+ */
+data class Trip(
+    val id: String,
+    val tripName: String,
+    val date: String,
+    val travelerType: String = "Local", // "Local" or "Foreign"
+    val idImageUri: String? = null,      // Local FileProvider URI string
+    val places: MutableList<Place> = mutableListOf()
+)
