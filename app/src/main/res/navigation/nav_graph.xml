@@ -5,6 +5,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/splashFragment">
 
+
     <!-- 1. Splash Screen with Session Routing -->
     <fragment
         android:id="@+id/splashFragment"

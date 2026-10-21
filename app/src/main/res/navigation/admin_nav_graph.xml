@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_nav_graph"
+    app:startDestination="@id/adminLoginFragment">
+
+    <!-- 1. Admin Authentication -->
+    <fragment
+        android:id="@+id/adminLoginFragment"
+        android:name="com.example.lankago.fragments.admin.AdminLoginFragment"
+        android:label="Admin Login"
+        tools:layout="@layout/fragment_admin_login">
+        <action
+            android:id="@+id/action_adminLoginFragment_to_adminDashboardFragment"
+            app:destination="@id/adminDashboardFragment"
+            app:popUpTo="@id/adminLoginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- 2. Admin Dashboard -->
+    <fragment
+        android:id="@+id/adminDashboardFragment"
+        android:name="com.example.lankago.fragments.admin.AdminDashboardFragment"
+        android:label="Admin Dashboard"
+        tools:layout="@layout/fragment_admin_dashboard">
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminRentalListFragment"
+            app:destination="@id/adminRentalListFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminLoginFragment"
+            app:destination="@id/adminLoginFragment"
+            app:popUpTo="@id/admin_nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- 3. Manage Rentals List Screen -->
+    <fragment
+        android:id="@+id/adminRentalListFragment"
+        android:name="com.example.lankago.fragments.admin.AdminRentalListFragment"
+        android:label="Manage Rental Shops"
+        tools:layout="@layout/fragment_admin_rental_list">
+        <action
+            android:id="@+id/action_adminRentalListFragment_to_addEditRentalFragment"
+            app:destination="@id/addEditRentalFragment" />
+    </fragment>
+
+    <!-- 4. Add/Edit Rental Shop Screen -->
+    <fragment
+        android:id="@+id/addEditRentalFragment"
+        android:name="com.example.lankago.fragments.admin.AddEditRentalFragment"
+        android:label="Add / Edit Rental Shop"
+        tools:layout="@layout/fragment_add_edit_rental">
+        <argument
+            android:name="rentalShopId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
+</navigation>
