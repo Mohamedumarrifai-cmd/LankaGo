@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.example.lankago.R
 import com.example.lankago.data.TraditionalActivity
 import com.example.lankago.repository.AdminRepository
+import com.example.lankago.utils.ImagePickerHelper
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -56,12 +57,10 @@ class AddEditActivityFragment : Fragment() {
     private lateinit var pbSave: ProgressBar
     private lateinit var toolbar: Toolbar
 
-    private val selectImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        if (uri != null) {
-            selectedImageUri = uri
-            ivCoverPreview.setImageURI(uri)
-            tvImageStatus.text = "New image selected (will upload to Firebase Storage)"
-        }
+    private val imagePickerHelper = ImagePickerHelper(this) { uri ->
+        selectedImageUri = uri
+        ivCoverPreview.setImageURI(uri)
+        tvImageStatus.text = "New image selected (will upload to Firebase Storage)"
     }
 
     override fun onCreateView(
@@ -112,7 +111,7 @@ class AddEditActivityFragment : Fragment() {
         actCategory.setAdapter(categoryAdapter)
 
         btnSelectImage.setOnClickListener {
-            selectImageLauncher.launch("image/*")
+            imagePickerHelper.showImageSourceDialog("Select Activity Image")
         }
 
         // Read arguments to determine if we are in Add or Edit mode

@@ -82,7 +82,11 @@ class TripPlannerFragment : Fragment() {
 
     private fun setupFab() {
         fabCreateTrip.setOnClickListener {
-            showCreateTripDialog()
+            try {
+                findNavController().navigate(R.id.action_tripPlannerFragment_to_planTripFragment)
+            } catch (_: Exception) {
+                showCreateTripDialog()
+            }
         }
     }
 

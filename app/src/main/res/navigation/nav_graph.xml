@@ -299,6 +299,9 @@
         <action
             android:id="@+id/action_tripPlannerFragment_to_activityBookingFragment"
             app:destination="@id/activityBookingFragment" />
+        <action
+            android:id="@+id/action_tripPlannerFragment_to_planTripFragment"
+            app:destination="@id/planTripFragment" />
     </fragment>
 
     <fragment
@@ -425,6 +428,11 @@
         <action
             android:id="@+id/action_rentalDetailsFragment_to_mapRouteFragment"
             app:destination="@id/mapRouteFragment" />
+        <action
+            android:id="@+id/action_rentalDetailsFragment_to_tripPlannerFragment"
+            app:destination="@id/tripPlannerFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <!-- Activity & Tour Booking -->

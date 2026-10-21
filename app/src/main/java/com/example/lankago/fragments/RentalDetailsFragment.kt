@@ -70,7 +70,7 @@ class RentalDetailsFragment : Fragment() {
         val rvNearby = view.findViewById<RecyclerView>(R.id.rv_nearby_rentals)
         nearbyAdapter = NearbyRentalAdapter(emptyList()) { selectedRental ->
             viewModel.loadRentalDetails(selectedRental.id)
-            view.findViewById<androidx.core.widget.NestedScrollView>(R.id.btn_back_rental)?.scrollTo(0, 0)
+            view.findViewById<androidx.core.widget.NestedScrollView>(R.id.scroll_rental_details)?.scrollTo(0, 0)
         }
         rvNearby?.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -103,6 +103,22 @@ class RentalDetailsFragment : Fragment() {
     }
 
     private fun bindRentalData(view: View, rental: RentalVehicle) {
+        // Hero Image
+        val ivHero = view.findViewById<ImageView>(R.id.iv_rental_hero)
+        if (ivHero != null) {
+            val heroUrl = rental.images.firstOrNull()
+            if (!heroUrl.isNullOrBlank()) {
+                com.bumptech.glide.Glide.with(this)
+                    .load(heroUrl)
+                    .placeholder(R.drawable.ella_rental)
+                    .error(R.drawable.ella_rental)
+                    .centerCrop()
+                    .into(ivHero)
+            } else {
+                ivHero.setImageResource(R.drawable.ella_rental)
+            }
+        }
+
         view.findViewById<TextView>(R.id.tv_appbar_rental_title)?.text = rental.name
         view.findViewById<TextView>(R.id.tv_rental_name)?.text = rental.name
         view.findViewById<TextView>(R.id.tv_rental_location)?.text = "${rental.type} • ${rental.location}"
@@ -200,7 +216,8 @@ class RentalDetailsFragment : Fragment() {
 
     private fun showRentalBookingConfirmation(rental: RentalVehicle) {
         val trips = TripManager.getAllTrips(requireContext())
-        val targetTrip = trips.firstOrNull()
+        val passedTripId = arguments?.getString("activeTripId") ?: ""
+        val targetTrip = if (passedTripId.isNotBlank()) trips.find { it.id == passedTripId } ?: trips.firstOrNull() else trips.firstOrNull()
 
         val format = NumberFormat.getNumberInstance(Locale.US)
         val totalDue = format.format((rental.dailyRateLkr + rental.depositLkr).toInt())
@@ -215,8 +232,10 @@ class RentalDetailsFragment : Fragment() {
                 else "This rental reservation will be saved locally in your trip manager."
             )
             .setPositiveButton("Confirm & Add to Trip") { _, _ ->
-                val tripId = targetTrip?.id ?: ""
-                TripManager.addRentalToTrip(requireContext(), tripId, rental)
+                val tripId = targetTrip?.id ?: passedTripId
+                if (tripId.isNotBlank()) {
+                    TripManager.addRentalToTrip(requireContext(), tripId, rental)
+                }
 
                 // Save to Firebase Realtime Database /bookings node
                 viewLifecycleOwner.lifecycleScope.launch {
@@ -242,11 +261,23 @@ class RentalDetailsFragment : Fragment() {
                     }
                 }
 
+                val currentView = view ?: return@setPositiveButton
                 Snackbar.make(
-                    requireView(),
-                    "✓ ${rental.name} reserved & added to Itinerary!",
+                    currentView,
+                    "✓ ${rental.name} reserved & added to your Trip Itinerary!",
                     Snackbar.LENGTH_SHORT
                 ).show()
+
+                // Safe navigation back to Trip Planner after short delay
+                currentView.postDelayed({
+                    if (isAdded) {
+                        try {
+                            findNavController().navigate(R.id.action_rentalDetailsFragment_to_tripPlannerFragment)
+                        } catch (_: Exception) {
+                            findNavController().popBackStack()
+                        }
+                    }
+                }, 800L)
             }
             .setNegativeButton("Cancel", null)
             .show()

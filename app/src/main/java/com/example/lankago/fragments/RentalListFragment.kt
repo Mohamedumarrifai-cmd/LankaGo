@@ -34,7 +34,9 @@ class RentalListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        destinationLocation = arguments?.getString("destinationLocation") ?: "Sri Lanka"
+        destinationLocation = arguments?.getString("destinationCity")
+            ?: arguments?.getString("destinationLocation")
+            ?: "Sri Lanka"
 
         initViews(view)
         loadVehicles(view)
@@ -49,8 +51,13 @@ class RentalListFragment : Fragment() {
             "Available verified providers in $destinationLocation"
 
         val rvRentals = view.findViewById<RecyclerView>(R.id.rv_rentals_list)
+        val activeTripId = arguments?.getString("activeTripId") ?: ""
+
         rentalAdapter = RentalListAdapter(emptyList()) { selectedVehicle ->
-            val bundle = bundleOf("rentalId" to selectedVehicle.id)
+            val bundle = bundleOf(
+                "rentalId" to selectedVehicle.id,
+                "activeTripId" to activeTripId
+            )
             findNavController().navigate(
                 R.id.action_rentalListFragment_to_rentalDetailsFragment,
                 bundle

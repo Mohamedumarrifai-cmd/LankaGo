@@ -68,52 +68,85 @@
 
             <!-- Image Upload Box -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_upload_destination_photo"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="2dp"
-                app:strokeColor="#5D5FEF"
-                app:strokeWidth="2dp">
+                app:strokeColor="#1A2B4C"
+                app:strokeWidth="1.5dp">
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent">
 
-                    <FrameLayout
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:background="@drawable/bg_circle_purple">
+                    <LinearLayout
+                        android:id="@+id/layout_dest_placeholder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:layout_gravity="center"
-                            android:contentDescription="Camera"
-                            android:src="@android:drawable/ic_menu_camera"
-                            app:tint="#5D5FEF" />
-                    </FrameLayout>
+                        <FrameLayout
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/bg_circle_avatar">
+
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="Camera"
+                                android:src="@drawable/ic_camera"
+                                app:tint="#1A2B4C" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="sans-serif-black"
+                            android:text="Upload Cover Photo"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Tap to take photo or choose from gallery"
+                            android:textColor="#8A8F98"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_dest_cover_preview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        android:contentDescription="Cover Preview" />
 
                     <TextView
+                        android:id="@+id/tv_dest_retake_badge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:fontFamily="sans-serif-black"
-                        android:text="Upload Cover Photo"
-                        android:textColor="#1A2B4C"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="sans-serif"
-                        android:text="Tap to browse from gallery"
-                        android:textColor="#8A8F98"
-                        android:textSize="13sp" />
-                </LinearLayout>
+                        android:layout_gravity="bottom|end"
+                        android:layout_margin="12dp"
+                        android:background="#B31A2B4C"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:text="Change Photo"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+                </FrameLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Destination Name -->

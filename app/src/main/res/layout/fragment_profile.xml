@@ -51,15 +51,36 @@
                     android:orientation="vertical"
                     android:padding="24dp">
 
-                    <ImageView
-                        android:id="@+id/iv_profile_avatar"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:background="@drawable/bg_circle_avatar"
-                        android:padding="12dp"
-                        android:src="@drawable/ic_admin_profile"
-                        app:tint="#006C4C"
-                        android:contentDescription="Profile Picture" />
+                    <FrameLayout
+                        android:id="@+id/layout_avatar_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:id="@+id/iv_profile_avatar"
+                            android:layout_width="88dp"
+                            android:layout_height="88dp"
+                            android:background="@drawable/bg_circle_avatar"
+                            android:padding="8dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_admin_profile"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="Profile Picture" />
+
+                        <ImageView
+                            android:id="@+id/btn_change_avatar_photo"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="bottom|end"
+                            android:background="@drawable/bg_white_circle"
+                            android:elevation="4dp"
+                            android:padding="6dp"
+                            android:src="@drawable/ic_camera"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="Take or choose photo" />
+                    </FrameLayout>
 
                     <TextView
                         android:id="@+id/tv_profile_name"

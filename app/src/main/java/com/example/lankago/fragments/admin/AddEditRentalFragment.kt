@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.example.lankago.R
 import com.example.lankago.data.RentalShop
 import com.example.lankago.repository.AdminRepository
+import com.example.lankago.utils.ImagePickerHelper
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -40,20 +41,15 @@ class AddEditRentalFragment : Fragment() {
     private var existingShopId: String? = null
     private var existingImageUrl: String = ""
 
-    // Image Picker Launcher
-    private val pickImageLauncher = registerForActivityResult(
-        ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        if (uri != null) {
-            selectedImageUri = uri
-            view?.findViewById<ImageView>(R.id.iv_rental_cover_preview)?.let { ivPreview ->
-                Glide.with(this)
-                    .load(uri)
-                    .centerCrop()
-                    .into(ivPreview)
-            }
-            view?.findViewById<TextView>(R.id.tv_image_status)?.text = "New image selected for upload"
+    private val imagePickerHelper = ImagePickerHelper(this) { uri ->
+        selectedImageUri = uri
+        view?.findViewById<ImageView>(R.id.iv_rental_cover_preview)?.let { ivPreview ->
+            Glide.with(this)
+                .load(uri)
+                .centerCrop()
+                .into(ivPreview)
         }
+        view?.findViewById<TextView>(R.id.tv_image_status)?.text = "New image selected for upload"
     }
 
     override fun onCreateView(
@@ -98,9 +94,9 @@ class AddEditRentalFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        // Image picker trigger
+        // Image picker trigger (Camera or Gallery)
         btnSelectImage.setOnClickListener {
-            pickImageLauncher.launch("image/*")
+            imagePickerHelper.showImageSourceDialog("Select Rental Cover Image")
         }
 
         // Pre-fill fields if in Edit Mode

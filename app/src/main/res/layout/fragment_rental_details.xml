@@ -47,6 +47,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_rental_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -369,11 +370,6 @@
                     android:background="#F8F9FB"
                     android:orientation="vertical"
                     android:padding="16dp">
-
-                    <Row
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    </Row>
 
                     <LinearLayout
                         android:layout_width="match_parent"
