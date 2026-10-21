@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/route_tracking_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA">
+
+    <!-- Fullscreen Google Map Fragment -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/map_tracking_container"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Top Action Bar with Floating Back Button -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="48dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btn_close_route"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="6dp"
+            app:strokeColor="#E5E7EB"
+            app:strokeWidth="1dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:contentDescription="Close"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="#1A2B4C" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Route Status Pill in Top Center -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_route_status_pill"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_gravity="center_horizontal"
+            app:cardBackgroundColor="#1A2B4C"
+            app:cardCornerRadius="22dp"
+            app:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
+
+                <ProgressBar
+                    android:id="@+id/pb_route_status"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:indeterminateTint="#FFFFFF"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_route_status_icon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:contentDescription="Status"
+                    android:src="@drawable/ic_sparkle"
+                    app:tint="#10B981" />
+
+                <TextView
+                    android:id="@+id/tv_route_status_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Fastest Route"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </FrameLayout>
+
+    <!-- Floating Recenter GPS Location Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_my_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="250dp"
+        android:backgroundTint="#FFFFFF"
+        android:contentDescription="My Location"
+        android:src="@drawable/ic_map_pin"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        app:tint="#5D5FEF" />
+
+    <!-- Floating Bottom Navigation & ETA Details Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_route_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="12dp"
+        app:strokeColor="#E5E7EB"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Drag Handle / Visual Accent -->
+            <View
+                android:layout_width="40dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_drag_handle" />
+
+            <!-- Destination Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_circle_indigo_soft">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="Destination"
+                        android:src="@drawable/ic_map_pin"
+                        app:tint="#5D5FEF" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_route_destination_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="sans-serif-black"
+                        android:maxLines="1"
+                        android:textColor="#1A2B4C"
+                        android:textSize="18sp"
+                        tools:text="Epic Ride Scooter Rental" />
+
+                    <TextView
+                        android:id="@+id/tv_route_destination_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:ellipsize="end"
+                        android:fontFamily="sans-serif"
+                        android:maxLines="1"
+                        android:textColor="#8A8F98"
+                        android:textSize="13sp"
+                        tools:text="Galle Fort · Southern Province, Sri Lanka" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Metrics Row (Distance, ETA, Traffic) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <!-- ETA Box -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_circle_emerald_soft"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="12dp">
+
+                    <TextView
+                        android:id="@+id/tv_route_eta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#10B981"
+                        android:textSize="20sp"
+                        tools:text="28 mins" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Estimated Time"
+                        android:textColor="#065F46"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="1dp" />
+
+                <!-- Distance Box -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_circle_indigo_soft"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="12dp">
+
+                    <TextView
+                        android:id="@+id/tv_route_distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#5D5FEF"
+                        android:textSize="20sp"
+                        tools:text="14.2 km" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Total Distance"
+                        android:textColor="#3730A3"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Turn-by-Turn Navigation Trigger Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_start_external_nav"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#5D5FEF"
+                android:fontFamily="sans-serif-black"
+                android:text="Start Turn-by-Turn GPS Navigation"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                app:cornerRadius="16dp"
+                app:elevation="4dp"
+                app:icon="@drawable/ic_arrow_forward"
+                app:iconGravity="textEnd"
+                app:iconTint="#FFFFFF" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

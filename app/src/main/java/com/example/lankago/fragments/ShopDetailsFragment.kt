@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -255,21 +256,15 @@ class ShopDetailsFragment : Fragment() {
             }
         }
 
-        // Action Buttons: Google Maps Navigation
+        // Action Buttons: Route Tracking & Live GPS Navigation
         btnGoogleMaps.setOnClickListener {
-            val geoUri = Uri.parse("geo:${shop.lat},${shop.lng}?q=${shop.lat},${shop.lng}(${Uri.encode(shop.name)})")
-            val mapIntent = Intent(Intent.ACTION_VIEW, geoUri).apply {
-                setPackage("com.google.android.apps.maps")
-            }
-            try {
-                startActivity(mapIntent)
-            } catch (_: Exception) {
-                val browserIntent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://www.google.com/maps/search/?api=1&query=${shop.lat},${shop.lng}")
-                )
-                startActivity(browserIntent)
-            }
+            val bundle = bundleOf(
+                "destLat" to shop.lat,
+                "destLng" to shop.lng,
+                "destTitle" to shop.name,
+                "destAddress" to "${shop.address}, ${shop.city}"
+            )
+            findNavController().navigate(R.id.routeTrackingFragment, bundle)
         }
 
         // Reviews Binding

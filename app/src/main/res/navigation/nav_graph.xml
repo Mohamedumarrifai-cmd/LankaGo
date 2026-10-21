@@ -566,4 +566,11 @@
             android:defaultValue="shop_galle_bike" />
     </fragment>
 
+    <!-- 22. Advanced Google Maps Route Tracking Screen -->
+    <fragment
+        android:id="@+id/routeTrackingFragment"
+        android:name="com.example.lankago.fragments.RouteTrackingFragment"
+        android:label="Route Tracking"
+        tools:layout="@layout/fragment_route_tracking" />
+
 </navigation>

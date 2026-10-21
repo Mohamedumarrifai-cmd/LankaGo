@@ -4,4 +4,5 @@
     <string name="bottom_text">Discover · Explore · Experience</string>
     <string name="background_desc">Background image</string>
     <string name="logo_desc">App logo</string>
+    <string name="google_maps_key" translatable="false">YOUR_GOOGLE_MAPS_API_KEY_HERE</string>
 </resources>

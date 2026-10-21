@@ -1,20 +1,38 @@
 package com.example.lankago
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.lankago.services.MyFirebaseMessagingService
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
     private lateinit var bottomNavView: BottomNavigationView
+
+    private val requestNotificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            Log.d("MainActivity", "Notification permission granted.")
+            MyFirebaseMessagingService.syncCurrentUserToken()
+        } else {
+            Log.w("MainActivity", "Notification permission denied.")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,14 +46,50 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setupGlobalNavigation()
+        checkAndRequestNotificationPermission()
+        handleNotificationIntent()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Ensure token is synced if user is authenticated
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            MyFirebaseMessagingService.syncCurrentUserToken()
+        }
+    }
+
+    /**
+     * Checks and requests runtime notification permission for Android 13+ (API 33).
+     */
+    private fun checkAndRequestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            } else {
+                MyFirebaseMessagingService.syncCurrentUserToken()
+            }
+        } else {
+            MyFirebaseMessagingService.syncCurrentUserToken()
+        }
+    }
+
+    /**
+     * Handles incoming notification payload when app is opened via Heads-Up Notification tap.
+     */
+    private fun handleNotificationIntent() {
+        val bookingId = intent?.getStringExtra("bookingId")
+        val status = intent?.getStringExtra("status")
+        if (!bookingId.isNullOrBlank()) {
+            Log.d("MainActivity", "Launched from push notification for booking: $bookingId (status: $status)")
+        }
     }
 
     /**
      * Configures the global BottomNavigationView and NavController integration.
-     * Guarantees backstack integrity:
-     * - Pressing Home clears intermediate backstack without app crashes.
-     * - Tabs pop up to the home destination so the backstack never grows infinitely.
-     * - Bottom bar automatically hides on auth and immersive full-screen flows.
      */
     private fun setupGlobalNavigation() {
         val navHostFragment = supportFragmentManager
@@ -52,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavView.setOnItemSelectedListener { item ->
             val builder = NavOptions.Builder()
                 .setLaunchSingleTop(true)
-                .setPopUpTo(R.id.homeFragment, false) // Always pop backstack to Home root without clearing Home itself
+                .setPopUpTo(R.id.homeFragment, false)
 
             when (item.itemId) {
                 R.id.homeFragment -> {

@@ -52,7 +52,12 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
+
+    // Location & Networking
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)

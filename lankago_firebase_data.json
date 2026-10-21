@@ -1,0 +1,203 @@
+{
+  "users": {
+    "admin_master_001": {
+      "uid": "admin_master_001",
+      "name": "LankaGo Admin",
+      "email": "admin@lankago.lk",
+      "role": "admin",
+      "createdAt": 1729500000000,
+      "fcmToken": ""
+    }
+  },
+  "rentals": {
+    "shop_galle_bike": {
+      "id": "shop_galle_bike",
+      "name": "Epic Ride Scooters & Bikes Galle",
+      "description": "Premier motorbike and scooter rental agency in Galle Fort. Free helmets, phone mount, and 24/7 roadside assistance included.",
+      "lat": 6.0329,
+      "lng": 80.2168,
+      "contactNumber": "+94 91 224 8899",
+      "whatsappNumber": "+94 77 123 4567",
+      "operatingHours": "07:30 AM – 09:30 PM",
+      "imageUrl": "https://images.unsplash.com/photo-1558981403-c5f9899a28bc",
+      "rating": 4.9,
+      "reviewCount": 128,
+      "address": "No. 42, Church Street, Galle Fort",
+      "city": "Galle",
+      "priceStartingFrom": "LKR 3,500/day",
+      "fleetAvailable": [
+        "Automatic Scooters",
+        "150cc Adventure Bikes",
+        "Helmets Included",
+        "Full Insurance"
+      ]
+    },
+    "shop_colombo_scooter": {
+      "id": "shop_colombo_scooter",
+      "name": "Casons Rent a Car & Bike Colombo",
+      "description": "Sri Lanka's leading vehicle rental service with 30+ years experience. Island-wide pickup and drop-off available.",
+      "lat": 6.9271,
+      "lng": 79.8612,
+      "contactNumber": "+94 11 234 5678",
+      "whatsappNumber": "+94 71 888 9999",
+      "operatingHours": "24 Hours Service",
+      "imageUrl": "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87",
+      "rating": 4.8,
+      "reviewCount": 245,
+      "address": "No. 125, Galle Road, Colombo 03",
+      "city": "Colombo",
+      "priceStartingFrom": "LKR 4,500/day",
+      "fleetAvailable": [
+        "Scooters",
+        "Sedans",
+        "4x4 SUVs",
+        "Airport Pickup"
+      ]
+    },
+    "shop_ella_bike": {
+      "id": "shop_ella_bike",
+      "name": "Ella Mountain Ride Rentals",
+      "description": "Perfect for touring Nine Arch Bridge, Ravana Falls, and Little Adam's Peak. Off-road capable bikes and automatic scooters.",
+      "lat": 6.8667,
+      "lng": 81.0466,
+      "contactNumber": "+94 57 222 3456",
+      "whatsappNumber": "+94 76 555 4321",
+      "operatingHours": "06:30 AM – 08:30 PM",
+      "imageUrl": "https://images.unsplash.com/photo-1449426468159-d96dbf08f19f",
+      "rating": 4.9,
+      "reviewCount": 89,
+      "address": "Passara Road, Ella",
+      "city": "Ella",
+      "priceStartingFrom": "LKR 3,000/day",
+      "fleetAvailable": [
+        "Honda Dio",
+        "Yamaha FZ",
+        "Dual Helmets",
+        "Rain Covers"
+      ]
+    }
+  },
+  "products": {
+    "prod_ceylon_tea": {
+      "id": "prod_ceylon_tea",
+      "name": "Pure Ceylon Single Estate Black Tea (OP Grade)",
+      "category": "Ceylon Tea",
+      "description": "Hand-picked high-grown tea leaves from the misty hills of Nuwara Eliya. Rich amber liquor with subtle citrus floral undertones.",
+      "priceLkr": 2850.0,
+      "originRegion": "Nuwara Eliya",
+      "inStock": true,
+      "stockQuantity": 85,
+      "imageUrl": "https://images.unsplash.com/photo-1576092768241-dec231879fc3",
+      "rating": 4.9,
+      "reviewCount": 64
+    },
+    "prod_ceylon_cinnamon": {
+      "id": "prod_ceylon_cinnamon",
+      "name": "Authentic True Ceylon Alba Cinnamon Quills",
+      "category": "Spices",
+      "description": "Finest Alba grade true cinnamon (Cinnamomum verum) rolled from thin inner bark. Sweet aroma and ultra-low coumarin.",
+      "priceLkr": 3400.0,
+      "originRegion": "Matara & Galle",
+      "inStock": true,
+      "stockQuantity": 50,
+      "imageUrl": "https://images.unsplash.com/photo-1599940824399-b87987ceb72a",
+      "rating": 4.8,
+      "reviewCount": 41
+    },
+    "prod_wooden_mask": {
+      "id": "prod_wooden_mask",
+      "name": "Hand-Carved Traditional Mayura Raksha Mask",
+      "category": "Handicrafts",
+      "description": "Mastercrafted Peacock demon mask made from Kaduru wood and painted using natural mineral dyes. Wards off evil spirits and brings peace.",
+      "priceLkr": 8500.0,
+      "originRegion": "Ambalangoda",
+      "inStock": true,
+      "stockQuantity": 15,
+      "imageUrl": "https://images.unsplash.com/photo-1579783902614-a3fb3927b675",
+      "rating": 5.0,
+      "reviewCount": 29
+    }
+  },
+  "activities": {
+    "act_kandy_dance": {
+      "id": "act_kandy_dance",
+      "title": "Kandy Traditional Fire Dance & Drumming Spectacle",
+      "category": "Traditional Dance",
+      "location": "Kandy",
+      "address": "Kandy Cultural Centre, Sangaraja Mawatha, Kandy",
+      "duration": "1.5 Hours",
+      "durationHours": 1.5,
+      "hostName": "Master Gunadasa Kalayathanaya",
+      "hostTitle": "National Heritage Artist",
+      "priceLkr": 3500.0,
+      "rating": 4.9,
+      "reviewCount": 112,
+      "imageUrl": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7",
+      "description": "Witness the vibrant spectacle of acrobatic Kandyan dancers, drumming rhythms, and the breathtaking fire-walking finale.",
+      "highlights": [
+        "Traditional Geta Beraya Drumming",
+        "Ves Dance with Silver Regalia",
+        "Live Fire Walking Ceremony"
+      ],
+      "timeSlots": [
+        "05:00 PM - 06:30 PM",
+        "06:30 PM - 08:00 PM"
+      ]
+    },
+    "act_pottery_workshop": {
+      "id": "act_pottery_workshop",
+      "title": "Artisan Clay Pottery Wheel Masterclass",
+      "category": "Artisan Workshop",
+      "location": "Kegalle",
+      "address": "Molagoda Village, Kegalle, Central Province",
+      "duration": "2.5 Hours",
+      "durationHours": 2.5,
+      "hostName": "Sumanapala & Sons",
+      "hostTitle": "5th Generation Master Potter",
+      "priceLkr": 4200.0,
+      "rating": 5.0,
+      "reviewCount": 38,
+      "imageUrl": "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261",
+      "description": "Learn the ancient kick-wheel technique from traditional potters. Sculpt your own terracotta bowl to take home.",
+      "highlights": [
+        "Hands-on Kick Wheel Sculpting",
+        "Clay Preparation Tutorial",
+        "Take-Home Fired Souvenir"
+      ],
+      "timeSlots": [
+        "09:30 AM - 12:00 PM",
+        "02:30 PM - 05:00 PM"
+      ]
+    }
+  },
+  "bookings": {
+    "book_demo_01": {
+      "id": "book_demo_01",
+      "userName": "Johnathan Miller",
+      "userEmail": "jmiller@travelers.com",
+      "userPhone": "+1 415 555 2671",
+      "itemName": "Epic Ride Scooters & Bikes Galle",
+      "itemCategory": "Automatic Scooters",
+      "bookingType": "RENTAL",
+      "bookingDate": "2026-10-25",
+      "bookingTime": "10:00 AM",
+      "totalPriceLkr": 7000.0,
+      "status": "CONFIRMED",
+      "specialNotes": "Need 2 large helmets and phone holder."
+    },
+    "book_demo_02": {
+      "id": "book_demo_02",
+      "userName": "Amara Perera",
+      "userEmail": "amara.p@gmail.com",
+      "userPhone": "+94 77 987 6543",
+      "itemName": "Kandy Traditional Fire Dance & Drumming Spectacle",
+      "itemCategory": "Traditional Dance",
+      "bookingType": "ACTIVITY",
+      "bookingDate": "2026-10-28",
+      "bookingTime": "05:00 PM - 06:30 PM",
+      "totalPriceLkr": 7500.0,
+      "status": "PENDING",
+      "specialNotes": "Front-row seating requested for 2 guests."
+    }
+  }
+}
