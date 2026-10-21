@@ -7,16 +7,16 @@ data class ActivityItem(
     val id: String,
     val title: String,
     val category: String, // Adventure, Heritage, Wildlife Safari, Cultural
-    val location: String,
-    val address: String,
-    val durationHours: Double,
-    val basePriceLkr: Double,
-    val serviceFeeLkr: Double,
-    val rating: Float,
-    val reviewCount: Int,
-    val isAvailable: Boolean,
-    val imageUrl: String,
-    val description: String,
-    val includedItems: List<String>,
-    val reviews: List<Review>
+    val location: String = "Sri Lanka",
+    val address: String = "Sri Lanka",
+    val durationHours: Double = 3.0,
+    val basePriceLkr: Double = 4500.0,
+    val serviceFeeLkr: Double = 500.0,
+    val rating: Float = 4.8f,
+    val reviewCount: Int = 12,
+    val isAvailable: Boolean = true,
+    val imageUrl: String = "",
+    val description: String = "",
+    val includedItems: List<String> = emptyList(),
+    val reviews: List<Review> = emptyList()
 )

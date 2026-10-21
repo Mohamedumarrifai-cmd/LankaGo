@@ -28,28 +28,36 @@
             android:id="@+id/action_adminDashboardFragment_to_adminRentalListFragment"
             app:destination="@id/adminRentalListFragment" />
         <action
+            android:id="@+id/action_adminDashboardFragment_to_adminProductListFragment"
+            app:destination="@id/adminProductListFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminActivityListFragment"
+            app:destination="@id/adminActivityListFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminBookingsListFragment"
+            app:destination="@id/adminBookingsListFragment" />
+        <action
             android:id="@+id/action_adminDashboardFragment_to_adminLoginFragment"
             app:destination="@id/adminLoginFragment"
             app:popUpTo="@id/admin_nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
 
-    <!-- 3. Manage Rentals List Screen -->
+    <!-- 3. Manage Rentals Flow -->
     <fragment
         android:id="@+id/adminRentalListFragment"
         android:name="com.example.lankago.fragments.admin.AdminRentalListFragment"
-        android:label="Manage Rental Shops"
+        android:label="Manage Rentals"
         tools:layout="@layout/fragment_admin_rental_list">
         <action
             android:id="@+id/action_adminRentalListFragment_to_addEditRentalFragment"
             app:destination="@id/addEditRentalFragment" />
     </fragment>
 
-    <!-- 4. Add/Edit Rental Shop Screen -->
     <fragment
         android:id="@+id/addEditRentalFragment"
         android:name="com.example.lankago.fragments.admin.AddEditRentalFragment"
-        android:label="Add / Edit Rental Shop"
+        android:label="Add / Edit Rental"
         tools:layout="@layout/fragment_add_edit_rental">
         <argument
             android:name="rentalShopId"
@@ -57,5 +65,58 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
+
+    <!-- 4. Manage Products Flow -->
+    <fragment
+        android:id="@+id/adminProductListFragment"
+        android:name="com.example.lankago.fragments.admin.AdminProductListFragment"
+        android:label="Manage Products"
+        tools:layout="@layout/fragment_admin_product_list">
+        <action
+            android:id="@+id/action_adminProductListFragment_to_addEditProductFragment"
+            app:destination="@id/addEditProductFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditProductFragment"
+        android:name="com.example.lankago.fragments.admin.AddEditProductFragment"
+        android:label="Add / Edit Product"
+        tools:layout="@layout/fragment_add_edit_product">
+        <argument
+            android:name="productId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
+    <!-- 5. Manage Activities Flow -->
+    <fragment
+        android:id="@+id/adminActivityListFragment"
+        android:name="com.example.lankago.fragments.admin.AdminActivityListFragment"
+        android:label="Manage Activities"
+        tools:layout="@layout/fragment_admin_activity_list">
+        <action
+            android:id="@+id/action_adminActivityListFragment_to_addEditActivityFragment"
+            app:destination="@id/addEditActivityFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditActivityFragment"
+        android:name="com.example.lankago.fragments.admin.AddEditActivityFragment"
+        android:label="Add / Edit Activity"
+        tools:layout="@layout/fragment_add_edit_activity">
+        <argument
+            android:name="activityId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
+    <!-- 6. View User Bookings Screen (Rental Bookings & Activity Bookings) -->
+    <fragment
+        android:id="@+id/adminBookingsListFragment"
+        android:name="com.example.lankago.fragments.admin.AdminBookingsListFragment"
+        android:label="User Bookings"
+        tools:layout="@layout/fragment_admin_bookings_list" />
 
 </navigation>
