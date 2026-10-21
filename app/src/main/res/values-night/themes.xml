@@ -1,7 +1,66 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- ========================================================================= -->
+    <!-- BASE APPLICATION THEME (DARK MODE) - STRICT 2-COLOR DESIGN SYSTEM         -->
+    <!-- Color 1: Primary (Soft Pastel Navy/Blue #90CAF9)                         -->
+    <!-- Color 2: Secondary (Warm Golden Amber #FBBF24)                           -->
+    <!-- ========================================================================= -->
     <style name="Base.Theme.LankaGo" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- 1. Color Primary in Dark Mode -->
+        <item name="colorPrimary">@color/primary_dark_mode</item>
+        <item name="colorOnPrimary">@color/on_primary_dark_mode</item>
+        <item name="colorPrimaryContainer">@color/primary_container_dark</item>
+        <item name="colorOnPrimaryContainer">@color/on_primary_container_dark</item>
+
+        <!-- 2. Color Secondary in Dark Mode -->
+        <item name="colorSecondary">@color/secondary_dark_mode</item>
+        <item name="colorOnSecondary">@color/on_secondary_dark_mode</item>
+        <item name="colorSecondaryContainer">@color/secondary_container_dark</item>
+        <item name="colorOnSecondaryContainer">@color/on_secondary_container_dark</item>
+
+        <!-- Dark Neutrals -->
+        <item name="android:colorBackground">@color/background_dark</item>
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorOnSurface">@color/text_primary_dark</item>
+        <item name="colorSurfaceVariant">@color/surface_variant_dark</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary_dark</item>
+        <item name="colorOutline">@color/border_dark</item>
+
+        <!-- System Window Decorations in Dark Mode -->
+        <item name="android:statusBarColor">@color/background_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">@color/surface_dark</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+
+        <!-- Component Styles in Dark Mode -->
+        <item name="materialButtonStyle">@style/Widget.LankaGo.Button</item>
+        <item name="floatingActionButtonStyle">@style/Widget.LankaGo.FloatingActionButton</item>
+        <item name="bottomNavigationStyle">@style/Widget.LankaGo.BottomNavigationView</item>
+    </style>
+
+    <style name="Theme.LankaGo" parent="Base.Theme.LankaGo" />
+
+    <!-- Dark Mode Primary Button Style -->
+    <style name="Widget.LankaGo.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/primary_dark_mode</item>
+        <item name="android:textColor">@color/on_primary_dark_mode</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+
+    <!-- Dark Mode Secondary FAB Style -->
+    <style name="Widget.LankaGo.FloatingActionButton" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="backgroundTint">@color/secondary_dark_mode</item>
+        <item name="tint">@color/on_secondary_dark_mode</item>
+    </style>
+
+    <!-- Dark Mode Bottom Navigation View -->
+    <style name="Widget.LankaGo.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="backgroundTint">@color/surface_dark</item>
+        <item name="itemIconTint">@color/primary_dark_mode</item>
+        <item name="itemTextColor">@color/primary_dark_mode</item>
+        <item name="itemActiveIndicatorStyle">@style/Widget.LankaGo.ActiveIndicator</item>
+    </style>
+
+    <style name="Widget.LankaGo.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/primary_container_dark</item>
     </style>
 </resources>

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.lankago.R
 import com.example.lankago.data.RentalShop
 import com.google.android.material.button.MaterialButton
@@ -53,7 +54,14 @@ class RentalShopAdapter(
             tvDesc.text = shop.description
             tvPriceStart.text = shop.priceStartingFrom
 
-            if (shop.imageRes != 0) {
+            if (!shop.imageUrl.isNullOrBlank()) {
+                Glide.with(itemView.context)
+                    .load(shop.imageUrl)
+                    .placeholder(if (shop.imageRes != 0) shop.imageRes else R.drawable.casons_rent)
+                    .error(if (shop.imageRes != 0) shop.imageRes else R.drawable.casons_rent)
+                    .centerCrop()
+                    .into(ivImage)
+            } else if (shop.imageRes != 0) {
                 ivImage.setImageResource(shop.imageRes)
             } else {
                 ivImage.setImageResource(R.drawable.casons_rent)

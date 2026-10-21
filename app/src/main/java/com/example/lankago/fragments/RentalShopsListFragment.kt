@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -71,27 +72,37 @@ class RentalShopsListFragment : Fragment() {
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.searchShops(s?.toString().orEmpty())
+                viewModel.searchRentals(s?.toString().orEmpty())
             }
             override fun afterTextChanged(s: Editable?) {}
         })
+
+        val tvEmptyTitle = emptyStateView.findViewById<TextView>(R.id.tv_empty_title)
+        val tvEmptySubtitle = emptyStateView.findViewById<TextView>(R.id.tv_empty_subtitle)
 
         btnEmptyAction?.setOnClickListener {
             etSearch.text?.clear()
             viewModel.loadShops()
         }
 
-        // Observe StateFlow from ViewModel
+        // Observe searchResultsRentals StateFlow from ViewModel
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { state ->
-                    if (state.shops.isEmpty()) {
+                viewModel.searchResultsRentals.collect { rentals ->
+                    if (rentals.isEmpty()) {
                         rvShops.visibility = View.GONE
                         emptyStateView.visibility = View.VISIBLE
+                        tvEmptyTitle?.text = "No results found"
+                        val query = etSearch.text?.toString().orEmpty()
+                        tvEmptySubtitle?.text = if (query.isNotBlank()) {
+                            "No rental shops matched \"$query\". Try checking for typos or searching another city."
+                        } else {
+                            "No rental shops currently available."
+                        }
                     } else {
                         rvShops.visibility = View.VISIBLE
                         emptyStateView.visibility = View.GONE
-                        shopAdapter.submitList(state.shops)
+                        shopAdapter.submitList(rentals)
                     }
                 }
             }

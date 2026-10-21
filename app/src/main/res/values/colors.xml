@@ -1,37 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="text_primary">#1A2B4C</color>
-    <color name="text_secondary">#8A8F98</color>
+    <!-- ========================================================================= -->
+    <!-- STRICT 2-COLOR DESIGN SYSTEM FOR LANKAGO TRAVEL APP                       -->
+    <!-- Primary: Deep Oceanic Navy (#0A2540 / #1A2B4C) -> Trust, Authority, Tech  -->
+    <!-- Secondary: Energetic Sun Amber (#F59E0B / #FF9800) -> Warmth, Discovery   -->
+    <!-- ========================================================================= -->
+
+    <!-- 1. COLOR PRIMARY (Deep Oceanic Navy) -->
+    <color name="primary">#1A2B4C</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="primary_container">#E6EEF8</color>
+    <color name="on_primary_container">#0D192E</color>
+
+    <!-- 2. COLOR SECONDARY (Sun Amber / Ceylon Warmth) -->
+    <color name="secondary">#F59E0B</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="secondary_container">#FEF3C7</color>
+    <color name="on_secondary_container">#78350F</color>
+
+    <!-- STANDARD CLEAN NEUTRALS (Light Theme) -->
     <color name="background_primary">#F8F9FA</color>
     <color name="surface_card">#FFFFFF</color>
-    <color name="admin_dark_blue">#1A2B4C</color>
-    <color name="admin_light_blue">#D3E3F3</color>
-    <color name="admin_grey">#8A8F98</color>
-    <color name="admin_input_bg">#F0F2F5</color>
-    <color name="admin_border">#E5E7EB</color>
+    <color name="surface_variant">#F1F5F9</color>
+    <color name="text_primary">#1A2B4C</color>
+    <color name="text_secondary">#64748B</color>
+    <color name="border">#E2E8F0</color>
+
+    <!-- DARK MODE PALETTE ADAPTATIONS -->
+    <color name="primary_dark_mode">#90CAF9</color>
+    <color name="on_primary_dark_mode">#0D192E</color>
+    <color name="primary_container_dark">#1A2B4C</color>
+    <color name="on_primary_container_dark">#E6EEF8</color>
+
+    <color name="secondary_dark_mode">#FBBF24</color>
+    <color name="on_secondary_dark_mode">#78350F</color>
+    <color name="secondary_container_dark">#92400E</color>
+    <color name="on_secondary_container_dark">#FEF3C7</color>
+
+    <color name="background_dark">#0F172A</color>
+    <color name="surface_dark">#1E293B</color>
+    <color name="surface_variant_dark">#334155</color>
+    <color name="text_primary_dark">#F8FAFC</color>
+    <color name="text_secondary_dark">#94A3B8</color>
+    <color name="border_dark">#334155</color>
+
+    <!-- BASICS -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+
+    <!-- ========================================================================= -->
+    <!-- LEGACY ALIASES CONSOLIDATED STRICTLY TO THE 2-COLOR PALETTE               -->
+    <!-- All views using these names automatically adopt the 2-color scheme        -->
+    <!-- ========================================================================= -->
+    <color name="admin_dark_blue">@color/primary</color>
+    <color name="admin_primary_navy">@color/primary</color>
+    <color name="admin_light_blue">@color/primary_container</color>
+    <color name="admin_grey">@color/text_secondary</color>
+    <color name="admin_input_bg">@color/surface_variant</color>
+    <color name="admin_border">@color/border</color>
+    <color name="admin_accent_indigo">@color/primary</color>
+    <color name="admin_indigo_soft">@color/primary_container</color>
+    <color name="admin_card_stroke">@color/border</color>
+    <color name="admin_bg_start">@color/background_primary</color>
+    <color name="admin_bg_end">@color/surface_variant</color>
+
+    <color name="rating_gold">@color/secondary</color>
+    <color name="chip_bg">@color/surface_variant</color>
+    <color name="cultural_gold">@color/secondary</color>
+    <color name="cultural_gold_light">@color/secondary_container</color>
+    <color name="heritage_card_bg">@color/secondary_container</color>
+    <color name="heritage_card_stroke">@color/secondary</color>
+    <color name="market_card_bg">@color/surface_card</color>
+    <color name="market_card_stroke">@color/border</color>
+
+    <!-- Functional Communication & Status -->
+    <color name="whatsapp_green">#25D366</color>
+    <color name="whatsapp_dark_green">#128C7E</color>
+    <color name="whatsapp_bg_light">#E8F8EE</color>
     <color name="admin_danger">#EF4444</color>
     <color name="admin_danger_light">#FEE2E2</color>
     <color name="admin_success">#10B981</color>
     <color name="admin_success_light">#D1FAE5</color>
-    <color name="admin_warning">#F59E0B</color>
-    <color name="admin_warning_light">#FEF3C7</color>
-    <color name="admin_primary_navy">#1A2B4C</color>
-    <color name="admin_accent_indigo">#5D5FEF</color>
-    <color name="admin_indigo_soft">#EEF0FF</color>
-    <color name="admin_card_stroke">#1F5D5FEF</color>
-    <color name="admin_bg_start">#F8F9FB</color>
-    <color name="admin_bg_end">#E2E8F0</color>
-    <color name="whatsapp_green">#25D366</color>
-    <color name="whatsapp_dark_green">#128C7E</color>
-    <color name="whatsapp_bg_light">#E8F8EE</color>
-    <color name="rating_gold">#FFB800</color>
-    <color name="chip_bg">#F1F5F9</color>
-    <color name="cultural_gold">#D97706</color>
-    <color name="cultural_gold_light">#FEF3C7</color>
-    <color name="heritage_card_bg">#FFFBEB</color>
-    <color name="heritage_card_stroke">#FDE68A</color>
-    <color name="market_card_bg">#F0FDF4</color>
-    <color name="market_card_stroke">#BBF7D0</color>
+    <color name="admin_warning">@color/secondary</color>
+    <color name="admin_warning_light">@color/secondary_container</color>
 </resources>

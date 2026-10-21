@@ -26,6 +26,15 @@ data class RentalShopsUiState(
 class RentalShopsViewModel : ViewModel() {
 
     private val adminRepository = AdminRepository()
+
+    // 1. All items fetched from Firebase
+    private val _allRentals = MutableStateFlow<List<RentalShop>>(emptyList())
+    val allRentals: StateFlow<List<RentalShop>> = _allRentals.asStateFlow()
+
+    // 2. Real-time filtered search results for the UI to observe
+    private val _searchResultsRentals = MutableStateFlow<List<RentalShop>>(emptyList())
+    val searchResultsRentals: StateFlow<List<RentalShop>> = _searchResultsRentals.asStateFlow()
+
     private val _uiState = MutableStateFlow(RentalShopsUiState())
     val uiState: StateFlow<RentalShopsUiState> = _uiState.asStateFlow()
     private var allCachedShops: List<RentalShop> = emptyList()
@@ -46,44 +55,54 @@ class RentalShopsViewModel : ViewModel() {
                         RentalShopDataProvider.getAllShops()
                     }
                     allCachedShops = resolved
+                    _allRentals.value = resolved
 
                     val currentQuery = _uiState.value.searchQuery
                     if (currentQuery.isBlank()) {
+                        _searchResultsRentals.value = resolved
                         _uiState.value = _uiState.value.copy(shops = resolved, isLoading = false)
                     } else {
-                        applySearchFilter(currentQuery)
+                        searchRentals(currentQuery)
                     }
                 }
             } catch (e: Exception) {
                 val fallback = RentalShopDataProvider.getAllShops()
                 allCachedShops = fallback
+                _allRentals.value = fallback
+                _searchResultsRentals.value = fallback
                 _uiState.value = RentalShopsUiState(shops = fallback, isLoading = false)
             }
         }
     }
 
-    fun searchShops(query: String) {
+    /**
+     * Real-time search function filtering allRentals by name, description, city, address, or fleet.
+     * Updates searchResultsRentals StateFlow instantly.
+     */
+    fun searchRentals(query: String) {
         val trimmed = query.trim()
         _uiState.value = _uiState.value.copy(searchQuery = trimmed)
-        applySearchFilter(trimmed)
-    }
 
-    private fun applySearchFilter(query: String) {
-        if (query.isEmpty()) {
-            _uiState.value = _uiState.value.copy(shops = allCachedShops)
+        if (trimmed.isEmpty()) {
+            _searchResultsRentals.value = _allRentals.value
+            _uiState.value = _uiState.value.copy(shops = _allRentals.value)
             return
         }
 
-        val filtered = allCachedShops.filter { shop ->
-            shop.name.contains(query, ignoreCase = true) ||
-                    shop.city.contains(query, ignoreCase = true) ||
-                    shop.address.contains(query, ignoreCase = true) ||
-                    shop.description.contains(query, ignoreCase = true) ||
-                    shop.fleetAvailable.any { it.contains(query, ignoreCase = true) }
+        val filtered = _allRentals.value.filter { shop ->
+            shop.name.contains(trimmed, ignoreCase = true) ||
+                    shop.description.contains(trimmed, ignoreCase = true) ||
+                    shop.city.contains(trimmed, ignoreCase = true) ||
+                    shop.address.contains(trimmed, ignoreCase = true) ||
+                    shop.fleetAvailable.any { it.contains(trimmed, ignoreCase = true) }
         }
 
+        _searchResultsRentals.value = filtered
         _uiState.value = _uiState.value.copy(shops = filtered)
     }
+
+    // Alias for backward compatibility
+    fun searchShops(query: String) = searchRentals(query)
 
     fun loadShopDetails(shopId: String) {
         viewModelScope.launch {

@@ -1,9 +1,66 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- ========================================================================= -->
+    <!-- BASE APPLICATION THEME - STRICT 2-COLOR MATERIAL 3 DESIGN SYSTEM          -->
+    <!-- Color 1: Primary (Deep Oceanic Navy #1A2B4C)                             -->
+    <!-- Color 2: Secondary (Energetic Sun Amber #F59E0B)                         -->
+    <!-- ========================================================================= -->
     <style name="Base.Theme.LankaGo" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- 1. Color Primary: AppBars, Primary Buttons, Active Bottom Nav Tabs -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorPrimaryContainer">@color/primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/on_primary_container</item>
+
+        <!-- 2. Color Secondary: Floating Action Buttons (FABs), Badges, Highlights -->
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/on_secondary</item>
+        <item name="colorSecondaryContainer">@color/secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/on_secondary_container</item>
+
+        <!-- Clean Neutrals: Backgrounds, Cards, Text & Borders -->
+        <item name="android:colorBackground">@color/background_primary</item>
+        <item name="colorSurface">@color/surface_card</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorSurfaceVariant">@color/surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+        <item name="colorOutline">@color/border</item>
+
+        <!-- System Window Decorations -->
+        <item name="android:statusBarColor">@color/background_primary</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/surface_card</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+
+        <!-- Global Component Styles enforcing the 2-Color Architecture -->
+        <item name="materialButtonStyle">@style/Widget.LankaGo.Button</item>
+        <item name="floatingActionButtonStyle">@style/Widget.LankaGo.FloatingActionButton</item>
+        <item name="bottomNavigationStyle">@style/Widget.LankaGo.BottomNavigationView</item>
     </style>
 
     <style name="Theme.LankaGo" parent="Base.Theme.LankaGo" />
+
+    <!-- Primary Material Button Style -->
+    <style name="Widget.LankaGo.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/primary</item>
+        <item name="android:textColor">@color/on_primary</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+
+    <!-- Secondary Accent Floating Action Button Style -->
+    <style name="Widget.LankaGo.FloatingActionButton" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="backgroundTint">@color/secondary</item>
+        <item name="tint">@color/on_secondary</item>
+    </style>
+
+    <!-- Bottom Navigation View with Primary active indicator and clean surface -->
+    <style name="Widget.LankaGo.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="backgroundTint">@color/surface_card</item>
+        <item name="itemIconTint">@color/primary</item>
+        <item name="itemTextColor">@color/primary</item>
+        <item name="itemActiveIndicatorStyle">@style/Widget.LankaGo.ActiveIndicator</item>
+    </style>
+
+    <style name="Widget.LankaGo.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/primary_container</item>
+    </style>
 </resources>
