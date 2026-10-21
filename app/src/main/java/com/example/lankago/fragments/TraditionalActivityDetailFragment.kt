@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.lankago.R
 import com.example.lankago.data.ActivityItem
 import com.example.lankago.data.Booking
@@ -101,7 +102,22 @@ class TraditionalActivityDetailFragment : Fragment() {
     private fun bindActivityDetails(view: View, item: TraditionalActivity) {
         val numberFormat = NumberFormat.getNumberInstance(Locale.US)
 
-        view.findViewById<ImageView>(R.id.iv_activity_hero)?.setImageResource(item.imageRes)
+        val ivHero = view.findViewById<ImageView>(R.id.iv_activity_hero)
+            ?: view.findViewById<ImageView>(R.id.ivCoverImage)
+        if (ivHero != null) {
+            if (!item.imageUrl.isNullOrBlank()) {
+                Glide.with(this)
+                    .load(item.imageUrl)
+                    .placeholder(if (item.imageRes != 0) item.imageRes else R.drawable.pot_making)
+                    .error(if (item.imageRes != 0) item.imageRes else R.drawable.pot_making)
+                    .centerCrop()
+                    .into(ivHero)
+            } else if (item.imageRes != 0) {
+                ivHero.setImageResource(item.imageRes)
+            } else {
+                ivHero.setImageResource(R.drawable.pot_making)
+            }
+        }
         view.findViewById<TextView>(R.id.tv_activity_category_badge)?.text = item.category
         view.findViewById<TextView>(R.id.tv_activity_title)?.text = item.title
         view.findViewById<TextView>(R.id.tv_activity_rating)?.text =

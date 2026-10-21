@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.lankago.R
 import com.example.lankago.adapters.ReviewAdapter
 import com.example.lankago.data.ActivityItem
@@ -79,6 +80,22 @@ class ActivityBookingFragment : Fragment() {
     }
 
     private fun bindActivityData(view: View, item: ActivityItem) {
+        // Hero Cover Image
+        val ivHero = view.findViewById<ImageView>(R.id.iv_activity_hero)
+            ?: view.findViewById<ImageView>(R.id.ivCoverImage)
+        if (ivHero != null) {
+            if (!item.imageUrl.isNullOrBlank()) {
+                Glide.with(this)
+                    .load(item.imageUrl)
+                    .placeholder(R.drawable.pot_making)
+                    .error(R.drawable.pot_making)
+                    .centerCrop()
+                    .into(ivHero)
+            } else {
+                ivHero.setImageResource(R.drawable.pot_making)
+            }
+        }
+
         view.findViewById<TextView>(R.id.tv_appbar_activity_title)?.text = item.title
         view.findViewById<TextView>(R.id.tv_activity_title)?.text = item.title
         view.findViewById<TextView>(R.id.tv_activity_category_badge)?.text = item.category
