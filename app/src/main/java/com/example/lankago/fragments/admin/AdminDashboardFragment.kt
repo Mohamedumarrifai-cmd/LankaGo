@@ -6,25 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.lankago.R
-import com.example.lankago.viewmodels.AdminViewModel
+import com.example.lankago.repository.AdminRepository
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 /**
- * Modern Material Design Admin Dashboard.
- * Displays management shortcuts in a responsive grid and collects mock metrics from [AdminViewModel].
+ * Modern Material Design Admin Dashboard connected to Firebase.
+ * Displays management shortcuts in a responsive grid and collects live metrics from Firebase Realtime Database.
  */
 class AdminDashboardFragment : Fragment() {
 
-    private val adminViewModel: AdminViewModel by activityViewModels()
+    private val adminRepository = AdminRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,14 +39,25 @@ class AdminDashboardFragment : Fragment() {
         val cardRentals = view.findViewById<MaterialCardView>(R.id.card_manage_rentals)
         val cardProducts = view.findViewById<MaterialCardView>(R.id.card_manage_products)
         val cardActivities = view.findViewById<MaterialCardView>(R.id.card_manage_activities)
+        val cardBookings = view.findViewById<MaterialCardView>(R.id.card_view_bookings)
         val cardLogout = view.findViewById<MaterialCardView>(R.id.card_admin_logout)
         val tvRentalsCount = view.findViewById<TextView>(R.id.tv_metric_rentals_count)
 
-        // Reactively observe StateFlow of rental shops to update count badge
+        // Reactively observe live rentals from Firebase Realtime Database
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                adminViewModel.rentalShops.collect { shops ->
-                    tvRentalsCount.text = shops.size.toString()
+                try {
+                    adminRepository.observeRentals().collect { shops ->
+                        tvRentalsCount.text = shops.size.toString()
+                    }
+                } catch (_: Exception) {
+                    // Fallback to fetch once
+                    try {
+                        val once = adminRepository.getAllRentalsOnce()
+                        tvRentalsCount.text = once.size.toString()
+                    } catch (_: Exception) {
+                        tvRentalsCount.text = "0"
+                    }
                 }
             }
         }
@@ -59,31 +69,34 @@ class AdminDashboardFragment : Fragment() {
             )
         }
 
-        // 2. Manage Products
+        // 2. Manage Products -> Navigate to AdminProductListFragment
         cardProducts.setOnClickListener {
-            Snackbar.make(
-                view,
-                "Local Products Management module is scheduled for future release.",
-                Snackbar.LENGTH_SHORT
-            ).show()
+            findNavController().navigate(
+                R.id.action_adminDashboardFragment_to_adminProductListFragment
+            )
         }
 
-        // 3. Manage Activities
+        // 3. Manage Activities -> Navigate to AdminActivityListFragment
         cardActivities.setOnClickListener {
-            Snackbar.make(
-                view,
-                "Cultural Activities & Tours Management is scheduled for future release.",
-                Snackbar.LENGTH_SHORT
-            ).show()
+            findNavController().navigate(
+                R.id.action_adminDashboardFragment_to_adminActivityListFragment
+            )
         }
 
-        // 4. Logout Confirmation & Navigation
+        // 4. View User Bookings -> Navigate to AdminBookingsListFragment
+        cardBookings?.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_adminDashboardFragment_to_adminBookingsListFragment
+            )
+        }
+
+        // 5. Logout Confirmation & Navigation
         cardLogout.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Confirm Logout")
                 .setMessage("Are you sure you want to end your administrator session?")
                 .setPositiveButton("Logout") { _, _ ->
-                    adminViewModel.logout()
+                    FirebaseAuth.getInstance().signOut()
                     findNavController().navigate(
                         R.id.action_adminDashboardFragment_to_adminLoginFragment
                     )

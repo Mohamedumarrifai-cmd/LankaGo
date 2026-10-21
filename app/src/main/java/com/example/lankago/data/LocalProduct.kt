@@ -4,11 +4,11 @@ package com.example.lankago.data
  * Domain model representing a Sri Lankan local artisan product, spice, tea, or handicraft.
  */
 data class LocalProduct(
-    val id: String,
-    val name: String,
-    val category: String, // "Ceylon Tea", "Spices", "Handicrafts", "Gems & Jewelry", "Batik"
-    val description: String,
-    val priceLkr: Double,
+    val id: String = "",
+    val name: String = "",
+    val category: String = "", // "Ceylon Tea", "Spices", "Handicrafts", "Gems & Jewelry", "Batik"
+    val description: String = "",
+    val priceLkr: Double = 0.0,
     val originRegion: String = "Sri Lanka",
     val inStock: Boolean = true,
     val stockQuantity: Int = 50,

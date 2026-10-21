@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="2dp"
+    app:strokeColor="#E5E7EB"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header: Item Name & Booking Type Badge -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_booking_item_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="1"
+                android:textColor="#1A2B4C"
+                android:textSize="16sp"
+                tools:text="Yamaha NMAX 155 Scooter" />
+
+            <TextView
+                android:id="@+id/tv_booking_type_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_badge_admin"
+                android:fontFamily="sans-serif-bold"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp"
+                android:textColor="#5D5FEF"
+                android:textSize="11sp"
+                tools:text="RENTAL" />
+        </LinearLayout>
+
+        <!-- Customer Info -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:contentDescription="User"
+                android:src="@drawable/ic_nav_profile"
+                app:tint="#8A8F98" />
+
+            <TextView
+                android:id="@+id/tv_booking_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="sans-serif-bold"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp"
+                tools:text="Mohamed Umar" />
+
+            <TextView
+                android:id="@+id/tv_booking_user_contact"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:maxLines="1"
+                android:textColor="#8A8F98"
+                android:textSize="12sp"
+                tools:text="(umar@example.com · +94771234567)" />
+        </LinearLayout>
+
+        <!-- Schedule / Date & Time -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:contentDescription="Calendar"
+                android:src="@drawable/ic_calendar"
+                app:tint="#8A8F98" />
+
+            <TextView
+                android:id="@+id/tv_booking_date_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="#4B5563"
+                android:textSize="12sp"
+                tools:text="Oct 28, 2026 · 10:00 AM" />
+        </LinearLayout>
+
+        <!-- Optional Special Notes -->
+        <TextView
+            android:id="@+id/tv_booking_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:background="#F9FAFB"
+            android:fontFamily="sans-serif-italic"
+            android:padding="8dp"
+            android:textColor="#6B7280"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:text="Note: Need 2 helmets and surfboard rack."
+            tools:visibility="visible" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="12dp"
+            android:background="#F0F2F5" />
+
+        <!-- Bottom Row: Price, Status & Actions -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_booking_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="#10B981"
+                    android:textSize="15sp"
+                    tools:text="LKR 12,500.00" />
+
+                <!-- Status Badge -->
+                <TextView
+                    android:id="@+id/tv_booking_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/bg_badge_approved"
+                    android:fontFamily="sans-serif-bold"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:textColor="#10B981"
+                    android:textSize="11sp"
+                    tools:text="CONFIRMED" />
+            </LinearLayout>
+
+            <!-- Action: Update Status Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_change_status"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Change Status"
+                android:textColor="#1A2B4C"
+                android:textSize="12sp"
+                app:cornerRadius="10dp"
+                app:strokeColor="#CBD5E1" />
+        </LinearLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

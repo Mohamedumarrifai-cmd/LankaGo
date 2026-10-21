@@ -188,7 +188,140 @@ class AdminRepository(
     }
 
     // =========================================================================
-    // 3. AUTHENTICATION & USER NODE MANAGEMENT (/users/{uid})
+    // 3. REALTIME DATABASE: LOCAL PRODUCTS CRUD (/products)
+    // =========================================================================
+
+    suspend fun addProduct(
+        name: String,
+        category: String,
+        description: String,
+        priceLkr: Double,
+        originRegion: String = "Sri Lanka",
+        stockQuantity: Int = 50,
+        imageUri: Uri? = null,
+        existingImageUrl: String = ""
+    ): com.example.lankago.data.LocalProduct {
+        val finalImageUrl = if (imageUri != null) {
+            uploadImage(imageUri, folder = "products")
+        } else {
+            existingImageUrl
+        }
+
+        val productsRef = database.child("products")
+        val prodKey = productsRef.push().key ?: UUID.randomUUID().toString()
+
+        val product = com.example.lankago.data.LocalProduct(
+            id = prodKey,
+            name = name.trim(),
+            category = category.trim(),
+            description = description.trim(),
+            priceLkr = priceLkr,
+            originRegion = originRegion.trim(),
+            inStock = stockQuantity > 0,
+            stockQuantity = stockQuantity,
+            imageUrl = finalImageUrl.trim(),
+            rating = 5.0f,
+            reviewCount = 1
+        )
+
+        productsRef.child(prodKey).setValue(product).await()
+        return product
+    }
+
+    suspend fun updateProduct(
+        productId: String,
+        updates: Map<String, Any?>,
+        newImageUri: Uri? = null
+    ) {
+        val mutableUpdates = updates.toMutableMap()
+        if (newImageUri != null) {
+            val downloadUrl = uploadImage(newImageUri, folder = "products")
+            mutableUpdates["imageUrl"] = downloadUrl
+        }
+        database.child("products").child(productId).updateChildren(mutableUpdates).await()
+    }
+
+    suspend fun deleteProduct(productId: String, imageUrl: String? = null) {
+        database.child("products").child(productId).removeValue().await()
+        if (!imageUrl.isNullOrBlank()) {
+            deleteImageByUrl(imageUrl)
+        }
+    }
+
+    suspend fun getAllProductsOnce(): List<com.example.lankago.data.LocalProduct> {
+        val snapshot = database.child("products").get().await()
+        val list = mutableListOf<com.example.lankago.data.LocalProduct>()
+        for (child in snapshot.children) {
+            child.getValue(com.example.lankago.data.LocalProduct::class.java)?.let { list.add(it) }
+        }
+        return list
+    }
+
+    fun observeProducts(): Flow<List<com.example.lankago.data.LocalProduct>> = callbackFlow {
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list = mutableListOf<com.example.lankago.data.LocalProduct>()
+                for (child in snapshot.children) {
+                    child.getValue(com.example.lankago.data.LocalProduct::class.java)?.let { list.add(it) }
+                }
+                trySend(list)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                close(error.toException())
+            }
+        }
+        val ref = database.child("products")
+        ref.addValueEventListener(listener)
+        awaitClose { ref.removeEventListener(listener) }
+    }
+
+    // =========================================================================
+    // 4. REALTIME DATABASE: USER BOOKINGS (/bookings)
+    // =========================================================================
+
+    suspend fun addBooking(booking: com.example.lankago.data.Booking): com.example.lankago.data.Booking {
+        val bookingsRef = database.child("bookings")
+        val key = booking.id.ifBlank { bookingsRef.push().key ?: UUID.randomUUID().toString() }
+        val finalBooking = booking.copy(id = key)
+        bookingsRef.child(key).setValue(finalBooking).await()
+        return finalBooking
+    }
+
+    fun observeBookings(): Flow<List<com.example.lankago.data.Booking>> = callbackFlow {
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list = mutableListOf<com.example.lankago.data.Booking>()
+                for (child in snapshot.children) {
+                    child.getValue(com.example.lankago.data.Booking::class.java)?.let { list.add(it) }
+                }
+                trySend(list)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                close(error.toException())
+            }
+        }
+        val ref = database.child("bookings")
+        ref.addValueEventListener(listener)
+        awaitClose { ref.removeEventListener(listener) }
+    }
+
+    suspend fun getAllBookingsOnce(): List<com.example.lankago.data.Booking> {
+        val snapshot = database.child("bookings").get().await()
+        val list = mutableListOf<com.example.lankago.data.Booking>()
+        for (child in snapshot.children) {
+            child.getValue(com.example.lankago.data.Booking::class.java)?.let { list.add(it) }
+        }
+        return list
+    }
+
+    suspend fun updateBookingStatus(bookingId: String, newStatus: String) {
+        database.child("bookings").child(bookingId).child("status").setValue(newStatus).await()
+    }
+
+    // =========================================================================
+    // 5. AUTHENTICATION & USER NODE MANAGEMENT (/users/{uid})
     // =========================================================================
 
     /**
