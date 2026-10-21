@@ -117,11 +117,15 @@ class AuthViewModel(
         name: String,
         email: String,
         pass: String,
+        contactNumber: String = "",
+        address: String = "",
         role: String = "user"
     ) {
         val trimmedName = name.trim()
         val trimmedEmail = email.trim()
         val trimmedPass = pass.trim()
+        val trimmedContact = contactNumber.trim()
+        val trimmedAddress = address.trim()
 
         if (trimmedName.isEmpty()) {
             _authState.value = AuthState.Error("Please enter your full name")
@@ -151,6 +155,9 @@ class AuthViewModel(
                     name = trimmedName,
                     email = trimmedEmail,
                     role = role,
+                    contactNumber = trimmedContact,
+                    phoneNumber = trimmedContact,
+                    address = trimmedAddress,
                     createdAt = System.currentTimeMillis()
                 )
                 database.reference.child("users").child(uid).setValue(user).await()

@@ -1,0 +1,13 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Traditional Artisan Craft, Pottery & Heritage Artifact Vector -->
+    <path
+        android:fillColor="?attr/colorPrimary"
+        android:pathData="M19.48,12.35c-1.57,-4.08 -7.14,-7.02 -7.48,-7.2l-0.01,0.01C11.83,5.08 11.66,5 11.48,5c-0.28,0 -0.53,0.11 -0.71,0.29L3.58,12.47c-0.38,0.38 -0.59,0.88 -0.59,1.41c0,0.53 0.21,1.04 0.59,1.41l7.19,7.19c0.38,0.38 0.88,0.58 1.41,0.58s1.04,-0.21 1.41,-0.59l7.19,-7.19c0.38,-0.38 0.59,-0.88 0.59,-1.41C20.87,13.27 20.35,12.72 19.48,12.35zM12,7.27c2.31,1.47 5.27,3.61 6.36,5.73H5.64C6.73,10.88 9.69,8.74 12,7.27zM12,20.88L5.12,14h13.76L12,20.88z" />
+    <path
+        android:fillColor="?attr/colorSecondary"
+        android:pathData="M12,2L9,5h6z" />
+</vector>

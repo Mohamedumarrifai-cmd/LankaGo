@@ -2,6 +2,7 @@ package com.example.lankago.fragments
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavOptions
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.lankago.R
 import com.example.lankago.data.Trip
@@ -19,11 +20,24 @@ import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class PlanTripFragment : Fragment() {
+/**
+ * Fragment handling creation of customized travel itineraries.
+ * Features:
+ * - Robust input validation (Destination & Dates)
+ * - Safe asynchronous saving to TripManager & Firebase Realtime Database
+ * - Non-abrupt dismissal with user-facing Snackbar feedback
+ * - Conditional smart navigation: If "Need a Vehicle" is checked, routes to RentalShopsListFragment.
+ */
+open class PlanTripFragment : Fragment() {
 
     private var travelerCount = 2
 
@@ -78,6 +92,7 @@ class PlanTripFragment : Fragment() {
                     chosen.add(Calendar.DAY_OF_YEAR, 5)
                     val e = SimpleDateFormat("dd MMM yyyy", Locale.US).format(chosen.time)
                     etDates.setText("$s – $e")
+                    tilDates?.error = null
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -102,52 +117,103 @@ class PlanTripFragment : Fragment() {
             }
         }
 
-        // Next / Create Trip Confirmation Logic
+        // -------------------------------------------------------------
+        // ROBUST CREATE TRIP CONFIRMATION & NAVIGATION LOGIC
+        // -------------------------------------------------------------
         btnConfirm?.setOnClickListener {
-            val destination = etDestination?.text?.toString()?.trim() ?: ""
-            val dates = etDates?.text?.toString()?.trim() ?: ""
+            val destination = etDestination?.text?.toString()?.trim().orEmpty()
+            val dates = etDates?.text?.toString()?.trim().orEmpty()
 
-            if (destination.isEmpty()) {
+            // 1. Rigorous Input Validation
+            if (destination.isBlank()) {
                 tilDestination?.error = "Please specify your destination (e.g., Ella, Mirissa, Sigiriya)"
                 etDestination?.requestFocus()
                 return@setOnClickListener
             }
             tilDestination?.error = null
 
-            // Construct new trip and save persistently
-            val newTrip = Trip(
-                id = "trip_${System.currentTimeMillis()}",
-                tripName = "$destination Adventure ($travelerCount Travelers)",
-                date = dates,
-                travelerType = "Local",
-                idImageUri = null,
-                places = mutableListOf(),
-                bookedRentals = mutableListOf(),
-                bookedActivities = mutableListOf()
-            )
-            TripManager.saveTrip(requireContext(), newTrip)
+            if (dates.isBlank()) {
+                tilDates?.error = "Please select travel dates"
+                etDates?.requestFocus()
+                return@setOnClickListener
+            }
+            tilDates?.error = null
 
-            // CRITICAL USER FLOW:
-            // If rental switch is ON -> navigate to RentalListFragment
-            // If rental switch is OFF -> return cleanly to HomeFragment
-            if (switchRental?.isChecked == true) {
-                val bundle = bundleOf("destinationLocation" to destination)
-                findNavController().navigate(
-                    R.id.action_planTripFragment_to_rentalShopsListFragment,
-                    bundle
-                )
-            } else {
-                Snackbar.make(
-                    view,
-                    "Trip \"${newTrip.tripName}\" created successfully!",
-                    Snackbar.LENGTH_LONG
-                ).show()
+            // 2. Prevent duplicate clicks during async operation
+            btnConfirm.isEnabled = false
+            btnConfirm.text = "Creating Trip..."
 
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.homeFragment, false)
-                    .setLaunchSingleTop(true)
-                    .build()
-                findNavController().navigate(R.id.homeFragment, null, navOptions)
+            // 3. Save Trip Asynchronously via Coroutine
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val tripId = "trip_${System.currentTimeMillis()}"
+                    val tripTitle = "$destination Adventure ($travelerCount Travelers)"
+
+                    val newTrip = Trip(
+                        id = tripId,
+                        tripName = tripTitle,
+                        date = dates,
+                        travelerType = "Custom",
+                        idImageUri = null,
+                        places = mutableListOf(),
+                        bookedRentals = mutableListOf(),
+                        bookedActivities = mutableListOf()
+                    )
+
+                    // 3a. Save locally via TripManager
+                    TripManager.saveTrip(requireContext(), newTrip)
+
+                    // 3b. Sync to Firebase Realtime Database
+                    try {
+                        val auth = FirebaseAuth.getInstance()
+                        val uid = auth.currentUser?.uid ?: "guest_traveler"
+                        val rtdb = FirebaseDatabase.getInstance().reference
+                        rtdb.child("trips").child(uid).child(newTrip.id).setValue(newTrip).await()
+                    } catch (e: Exception) {
+                        Log.w("CreateTrip", "Firebase RTDB sync non-fatal warning: ${e.message}")
+                    }
+
+                    // 4. Show Success Feedback Snackbar
+                    Snackbar.make(
+                        view,
+                        "Trip \"$tripTitle\" created successfully!",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+
+                    // Safe delay allowing user to perceive the success feedback
+                    delay(800)
+
+                    if (!isAdded) return@launch
+
+                    // 5. CONDITIONAL ROUTING:
+                    // If "Need a Vehicle" is checked -> navigate to RentalShopsListFragment
+                    // If unchecked -> navigate to TripPlannerFragment to view itinerary
+                    val needVehicle = switchRental?.isChecked == true
+
+                    if (needVehicle) {
+                        val bundle = bundleOf(
+                            "destinationLocation" to destination,
+                            "tripId" to newTrip.id
+                        )
+                        findNavController().navigate(
+                            R.id.rentalShopsListFragment,
+                            bundle
+                        )
+                    } else {
+                        findNavController().navigate(
+                            R.id.tripPlannerFragment
+                        )
+                    }
+
+                } catch (e: Exception) {
+                    btnConfirm.isEnabled = true
+                    btnConfirm.text = "Next / Create Trip"
+                    Snackbar.make(
+                        view,
+                        "Error creating trip: ${e.localizedMessage ?: "Please try again"}",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
             }
         }
     }

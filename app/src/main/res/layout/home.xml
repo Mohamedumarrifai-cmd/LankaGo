@@ -131,20 +131,21 @@
                         android:gravity="center"
                         android:orientation="vertical">
                         <ImageView
-                            android:layout_width="52dp"
-                            android:layout_height="52dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:background="@drawable/bg_circle_blue"
-                            android:padding="14dp"
-                            android:src="@android:drawable/ic_menu_mylocation"
-                            app:tint="#0288D1"
+                            android:padding="11dp"
+                            android:src="@drawable/ic_store"
+                            app:tint="?attr/colorPrimary"
                             android:contentDescription="Local Malls" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
-                            android:text="Local Malls"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Malls"
                             android:textAlignment="center"
-                            android:textColor="#333333"
+                            android:textColor="@color/text_primary"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -159,20 +160,21 @@
                         android:focusable="true"
                         android:orientation="vertical">
                         <ImageView
-                            android:layout_width="52dp"
-                            android:layout_height="52dp"
-                            android:background="@drawable/bg_circle_green"
-                            android:padding="14dp"
-                            android:src="@android:drawable/ic_menu_gallery"
-                            app:tint="#388E3C"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_circle_blue"
+                            android:padding="11dp"
+                            android:src="@drawable/ic_verified_badge"
+                            app:tint="?attr/colorPrimary"
                             android:contentDescription="Products" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
+                            android:fontFamily="sans-serif-medium"
                             android:text="Products"
                             android:textAlignment="center"
-                            android:textColor="#333333"
+                            android:textColor="@color/text_primary"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -185,20 +187,21 @@
                         android:gravity="center"
                         android:orientation="vertical">
                         <ImageView
-                            android:layout_width="52dp"
-                            android:layout_height="52dp"
-                            android:background="@drawable/bg_circle_purple"
-                            android:padding="14dp"
-                            android:src="@android:drawable/ic_menu_slideshow"
-                            app:tint="#8E24AA"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_circle_blue"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_home_festival"
+                            app:tint="?attr/colorPrimary"
                             android:contentDescription="Shows" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
+                            android:fontFamily="sans-serif-medium"
                             android:text="Shows"
                             android:textAlignment="center"
-                            android:textColor="#333333"
+                            android:textColor="@color/text_primary"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -211,20 +214,21 @@
                         android:gravity="center"
                         android:orientation="vertical">
                         <ImageView
-                            android:layout_width="52dp"
-                            android:layout_height="52dp"
-                            android:background="@drawable/bg_circle_pink"
-                            android:padding="14dp"
-                            android:src="@android:drawable/ic_menu_agenda"
-                            app:tint="#E91E63"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_circle_blue"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_home_artisan"
+                            app:tint="?attr/colorPrimary"
                             android:contentDescription="Activities" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
+                            android:fontFamily="sans-serif-medium"
                             android:text="Activities"
                             android:textAlignment="center"
-                            android:textColor="#333333"
+                            android:textColor="@color/text_primary"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -247,20 +251,21 @@
                         android:gravity="center"
                         android:orientation="vertical">
                         <ImageView
-                            android:layout_width="52dp"
-                            android:layout_height="52dp"
-                            android:background="@drawable/bg_circle_purple"
-                            android:padding="14dp"
-                            android:src="@android:drawable/ic_menu_month"
-                            app:tint="#8E24AA"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_circle_blue"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_home_rental_car"
+                            app:tint="?attr/colorPrimary"
                             android:contentDescription="Rentals" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
+                            android:fontFamily="sans-serif-medium"
                             android:text="Rentals"
                             android:textAlignment="center"
-                            android:textColor="#333333"
+                            android:textColor="@color/text_primary"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -273,20 +278,21 @@
                         android:gravity="center"
                         android:orientation="vertical">
                         <ImageView
-                            android:layout_width="52dp"
-                            android:layout_height="52dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:background="@drawable/bg_circle_blue"
-                            android:padding="14dp"
-                            android:src="@android:drawable/ic_menu_mapmode"
-                            app:tint="#0288D1"
+                            android:padding="10dp"
+                            android:src="@drawable/ic_home_trip_plan"
+                            app:tint="?attr/colorPrimary"
                             android:contentDescription="Trips" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
+                            android:fontFamily="sans-serif-medium"
                             android:text="Trips"
                             android:textAlignment="center"
-                            android:textColor="#333333"
+                            android:textColor="@color/text_primary"
                             android:textSize="12sp" />
                     </LinearLayout>
 

@@ -9,7 +9,10 @@ data class User(
     val name: String = "",
     val email: String = "",
     val role: String = "user", // "user" or "admin"
+    val contactNumber: String = "",
     val phoneNumber: String = "",
+    val address: String = "",
     val profileImageUrl: String = "",
     val createdAt: Long = System.currentTimeMillis()
 )
+
