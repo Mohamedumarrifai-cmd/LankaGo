@@ -19,9 +19,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.lankago.R
 import com.example.lankago.data.ActivityItem
+import com.example.lankago.data.Booking
+import com.example.lankago.data.BookingStatus
+import com.example.lankago.data.BookingType
 import com.example.lankago.data.Review
 import com.example.lankago.data.TraditionalActivity
+import com.example.lankago.repository.AdminRepository
 import com.example.lankago.utils.TripManager
+import com.google.firebase.auth.FirebaseAuth
 import com.example.lankago.viewmodels.TraditionalActivityDetailViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
@@ -286,6 +291,29 @@ class TraditionalActivityDetailFragment : Fragment() {
             val trips = TripManager.getAllTrips(requireContext())
             val targetTripId = trips.firstOrNull()?.id ?: ""
             TripManager.addActivityToTrip(requireContext(), targetTripId, bookedItem)
+
+            // Save to Firebase Realtime Database /bookings node
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val authUser = FirebaseAuth.getInstance().currentUser
+                    val booking = Booking(
+                        userName = authUser?.displayName ?: "Traveler",
+                        userEmail = authUser?.email ?: "traveler@lankago.lk",
+                        userPhone = "",
+                        itemName = "${activity.title} ($selectedTimeSlot)",
+                        itemCategory = activity.category,
+                        bookingType = BookingType.ACTIVITY,
+                        bookingDate = selectedDateStr,
+                        bookingTime = selectedTimeSlot,
+                        totalPriceLkr = total,
+                        status = BookingStatus.CONFIRMED,
+                        specialNotes = "Guests: $guestCount. Instructor: ${activity.hostName}. Location: ${activity.location}"
+                    )
+                    AdminRepository().addBooking(booking)
+                } catch (_: Exception) {
+                    // TripManager has already recorded reservation
+                }
+            }
 
             bottomSheetDialog.dismiss()
 

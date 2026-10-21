@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lankago.data.RentalShop
 import com.example.lankago.data.RentalShopDataProvider
+import com.example.lankago.repository.AdminRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,12 +21,14 @@ data class RentalShopsUiState(
 )
 
 /**
- * ViewModel managing rental shops discovery and details.
+ * ViewModel managing rental shops discovery and details, connected to live Firebase Realtime Database.
  */
 class RentalShopsViewModel : ViewModel() {
 
+    private val adminRepository = AdminRepository()
     private val _uiState = MutableStateFlow(RentalShopsUiState())
     val uiState: StateFlow<RentalShopsUiState> = _uiState.asStateFlow()
+    private var allCachedShops: List<RentalShop> = emptyList()
 
     init {
         loadShops()
@@ -34,35 +37,58 @@ class RentalShopsViewModel : ViewModel() {
     fun loadShops() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
-            val all = RentalShopDataProvider.getAllShops()
-            _uiState.value = RentalShopsUiState(shops = all, isLoading = false)
+            try {
+                adminRepository.observeRentals().collect { firebaseShops ->
+                    val resolved = if (firebaseShops.isNotEmpty()) {
+                        firebaseShops
+                    } else {
+                        // Fallback to initial local catalogue if firebase node is empty
+                        RentalShopDataProvider.getAllShops()
+                    }
+                    allCachedShops = resolved
+
+                    val currentQuery = _uiState.value.searchQuery
+                    if (currentQuery.isBlank()) {
+                        _uiState.value = _uiState.value.copy(shops = resolved, isLoading = false)
+                    } else {
+                        applySearchFilter(currentQuery)
+                    }
+                }
+            } catch (e: Exception) {
+                val fallback = RentalShopDataProvider.getAllShops()
+                allCachedShops = fallback
+                _uiState.value = RentalShopsUiState(shops = fallback, isLoading = false)
+            }
         }
     }
 
     fun searchShops(query: String) {
-        viewModelScope.launch {
-            val trimmed = query.trim()
-            val all = RentalShopDataProvider.getAllShops()
-            if (trimmed.isEmpty()) {
-                _uiState.value = _uiState.value.copy(shops = all, searchQuery = "")
-                return@launch
-            }
+        val trimmed = query.trim()
+        _uiState.value = _uiState.value.copy(searchQuery = trimmed)
+        applySearchFilter(trimmed)
+    }
 
-            val filtered = all.filter { shop ->
-                shop.name.contains(trimmed, ignoreCase = true) ||
-                        shop.city.contains(trimmed, ignoreCase = true) ||
-                        shop.address.contains(trimmed, ignoreCase = true) ||
-                        shop.description.contains(trimmed, ignoreCase = true) ||
-                        shop.fleetAvailable.any { it.contains(trimmed, ignoreCase = true) }
-            }
-
-            _uiState.value = _uiState.value.copy(shops = filtered, searchQuery = trimmed)
+    private fun applySearchFilter(query: String) {
+        if (query.isEmpty()) {
+            _uiState.value = _uiState.value.copy(shops = allCachedShops)
+            return
         }
+
+        val filtered = allCachedShops.filter { shop ->
+            shop.name.contains(query, ignoreCase = true) ||
+                    shop.city.contains(query, ignoreCase = true) ||
+                    shop.address.contains(query, ignoreCase = true) ||
+                    shop.description.contains(query, ignoreCase = true) ||
+                    shop.fleetAvailable.any { it.contains(query, ignoreCase = true) }
+        }
+
+        _uiState.value = _uiState.value.copy(shops = filtered)
     }
 
     fun loadShopDetails(shopId: String) {
         viewModelScope.launch {
-            val shop = RentalShopDataProvider.getShopById(shopId)
+            val fromCache = allCachedShops.find { it.id == shopId }
+            val shop = fromCache ?: RentalShopDataProvider.getShopById(shopId)
             _uiState.value = _uiState.value.copy(selectedShop = shop)
         }
     }

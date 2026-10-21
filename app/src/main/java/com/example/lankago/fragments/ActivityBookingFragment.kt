@@ -22,7 +22,14 @@ import com.example.lankago.viewmodels.ActivityBookingViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import com.example.lankago.data.Booking
+import com.example.lankago.data.BookingStatus
+import com.example.lankago.data.BookingType
+import com.example.lankago.repository.AdminRepository
+import com.google.firebase.auth.FirebaseAuth
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class ActivityBookingFragment : Fragment() {
@@ -123,6 +130,30 @@ class ActivityBookingFragment : Fragment() {
             .setPositiveButton("Confirm Booking") { _, _ ->
                 val tripId = targetTrip?.id ?: ""
                 TripManager.addActivityToTrip(requireContext(), tripId, item)
+
+                // Save to Firebase Realtime Database /bookings node
+                viewLifecycleOwner.lifecycleScope.launch {
+                    try {
+                        val authUser = FirebaseAuth.getInstance().currentUser
+                        val todayStr = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
+                        val booking = Booking(
+                            userName = authUser?.displayName ?: "Traveler",
+                            userEmail = authUser?.email ?: "traveler@lankago.lk",
+                            userPhone = "",
+                            itemName = item.title,
+                            itemCategory = item.category,
+                            bookingType = BookingType.ACTIVITY,
+                            bookingDate = todayStr,
+                            bookingTime = "09:00 AM",
+                            totalPriceLkr = item.basePriceLkr + item.serviceFeeLkr,
+                            status = BookingStatus.CONFIRMED,
+                            specialNotes = "Location: ${item.address}. Duration: ${item.durationHours} hrs."
+                        )
+                        AdminRepository().addBooking(booking)
+                    } catch (_: Exception) {
+                        // TripManager has already recorded reservation
+                    }
+                }
 
                 Snackbar.make(
                     requireView(),

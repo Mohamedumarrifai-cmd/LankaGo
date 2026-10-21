@@ -277,6 +277,106 @@ class AdminRepository(
     }
 
     // =========================================================================
+    // 3.5. REALTIME DATABASE: TRADITIONAL ACTIVITIES & TOURS CRUD (/activities)
+    // =========================================================================
+
+    suspend fun addActivity(
+        title: String,
+        category: String,
+        location: String,
+        address: String,
+        duration: String,
+        priceLkr: Double,
+        hostName: String,
+        description: String,
+        highlights: List<String> = emptyList(),
+        timeSlots: List<String> = emptyList(),
+        imageUri: Uri? = null,
+        existingImageUrl: String = ""
+    ): com.example.lankago.data.TraditionalActivity {
+        val finalImageUrl = if (imageUri != null) {
+            uploadImage(imageUri, folder = "activities")
+        } else {
+            existingImageUrl
+        }
+
+        val activitiesRef = database.child("activities")
+        val actKey = activitiesRef.push().key ?: UUID.randomUUID().toString()
+
+        val activity = com.example.lankago.data.TraditionalActivity(
+            id = actKey,
+            title = title.trim(),
+            category = category.trim(),
+            location = location.trim(),
+            address = address.trim(),
+            duration = duration.trim(),
+            durationHours = 2.0,
+            hostName = hostName.trim(),
+            hostTitle = "Master Artisan & Guide",
+            hostAvatarRes = 0,
+            priceLkr = priceLkr,
+            rating = 5.0f,
+            reviewCount = 1,
+            imageRes = 0,
+            description = description.trim(),
+            highlights = highlights,
+            timeSlots = if (timeSlots.isEmpty()) listOf("09:00 AM", "02:00 PM") else timeSlots,
+            imageUrl = finalImageUrl.trim()
+        )
+
+        activitiesRef.child(actKey).setValue(activity).await()
+        return activity
+    }
+
+    suspend fun updateActivity(
+        activityId: String,
+        updates: Map<String, Any?>,
+        newImageUri: Uri? = null
+    ) {
+        val mutableUpdates = updates.toMutableMap()
+        if (newImageUri != null) {
+            val downloadUrl = uploadImage(newImageUri, folder = "activities")
+            mutableUpdates["imageUrl"] = downloadUrl
+        }
+        database.child("activities").child(activityId).updateChildren(mutableUpdates).await()
+    }
+
+    suspend fun deleteActivity(activityId: String, imageUrl: String? = null) {
+        database.child("activities").child(activityId).removeValue().await()
+        if (!imageUrl.isNullOrBlank()) {
+            deleteImageByUrl(imageUrl)
+        }
+    }
+
+    suspend fun getAllActivitiesOnce(): List<com.example.lankago.data.TraditionalActivity> {
+        val snapshot = database.child("activities").get().await()
+        val list = mutableListOf<com.example.lankago.data.TraditionalActivity>()
+        for (child in snapshot.children) {
+            child.getValue(com.example.lankago.data.TraditionalActivity::class.java)?.let { list.add(it) }
+        }
+        return list
+    }
+
+    fun observeActivities(): Flow<List<com.example.lankago.data.TraditionalActivity>> = callbackFlow {
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list = mutableListOf<com.example.lankago.data.TraditionalActivity>()
+                for (child in snapshot.children) {
+                    child.getValue(com.example.lankago.data.TraditionalActivity::class.java)?.let { list.add(it) }
+                }
+                trySend(list)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                close(error.toException())
+            }
+        }
+        val ref = database.child("activities")
+        ref.addValueEventListener(listener)
+        awaitClose { ref.removeEventListener(listener) }
+    }
+
+    // =========================================================================
     // 4. REALTIME DATABASE: USER BOOKINGS (/bookings)
     // =========================================================================
 
