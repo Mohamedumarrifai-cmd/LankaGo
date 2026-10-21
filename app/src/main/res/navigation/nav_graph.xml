@@ -430,9 +430,10 @@
             app:destination="@id/mapRouteFragment" />
         <action
             android:id="@+id/action_rentalDetailsFragment_to_tripPlannerFragment"
-            app:destination="@id/tripPlannerFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="false" />
+            app:destination="@id/tripPlannerFragment" />
+        <action
+            android:id="@+id/action_rentalDetailsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
     <!-- Activity & Tour Booking -->
@@ -445,6 +446,9 @@
             android:name="activityId"
             app:argType="string"
             android:defaultValue="act_sigiriya_hike" />
+        <action
+            android:id="@+id/action_activityBookingFragment_to_tripPlannerFragment"
+            app:destination="@id/tripPlannerFragment" />
     </fragment>
 
     <!-- Traditional Activity Details -->
@@ -457,6 +461,9 @@
             android:name="traditionalActivityId"
             app:argType="string"
             android:defaultValue="act_pottery_making" />
+        <action
+            android:id="@+id/action_traditionalActivityDetailFragment_to_tripPlannerFragment"
+            app:destination="@id/tripPlannerFragment" />
     </fragment>
 
     <!-- Cultural Festival Details -->

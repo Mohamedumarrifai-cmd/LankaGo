@@ -172,11 +172,22 @@ class ActivityBookingFragment : Fragment() {
                     }
                 }
 
+                val currentView = view ?: return@setPositiveButton
                 Snackbar.make(
-                    requireView(),
-                    "✓ \"${item.title}\" Added to your Itinerary!",
+                    currentView,
+                    "✓ \"${item.title}\" confirmed & added to your Itinerary!",
                     Snackbar.LENGTH_SHORT
                 ).show()
+
+                currentView.postDelayed({
+                    if (isAdded) {
+                        try {
+                            findNavController().navigate(R.id.action_activityBookingFragment_to_tripPlannerFragment)
+                        } catch (_: Exception) {
+                            findNavController().popBackStack()
+                        }
+                    }
+                }, 800L)
             }
             .setNegativeButton("Cancel", null)
             .show()

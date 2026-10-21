@@ -347,7 +347,11 @@ class TraditionalActivityDetailFragment : Fragment() {
                             "A confirmation and directions have been added to your Trip Planner."
                 )
                 .setPositiveButton("View Trip Planner") { _, _ ->
-                    findNavController().navigate(R.id.action_homeFragment_to_tripPlannerFragment)
+                    try {
+                        findNavController().navigate(R.id.action_traditionalActivityDetailFragment_to_tripPlannerFragment)
+                    } catch (_: Exception) {
+                        findNavController().navigate(R.id.tripPlannerFragment)
+                    }
                 }
                 .setNegativeButton("Done", null)
                 .show()

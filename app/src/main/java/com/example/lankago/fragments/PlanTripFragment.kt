@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -222,6 +223,13 @@ open class PlanTripFragment : Fragment() {
                 cardTripPhoto?.strokeColor = Color.parseColor("#EF4444")
                 cardTripPhoto?.strokeWidth = 3
                 val requiredDoc = if (isLocal) "National ID (NIC)" else "Passport"
+                view.findViewById<androidx.core.widget.NestedScrollView>(R.id.scroll_plan_trip)
+                    ?.smoothScrollTo(0, (cardTripPhoto?.top ?: 150) - 100)
+                Toast.makeText(
+                    requireContext(),
+                    "⚠️ Compulsory: You MUST capture/upload your $requiredDoc to confirm!",
+                    Toast.LENGTH_LONG
+                ).show()
                 Snackbar.make(
                     view,
                     "Compulsory: You MUST capture a photo of your $requiredDoc to confirm this booking.",

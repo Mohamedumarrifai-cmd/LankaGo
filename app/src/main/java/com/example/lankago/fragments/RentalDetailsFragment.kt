@@ -31,6 +31,7 @@ import com.example.lankago.data.Booking
 import com.example.lankago.data.BookingStatus
 import com.example.lankago.data.BookingType
 import com.example.lankago.repository.AdminRepository
+import com.example.lankago.repository.RentalRepository
 import com.google.firebase.auth.FirebaseAuth
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -83,6 +84,15 @@ class RentalDetailsFragment : Fragment() {
         rvReviews?.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = reviewAdapter
+        }
+
+        // Eager Booking Listener to ensure immediate responsiveness
+        val rentalId = arguments?.getString("rentalId") ?: "rental_scooter_ella"
+        view.findViewById<Button>(R.id.btn_book_rental)?.setOnClickListener {
+            val current = viewModel.rental.value ?: RentalRepository.getRentalById(rentalId)
+            if (current != null) {
+                showRentalBookingConfirmation(current)
+            }
         }
     }
 
@@ -274,7 +284,11 @@ class RentalDetailsFragment : Fragment() {
                         try {
                             findNavController().navigate(R.id.action_rentalDetailsFragment_to_tripPlannerFragment)
                         } catch (_: Exception) {
-                            findNavController().popBackStack()
+                            try {
+                                findNavController().navigate(R.id.tripPlannerFragment)
+                            } catch (_: Exception) {
+                                findNavController().popBackStack()
+                            }
                         }
                     }
                 }, 800L)
