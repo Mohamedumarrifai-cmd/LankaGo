@@ -16,13 +16,13 @@ import com.example.lankago.R
  * - [imageUrl]: Cover image web URL
  */
 data class RentalShop(
-    val id: String,
-    val name: String,
-    val description: String,
+    val id: String = "",
+    val name: String = "",
+    val description: String = "",
     val lat: Double = 6.9271,
     val lng: Double = 79.8612,
-    val contactNumber: String,
-    val operatingHours: String,
+    val contactNumber: String = "",
+    val operatingHours: String = "",
     val imageUrl: String = "",
     val imageRes: Int = 0,
     val rating: Float = 4.9f,
