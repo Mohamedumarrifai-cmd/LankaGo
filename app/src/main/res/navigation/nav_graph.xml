@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/adminLoginFragment">
+    app:startDestination="@id/splashFragment">
 
 
     <!-- 1. Splash Screen with Session Routing -->

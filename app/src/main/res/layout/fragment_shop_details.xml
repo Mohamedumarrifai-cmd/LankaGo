@@ -9,7 +9,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_shop_details"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="250dp"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -20,9 +20,9 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:statusBarScrim="@color/admin_primary_navy">
 
-            <!-- High-Res Cover Image -->
+            <!-- High-Res Cover Hero Image -->
             <ImageView
-                android:id="@+id/iv_shop_cover"
+                android:id="@+id/ivCoverImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="Rental shop cover photo"

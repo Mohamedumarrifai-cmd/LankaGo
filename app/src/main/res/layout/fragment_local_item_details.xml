@@ -10,7 +10,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_local_item"
         android:layout_width="match_parent"
-        android:layout_height="290dp"
+        android:layout_height="250dp"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -21,9 +21,9 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:statusBarScrim="@color/admin_primary_navy">
 
-            <!-- High-Quality Cover Image -->
+            <!-- High-Quality 250dp Hero Cover Image -->
             <ImageView
-                android:id="@+id/iv_local_item_cover"
+                android:id="@+id/ivCoverImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="Local cultural item cover image"

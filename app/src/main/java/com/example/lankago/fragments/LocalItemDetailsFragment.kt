@@ -16,8 +16,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.lankago.R
 import com.example.lankago.data.LocalItem
+import com.example.lankago.data.LocalItemDataProvider
 import com.example.lankago.viewmodels.LocalItemDetailsViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
@@ -26,6 +28,7 @@ import kotlinx.coroutines.launch
 /**
  * Detailed Screen for Sri Lankan Local Cultural Products, Markets, and Traditional Medicine.
  * Displays deep real-world attributes:
+ * - High-res cover hero image filling the top section seamlessly using Glide
  * - Detailed Description
  * - Primary Usage & Benefits
  * - Famous City / Region
@@ -47,12 +50,15 @@ class LocalItemDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val itemId = arguments?.getString("itemId") ?: "item_ceylon_tea"
+        // Retrieve item ID passed via SafeArgs / bundle with resilient fallback
+        val itemId = arguments?.getString("itemId")
+            ?: arguments?.getString("productId")
+            ?: "item_pottery"
 
         // Initialize UI Elements
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar_local_item)
         val tvToolbarTitle = view.findViewById<TextView>(R.id.tv_toolbar_item_title)
-        val ivCover = view.findViewById<ImageView>(R.id.iv_local_item_cover)
+        val ivCover = view.findViewById<ImageView>(R.id.ivCoverImage)
         val btnFavorite = view.findViewById<ImageButton>(R.id.btn_item_favorite)
 
         val tvCategoryBadge = view.findViewById<TextView>(R.id.tv_item_category_badge)
@@ -92,13 +98,37 @@ class LocalItemDetailsFragment : Fragment() {
             }
         }
 
+        // Instant pre-binding to guarantee top hero section is never blank
+        val immediateItem = LocalItemDataProvider.getItemById(itemId)
+            ?: LocalItemDataProvider.items.firstOrNull()
+        if (immediateItem != null && ivCover != null) {
+            bindUi(
+                item = immediateItem,
+                tvToolbarTitle = tvToolbarTitle,
+                ivCover = ivCover,
+                tvCategoryBadge = tvCategoryBadge,
+                tvPriceEstimate = tvPriceEstimate,
+                tvTitle = tvTitle,
+                tvRating = tvRating,
+                tvReviewsCount = tvReviewsCount,
+                tvDescription = tvDescription,
+                tvPrimaryUsage = tvPrimaryUsage,
+                tvFamousCity = tvFamousCity,
+                tvCulturalImportance = tvCulturalImportance,
+                tvBottomTitle = tvBottomTitle,
+                tvBottomCity = tvBottomCity,
+                btnExploreMap = btnExploreMap
+            )
+        }
+
         // Bind Item Details from ViewModel StateFlow
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.selectedItem.collect { item ->
-                    if (item != null) {
+                    val targetItem = item ?: LocalItemDataProvider.getItemById(itemId)
+                    if (targetItem != null && ivCover != null) {
                         bindUi(
-                            item = item,
+                            item = targetItem,
                             tvToolbarTitle = tvToolbarTitle,
                             ivCover = ivCover,
                             tvCategoryBadge = tvCategoryBadge,
@@ -146,7 +176,15 @@ class LocalItemDetailsFragment : Fragment() {
         tvRating.text = String.format("%.2f", item.rating)
         tvReviewsCount.text = "(${item.reviewCount} verified reviews)"
 
-        if (item.imageRes != 0) {
+        // Seamless image loading: Use Glide for web URLs with local fallback
+        if (!item.imageUrl.isNullOrBlank()) {
+            Glide.with(this)
+                .load(item.imageUrl)
+                .placeholder(if (item.imageRes != 0) item.imageRes else R.drawable.ceylon_tea_set)
+                .error(if (item.imageRes != 0) item.imageRes else R.drawable.ceylon_tea_set)
+                .centerCrop()
+                .into(ivCover)
+        } else if (item.imageRes != 0) {
             ivCover.setImageResource(item.imageRes)
         } else {
             ivCover.setImageResource(R.drawable.ceylon_tea_set)

@@ -19,9 +19,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.lankago.R
 import com.example.lankago.adapters.ShopReviewAdapter
 import com.example.lankago.data.RentalShop
+import com.example.lankago.data.RentalShopDataProvider
 import com.example.lankago.viewmodels.RentalShopsViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
@@ -32,7 +34,7 @@ import kotlinx.coroutines.launch
 /**
  * Separate, full-page screen displaying complete details for a selected Rental Shop.
  * Features:
- * - High-res cover image with CollapsingToolbarLayout
+ * - High-res cover hero image filling the top section seamlessly using Glide
  * - Shop and Fleet info (operating hours, fleet chips, address)
  * - Safe Google Maps Intent with geo URI
  * - Safe Phone Call Intent (ACTION_DIAL)
@@ -55,12 +57,15 @@ class ShopDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val shopId = arguments?.getString("shopId") ?: "shop_galle_bike"
+        // Retrieve shop ID passed via SafeArgs / bundle with resilient fallback
+        val shopId = arguments?.getString("shopId")
+            ?: arguments?.getString("rentalShopId")
+            ?: "shop_epic_ride"
 
         // Initialize Views
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar_shop_details)
         val tvToolbarName = view.findViewById<TextView>(R.id.tv_toolbar_shop_name)
-        val ivCover = view.findViewById<ImageView>(R.id.iv_shop_cover)
+        val ivCover = view.findViewById<ImageView>(R.id.ivCoverImage)
         val btnShare = view.findViewById<ImageButton>(R.id.btn_shop_share)
 
         val tvName = view.findViewById<TextView>(R.id.tv_detail_shop_name)
@@ -94,6 +99,7 @@ class ShopDetailsFragment : Fragment() {
 
         btnShare.setOnClickListener {
             val shop = viewModel.uiState.value.selectedShop
+                ?: RentalShopDataProvider.getShopById(shopId)
             if (shop != null) {
                 val shareIntent = Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
@@ -107,12 +113,38 @@ class ShopDetailsFragment : Fragment() {
             }
         }
 
+        // Instant pre-binding to guarantee the top section is never blank while StateFlow initializes
+        val immediateShop = RentalShopDataProvider.getShopById(shopId)
+            ?: RentalShopDataProvider.shops.firstOrNull()
+        if (immediateShop != null && ivCover != null) {
+            bindShopDetails(
+                shop = immediateShop,
+                tvToolbarName = tvToolbarName,
+                ivCover = ivCover,
+                tvName = tvName,
+                tvRating = tvRating,
+                tvReviewCount = tvReviewCount,
+                tvCity = tvCity,
+                tvPriceStarting = tvPriceStarting,
+                tvDescription = tvDescription,
+                tvHours = tvHours,
+                tvAddress = tvAddress,
+                chipGroupFleet = chipGroupFleet,
+                btnWhatsApp = btnWhatsApp,
+                btnCall = btnCall,
+                btnGoogleMaps = btnGoogleMaps,
+                tvReviewsHeaderCount = tvReviewsHeaderCount,
+                tvNoReviews = tvNoReviews
+            )
+        }
+
         // Observe ViewModel State
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     val shop = state.selectedShop
-                    if (shop != null) {
+                        ?: RentalShopDataProvider.getShopById(shopId)
+                    if (shop != null && ivCover != null) {
                         bindShopDetails(
                             shop = shop,
                             tvToolbarName = tvToolbarName,
@@ -170,7 +202,15 @@ class ShopDetailsFragment : Fragment() {
         tvHours.text = shop.operatingHours
         tvAddress.text = shop.address
 
-        if (shop.imageRes != 0) {
+        // Seamless image loading: Use Glide for web URLs with local fallback
+        if (!shop.imageUrl.isNullOrBlank()) {
+            Glide.with(this)
+                .load(shop.imageUrl)
+                .placeholder(if (shop.imageRes != 0) shop.imageRes else R.drawable.casons_rent)
+                .error(if (shop.imageRes != 0) shop.imageRes else R.drawable.casons_rent)
+                .centerCrop()
+                .into(ivCover)
+        } else if (shop.imageRes != 0) {
             ivCover.setImageResource(shop.imageRes)
         } else {
             ivCover.setImageResource(R.drawable.casons_rent)
@@ -183,107 +223,64 @@ class ShopDetailsFragment : Fragment() {
                 text = fleet
                 isClickable = false
                 isCheckable = false
-                setChipBackgroundColorResource(R.color.chip_bg)
-                setTextColor(resources.getColor(R.color.text_primary, null))
+                setChipBackgroundColorResource(R.color.admin_indigo_soft)
+                setTextColor(requireContext().getColor(R.color.admin_primary_navy))
             }
             chipGroupFleet.addView(chip)
         }
 
-        // 1. WhatsApp Intent (Protected by try-catch)
+        // Action Buttons: WhatsApp Intent
         btnWhatsApp.setOnClickListener {
-            openWhatsApp(shop)
+            val phone = if (shop.whatsappNumber.isNotBlank()) shop.whatsappNumber else shop.contactNumber
+            val cleaned = phone.replace("+", "").replace(" ", "").replace("-", "")
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("https://api.whatsapp.com/send?phone=$cleaned&text=Hello%20${Uri.encode(shop.name)},%20I%20am%20inquiring%20about%20rentals%20via%20LankaGo")
+            }
+            try {
+                startActivity(intent)
+            } catch (_: Exception) {
+                Toast.makeText(requireContext(), "WhatsApp is not installed on this device", Toast.LENGTH_SHORT).show()
+            }
         }
 
-        // 2. Call Now Intent (ACTION_DIAL, protected by try-catch)
+        // Action Buttons: Phone Call Intent (ACTION_DIAL)
         btnCall.setOnClickListener {
-            dialPhoneNumber(shop.contactNumber)
+            val intent = Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel:${shop.contactNumber}")
+            }
+            try {
+                startActivity(intent)
+            } catch (_: Exception) {
+                Toast.makeText(requireContext(), "Unable to open phone dialer", Toast.LENGTH_SHORT).show()
+            }
         }
 
-        // 3. View on Google Maps Intent (Protected by try-catch)
+        // Action Buttons: Google Maps Navigation
         btnGoogleMaps.setOnClickListener {
-            openGoogleMaps(shop)
-        }
-
-        // 4. Reviews List Binding
-        if (shop.reviews.isEmpty()) {
-            tvNoReviews.visibility = View.VISIBLE
-            tvReviewsHeaderCount.text = "0 Reviews"
-            reviewAdapter.submitList(emptyList())
-        } else {
-            tvNoReviews.visibility = View.GONE
-            tvReviewsHeaderCount.text = "${shop.reviews.size} Reviews"
-            reviewAdapter.submitList(shop.reviews)
-        }
-    }
-
-    /**
-     * Triggers Google Maps using geo:lat,lng?q=Shop+Name
-     */
-    private fun openGoogleMaps(shop: RentalShop) {
-        try {
-            val encodedQuery = Uri.encode("${shop.name}, ${shop.city}")
-            val geoUri = Uri.parse("geo:${shop.lat},${shop.lng}?q=${shop.lat},${shop.lng}($encodedQuery)")
+            val geoUri = Uri.parse("geo:${shop.lat},${shop.lng}?q=${shop.lat},${shop.lng}(${Uri.encode(shop.name)})")
             val mapIntent = Intent(Intent.ACTION_VIEW, geoUri).apply {
                 setPackage("com.google.android.apps.maps")
             }
-
-            if (mapIntent.resolveActivity(requireContext().packageManager) != null) {
+            try {
                 startActivity(mapIntent)
-            } else {
-                // Fallback to web browser or generic map viewer
-                val browserUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=${shop.lat},${shop.lng}")
-                startActivity(Intent(Intent.ACTION_VIEW, browserUri))
-            }
-        } catch (e: Exception) {
-            Snackbar.make(
-                requireView(),
-                "Unable to launch maps. Location: ${shop.address}",
-                Snackbar.LENGTH_LONG
-            ).show()
-        }
-    }
-
-    /**
-     * Dials phone number using Intent.ACTION_DIAL
-     */
-    private fun dialPhoneNumber(phoneNumber: String) {
-        try {
-            val dialIntent = Intent(Intent.ACTION_DIAL).apply {
-                data = Uri.parse("tel:$phoneNumber")
-            }
-            startActivity(dialIntent)
-        } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Unable to open phone dialer for: $phoneNumber", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    /**
-     * Opens WhatsApp chat directly to the rental shop
-     */
-    private fun openWhatsApp(shop: RentalShop) {
-        val number = if (shop.whatsappNumber.isNotEmpty()) shop.whatsappNumber else shop.contactNumber
-        val cleanNumber = number.replace("+", "").replace(" ", "").replace("-", "")
-
-        try {
-            val message = "Hello ${shop.name}, I found your rental listing on LankaGo and would like to inquire about vehicle availability."
-            val url = "https://api.whatsapp.com/send?phone=$cleanNumber&text=${Uri.encode(message)}"
-            val whatsappIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-                setPackage("com.whatsapp")
-            }
-
-            if (whatsappIntent.resolveActivity(requireContext().packageManager) != null) {
-                startActivity(whatsappIntent)
-            } else {
-                // Fallback to standard web browser WhatsApp link
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            } catch (_: Exception) {
+                val browserIntent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.google.com/maps/search/?api=1&query=${shop.lat},${shop.lng}")
+                )
                 startActivity(browserIntent)
             }
-        } catch (e: Exception) {
-            Snackbar.make(
-                requireView(),
-                "WhatsApp is not installed. Contact shop directly at: $number",
-                Snackbar.LENGTH_LONG
-            ).show()
+        }
+
+        // Reviews Binding
+        if (shop.reviews.isEmpty()) {
+            tvNoReviews.visibility = View.VISIBLE
+            tvReviewsHeaderCount.text = "(0)"
+            reviewAdapter.submitList(emptyList())
+        } else {
+            tvNoReviews.visibility = View.GONE
+            tvReviewsHeaderCount.text = "(${shop.reviews.size})"
+            reviewAdapter.submitList(shop.reviews)
         }
     }
 }
