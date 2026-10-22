@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="?android:attr/colorBackground">
 
     <!-- Top Bar -->
     <LinearLayout
@@ -24,7 +24,7 @@
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:padding="6dp"
             android:src="@drawable/ic_arrow_back"
-            app:tint="#1A2B4C"
+            app:tint="?attr/colorOnSurface"
             android:contentDescription="Back" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_marginStart="12dp"
             android:fontFamily="sans-serif-black"
             android:text="My Favorites"
-            android:textColor="#1A2B4C"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -79,7 +79,7 @@
             android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-black"
             android:text="No favorites yet. Start exploring!"
-            android:textColor="#1A2B4C"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="18sp" />
 
         <TextView

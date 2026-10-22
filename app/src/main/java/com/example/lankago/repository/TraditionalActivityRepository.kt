@@ -175,6 +175,18 @@ object TraditionalActivityRepository {
     fun getAllActivities(): List<TraditionalActivity> = activities
 
     fun getActivityById(id: String): TraditionalActivity? {
-        return activities.find { it.id.equals(id, ignoreCase = true) } ?: activities.firstOrNull()
+        val normalized = id.lowercase().trim()
+        return activities.find { it.id.equals(normalized, ignoreCase = true) }
+            ?: activities.find {
+                if (normalized.contains("pottery") || normalized.contains("clay")) it.id == "act_pottery_making"
+                else if (normalized.contains("tea")) it.id == "act_tea_estate"
+                else if (normalized.contains("mask") || normalized.contains("carving") || normalized.contains("wood")) it.id == "act_wood_carving"
+                else if (normalized.contains("cook") || normalized.contains("spice") || normalized.contains("village")) it.id == "act_cooking_class"
+                else if (normalized.contains("batik")) it.id == "act_batik_workshop"
+                else if (normalized.contains("dance") || normalized.contains("kandy")) it.id == "act_traditional_dance"
+                else false
+            }
+            ?: activities.find { it.title.contains(id, ignoreCase = true) }
+            ?: activities.firstOrNull()
     }
 }

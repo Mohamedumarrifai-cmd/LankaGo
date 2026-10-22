@@ -38,11 +38,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Set status bar styling
+        // Set dynamic status bar styling based on Dark Mode preference
+        val prefs = getSharedPreferences(LankaGoApp.PREFS_SETTINGS, Context.MODE_PRIVATE)
+        val isDarkMode = prefs.getBoolean(LankaGoApp.KEY_DARK_MODE, false)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            if (isDarkMode) {
+                window.decorView.systemUiVisibility = 0
+                window.statusBarColor = Color.parseColor("#0F172A")
+            } else {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                window.statusBarColor = Color.parseColor("#FFFFFF")
+            }
         }
-        window.statusBarColor = Color.parseColor("#FFFFFF")
 
         setContentView(R.layout.activity_main)
 

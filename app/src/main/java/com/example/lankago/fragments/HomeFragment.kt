@@ -25,6 +25,8 @@ class HomeFragment : Fragment() {
         setupCategoryButtons(view)
         setupSearchBar(view)
         setupHeroDestination(view)
+        setupPopularDestinations(view)
+        setupHeaderActionButtons(view)
     }
 
     private fun setupHeroDestination(view: View) {
@@ -33,6 +35,46 @@ class HomeFragment : Fragment() {
                 putString("place_id", "place_1")
             }
             findNavController().safeNavigate(R.id.action_homeFragment_to_destinationDetailFragment, bundle)
+        }
+    }
+
+    private fun setupPopularDestinations(view: View) {
+        view.findViewById<View>(R.id.card_popular_1)?.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("place_id", "place_1")
+            }
+            findNavController().safeNavigate(R.id.action_homeFragment_to_destinationDetailFragment, bundle)
+        }
+
+        view.findViewById<View>(R.id.card_popular_2)?.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("place_id", "place_4")
+            }
+            findNavController().safeNavigate(R.id.action_homeFragment_to_destinationDetailFragment, bundle)
+        }
+
+        view.findViewById<View>(R.id.card_popular_3)?.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("place_id", "place_2")
+            }
+            findNavController().safeNavigate(R.id.action_homeFragment_to_destinationDetailFragment, bundle)
+        }
+    }
+
+    private fun setupHeaderActionButtons(view: View) {
+        // Upcoming Events "More"
+        view.findViewById<View>(R.id.btn_more_events)?.setOnClickListener {
+            findNavController().safeNavigate(R.id.action_homeFragment_to_showsAndFestivalsFragment)
+        }
+
+        // Popular Destinations "See all"
+        view.findViewById<View>(R.id.btn_see_all_destinations)?.setOnClickListener {
+            findNavController().safeNavigate(R.id.action_homeFragment_to_discoverFragment)
+        }
+
+        // Category "More"
+        view.findViewById<View>(R.id.btn_category_more)?.setOnClickListener {
+            findNavController().safeNavigate(R.id.action_homeFragment_to_discoverFragment)
         }
     }
 
@@ -79,11 +121,29 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupSearchBar(view: View) {
-        view.findViewById<View>(R.id.search_bar)?.setOnClickListener {
-            findNavController().safeNavigate(R.id.action_homeFragment_to_searchFragment)
+        val etSearch = view.findViewById<android.widget.EditText>(R.id.et_search)
+
+        fun navigateToSearch(query: String = "") {
+            val bundle = Bundle().apply {
+                putString("search_query", query)
+            }
+            findNavController().safeNavigate(R.id.action_homeFragment_to_searchFragment, bundle)
         }
-        view.findViewById<View>(R.id.et_search)?.setOnClickListener {
-            findNavController().safeNavigate(R.id.action_homeFragment_to_searchFragment)
+
+        view.findViewById<View>(R.id.search_bar)?.setOnClickListener {
+            val q = etSearch?.text?.toString()?.trim() ?: ""
+            navigateToSearch(q)
+        }
+
+        etSearch?.setOnEditorActionListener { v, actionId, _ ->
+            val q = v.text?.toString()?.trim() ?: ""
+            navigateToSearch(q)
+            true
+        }
+
+        etSearch?.setOnClickListener {
+            val q = etSearch.text?.toString()?.trim() ?: ""
+            navigateToSearch(q)
         }
     }
 }

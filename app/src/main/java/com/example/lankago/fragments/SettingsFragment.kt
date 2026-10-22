@@ -72,12 +72,17 @@ class SettingsFragment : Fragment() {
 
         switchDarkMode?.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean(LankaGoApp.KEY_DARK_MODE, isChecked).apply()
-            if (isChecked) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                Toast.makeText(requireContext(), "🌙 Dark Mode Enabled", Toast.LENGTH_SHORT).show()
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                Toast.makeText(requireContext(), "☀️ Light Mode Enabled", Toast.LENGTH_SHORT).show()
+            val newMode = if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+            if (AppCompatDelegate.getDefaultNightMode() != newMode) {
+                AppCompatDelegate.setDefaultNightMode(newMode)
+            }
+            val msg = if (isChecked) "🌙 Dark Mode Enabled" else "☀️ Light Mode Enabled"
+            Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        }
+
+        view.findViewById<View>(R.id.row_setting_dark_mode)?.setOnClickListener {
+            switchDarkMode?.let { switch ->
+                switch.isChecked = !switch.isChecked
             }
         }
 
@@ -137,6 +142,15 @@ class SettingsFragment : Fragment() {
                 findNavController().navigate(R.id.action_settingsFragment_to_mapRouteFragment)
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Opening Live Map...", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // 7b. Browse Vehicle & Bike Rentals Navigation
+        view.findViewById<View>(R.id.row_setting_rentals)?.setOnClickListener {
+            try {
+                findNavController().navigate(R.id.action_settingsFragment_to_rentalsTransportFragment)
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Opening Rentals Hub...", Toast.LENGTH_SHORT).show()
             }
         }
 

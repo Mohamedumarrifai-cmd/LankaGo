@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="?android:attr/colorBackground"
     tools:context=".ReviewsActivity">
 
     <!-- Top Bar -->
@@ -23,7 +23,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_arrow_back"
-            app:tint="#1A2B4C"
+            app:tint="?attr/colorOnSurface"
             android:contentDescription="Back" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_marginStart="16dp"
             android:fontFamily="sans-serif-black"
             android:text="Reviews"
-            android:textColor="#1A2B4C"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="20sp" />
 
         <TextView
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-bold"
             android:text="Write"
-            android:textColor="#1A2B4C"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -246,8 +246,15 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="sans-serif-black"
                 android:text="Recent Reviews"
-                android:textColor="#1A2B4C"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="18sp" />
+
+            <!-- Dynamic Reviews Container from Firebase Cloud -->
+            <LinearLayout
+                android:id="@+id/layout_dynamic_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
             <!-- Review 1 -->
             <androidx.cardview.widget.CardView

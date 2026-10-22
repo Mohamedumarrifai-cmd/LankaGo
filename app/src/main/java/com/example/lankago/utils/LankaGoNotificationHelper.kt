@@ -226,4 +226,78 @@ object LankaGoNotificationHelper {
             }
         }
     }
+
+    /**
+     * Emits a payment success notification to the phone's notification bar and logs an in-app notification.
+     */
+    fun postPaymentSuccessNotification(
+        context: Context,
+        bookingRef: String,
+        vehicleName: String,
+        amountLkr: Double
+    ) {
+        try {
+            createNotificationChannels(context)
+
+            val title = "💳 Payment Confirmed: Rs. ${String.format(Locale.US, "%,.0f", amountLkr)}"
+            val body = "Your payment for $vehicleName has been processed. Booking Ref: $bookingRef."
+
+            val intent = Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                putExtra("open_destination", "tripHistoryFragment")
+            }
+
+            val pendingFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+
+            val pendingIntent = PendingIntent.getActivity(
+                context,
+                bookingRef.hashCode(),
+                intent,
+                pendingFlags
+            )
+
+            val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
+            val notification = NotificationCompat.Builder(context, CHANNEL_TRIPS_ID)
+                .setSmallIcon(R.drawable.ic_bell)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setStyle(
+                    NotificationCompat.BigTextStyle()
+                        .bigText("Payment Success! Rs. ${String.format(Locale.US, "%,.0f", amountLkr)} received for $vehicleName. Booking Reference: $bookingRef. Your vehicle reservation is confirmed and synced to your Trip History.")
+                )
+                .setColor(Color.parseColor("#10B981"))
+                .setAutoCancel(true)
+                .setSound(soundUri)
+                .setVibrate(longArrayOf(0, 300, 200, 300))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .setContentIntent(pendingIntent)
+                .build()
+
+            val notificationId = (System.currentTimeMillis() % 100000).toInt()
+            try {
+                NotificationManagerCompat.from(context).notify(notificationId, notification)
+            } catch (secEx: SecurityException) {
+                Log.w(TAG, "Notification permission missing: ${secEx.message}")
+            }
+
+            val inAppNotification = AppNotification(
+                id = "notif_pay_${System.currentTimeMillis()}",
+                title = "Payment Success: $vehicleName",
+                message = "Rs. ${String.format(Locale.US, "%,.0f", amountLkr)} paid. Ref: $bookingRef",
+                timeAgo = "Just now",
+                type = NotificationType.BOOKING_CONFIRMATION,
+                targetId = bookingRef,
+                iconRes = R.drawable.ic_bell
+            )
+            saveInAppNotification(context, inAppNotification)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error posting payment notification", e)
+        }
+    }
 }

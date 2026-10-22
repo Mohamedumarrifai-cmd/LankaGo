@@ -213,12 +213,17 @@ class CreateTripFragment : Fragment() {
                         val bundle = Bundle().apply {
                             putString("activeTripId", tripId)
                             putString("destinationLocation", destination)
-                            putString("rentalId", "rental_scooter_ella")
+                            putString("destinationCity", destination)
+                            putInt("travelerCount", travelersCount)
                         }
-                        findNavController().safeNavigate(
-                            R.id.action_tripPlannerFragment_to_rentalDetailsFragment,
-                            bundle
-                        )
+                        try {
+                            findNavController().safeNavigate(
+                                R.id.action_createTripFragment_to_rentalsTransportFragment,
+                                bundle
+                            )
+                        } catch (_: Exception) {
+                            findNavController().safeNavigate(R.id.rentalsTransportFragment, bundle)
+                        }
                     } else {
                         // Navigate to Trip History or pop back
                         try {

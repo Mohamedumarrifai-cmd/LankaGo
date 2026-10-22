@@ -291,7 +291,7 @@ open class PlanTripFragment : Fragment() {
 
                     if (!isAdded) return@launch
 
-                    // 7. Smart Conditional Routing
+                    // 7. Smart Conditional Routing to rentals_and_transport screen
                     if (needVehicle) {
                         val bundle = bundleOf(
                             "activeTripId" to tripId,
@@ -301,11 +301,11 @@ open class PlanTripFragment : Fragment() {
                         )
                         try {
                             findNavController().navigate(
-                                R.id.action_planTripFragment_to_rentalListFragment,
+                                R.id.action_planTripFragment_to_rentalsTransportFragment,
                                 bundle
                             )
                         } catch (navEx: Exception) {
-                            findNavController().navigate(R.id.rentalListFragment, bundle)
+                            findNavController().navigate(R.id.rentalsTransportFragment, bundle)
                         }
                     } else {
                         findNavController().popBackStack()

@@ -124,98 +124,113 @@ class RentalsTransportFragment : Fragment() {
     }
 
     private fun setupRentalCards(view: View) {
-        fun openShop(shopId: String) {
-            val bundle = bundleOf("shopId" to shopId)
-            findNavController().navigate(
-                R.id.action_rentalsTransportFragment_to_shopDetailsFragment,
-                bundle
-            )
+        val activeTripId = arguments?.getString("activeTripId") ?: ""
+
+        fun selectVehicle(rentalId: String, shopId: String) {
+            val bundle = Bundle().apply {
+                putString("rentalId", rentalId)
+                putString("shopId", shopId)
+                if (activeTripId.isNotBlank()) {
+                    putString("activeTripId", activeTripId)
+                }
+            }
+            try {
+                findNavController().navigate(
+                    R.id.action_rentalsTransportFragment_to_rentalDetailsFragment,
+                    bundle
+                )
+            } catch (_: Exception) {
+                findNavController().navigate(
+                    R.id.action_rentalsTransportFragment_to_shopDetailsFragment,
+                    bundle
+                )
+            }
         }
 
         // 1. Epic Ride Scooter Rental (Galle Fort)
         view.findViewById<CardView>(R.id.card_epic_ride)?.setOnClickListener {
-            openShop("shop_epic_ride")
+            selectVehicle("rental_honda_pcx", "shop_epic_ride")
         }
 
         // 2. Colombo Scooter Rentals (Colombo 03)
         view.findViewById<CardView>(R.id.card_colombo_scooter)?.setOnClickListener {
-            openShop("shop_colombo_scooter")
+            selectVehicle("rental_honda_pcx", "shop_colombo_scooter")
         }
 
         // 3. Unawatuna Scooter Rental (Unawatuna)
         view.findViewById<CardView>(R.id.card_unawatuna)?.setOnClickListener {
-            openShop("shop_unawatuna")
+            selectVehicle("rental_honda_pcx", "shop_unawatuna")
         }
 
         // 4. Dambulla Scooter Rentals (Dambulla)
         view.findViewById<CardView>(R.id.card_dambulla_scooter)?.setOnClickListener {
-            openShop("shop_dambulla_scooter")
+            selectVehicle("rental_honda_pcx", "shop_dambulla_scooter")
         }
 
         // 5. Hikkaduwa Scooter Rental (Hikkaduwa)
         view.findViewById<CardView>(R.id.card_hikkaduwa_scooter)?.setOnClickListener {
-            openShop("shop_hikkaduwa")
+            selectVehicle("rental_honda_pcx", "shop_hikkaduwa")
         }
 
         // 6. Kandy Bike Rental (Kandy)
         view.findViewById<CardView>(R.id.card_kandy_bike)?.setOnClickListener {
-            openShop("shop_kandy_bike")
+            selectVehicle("rental_enfield_kandy", "shop_kandy_bike")
         }
 
         // 7. Mirissa Bike Rental
         view.findViewById<CardView>(R.id.card_mirissa_bike)?.setOnClickListener {
-            openShop("shop_mirissa_tuktuk")
+            selectVehicle("rental_tuktuk_mirissa", "shop_mirissa_tuktuk")
         }
 
         // 8. Ella Bike Rental
         view.findViewById<CardView>(R.id.card_ella_bike)?.setOnClickListener {
-            openShop("shop_ella_moto")
+            selectVehicle("rental_enfield_kandy", "shop_ella_moto")
         }
 
         // 9. Arugam Bay Bike Rental
         view.findViewById<CardView>(R.id.card_arugam_bike)?.setOnClickListener {
-            openShop("shop_galle_bike")
+            selectVehicle("rental_enfield_kandy", "shop_galle_bike")
         }
 
         // 10-13. Cars
         view.findViewById<CardView>(R.id.card_malkey_car)?.setOnClickListener {
-            openShop("shop_colombo_rentals")
+            selectVehicle("rental_toyota_aqua", "shop_colombo_rentals")
         }
         view.findViewById<CardView>(R.id.card_casons_car)?.setOnClickListener {
-            openShop("shop_colombo_rentals")
+            selectVehicle("rental_toyota_aqua", "shop_colombo_rentals")
         }
         view.findViewById<CardView>(R.id.card_kings_car)?.setOnClickListener {
-            openShop("shop_colombo_rentals")
+            selectVehicle("rental_toyota_aqua", "shop_colombo_rentals")
         }
         view.findViewById<CardView>(R.id.card_euro_car)?.setOnClickListener {
-            openShop("shop_colombo_rentals")
+            selectVehicle("rental_nissan_xtrail", "shop_colombo_rentals")
         }
 
         // 14-16. Vans
         view.findViewById<CardView>(R.id.card_casons_van)?.setOnClickListener {
-            openShop("shop_colombo_rentals")
+            selectVehicle("rental_nissan_xtrail", "shop_colombo_rentals")
         }
         view.findViewById<CardView>(R.id.card_malkey_van)?.setOnClickListener {
-            openShop("shop_colombo_rentals")
+            selectVehicle("rental_nissan_xtrail", "shop_colombo_rentals")
         }
         view.findViewById<CardView>(R.id.card_kandy_van)?.setOnClickListener {
-            openShop("shop_kandy_rides")
+            selectVehicle("rental_nissan_xtrail", "shop_kandy_rides")
         }
 
         // 17-19. Tuk Tuks
         view.findViewById<CardView>(R.id.card_negombo_tuktuk)?.setOnClickListener {
-            openShop("shop_mirissa_tuktuk")
+            selectVehicle("rental_tuktuk_mirissa", "shop_mirissa_tuktuk")
         }
         view.findViewById<CardView>(R.id.card_galle_tuktuk)?.setOnClickListener {
-            openShop("shop_galle_bike")
+            selectVehicle("rental_tuktuk_mirissa", "shop_galle_bike")
         }
         view.findViewById<CardView>(R.id.card_colombo_tuktuk)?.setOnClickListener {
-            openShop("shop_colombo_rentals")
+            selectVehicle("rental_tuktuk_mirissa", "shop_colombo_rentals")
         }
 
         // 20. Buses
         view.findViewById<CardView>(R.id.card_lanka_bus)?.setOnClickListener {
-            openShop("shop_colombo_rentals")
+            selectVehicle("rental_nissan_xtrail", "shop_colombo_rentals")
         }
     }
 }

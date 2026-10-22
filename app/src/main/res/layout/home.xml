@@ -324,10 +324,14 @@
 
                     <!-- More -->
                     <LinearLayout
+                        android:id="@+id/btn_category_more"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground"
                         android:orientation="vertical">
                         <ImageView
                             android:layout_width="52dp"
@@ -426,8 +430,14 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
                 <TextView
+                    android:id="@+id/btn_more_events"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground"
                     android:text="More"
                     android:textColor="#8A8F98"
                     android:textSize="14sp" />
@@ -449,8 +459,14 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
                 <TextView
+                    android:id="@+id/btn_see_all_destinations"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground"
                     android:text="See all"
                     android:textColor="#8A8F98"
                     android:textSize="14sp" />
@@ -469,11 +485,15 @@
                     android:orientation="horizontal"
                     android:paddingHorizontal="16dp">
 
-                    <!-- Card 1: 5/5 -->
+                    <!-- Card 1: 5/5 (Sigiriya) -->
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/card_popular_1"
                         android:layout_width="140dp"
                         android:layout_height="130dp"
                         android:layout_marginEnd="12dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="0dp">
                         <FrameLayout
@@ -499,9 +519,13 @@
 
                     <!-- Card 2: Lake -->
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/card_popular_2"
                         android:layout_width="140dp"
                         android:layout_height="130dp"
                         android:layout_marginEnd="12dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="0dp">
                         <FrameLayout
@@ -527,9 +551,13 @@
 
                     <!-- Card 3: Hills -->
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/card_popular_3"
                         android:layout_width="140dp"
                         android:layout_height="130dp"
                         android:layout_marginEnd="12dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="0dp">
                         <FrameLayout

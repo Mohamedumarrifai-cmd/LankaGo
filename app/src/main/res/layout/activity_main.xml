@@ -5,7 +5,7 @@
     android:id="@+id/main_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="?android:attr/colorBackground">
 
     <!-- Main Navigation Host Container -->
     <androidx.fragment.app.FragmentContainerView
@@ -25,7 +25,7 @@
         android:id="@+id/bottom_nav_view"
         android:layout_width="0dp"
         android:layout_height="64dp"
-        android:background="#FFFFFF"
+        android:background="?attr/colorSurface"
         android:elevation="12dp"
         app:elevation="12dp"
         app:itemIconTint="@color/bg_nav_item_color"

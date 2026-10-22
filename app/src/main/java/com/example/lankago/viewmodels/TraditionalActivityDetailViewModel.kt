@@ -21,21 +21,26 @@ class TraditionalActivityDetailViewModel : ViewModel() {
     val activity: StateFlow<TraditionalActivity?> = _activity.asStateFlow()
 
     fun loadActivity(id: String) {
+        // 1. Immediately emit from local catalog synchronously so the correct activity details display instantly
+        val localItem = TraditionalActivityRepository.getActivityById(id)
+        if (localItem != null) {
+            _activity.value = localItem
+        }
+
+        // 2. Query Firebase in background for live vendor updates
         viewModelScope.launch {
             try {
                 val firebaseActivities = adminRepository.getAllActivitiesOnce()
-                val found = firebaseActivities.find { it.id == id }
+                val found = firebaseActivities.find {
+                    it.id.equals(id, ignoreCase = true) ||
+                    it.title.contains(id, ignoreCase = true)
+                }
                 if (found != null) {
                     _activity.value = found
-                    return@launch
                 }
             } catch (_: Exception) {
-                // Ignore and fall back to local repository
+                // Ignore and keep local repository
             }
-
-            // Fallback to static catalogue
-            val item = TraditionalActivityRepository.getActivityById(id)
-            _activity.value = item
         }
     }
 

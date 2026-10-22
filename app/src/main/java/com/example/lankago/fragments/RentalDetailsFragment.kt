@@ -230,68 +230,380 @@ class RentalDetailsFragment : Fragment() {
         val targetTrip = if (passedTripId.isNotBlank()) trips.find { it.id == passedTripId } ?: trips.firstOrNull() else trips.firstOrNull()
 
         val format = NumberFormat.getNumberInstance(Locale.US)
-        val totalDue = format.format((rental.dailyRateLkr + rental.depositLkr).toInt())
+        val dailyStr = "Rs. ${format.format(rental.dailyRateLkr.toInt())}"
+        val depositStr = "Rs. ${format.format(rental.depositLkr.toInt())}"
+        val totalDueAmount = rental.dailyRateLkr + rental.depositLkr
+        val totalDueStr = "Rs. ${format.format(totalDueAmount.toInt())}"
 
-        AlertDialog.Builder(requireContext())
-            .setTitle("Confirm Rental Booking")
-            .setMessage(
-                "Vehicle: ${rental.name}\n" +
-                "Vendor: ${rental.vendorName}\n" +
-                "Estimated Total Due on Pickup: Rs. $totalDue\n\n" +
-                if (targetTrip != null) "This rental will be automatically linked to your trip: \"${targetTrip.tripName}\"."
-                else "This rental reservation will be saved locally in your trip manager."
-            )
-            .setPositiveButton("Confirm & Add to Trip") { _, _ ->
-                val tripId = targetTrip?.id ?: passedTripId
-                TripManager.addRentalToTrip(requireContext(), tripId, rental)
+        val dialog = android.app.Dialog(requireContext())
+        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(Color.TRANSPARENT))
 
-                // Save to Firebase Realtime Database /bookings node
-                viewLifecycleOwner.lifecycleScope.launch {
-                    try {
-                        val authUser = FirebaseAuth.getInstance().currentUser
-                        val todayStr = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
-                        val booking = Booking(
-                            userName = authUser?.displayName ?: "Traveler",
-                            userEmail = authUser?.email ?: "traveler@lankago.lk",
-                            userPhone = "",
-                            itemName = "${rental.name} (${rental.vendorName})",
-                            itemCategory = rental.type,
-                            bookingType = BookingType.RENTAL,
-                            bookingDate = todayStr,
-                            bookingTime = "10:00 AM",
-                            totalPriceLkr = rental.dailyRateLkr + rental.depositLkr,
-                            status = BookingStatus.CONFIRMED,
-                            specialNotes = "Pickup location: ${rental.location}. Transmission: ${rental.transmission}"
-                        )
-                        AdminRepository().addBooking(booking)
-                    } catch (_: Exception) {
-                        // TripManager already persisted locally
-                    }
-                }
+        val scroll = android.widget.ScrollView(requireContext())
+        val rootLayout = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+            setBackgroundResource(R.drawable.bg_bottom_sheet)
+            setPadding(40, 40, 40, 40)
+        }
 
-                val currentView = view ?: return@setPositiveButton
-                Snackbar.make(
-                    currentView,
-                    "✓ ${rental.name} reserved & added to your Trip Itinerary!",
-                    Snackbar.LENGTH_SHORT
-                ).show()
+        // Title
+        val tvTitle = TextView(requireContext()).apply {
+            text = "💳 Checkout & Vehicle Booking"
+            textSize = 20f
+            setTypeface(null, android.graphics.Typeface.BOLD)
+            setTextColor(Color.parseColor("#1A2B4C"))
+        }
 
-                // Safe navigation back to Trip Planner after short delay
-                currentView.postDelayed({
-                    if (isAdded) {
-                        try {
-                            findNavController().navigate(R.id.action_rentalDetailsFragment_to_tripPlannerFragment)
-                        } catch (_: Exception) {
-                            try {
-                                findNavController().navigate(R.id.tripPlannerFragment)
-                            } catch (_: Exception) {
-                                findNavController().popBackStack()
-                            }
-                        }
-                    }
-                }, 800L)
+        val tvSubtitle = TextView(requireContext()).apply {
+            text = "${rental.name} • ${rental.vendorName}"
+            textSize = 14f
+            setTextColor(Color.parseColor("#8A8F98"))
+            setPadding(0, 8, 0, 24)
+        }
+
+        // Price breakdown box
+        val boxPricing = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+            setBackgroundColor(Color.parseColor("#F8FAFC"))
+            setPadding(28, 28, 28, 28)
+        }
+
+        fun createPriceRow(label: String, value: String, isBold: Boolean = false): LinearLayout {
+            return LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.HORIZONTAL
+                setPadding(0, 6, 0, 6)
+                addView(TextView(requireContext()).apply {
+                    text = label
+                    layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                    setTextColor(if (isBold) Color.parseColor("#1A2B4C") else Color.parseColor("#64748B"))
+                    textSize = if (isBold) 15f else 13f
+                    if (isBold) setTypeface(null, android.graphics.Typeface.BOLD)
+                })
+                addView(TextView(requireContext()).apply {
+                    text = value
+                    setTextColor(if (isBold) Color.parseColor("#10B981") else Color.parseColor("#1A2B4C"))
+                    textSize = if (isBold) 16f else 13f
+                    setTypeface(null, android.graphics.Typeface.BOLD)
+                })
             }
-            .setNegativeButton("Cancel", null)
-            .show()
+        }
+
+        boxPricing.addView(createPriceRow("Daily Rental Rate", "$dailyStr / day"))
+        boxPricing.addView(createPriceRow("Refundable Security Deposit", depositStr))
+        boxPricing.addView(View(requireContext()).apply {
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2).apply {
+                setMargins(0, 12, 0, 12)
+            }
+            setBackgroundColor(Color.parseColor("#E2E8F0"))
+        })
+        boxPricing.addView(createPriceRow("Total Amount Payable", totalDueStr, true))
+
+        // Linked trip banner
+        val tvLinkedTrip = TextView(requireContext()).apply {
+            val tripName = targetTrip?.tripName ?: "Active Trip Itinerary"
+            text = "🌴 Linked to: $tripName"
+            textSize = 13f
+            setTextColor(Color.parseColor("#4F46E5"))
+            setTypeface(null, android.graphics.Typeface.BOLD)
+            setPadding(0, 20, 0, 16)
+        }
+
+        // Payment Method label
+        val tvPaymentLabel = TextView(requireContext()).apply {
+            text = "Select Payment Method"
+            textSize = 14f
+            setTypeface(null, android.graphics.Typeface.BOLD)
+            setTextColor(Color.parseColor("#1A2B4C"))
+            setPadding(0, 8, 0, 12)
+        }
+
+        val rgPayment = RadioGroup(requireContext())
+        val rbCard = RadioButton(requireContext()).apply {
+            text = "Credit / Debit Card (Visa / Mastercard)"
+            isChecked = true
+            setTextColor(Color.parseColor("#1A2B4C"))
+        }
+        val rbLankaPay = RadioButton(requireContext()).apply {
+            text = "LankaPay Online / Direct Bank"
+            setTextColor(Color.parseColor("#1A2B4C"))
+        }
+        val rbCash = RadioButton(requireContext()).apply {
+            text = "Cash on Vehicle Pickup"
+            setTextColor(Color.parseColor("#1A2B4C"))
+        }
+        rgPayment.addView(rbCard)
+        rgPayment.addView(rbLankaPay)
+        rgPayment.addView(rbCash)
+
+        // Dummy card input layout
+        val layoutCardInputs = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(0, 12, 0, 12)
+        }
+
+        val etCardNumber = EditText(requireContext()).apply {
+            hint = "Card Number (e.g. 4532 8920 1204 8812)"
+            setBackgroundResource(R.drawable.bg_input)
+            setPadding(24, 24, 24, 24)
+            setText("4532 •••• •••• 8891")
+            textSize = 13f
+            setTextColor(Color.parseColor("#1A2B4C"))
+        }
+
+        val rowCardDetails = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.HORIZONTAL
+            setPadding(0, 12, 0, 0)
+        }
+        val etExpiry = EditText(requireContext()).apply {
+            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
+                setMargins(0, 0, 8, 0)
+            }
+            hint = "MM/YY"
+            setText("12/28")
+            setBackgroundResource(R.drawable.bg_input)
+            setPadding(24, 24, 24, 24)
+            textSize = 13f
+            setTextColor(Color.parseColor("#1A2B4C"))
+        }
+        val etCvv = EditText(requireContext()).apply {
+            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
+                setMargins(8, 0, 0, 0)
+            }
+            hint = "CVV"
+            setText("•••")
+            setBackgroundResource(R.drawable.bg_input)
+            setPadding(24, 24, 24, 24)
+            textSize = 13f
+            setTextColor(Color.parseColor("#1A2B4C"))
+        }
+        rowCardDetails.addView(etExpiry)
+        rowCardDetails.addView(etCvv)
+        layoutCardInputs.addView(etCardNumber)
+        layoutCardInputs.addView(rowCardDetails)
+
+        rgPayment.setOnCheckedChangeListener { _, checkedId ->
+            layoutCardInputs.visibility = if (checkedId == rbCard.id) View.VISIBLE else View.GONE
+        }
+
+        // Action Buttons
+        val btnConfirmPay = Button(requireContext()).apply {
+            text = "Pay $totalDueStr & Confirm"
+            setBackgroundResource(R.drawable.button_primary)
+            setTextColor(Color.WHITE)
+            setTypeface(null, android.graphics.Typeface.BOLD)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(0, 24, 0, 8)
+            }
+        }
+
+        val btnCancel = Button(requireContext()).apply {
+            text = "Cancel"
+            setBackgroundColor(Color.TRANSPARENT)
+            setTextColor(Color.parseColor("#64748B"))
+        }
+
+        btnCancel.setOnClickListener { dialog.dismiss() }
+
+        btnConfirmPay.setOnClickListener {
+            dialog.dismiss()
+
+            val selectedMethod = when (rgPayment.checkedRadioButtonId) {
+                rbLankaPay.id -> "LankaPay Online"
+                rbCash.id -> "Cash on Pickup"
+                else -> "Credit Card (Visa/Mastercard)"
+            }
+
+            val bookingRef = "LKG-PAY-${System.currentTimeMillis().toString().takeLast(6)}"
+            val tripId = targetTrip?.id ?: passedTripId
+
+            // 1. Add rental locally to TripManager
+            TripManager.addRentalToTrip(requireContext(), tripId, rental)
+
+            // 2. Dispatch Payment Success Notification & In-App notification
+            com.example.lankago.utils.LankaGoNotificationHelper.postPaymentSuccessNotification(
+                context = requireContext(),
+                bookingRef = bookingRef,
+                vehicleName = rental.name,
+                amountLkr = totalDueAmount
+            )
+
+            // 3. Sync booking to Firebase Realtime Database
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val authUser = FirebaseAuth.getInstance().currentUser
+                    val todayStr = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
+                    val booking = Booking(
+                        bookingId = bookingRef,
+                        userName = authUser?.displayName ?: "Traveler",
+                        userEmail = authUser?.email ?: "traveler@lankago.lk",
+                        userPhone = "",
+                        itemName = "${rental.name} (${rental.vendorName})",
+                        itemCategory = rental.type,
+                        bookingType = BookingType.RENTAL,
+                        bookingDate = todayStr,
+                        bookingTime = "10:00 AM",
+                        totalPriceLkr = totalDueAmount,
+                        status = BookingStatus.CONFIRMED,
+                        specialNotes = "Paid via $selectedMethod. Ref: $bookingRef. Pickup: ${rental.location}"
+                    )
+                    AdminRepository().addBooking(booking)
+
+                    // Also mirror to user trip history node
+                    val uid = authUser?.uid ?: "guest_traveler"
+                    val updatedTrip = TripManager.getTripById(requireContext(), tripId)
+                    if (updatedTrip != null) {
+                        FirebaseDatabase.getInstance().reference
+                            .child("users")
+                            .child(uid)
+                            .child("tripHistory")
+                            .child(tripId)
+                            .setValue(updatedTrip)
+                    }
+                } catch (e: Exception) {
+                    Log.w("RentalDetailsFragment", "Firebase sync warning: ${e.message}")
+                }
+            }
+
+            // 4. Show Generated Receipt Dialog
+            showPaymentReceiptDialog(
+                bookingRef = bookingRef,
+                rental = rental,
+                tripName = targetTrip?.tripName ?: "Sri Lanka Adventure",
+                amountPaidStr = totalDueStr,
+                paymentMethod = selectedMethod
+            )
+        }
+
+        rootLayout.addView(tvTitle)
+        rootLayout.addView(tvSubtitle)
+        rootLayout.addView(boxPricing)
+        rootLayout.addView(tvLinkedTrip)
+        rootLayout.addView(tvPaymentLabel)
+        rootLayout.addView(rgPayment)
+        rootLayout.addView(layoutCardInputs)
+        rootLayout.addView(btnConfirmPay)
+        rootLayout.addView(btnCancel)
+
+        scroll.addView(rootLayout)
+        dialog.setContentView(scroll)
+        dialog.show()
+    }
+
+    private fun showPaymentReceiptDialog(
+        bookingRef: String,
+        rental: RentalVehicle,
+        tripName: String,
+        amountPaidStr: String,
+        paymentMethod: String
+    ) {
+        val dialog = android.app.Dialog(requireContext())
+        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(false)
+
+        val rootLayout = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+            setBackgroundResource(R.drawable.bg_bottom_sheet)
+            setPadding(40, 40, 40, 40)
+        }
+
+        // Green success badge
+        val tvBadge = TextView(requireContext()).apply {
+            text = "✓ PAYMENT SUCCESSFUL"
+            textSize = 14f
+            setTypeface(null, android.graphics.Typeface.BOLD)
+            setTextColor(Color.parseColor("#10B981"))
+            setPadding(0, 0, 0, 8)
+        }
+
+        val tvTitle = TextView(requireContext()).apply {
+            text = "Booking & Payment Receipt"
+            textSize = 22f
+            setTypeface(null, android.graphics.Typeface.BOLD)
+            setTextColor(Color.parseColor("#1A2B4C"))
+        }
+
+        val tvSubtext = TextView(requireContext()).apply {
+            text = "Your rental has been successfully confirmed and added to your Trip History."
+            textSize = 13f
+            setTextColor(Color.parseColor("#64748B"))
+            setPadding(0, 6, 0, 20)
+        }
+
+        // Receipt Details Box
+        val boxReceipt = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+            setBackgroundColor(Color.parseColor("#F8FAFC"))
+            setPadding(24, 24, 24, 24)
+        }
+
+        fun addReceiptLine(label: String, value: String) {
+            boxReceipt.addView(LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.HORIZONTAL
+                setPadding(0, 6, 0, 6)
+                addView(TextView(requireContext()).apply {
+                    text = label
+                    layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                    setTextColor(Color.parseColor("#64748B"))
+                    textSize = 13f
+                })
+                addView(TextView(requireContext()).apply {
+                    text = value
+                    setTextColor(Color.parseColor("#1A2B4C"))
+                    textSize = 13f
+                    setTypeface(null, android.graphics.Typeface.BOLD)
+                })
+            })
+        }
+
+        val dateStr = SimpleDateFormat("MMM dd, yyyy · hh:mm a", Locale.US).format(Date())
+        addReceiptLine("Receipt No.", bookingRef)
+        addReceiptLine("Date & Time", dateStr)
+        addReceiptLine("Vehicle Reserved", rental.name)
+        addReceiptLine("Provider / Shop", rental.vendorName)
+        addReceiptLine("Pickup Location", rental.location)
+        addReceiptLine("Linked Trip", tripName)
+        addReceiptLine("Payment Mode", paymentMethod)
+        addReceiptLine("Amount Paid", amountPaidStr)
+        addReceiptLine("Status", "CONFIRMED & RESERVED")
+
+        // View in Trip History Button
+        val btnViewHistory = Button(requireContext()).apply {
+            text = "View in Trip History"
+            setBackgroundResource(R.drawable.button_primary)
+            setTextColor(Color.WHITE)
+            setTypeface(null, android.graphics.Typeface.BOLD)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(0, 24, 0, 8)
+            }
+        }
+
+        btnViewHistory.setOnClickListener {
+            dialog.dismiss()
+            try {
+                findNavController().navigate(R.id.action_rentalDetailsFragment_to_tripHistoryFragment)
+            } catch (_: Exception) {
+                try {
+                    findNavController().navigate(R.id.tripHistoryFragment)
+                } catch (_: Exception) {
+                    findNavController().popBackStack()
+                }
+            }
+        }
+
+        rootLayout.addView(tvBadge)
+        rootLayout.addView(tvTitle)
+        rootLayout.addView(tvSubtext)
+        rootLayout.addView(boxReceipt)
+        rootLayout.addView(btnViewHistory)
+
+        dialog.setContentView(rootLayout)
+        dialog.show()
     }
 }

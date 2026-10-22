@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC"
+    android:background="?android:attr/colorBackground"
     tools:context=".SettingsActivity">
 
     <!-- ================= TOP BAR ================= -->
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="#FFFFFF"
+        android:background="?attr/colorSurface"
         android:paddingHorizontal="16dp"
         android:paddingVertical="14dp"
         android:elevation="2dp"
@@ -28,7 +28,7 @@
             android:padding="6dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back"
-            app:tint="#1A2B4C"
+            app:tint="?attr/colorOnSurface"
             android:contentDescription="Back" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_marginStart="12dp"
             android:fontFamily="sans-serif-bold"
             android:text="Settings &amp; Preferences"
-            android:textColor="#1A2B4C"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="20sp" />
 
         <ImageView
@@ -48,7 +48,7 @@
             android:padding="6dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@android:drawable/ic_menu_share"
-            app:tint="#1A2B4C"
+            app:tint="?attr/colorOnSurface"
             android:contentDescription="Share LankaGo" />
     </LinearLayout>
  
@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="1dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardBackgroundColor="?attr/colorSurface">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -100,6 +100,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:gravity="center_vertical"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground"
                         android:paddingHorizontal="16dp">
                         <ImageView
                             android:id="@+id/set_icon_dark"
@@ -107,7 +110,7 @@
                             android:layout_height="22dp"
                             android:layout_centerVertical="true"
                             android:src="@android:drawable/ic_menu_day"
-                            app:tint="#1A2B4C"
+                            app:tint="?attr/colorOnSurface"
                             android:contentDescription="Dark Mode" />
                         <TextView
                             android:layout_width="wrap_content"
@@ -116,7 +119,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginStart="16dp"
                             android:text="Dark Mode"
-                            android:textColor="#1A2B4C"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="15sp"
                             android:textStyle="bold" />
                         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -131,7 +134,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#F1F5F9" />
+                        android:background="#15888888" />
 
                     <!-- Item 3: Notifications -->
                     <RelativeLayout
@@ -350,7 +353,51 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#F1F5F9" />
+                        android:background="#15888888" />
+
+                    <!-- Item: Browse Vehicle & Bike Rentals -->
+                    <RelativeLayout
+                        android:id="@+id/row_setting_rentals"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp">
+                        <ImageView
+                            android:id="@+id/set_icon_rentals"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_home_rental_car"
+                            app:tint="?attr/colorPrimary"
+                            android:contentDescription="Rentals Icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/set_icon_rentals"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Browse Vehicle &amp; Bike Rentals"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#94A3B8"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#15888888" />
 
                     <!-- Item 5: Offline Downloads -->
                     <RelativeLayout
