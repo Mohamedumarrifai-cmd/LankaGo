@@ -12,6 +12,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.lankago.R
+import com.example.lankago.utils.safeNavigate
 
 /**
  * Fragment rendering the Local Products showcase screen matching local_products.xml.
@@ -127,7 +128,7 @@ class LocalProductsFragment : Fragment() {
     private fun setupProductCards(view: View) {
         fun openDetail(itemId: String) {
             val bundle = bundleOf("itemId" to itemId)
-            findNavController().navigate(
+            findNavController().safeNavigate(
                 R.id.action_localProductsFragment_to_localItemDetailsFragment,
                 bundle
             )
@@ -165,11 +166,12 @@ class LocalProductsFragment : Fragment() {
     }
 
     private fun setupBottomNavigation(view: View) {
-        // Home Navigation (pop back to Home or navigate)
+        // Home Navigation (pop back to Home or navigate safely)
         view.findViewById<View>(R.id.nav_home)?.setOnClickListener {
+            if (findNavController().currentDestination?.id == R.id.homeFragment) return@setOnClickListener
             val popped = findNavController().popBackStack(R.id.homeFragment, false)
-            if (!popped) {
-                findNavController().navigate(R.id.action_localProductsFragment_to_homeFragment)
+            if (!popped && findNavController().currentDestination?.id == R.id.localProductsFragment) {
+                findNavController().safeNavigate(R.id.action_localProductsFragment_to_homeFragment)
             }
         }
 
@@ -183,12 +185,12 @@ class LocalProductsFragment : Fragment() {
 
         // Maps Navigation
         view.findViewById<View>(R.id.nav_maps)?.setOnClickListener {
-            findNavController().navigate(R.id.action_localProductsFragment_to_mapRouteFragment)
+            findNavController().safeNavigate(R.id.action_localProductsFragment_to_mapRouteFragment)
         }
 
         // Profile Navigation
         view.findViewById<View>(R.id.nav_profile)?.setOnClickListener {
-            findNavController().navigate(R.id.action_localProductsFragment_to_profileFragment)
+            findNavController().safeNavigate(R.id.action_localProductsFragment_to_profileFragment)
         }
     }
 }

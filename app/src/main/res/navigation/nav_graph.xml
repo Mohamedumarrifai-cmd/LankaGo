@@ -386,7 +386,19 @@
         android:id="@+id/adminDashboardFragment"
         android:name="com.example.lankago.fragments.admin.AdminDashboardFragment"
         android:label="Admin Dashboard"
-        tools:layout="@layout/admin_dashboard">
+        tools:layout="@layout/fragment_admin_dashboard">
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminRentalListFragment"
+            app:destination="@id/adminRentalListFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminProductListFragment"
+            app:destination="@id/adminProductListFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminActivityListFragment"
+            app:destination="@id/adminActivityListFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminBookingsListFragment"
+            app:destination="@id/adminBookingsListFragment" />
         <action
             android:id="@+id/action_adminDashboardFragment_to_adminManageUsersFragment"
             app:destination="@id/adminManageUsersFragment" />
@@ -438,6 +450,82 @@
         android:name="com.example.lankago.fragments.admin.AdminPushNotificationsFragment"
         android:label="Push Notifications"
         tools:layout="@layout/admin_push_notifications" />
+
+    <!-- Admin Manage Rentals Flow -->
+    <fragment
+        android:id="@+id/adminRentalListFragment"
+        android:name="com.example.lankago.fragments.admin.AdminRentalListFragment"
+        android:label="Manage Rentals"
+        tools:layout="@layout/fragment_admin_rental_list">
+        <action
+            android:id="@+id/action_adminRentalListFragment_to_addEditRentalFragment"
+            app:destination="@id/addEditRentalFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditRentalFragment"
+        android:name="com.example.lankago.fragments.admin.AddEditRentalFragment"
+        android:label="Add / Edit Rental"
+        tools:layout="@layout/fragment_add_edit_rental">
+        <argument
+            android:name="rentalShopId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
+    <!-- Admin Manage Products Flow -->
+    <fragment
+        android:id="@+id/adminProductListFragment"
+        android:name="com.example.lankago.fragments.admin.AdminProductListFragment"
+        android:label="Manage Products"
+        tools:layout="@layout/fragment_admin_product_list">
+        <action
+            android:id="@+id/action_adminProductListFragment_to_addEditProductFragment"
+            app:destination="@id/addEditProductFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditProductFragment"
+        android:name="com.example.lankago.fragments.admin.AddEditProductFragment"
+        android:label="Add / Edit Product"
+        tools:layout="@layout/fragment_add_edit_product">
+        <argument
+            android:name="productId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
+    <!-- Admin Manage Activities Flow -->
+    <fragment
+        android:id="@+id/adminActivityListFragment"
+        android:name="com.example.lankago.fragments.admin.AdminActivityListFragment"
+        android:label="Manage Activities"
+        tools:layout="@layout/fragment_admin_activity_list">
+        <action
+            android:id="@+id/action_adminActivityListFragment_to_addEditActivityFragment"
+            app:destination="@id/addEditActivityFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditActivityFragment"
+        android:name="com.example.lankago.fragments.admin.AddEditActivityFragment"
+        android:label="Add / Edit Activity"
+        tools:layout="@layout/fragment_add_edit_activity">
+        <argument
+            android:name="activityId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
+    <!-- Admin View User Bookings Screen -->
+    <fragment
+        android:id="@+id/adminBookingsListFragment"
+        android:name="com.example.lankago.fragments.admin.AdminBookingsListFragment"
+        android:label="User Bookings"
+        tools:layout="@layout/fragment_admin_bookings_list" />
 
     <!-- Vehicle & Bike Rental Details -->
     <fragment

@@ -27,6 +27,7 @@ import com.example.lankago.data.Review
 import com.example.lankago.data.TraditionalActivity
 import com.example.lankago.repository.AdminRepository
 import com.example.lankago.utils.TripManager
+import com.example.lankago.utils.safeNavigate
 import com.google.firebase.auth.FirebaseAuth
 import com.example.lankago.viewmodels.TraditionalActivityDetailViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -348,11 +349,7 @@ class TraditionalActivityDetailFragment : Fragment() {
                             "A confirmation and directions have been added to your Trip Planner."
                 )
                 .setPositiveButton("View Trip Planner") { _, _ ->
-                    try {
-                        findNavController().navigate(R.id.action_traditionalActivityDetailFragment_to_tripPlannerFragment)
-                    } catch (_: Exception) {
-                        findNavController().navigate(R.id.tripPlannerFragment)
-                    }
+                    findNavController().safeNavigate(R.id.action_traditionalActivityDetailFragment_to_tripPlannerFragment)
                 }
                 .setNegativeButton("Done", null)
                 .show()

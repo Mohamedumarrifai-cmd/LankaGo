@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.lankago.R
 import com.example.lankago.viewmodels.AuthState
 import com.example.lankago.viewmodels.AuthViewModel
+import com.example.lankago.utils.safeNavigate
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.flow.collectLatest
@@ -60,11 +61,7 @@ class LoginFragment : Fragment() {
                         pbLoading?.visibility = View.GONE
                         btnLogin?.isEnabled = true
                         if (isAdded) {
-                            try {
-                                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                            } catch (e: Exception) {
-                                // Ignore navigation race conditions
-                            }
+                            findNavController().safeNavigate(R.id.action_loginFragment_to_homeFragment)
                         }
                     }
                     is AuthState.Error -> {
@@ -100,12 +97,12 @@ class LoginFragment : Fragment() {
 
         // Navigate to Forgot Password Screen
         view.findViewById<View>(R.id.tv_forgot_password)?.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
+            findNavController().safeNavigate(R.id.action_loginFragment_to_forgotPasswordFragment)
         }
 
         // Navigate to Register Screen
         tvRegisterLink?.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+            findNavController().safeNavigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
 }

@@ -12,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.lankago.R
 import com.example.lankago.repository.AdminRepository
+import com.example.lankago.utils.safeNavigate
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
@@ -64,28 +65,28 @@ class AdminDashboardFragment : Fragment() {
 
         // 1. Manage Rentals -> Navigate to AdminRentalListFragment
         cardRentals.setOnClickListener {
-            findNavController().navigate(
+            findNavController().safeNavigate(
                 R.id.action_adminDashboardFragment_to_adminRentalListFragment
             )
         }
 
         // 2. Manage Products -> Navigate to AdminProductListFragment
         cardProducts.setOnClickListener {
-            findNavController().navigate(
+            findNavController().safeNavigate(
                 R.id.action_adminDashboardFragment_to_adminProductListFragment
             )
         }
 
         // 3. Manage Activities -> Navigate to AdminActivityListFragment
         cardActivities.setOnClickListener {
-            findNavController().navigate(
+            findNavController().safeNavigate(
                 R.id.action_adminDashboardFragment_to_adminActivityListFragment
             )
         }
 
         // 4. View User Bookings -> Navigate to AdminBookingsListFragment
         cardBookings?.setOnClickListener {
-            findNavController().navigate(
+            findNavController().safeNavigate(
                 R.id.action_adminDashboardFragment_to_adminBookingsListFragment
             )
         }
@@ -97,7 +98,7 @@ class AdminDashboardFragment : Fragment() {
                 .setMessage("Are you sure you want to end your administrator session?")
                 .setPositiveButton("Logout") { _, _ ->
                     FirebaseAuth.getInstance().signOut()
-                    findNavController().navigate(
+                    findNavController().safeNavigate(
                         R.id.action_adminDashboardFragment_to_adminLoginFragment
                     )
                 }
