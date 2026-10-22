@@ -36,6 +36,23 @@
             android:text="My Trip Planner"
             android:textColor="#1A2B4C"
             android:textSize="20sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_trip_history"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:backgroundTint="#F1F5F9"
+            android:fontFamily="sans-serif-bold"
+            android:paddingHorizontal="12dp"
+            android:text="History"
+            android:textColor="#1E293B"
+            android:textSize="12sp"
+            app:cornerRadius="19dp"
+            app:icon="@drawable/ic_calendar"
+            app:iconGravity="textStart"
+            app:iconPadding="4dp"
+            app:iconTint="#1E293B" />
     </LinearLayout>
 
     <!-- RecyclerView of Saved Trips -->

@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,9 +21,15 @@ import com.example.lankago.R
 import com.example.lankago.adapters.TripAdapter
 import com.example.lankago.data.Trip
 import com.example.lankago.utils.TripManager
+import com.example.lankago.utils.safeNavigate
+import com.example.lankago.utils.setOnSafeClickListener
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class TripPlannerFragment : Fragment() {
 
@@ -54,8 +61,12 @@ class TripPlannerFragment : Fragment() {
     }
 
     private fun initViews(view: View) {
-        view.findViewById<ImageView>(R.id.btn_back)?.setOnClickListener {
+        view.findViewById<ImageView>(R.id.btn_back)?.setOnSafeClickListener {
             findNavController().navigateUp()
+        }
+
+        view.findViewById<View>(R.id.btn_trip_history)?.setOnSafeClickListener {
+            findNavController().safeNavigate(R.id.action_tripPlannerFragment_to_tripHistoryFragment)
         }
 
         rvTrips = view.findViewById(R.id.rvTrips)
@@ -81,9 +92,9 @@ class TripPlannerFragment : Fragment() {
     }
 
     private fun setupFab() {
-        fabCreateTrip.setOnClickListener {
+        fabCreateTrip.setOnSafeClickListener {
             try {
-                findNavController().navigate(R.id.action_tripPlannerFragment_to_planTripFragment)
+                findNavController().safeNavigate(R.id.action_tripPlannerFragment_to_createTripFragment)
             } catch (_: Exception) {
                 showCreateTripDialog()
             }
@@ -145,19 +156,36 @@ class TripPlannerFragment : Fragment() {
             tilDates.error = null
 
             // Construct new trip
+            val tripId = "trip_${System.currentTimeMillis()}"
             val newTrip = Trip(
-                id = "trip_${System.currentTimeMillis()}",
+                id = tripId,
                 tripName = "$destination Journey ($travelers Travelers)",
                 date = dates,
                 travelerType = "Local",
+                destination = destination,
+                timestamp = System.currentTimeMillis(),
+                status = "Upcoming",
                 idImageUri = null,
                 places = mutableListOf(),
                 bookedRentals = mutableListOf(),
                 bookedActivities = mutableListOf()
             )
 
-            // Save persistently
+            // Save persistently locally
             TripManager.saveTrip(requireContext(), newTrip)
+
+            // Sync to Firebase RTDB node: /users/{uid}/tripHistory
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val uid = FirebaseAuth.getInstance().currentUser?.uid ?: "guest_traveler"
+                    val rtdb = FirebaseDatabase.getInstance().reference
+                    rtdb.child("users").child(uid).child("tripHistory").child(tripId).setValue(newTrip).await()
+                    rtdb.child("trips").child(uid).child(tripId).setValue(newTrip).await()
+                } catch (e: Exception) {
+                    android.util.Log.w("TripPlanner", "RTDB sync non-fatal warning: ${e.message}")
+                }
+            }
+
             dialog.dismiss()
             loadTrips()
 
@@ -172,7 +200,7 @@ class TripPlannerFragment : Fragment() {
                 val bundle = Bundle().apply {
                     putString("rentalId", "rental_scooter_ella")
                 }
-                findNavController().navigate(
+                findNavController().safeNavigate(
                     R.id.action_tripPlannerFragment_to_rentalDetailsFragment,
                     bundle
                 )

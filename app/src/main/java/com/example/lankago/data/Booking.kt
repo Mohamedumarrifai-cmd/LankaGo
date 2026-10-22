@@ -22,6 +22,8 @@ enum class BookingStatus {
  */
 data class Booking(
     val id: String = "",
+    val userId: String = "",
+    val tripId: String = "",
     val userName: String = "",
     val userEmail: String = "",
     val userPhone: String = "",

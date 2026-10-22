@@ -284,6 +284,9 @@
             android:id="@+id/action_profileFragment_to_rentalListFragment"
             app:destination="@id/rentalListFragment" />
         <action
+            android:id="@+id/action_profileFragment_to_tripHistoryFragment"
+            app:destination="@id/tripHistoryFragment" />
+        <action
             android:id="@+id/action_profileFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/nav_graph"
@@ -310,6 +313,12 @@
         <action
             android:id="@+id/action_tripPlannerFragment_to_traditionalActivitiesFragment"
             app:destination="@id/traditionalActivitiesFragment" />
+        <action
+            android:id="@+id/action_tripPlannerFragment_to_tripHistoryFragment"
+            app:destination="@id/tripHistoryFragment" />
+        <action
+            android:id="@+id/action_tripPlannerFragment_to_createTripFragment"
+            app:destination="@id/createTripFragment" />
         <action
             android:id="@+id/action_tripPlannerFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -527,6 +536,26 @@
         android:label="User Bookings"
         tools:layout="@layout/fragment_admin_bookings_list" />
 
+    <!-- Admin Trip Details & SMS Dispatch Screen -->
+    <fragment
+        android:id="@+id/adminTripDetailsFragment"
+        android:name="com.example.lankago.fragments.admin.AdminTripDetailsFragment"
+        android:label="Confirm Trip &amp; SMS"
+        tools:layout="@layout/fragment_admin_trip_details">
+        <argument
+            android:name="tripId"
+            app:argType="string"
+            android:defaultValue="trip_demo_101" />
+        <argument
+            android:name="tripRoute"
+            app:argType="string"
+            android:defaultValue="Colombo to Ella Scenic Express" />
+        <argument
+            android:name="tripDate"
+            app:argType="string"
+            android:defaultValue="Oct 28, 2026" />
+    </fragment>
+
     <!-- Vehicle & Bike Rental Details -->
     <fragment
         android:id="@+id/rentalDetailsFragment"
@@ -699,5 +728,39 @@
         android:name="com.example.lankago.fragments.RouteTrackingFragment"
         android:label="Route Tracking"
         tools:layout="@layout/fragment_route_tracking" />
+
+    <!-- 23. Create Trip Screen -->
+    <fragment
+        android:id="@+id/createTripFragment"
+        android:name="com.example.lankago.fragments.CreateTripFragment"
+        android:label="Create Trip"
+        tools:layout="@layout/create_trip">
+        <action
+            android:id="@+id/action_createTripFragment_to_tripHistoryFragment"
+            app:destination="@id/tripHistoryFragment" />
+        <action
+            android:id="@+id/action_createTripFragment_to_rentalDetailsFragment"
+            app:destination="@id/rentalDetailsFragment" />
+        <action
+            android:id="@+id/action_createTripFragment_to_tripPlannerFragment"
+            app:destination="@id/tripPlannerFragment" />
+    </fragment>
+
+    <!-- 24. Trip History Screen -->
+    <fragment
+        android:id="@+id/tripHistoryFragment"
+        android:name="com.example.lankago.fragments.TripHistoryFragment"
+        android:label="Trip History"
+        tools:layout="@layout/fragment_trip_history">
+        <action
+            android:id="@+id/action_tripHistoryFragment_to_createTripFragment"
+            app:destination="@id/createTripFragment" />
+        <action
+            android:id="@+id/action_tripHistoryFragment_to_planTripFragment"
+            app:destination="@id/planTripFragment" />
+        <action
+            android:id="@+id/action_tripHistoryFragment_to_tripPlannerFragment"
+            app:destination="@id/tripPlannerFragment" />
+    </fragment>
 
 </navigation>

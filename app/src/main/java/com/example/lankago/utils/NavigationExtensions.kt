@@ -63,3 +63,22 @@ fun NavController.safePopBackStack(
         false
     }
 }
+
+/**
+ * Prevents multiple rapid clicks (debounce) by ignoring clicks within [throttleTimeMs].
+ * Highly recommended for buttons triggering navigation transitions.
+ */
+fun android.view.View.setOnSafeClickListener(
+    throttleTimeMs: Long = 600L,
+    onSafeClick: (android.view.View) -> Unit
+) {
+    var lastClickTime = 0L
+    this.setOnClickListener { view ->
+        val currentTime = android.os.SystemClock.elapsedRealtime()
+        if (currentTime - lastClickTime >= throttleTimeMs) {
+            lastClickTime = currentTime
+            onSafeClick(view)
+        }
+    }
+}
+

@@ -17,6 +17,8 @@ import com.bumptech.glide.Glide
 import com.example.lankago.LankaGoApp
 import com.example.lankago.R
 import com.example.lankago.utils.ImagePickerHelper
+import com.example.lankago.utils.safeNavigate
+import com.example.lankago.utils.setOnSafeClickListener
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -84,36 +86,36 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        // Navigation shortcuts
-        view.findViewById<View>(R.id.layout_profile_favorites)?.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_favoritesFragment)
+        // Navigation shortcuts with debounce and destination guards
+        view.findViewById<View>(R.id.layout_profile_favorites)?.setOnSafeClickListener {
+            findNavController().safeNavigate(R.id.action_profileFragment_to_favoritesFragment)
         }
 
-        view.findViewById<View>(R.id.layout_profile_rentals)?.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_rentalListFragment)
+        view.findViewById<View>(R.id.layout_profile_rentals)?.setOnSafeClickListener {
+            findNavController().safeNavigate(R.id.action_profileFragment_to_rentalListFragment)
         }
 
-        view.findViewById<View>(R.id.layout_profile_offline)?.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_offlineSavedFragment)
+        view.findViewById<View>(R.id.layout_profile_offline)?.setOnSafeClickListener {
+            findNavController().safeNavigate(R.id.action_profileFragment_to_offlineSavedFragment)
         }
 
-        view.findViewById<View>(R.id.layout_profile_reviews)?.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_reviewsFragment)
+        view.findViewById<View>(R.id.layout_profile_reviews)?.setOnSafeClickListener {
+            findNavController().safeNavigate(R.id.action_profileFragment_to_reviewsFragment)
         }
 
-        view.findViewById<View>(R.id.layout_profile_notifications)?.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_notificationsFragment)
+        view.findViewById<View>(R.id.layout_profile_notifications)?.setOnSafeClickListener {
+            findNavController().safeNavigate(R.id.action_profileFragment_to_notificationsFragment)
         }
 
-        view.findViewById<View>(R.id.layout_profile_settings)?.setOnClickListener {
-            findNavController().navigate(R.id.action_profileFragment_to_settingsFragment)
+        view.findViewById<View>(R.id.layout_profile_settings)?.setOnSafeClickListener {
+            findNavController().safeNavigate(R.id.action_profileFragment_to_settingsFragment)
         }
 
         // Logout
-        view.findViewById<View>(R.id.btn_profile_logout)?.setOnClickListener {
+        view.findViewById<View>(R.id.btn_profile_logout)?.setOnSafeClickListener {
             auth.signOut()
             Toast.makeText(requireContext(), "Logged out successfully", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+            findNavController().safeNavigate(R.id.action_profileFragment_to_loginFragment)
         }
     }
 

@@ -268,6 +268,9 @@ open class PlanTripFragment : Fragment() {
                         val auth = FirebaseAuth.getInstance()
                         val uid = auth.currentUser?.uid ?: "guest_traveler"
                         val rtdb = FirebaseDatabase.getInstance().reference
+                        // Primary Trip History node under user profile
+                        rtdb.child("users").child(uid).child("tripHistory").child(newTrip.id).setValue(newTrip).await()
+                        // Cross-reference under /trips node
                         rtdb.child("trips").child(uid).child(newTrip.id).setValue(newTrip).await()
                     } catch (e: Exception) {
                         Log.w("CreateTrip", "Firebase RTDB sync non-fatal warning: ${e.message}")

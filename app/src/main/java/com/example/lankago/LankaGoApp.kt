@@ -4,15 +4,18 @@ import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 
+import com.example.lankago.utils.GlobalCrashHandler
+
 /**
  * Custom Application class for LankaGo.
  * Applies the user's saved Dark Mode preference instantly upon process startup
- * to prevent any screen flicker during app launch.
+ * and installs the Global Crash Handler for Play Store pre-release stability.
  */
 class LankaGoApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        GlobalCrashHandler.install(this)
         applySavedTheme()
     }
 

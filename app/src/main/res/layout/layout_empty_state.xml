@@ -1,73 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_empty_root"
+    android:id="@+id/layout_empty_state_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="32dp"
-    android:background="@color/background_primary"
-    android:visibility="gone"
-    tools:visibility="visible">
+    android:background="#FAFBFD"
+    android:padding="24dp">
 
-    <!-- Soft Pill Container for Icon -->
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:cardCornerRadius="50dp"
-        app:cardElevation="0dp"
-        app:cardBackgroundColor="@color/admin_input_bg"
-        app:strokeWidth="1dp"
-        app:strokeColor="@color/admin_border">
+    <!-- Loading State: Circular Spinner -->
+    <ProgressBar
+        android:id="@+id/empty_state_progress_bar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="#1A56DB"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
-        <ImageView
-            android:id="@+id/iv_empty_icon"
-            android:layout_width="54dp"
-            android:layout_height="54dp"
-            android:layout_gravity="center"
-            android:contentDescription="Empty state illustration"
-            android:src="@drawable/ic_empty_box"
-            app:tint="@color/text_secondary" />
-    </com.google.android.material.card.MaterialCardView>
-
-    <!-- Empty State Title -->
-    <TextView
-        android:id="@+id/tv_empty_title"
-        android:layout_width="wrap_content"
+    <!-- Empty State Content Container -->
+    <LinearLayout
+        android:id="@+id/empty_state_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Nothing found here yet"
-        android:textAlignment="center"
-        android:textColor="@color/text_primary"
-        android:textSize="20sp" />
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
 
-    <!-- Empty State Subtitle -->
-    <TextView
-        android:id="@+id/tv_empty_subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif"
-        android:lineSpacingExtra="4dp"
-        android:maxWidth="280dp"
-        android:text="We couldn't find any listings for this category at the moment. Try selecting another tab or check back later."
-        android:textAlignment="center"
-        android:textColor="@color/text_secondary"
-        android:textSize="14sp" />
+        <!-- Icon Container with Soft Circle Background -->
+        <FrameLayout
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:background="@drawable/bg_circle_indigo_soft">
 
-    <!-- Optional Reset / Retry Action Button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_empty_action"
-        style="@style/Widget.Material3.Button.TonalButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Explore All Categories"
-        android:textColor="@color/admin_primary_navy"
-        app:cornerRadius="24dp" />
+            <ImageView
+                android:id="@+id/iv_empty_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_home_trip_plan"
+                app:tint="#1A56DB" />
+        </FrameLayout>
 
-</LinearLayout>
+        <!-- Empty Title -->
+        <TextView
+            android:id="@+id/tv_empty_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="No Trips Planned Yet"
+            android:textColor="#0F172A"
+            android:textSize="20sp" />
+
+        <!-- Empty Subtitle Description -->
+        <TextView
+            android:id="@+id/tv_empty_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:lineSpacingExtra="3dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="You haven't scheduled any journeys in Sri Lanka yet. Create a custom itinerary or explore destinations."
+            android:textColor="#64748B"
+            android:textSize="14sp" />
+
+        <!-- Call to Action Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_empty_action"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#1A56DB"
+            android:fontFamily="sans-serif-medium"
+            android:paddingStart="28dp"
+            android:paddingEnd="28dp"
+            android:text="Plan a New Trip"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            app:cornerRadius="25dp"
+            app:elevation="2dp"
+            app:icon="@drawable/ic_add"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconTint="#FFFFFF" />
+
+    </LinearLayout>
+
+</FrameLayout>
