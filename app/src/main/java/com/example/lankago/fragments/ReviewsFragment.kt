@@ -239,7 +239,7 @@ class ReviewsFragment : Fragment() {
                 textSize = 14f
                 setTextColor(Color.parseColor("#4B5563"))
                 setPadding(0, 20, 0, 0)
-                lineSpacingMultiplier = 1.2f
+                setLineSpacing(0f, 1.2f)
             }
 
             cardLayout.addView(headerLayout)

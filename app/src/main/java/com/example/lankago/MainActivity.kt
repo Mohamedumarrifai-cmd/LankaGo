@@ -1,6 +1,7 @@
 package com.example.lankago
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build

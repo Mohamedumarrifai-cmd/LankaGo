@@ -32,6 +32,13 @@ object TripManager {
     }
 
     /**
+     * Finds a saved trip by its unique ID.
+     */
+    fun getTripById(context: Context, tripId: String): Trip? {
+        return getAllTrips(context).find { it.id == tripId }
+    }
+
+    /**
      * Saves a new trip or updates an existing trip if the ID already matches.
      */
     fun saveTrip(context: Context, trip: Trip) {

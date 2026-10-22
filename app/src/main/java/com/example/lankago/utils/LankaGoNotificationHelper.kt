@@ -27,6 +27,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.util.Locale
 
 /**
  * Universal Notification Dispatcher for LankaGo.
@@ -291,7 +292,7 @@ object LankaGoNotificationHelper {
                 title = "Payment Success: $vehicleName",
                 message = "Rs. ${String.format(Locale.US, "%,.0f", amountLkr)} paid. Ref: $bookingRef",
                 timeAgo = "Just now",
-                type = NotificationType.BOOKING_CONFIRMATION,
+                type = NotificationType.RENTAL_BOOKING,
                 targetId = bookingRef,
                 iconRes = R.drawable.ic_bell
             )
