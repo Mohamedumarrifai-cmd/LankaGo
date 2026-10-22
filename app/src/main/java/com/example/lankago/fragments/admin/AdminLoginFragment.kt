@@ -47,6 +47,18 @@ class AdminLoginFragment : Fragment() {
         val etPassword = view.findViewById<TextInputEditText>(R.id.et_admin_password)
         val btnLogin = view.findViewById<MaterialButton>(R.id.btn_admin_login)
 
+        // Return Navigation: Move from Admin Login to Traveler Login
+        val navigateToUserLogin = {
+            try {
+                findNavController().navigate(R.id.action_adminLoginFragment_to_loginFragment)
+            } catch (e: Exception) {
+                findNavController().navigateUp()
+            }
+        }
+        view.findViewById<View>(R.id.btn_back_to_user_login)?.setOnClickListener { navigateToUserLogin() }
+        view.findViewById<View>(R.id.btn_admin_role_user)?.setOnClickListener { navigateToUserLogin() }
+        view.findViewById<View>(R.id.btn_switch_to_user_login)?.setOnClickListener { navigateToUserLogin() }
+
         btnLogin.setOnClickListener {
             val rawInput = etUsername.text?.toString().orEmpty().trim()
             val password = etPassword.text?.toString().orEmpty().trim()
@@ -99,7 +111,13 @@ class AdminLoginFragment : Fragment() {
                     } else {
                         btnLogin.isEnabled = true
                         tilUsername.error = "Unauthorized role"
-                        showSnackbar(view, "Access Denied: Account '$email' does not have admin permissions", isError = true)
+                        showSnackbarWithAction(
+                            view,
+                            "Access Denied: Account '$email' has Traveler role. Please use Traveler Login.",
+                            "Switch to Traveler"
+                        ) {
+                            navigateToUserLogin()
+                        }
                     }
 
                 } catch (e: Exception) {
@@ -109,6 +127,20 @@ class AdminLoginFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showSnackbarWithAction(
+        rootView: View,
+        message: String,
+        actionText: String,
+        action: () -> Unit
+    ) {
+        val snackbar = Snackbar.make(rootView, message, Snackbar.LENGTH_INDEFINITE)
+        snackbar.setAction(actionText) { action() }
+        snackbar.setActionTextColor(requireContext().getColor(R.color.white))
+        snackbar.setBackgroundTint(requireContext().getColor(R.color.admin_danger))
+        snackbar.setTextColor(requireContext().getColor(R.color.white))
+        snackbar.show()
     }
 
     private fun showSnackbar(rootView: View, message: String, isError: Boolean) {

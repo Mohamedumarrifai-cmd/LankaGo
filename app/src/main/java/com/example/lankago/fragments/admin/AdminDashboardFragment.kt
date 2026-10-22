@@ -91,15 +91,28 @@ class AdminDashboardFragment : Fragment() {
             )
         }
 
-        // 5. Logout Confirmation & Navigation
+        // 5. Switch to Traveler Home View
+        val cardSwitchMode = view.findViewById<View>(R.id.card_switch_to_user_mode)
+        cardSwitchMode?.setOnClickListener {
+            findNavController().safeNavigate(
+                R.id.action_adminDashboardFragment_to_homeFragment
+            )
+        }
+
+        // 6. Logout Confirmation & Navigation
         cardLogout.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Confirm Logout")
-                .setMessage("Are you sure you want to end your administrator session?")
+                .setTitle("Administrator Session")
+                .setMessage("Would you like to logout from administrator access or switch to Traveler mode?")
                 .setPositiveButton("Logout") { _, _ ->
                     FirebaseAuth.getInstance().signOut()
                     findNavController().safeNavigate(
-                        R.id.action_adminDashboardFragment_to_adminLoginFragment
+                        R.id.action_adminDashboardFragment_to_loginFragment
+                    )
+                }
+                .setNeutralButton("Traveler Home") { _, _ ->
+                    findNavController().safeNavigate(
+                        R.id.action_adminDashboardFragment_to_homeFragment
                     )
                 }
                 .setNegativeButton("Cancel", null)

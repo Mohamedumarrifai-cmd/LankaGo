@@ -15,6 +15,7 @@ import com.example.lankago.R
 import com.example.lankago.adapters.NotificationsAdapter
 import com.example.lankago.data.AppNotification
 import com.example.lankago.data.NotificationType
+import com.example.lankago.utils.LankaGoNotificationHelper
 
 /**
  * Screen displaying user notifications with smart deep-link routing on click.
@@ -53,6 +54,7 @@ class NotificationsFragment : Fragment() {
         rvNotifications.adapter = notificationsAdapter
 
         btnClearAll.setOnClickListener {
+            LankaGoNotificationHelper.clearAllInAppNotifications(requireContext())
             notificationList.clear()
             notificationsAdapter.submitList(emptyList())
             rvNotifications.visibility = View.GONE
@@ -65,6 +67,12 @@ class NotificationsFragment : Fragment() {
 
     private fun loadNotifications(recyclerView: RecyclerView, emptyView: View) {
         notificationList.clear()
+
+        // 1. Load dynamic user notifications (trip creations, bookings)
+        val dynamicNotifications = LankaGoNotificationHelper.getAllInAppNotifications(requireContext())
+        notificationList.addAll(dynamicNotifications)
+
+        // 2. Load system announcements and alerts
         notificationList.addAll(
             listOf(
                 AppNotification(
@@ -157,8 +165,12 @@ class NotificationsFragment : Fragment() {
             }
 
             NotificationType.TRIP_UPDATE -> {
-                // Navigate to the user's saved Trip Planner itinerary
-                navController.navigate(R.id.tripPlannerFragment)
+                // Navigate to Trip History or Trip Planner
+                try {
+                    navController.navigate(R.id.tripHistoryFragment)
+                } catch (e: Exception) {
+                    navController.navigate(R.id.tripPlannerFragment)
+                }
             }
 
             NotificationType.LOCAL_PRODUCT -> {

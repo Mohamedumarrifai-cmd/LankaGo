@@ -15,6 +15,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.lankago.services.MyFirebaseMessagingService
+import com.example.lankago.utils.FirebaseDataSeeder
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
@@ -48,6 +49,9 @@ class MainActivity : AppCompatActivity() {
         setupGlobalNavigation()
         checkAndRequestNotificationPermission()
         handleNotificationIntent()
+
+        // Asynchronously synchronize and verify Firebase Realtime Database nodes
+        FirebaseDataSeeder.syncDatabase()
     }
 
     override fun onResume() {
@@ -77,10 +81,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onNewIntent(intent: android.content.Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleNotificationIntent()
+    }
+
     /**
      * Handles incoming notification payload when app is opened via Heads-Up Notification tap.
      */
     private fun handleNotificationIntent() {
+        val openDest = intent?.getStringExtra("open_destination")
+        if (openDest == "tripHistoryFragment") {
+            try {
+                if (::navController.isInitialized) {
+                    navController.navigate(R.id.tripHistoryFragment)
+                }
+            } catch (e: Exception) {
+                Log.w("MainActivity", "Notification deep link navigation warning: ${e.message}")
+            }
+        }
         val bookingId = intent?.getStringExtra("bookingId")
         val status = intent?.getStringExtra("status")
         if (!bookingId.isNullOrBlank()) {

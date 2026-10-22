@@ -23,7 +23,7 @@ sealed class AuthState {
 
 sealed class SessionCheckState {
     object Checking : SessionCheckState()
-    object Authenticated : SessionCheckState()
+    data class Authenticated(val role: String = "user") : SessionCheckState()
     object Unauthenticated : SessionCheckState()
 }
 
@@ -50,8 +50,16 @@ class AuthViewModel(
             delay(1200L) // Branding display
             val currentUser = auth.currentUser
             val localLoggedIn = AuthManager.isLoggedIn(context)
-            if (currentUser != null || localLoggedIn) {
-                _sessionCheckState.value = SessionCheckState.Authenticated
+            if (currentUser != null) {
+                val role = try {
+                    val snap = database.reference.child("users").child(currentUser.uid).child("role").get().await()
+                    snap.getValue(String::class.java) ?: "user"
+                } catch (e: Exception) {
+                    "user"
+                }
+                _sessionCheckState.value = SessionCheckState.Authenticated(role)
+            } else if (localLoggedIn) {
+                _sessionCheckState.value = SessionCheckState.Authenticated("user")
             } else {
                 _sessionCheckState.value = SessionCheckState.Unauthenticated
             }

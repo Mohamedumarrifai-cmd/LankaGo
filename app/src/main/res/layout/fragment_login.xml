@@ -19,17 +19,62 @@
             android:paddingHorizontal="24dp"
             android:paddingVertical="40dp">
 
+            <!-- Top Navigation Bar: Back & Skip as Guest -->
+            <ImageView
+                android:id="@+id/btn_back_login"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_white_circle"
+                android:backgroundTint="#F1F5F9"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="Back"
+                app:tint="#1A2B4C"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/btn_skip_login"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_pill"
+                android:backgroundTint="#F1F5F9"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                app:layout_constraintBottom_toBottomOf="@id/btn_back_login"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btn_back_login">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Explore as Guest"
+                    android:textColor="#64748B"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/ic_chevron_right"
+                    app:tint="#64748B" />
+            </LinearLayout>
+
             <!-- Brand Logo -->
             <ImageView
                 android:id="@+id/img_logo"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:src="@drawable/logo"
                 android:contentDescription="LankaGo Logo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/btn_back_login" />
 
             <!-- Title & Subtitle -->
             <TextView
@@ -58,13 +103,98 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
+            <!-- Interactive Role Selector (Traveler vs Administrator) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layout_role_selector"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="26dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#E2E8F0"
+                app:cardBackgroundColor="#F1F5F9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_subtitle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
+
+                    <!-- Traveler / User Role Tab (Selected by Default) -->
+                    <LinearLayout
+                        android:id="@+id/btn_role_user"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_pill"
+                        android:backgroundTint="#1A2B4C"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_role_user_icon"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_nav_profile"
+                            app:tint="#FFFFFF" />
+
+                        <TextView
+                            android:id="@+id/tv_role_user_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Traveler (User)"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <!-- Administrator Role Tab -->
+                    <LinearLayout
+                        android:id="@+id/btn_role_admin"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_role_admin_icon"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_shield"
+                            app:tint="#64748B" />
+
+                        <TextView
+                            android:id="@+id/tv_role_admin_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Administrator"
+                            android:textColor="#64748B"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Email Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="20dp"
                 android:hint="Email Address"
                 app:boxCornerRadiusBottomEnd="14dp"
                 app:boxCornerRadiusBottomStart="14dp"
@@ -74,7 +204,7 @@
                 app:startIconDrawable="@android:drawable/ic_dialog_email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_subtitle">
+                app:layout_constraintTop_toBottomOf="@id/layout_role_selector">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_email"
@@ -134,7 +264,7 @@
                 android:layout_marginTop="20dp"
                 android:backgroundTint="#1A2B4C"
                 android:fontFamily="sans-serif-black"
-                android:text="Log In"
+                android:text="Log In as Traveler"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
@@ -155,17 +285,32 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
+            <!-- Quick Switch to Admin Portal -->
+            <TextView
+                android:id="@+id/tv_switch_to_admin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:fontFamily="sans-serif-medium"
+                android:padding="6dp"
+                android:text="🛡️ Are you a Staff / Administrator? Switch to Admin Portal"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pb_login_loading" />
+
             <!-- Register Footer -->
             <LinearLayout
                 android:id="@+id/layout_register_footer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/pb_login_loading"
+                app:layout_constraintTop_toBottomOf="@id/tv_switch_to_admin"
                 app:layout_constraintVertical_bias="1.0">
 
                 <TextView

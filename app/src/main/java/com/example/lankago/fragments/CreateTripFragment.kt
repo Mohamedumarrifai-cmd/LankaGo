@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.lankago.R
 import com.example.lankago.data.Trip
+import com.example.lankago.utils.LankaGoNotificationHelper
 import com.example.lankago.utils.TripManager
 import com.example.lankago.utils.safeNavigate
 import com.example.lankago.utils.setOnSafeClickListener
@@ -194,6 +195,9 @@ class CreateTripFragment : Fragment() {
                     }
 
                     if (!isAdded) return@launch
+
+                    // 4. Trigger Instant Heads-Up & In-App Notification
+                    LankaGoNotificationHelper.postTripCreatedNotification(requireContext(), newTrip)
 
                     Snackbar.make(
                         view,

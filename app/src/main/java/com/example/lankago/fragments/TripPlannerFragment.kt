@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.lankago.R
 import com.example.lankago.adapters.TripAdapter
 import com.example.lankago.data.Trip
+import com.example.lankago.utils.LankaGoNotificationHelper
 import com.example.lankago.utils.TripManager
 import com.example.lankago.utils.safeNavigate
 import com.example.lankago.utils.setOnSafeClickListener
@@ -188,6 +189,9 @@ class TripPlannerFragment : Fragment() {
 
             dialog.dismiss()
             loadTrips()
+
+            // Emit instant heads-up status bar and in-app notification
+            LankaGoNotificationHelper.postTripCreatedNotification(requireContext(), newTrip)
 
             Snackbar.make(
                 requireView(),

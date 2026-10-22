@@ -39,9 +39,13 @@ class SplashFragment : Fragment() {
                     is SessionCheckState.Authenticated -> {
                         if (isAdded) {
                             try {
-                                findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+                                if (state.role.equals("admin", ignoreCase = true)) {
+                                    findNavController().navigate(R.id.action_splashFragment_to_adminDashboardFragment)
+                                } else {
+                                    findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+                                }
                             } catch (e: Exception) {
-                                // Ignore navigation race conditions
+                                findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
                             }
                         }
                     }

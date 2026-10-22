@@ -61,7 +61,11 @@ class LoginFragment : Fragment() {
                         pbLoading?.visibility = View.GONE
                         btnLogin?.isEnabled = true
                         if (isAdded) {
-                            findNavController().safeNavigate(R.id.action_loginFragment_to_homeFragment)
+                            if (state.role.equals("admin", ignoreCase = true)) {
+                                findNavController().safeNavigate(R.id.action_loginFragment_to_adminDashboardFragment)
+                            } else {
+                                findNavController().safeNavigate(R.id.action_loginFragment_to_homeFragment)
+                            }
                         }
                     }
                     is AuthState.Error -> {
@@ -73,7 +77,39 @@ class LoginFragment : Fragment() {
             }
         }
 
-        // Trigger Login
+        // 1. Top Navigation: Back and Skip as Guest
+        val btnBack = view.findViewById<View>(R.id.btn_back_login)
+        val btnSkip = view.findViewById<View>(R.id.btn_skip_login)
+
+        btnBack?.setOnClickListener {
+            if (!findNavController().navigateUp()) {
+                findNavController().safeNavigate(R.id.action_loginFragment_to_homeFragment)
+            }
+        }
+
+        btnSkip?.setOnClickListener {
+            findNavController().safeNavigate(R.id.action_loginFragment_to_homeFragment)
+        }
+
+        // 2. Role Switcher: Navigate to Admin Portal when clicked
+        val btnRoleUser = view.findViewById<View>(R.id.btn_role_user)
+        val btnRoleAdmin = view.findViewById<View>(R.id.btn_role_admin)
+        val tvSwitchToAdmin = view.findViewById<View>(R.id.tv_switch_to_admin)
+
+        btnRoleUser?.setOnClickListener {
+            // Already in Traveler mode
+            btnLogin?.text = "Log In as Traveler"
+        }
+
+        btnRoleAdmin?.setOnClickListener {
+            findNavController().safeNavigate(R.id.action_loginFragment_to_adminLoginFragment)
+        }
+
+        tvSwitchToAdmin?.setOnClickListener {
+            findNavController().safeNavigate(R.id.action_loginFragment_to_adminLoginFragment)
+        }
+
+        // 3. Trigger Login with Role Routing
         btnLogin?.setOnClickListener {
             val email = etEmail?.text?.toString() ?: ""
             val password = etPassword?.text?.toString() ?: ""
@@ -95,13 +131,17 @@ class LoginFragment : Fragment() {
             authViewModel.login(requireContext(), email, password)
         }
 
-        // Navigate to Forgot Password Screen
+        // 4. Navigate to Forgot Password Screen
         view.findViewById<View>(R.id.tv_forgot_password)?.setOnClickListener {
             findNavController().safeNavigate(R.id.action_loginFragment_to_forgotPasswordFragment)
         }
 
-        // Navigate to Register Screen
+        // 5. Navigate to Register Screen (both link and footer)
+        val layoutRegisterFooter = view.findViewById<View>(R.id.layout_register_footer)
         tvRegisterLink?.setOnClickListener {
+            findNavController().safeNavigate(R.id.action_loginFragment_to_registerFragment)
+        }
+        layoutRegisterFooter?.setOnClickListener {
             findNavController().safeNavigate(R.id.action_loginFragment_to_registerFragment)
         }
     }

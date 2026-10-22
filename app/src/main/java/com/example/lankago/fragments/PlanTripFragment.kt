@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide
 import com.example.lankago.R
 import com.example.lankago.data.Trip
 import com.example.lankago.utils.ImagePickerHelper
+import com.example.lankago.utils.LankaGoNotificationHelper
 import com.example.lankago.utils.TripManager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
@@ -276,7 +277,9 @@ open class PlanTripFragment : Fragment() {
                         Log.w("CreateTrip", "Firebase RTDB sync non-fatal warning: ${e.message}")
                     }
 
-                    // 6. Show Success Feedback Snackbar
+                    // 6. Post Notification & Show Success Feedback Snackbar
+                    LankaGoNotificationHelper.postTripCreatedNotification(requireContext(), newTrip)
+
                     Snackbar.make(
                         view,
                         "Trip confirmed! ID Document verified successfully.",

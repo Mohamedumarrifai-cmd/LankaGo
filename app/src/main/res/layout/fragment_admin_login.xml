@@ -46,11 +46,44 @@
             android:paddingHorizontal="24dp"
             android:paddingVertical="40dp">
 
+            <!-- Back to Traveler Sign-In Header Button -->
+            <LinearLayout
+                android:id="@+id/btn_back_to_user_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_pill"
+                android:backgroundTint="#26FFFFFF"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_arrow_back"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Traveler Sign-In"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
             <!-- Top Header Badge -->
             <LinearLayout
                 android:id="@+id/layout_badge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/bg_pill_purple"
                 android:backgroundTint="#335D5FEF"
                 android:gravity="center_vertical"
@@ -58,7 +91,7 @@
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="6dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/btn_back_to_user_login">
 
                 <ImageView
                     android:layout_width="14dp"
@@ -73,7 +106,7 @@
                     android:layout_marginStart="6dp"
                     android:fontFamily="sans-serif-bold"
                     android:letterSpacing="0.08"
-                    android:text="LANKAGO ADMIN"
+                    android:text="LANKAGO ADMIN PORTAL"
                     android:textColor="#D3E3F3"
                     android:textSize="11sp" />
             </LinearLayout>
@@ -105,18 +138,99 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
+            <!-- Interactive Role Selector (Traveler vs Administrator) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layout_admin_role_selector"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="26dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#33FFFFFF"
+                app:cardBackgroundColor="#1AFFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_subtitle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
+
+                    <!-- Traveler / User Role Tab (Clickable to switch back to Traveler Login) -->
+                    <LinearLayout
+                        android:id="@+id/btn_admin_role_user"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_nav_profile"
+                            app:tint="#D3E3F3" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Traveler (User)"
+                            android:textColor="#D3E3F3"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <!-- Administrator Role Tab (Selected by Default in Admin Screen) -->
+                    <LinearLayout
+                        android:id="@+id/btn_admin_role_admin"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_pill"
+                        android:backgroundTint="#FFFFFF"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_shield"
+                            app:tint="#1A2B4C" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Administrator"
+                            android:textColor="#1A2B4C"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Elevated Auth Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="20dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="28dp"
                 app:cardElevation="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_subtitle">
+                app:layout_constraintTop_toBottomOf="@id/layout_admin_role_selector">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -249,6 +363,19 @@
                         app:icon="@drawable/ic_arrow_forward"
                         app:iconGravity="textEnd"
                         app:iconTint="#FFFFFF" />
+
+                    <!-- Switch to Traveler Login Link -->
+                    <TextView
+                        android:id="@+id/btn_switch_to_user_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="18dp"
+                        android:fontFamily="sans-serif-bold"
+                        android:padding="8dp"
+                        android:text="← Not an Administrator? Sign In as Traveler"
+                        android:textColor="#5D5FEF"
+                        android:textSize="13sp" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
