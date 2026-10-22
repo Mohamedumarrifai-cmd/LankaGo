@@ -129,6 +129,7 @@
 
     <!-- Product Grid -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_products"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -612,12 +613,16 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
             android:orientation="vertical">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_view"
-                app:tint="#8A8F98" />
+                android:src="@drawable/ic_nav_home"
+                app:tint="#8A8F98"
+                android:contentDescription="Home" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -634,6 +639,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
             android:orientation="vertical">
             <ImageView
                 android:layout_width="38dp"
@@ -641,7 +649,7 @@
                 android:background="@drawable/bg_pill_purple"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
-                android:src="@android:drawable/ic_menu_compass"
+                android:src="@drawable/ic_verified_badge"
                 app:tint="#673AB7"
                 android:contentDescription="Products Active" />
             <TextView
@@ -661,12 +669,16 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
             android:orientation="vertical">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_mapmode"
-                app:tint="#8A8F98" />
+                android:src="@drawable/ic_nav_map"
+                app:tint="#8A8F98"
+                android:contentDescription="Maps" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -683,12 +695,16 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
             android:orientation="vertical">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_myplaces"
-                app:tint="#8A8F98" />
+                android:src="@drawable/ic_nav_profile"
+                app:tint="#8A8F98"
+                android:contentDescription="Profile" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

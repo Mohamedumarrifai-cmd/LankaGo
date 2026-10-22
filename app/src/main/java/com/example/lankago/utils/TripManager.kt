@@ -77,35 +77,63 @@ object TripManager {
     }
 
     /**
-     * Appends a booked RentalVehicle to the active trip.
+     * Appends a booked RentalVehicle to the active trip, or creates a new trip if none exists.
      */
     fun addRentalToTrip(context: Context, tripId: String, rental: RentalVehicle): Boolean {
         val currentTrips = getAllTrips(context).toMutableList()
-        val tripIndex = if (tripId.isNotEmpty()) currentTrips.indexOfFirst { it.id == tripId } else 0
+        val tripIndex = if (tripId.isNotEmpty()) currentTrips.indexOfFirst { it.id == tripId } else if (currentTrips.isNotEmpty()) 0 else -1
 
         if (tripIndex != -1 && tripIndex < currentTrips.size) {
             val targetTrip = currentTrips[tripIndex]
             targetTrip.bookedRentals.add(rental)
             persistTrips(context, currentTrips)
             return true
+        } else {
+            // Edge-Case Handling: Auto-create active trip so booking is never lost
+            val autoTrip = Trip(
+                id = if (tripId.isNotBlank()) tripId else "trip_${System.currentTimeMillis()}",
+                tripName = "${rental.location} Adventure",
+                date = "Flexible Dates",
+                travelerType = "Local (NIC)",
+                idImageUri = null,
+                places = mutableListOf(),
+                bookedRentals = mutableListOf(rental),
+                bookedActivities = mutableListOf()
+            )
+            currentTrips.add(0, autoTrip)
+            persistTrips(context, currentTrips)
+            return true
         }
-        return false
     }
 
     /**
-     * Appends a booked ActivityItem to the active trip.
+     * Appends a booked ActivityItem to the active trip, or creates a new trip if none exists.
      */
     fun addActivityToTrip(context: Context, tripId: String, activity: ActivityItem): Boolean {
         val currentTrips = getAllTrips(context).toMutableList()
-        val tripIndex = if (tripId.isNotEmpty()) currentTrips.indexOfFirst { it.id == tripId } else 0
+        val tripIndex = if (tripId.isNotEmpty()) currentTrips.indexOfFirst { it.id == tripId } else if (currentTrips.isNotEmpty()) 0 else -1
 
         if (tripIndex != -1 && tripIndex < currentTrips.size) {
             val targetTrip = currentTrips[tripIndex]
             targetTrip.bookedActivities.add(activity)
             persistTrips(context, currentTrips)
             return true
+        } else {
+            // Edge-Case Handling: Auto-create active trip so booking is never lost
+            val autoTrip = Trip(
+                id = if (tripId.isNotBlank()) tripId else "trip_${System.currentTimeMillis()}",
+                tripName = "${activity.location} Adventure",
+                date = "Flexible Dates",
+                travelerType = "Local (NIC)",
+                idImageUri = null,
+                places = mutableListOf(),
+                bookedRentals = mutableListOf(),
+                bookedActivities = mutableListOf(activity)
+            )
+            currentTrips.add(0, autoTrip)
+            persistTrips(context, currentTrips)
+            return true
         }
-        return false
     }
 
     private fun persistTrips(context: Context, trips: List<Trip>) {

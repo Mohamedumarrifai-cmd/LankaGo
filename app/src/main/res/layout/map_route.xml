@@ -8,14 +8,11 @@
     android:background="#D3E3F3"
     tools:context=".MapRouteActivity">
 
-    <!-- Offline Map Vector Image -->
-    <ImageView
-        android:id="@+id/iv_offline_map"
+    <!-- Live OpenStreetMap Interactive View (Leaflet.js) -->
+    <WebView
+        android:id="@+id/map_webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/map_bg"
-        android:contentDescription="Offline Map" />
+        android:layout_height="match_parent" />
 
     <!-- Offline Map Mode Badge -->
     <LinearLayout

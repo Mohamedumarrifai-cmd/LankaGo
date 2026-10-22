@@ -36,24 +36,37 @@ class TripAdapter(
         holder.tvTripName.text = trip.tripName
         holder.tvTripDate.text = if (trip.date.isNotBlank()) trip.date else "Flexible dates"
 
-        // Display number of destinations
-        val count = trip.places.size
-        holder.tvPlacesCount.text = when (count) {
-            0 -> "No places added yet"
-            1 -> "1 Place included"
-            else -> "$count Places included"
+        // Display number of destinations, rentals, and activities
+        val placesCount = trip.places.size
+        val rentalCount = trip.bookedRentals.size
+        val activityCount = trip.bookedActivities.size
+
+        val summaryParts = mutableListOf<String>()
+        if (placesCount > 0) summaryParts.add("$placesCount Places")
+        if (rentalCount > 0) summaryParts.add("$rentalCount Vehicle" + if (rentalCount > 1) "s" else "")
+        if (activityCount > 0) summaryParts.add("$activityCount Activit" + if (activityCount > 1) "ies" else "y")
+
+        holder.tvPlacesCount.text = if (summaryParts.isNotEmpty()) {
+            summaryParts.joinToString(" • ")
+        } else {
+            "Empty Itinerary"
         }
 
         // Display Traveler Verification Badge & Captured Image
         if (!trip.idImageUri.isNullOrEmpty()) {
             try {
-                holder.ivTravelerIdThumb.setImageURI(Uri.parse(trip.idImageUri))
+                com.bumptech.glide.Glide.with(holder.itemView.context)
+                    .load(trip.idImageUri)
+                    .placeholder(android.R.drawable.ic_menu_gallery)
+                    .error(android.R.drawable.ic_menu_gallery)
+                    .centerCrop()
+                    .into(holder.ivTravelerIdThumb)
                 holder.ivTravelerIdThumb.imageTintList = null
             } catch (e: Exception) {
                 holder.ivTravelerIdThumb.setImageResource(android.R.drawable.ic_menu_gallery)
             }
 
-            if (trip.travelerType.equals("Foreign", ignoreCase = true)) {
+            if (trip.travelerType.contains("Foreign", ignoreCase = true) || trip.travelerType.contains("Passport", ignoreCase = true)) {
                 holder.tvIdVerificationBadge.text = "✓ Passport Verified"
             } else {
                 holder.tvIdVerificationBadge.text = "✓ ID Verified"

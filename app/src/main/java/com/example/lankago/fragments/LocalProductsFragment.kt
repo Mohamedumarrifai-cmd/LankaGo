@@ -165,15 +165,20 @@ class LocalProductsFragment : Fragment() {
     }
 
     private fun setupBottomNavigation(view: View) {
-        // Home Navigation
+        // Home Navigation (pop back to Home or navigate)
         view.findViewById<View>(R.id.nav_home)?.setOnClickListener {
-            findNavController().navigate(R.id.action_localProductsFragment_to_homeFragment)
+            val popped = findNavController().popBackStack(R.id.homeFragment, false)
+            if (!popped) {
+                findNavController().navigate(R.id.action_localProductsFragment_to_homeFragment)
+            }
         }
 
-        // Products Navigation (Already on products screen)
+        // Products Navigation (Already on products screen - scroll to top and reset tab)
         view.findViewById<View>(R.id.nav_products)?.setOnClickListener {
-            // Re-select all products
-            tabArtsCrafts.performClick()
+            view.findViewById<androidx.core.widget.NestedScrollView>(R.id.scroll_products)?.smoothScrollTo(0, 0)
+            if (::tabArtsCrafts.isInitialized) {
+                tabArtsCrafts.performClick()
+            }
         }
 
         // Maps Navigation

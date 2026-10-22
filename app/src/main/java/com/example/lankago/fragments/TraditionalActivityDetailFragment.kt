@@ -305,7 +305,8 @@ class TraditionalActivityDetailFragment : Fragment() {
             )
 
             val trips = TripManager.getAllTrips(requireContext())
-            val targetTripId = trips.firstOrNull()?.id ?: ""
+            val passedTripId = arguments?.getString("activeTripId") ?: ""
+            val targetTripId = if (passedTripId.isNotBlank()) passedTripId else trips.firstOrNull()?.id ?: ""
             TripManager.addActivityToTrip(requireContext(), targetTripId, bookedItem)
 
             // Save to Firebase Realtime Database /bookings node

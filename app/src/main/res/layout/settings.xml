@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#F8FAFC"
     tools:context=".SettingsActivity">
 
     <!-- ================= TOP BAR ================= -->
@@ -15,31 +15,41 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="16dp"
+        android:background="#FFFFFF"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="14dp"
+        android:elevation="2dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:id="@+id/btn_back_settings"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="6dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back"
+            app:tint="#1A2B4C"
             android:contentDescription="Back" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="Settings"
+            android:layout_marginStart="12dp"
+            android:fontFamily="sans-serif-bold"
+            android:text="Settings &amp; Preferences"
             android:textColor="#1A2B4C"
             android:textSize="20sp" />
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:id="@+id/btn_share_settings"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="6dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@android:drawable/ic_menu_share"
             app:tint="#1A2B4C"
-            android:contentDescription="Share" />
+            android:contentDescription="Share LankaGo" />
     </LinearLayout>
  
     <!-- ================= SCROLLABLE CONTENT ================= -->
@@ -57,29 +67,40 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="24dp">
+            android:paddingTop="16dp"
+            android:paddingBottom="32dp">
 
-            <!-- Settings Card -->
+            <!-- Section 1: General & Appearance -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="GENERAL &amp; APPEARANCE"
+                android:textColor="#64748B"
+                android:textSize="12sp"
+                android:letterSpacing="0.05" />
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp">
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_menu_card"
-                    android:orientation="vertical"
-                    android:paddingVertical="8dp">
+                    android:orientation="vertical">
 
                     <!-- Item 0: Dark Mode Toggle -->
                     <RelativeLayout
+                        android:id="@+id/row_setting_dark_mode"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:gravity="center_vertical"
-                        android:paddingHorizontal="20dp">
+                        android:paddingHorizontal="16dp">
                         <ImageView
                             android:id="@+id/set_icon_dark"
                             android:layout_width="22dp"
@@ -96,7 +117,7 @@
                             android:layout_marginStart="16dp"
                             android:text="Dark Mode"
                             android:textColor="#1A2B4C"
-                            android:textSize="16sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
                         <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/switch_dark_mode"
@@ -110,111 +131,25 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#F0F2F5" />
+                        android:background="#F1F5F9" />
 
-                    <!-- Item 1: Location -->
+                    <!-- Item 3: Notifications -->
                     <RelativeLayout
+                        android:id="@+id/row_setting_notifications"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:gravity="center_vertical"
-                        android:paddingHorizontal="20dp">
-                        <ImageView
-                            android:id="@+id/set_icon1"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_centerVertical="true"
-                            android:src="@android:drawable/ic_menu_mylocation"
-                            app:tint="#1A2B4C"
-                            android:contentDescription="Location Icon" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/set_icon1"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="16dp"
-                            android:text="Location"
-                            android:textColor="#1A2B4C"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:id="@+id/tv_loc_status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toStartOf="@id/arrow1"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="12dp"
-                            android:text="GPS enabled"
-                            android:textColor="#8A8F98"
-                            android:textSize="14sp" />
-                        <ImageView
-                            android:id="@+id/arrow1"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_arrow_forward"
-                            app:tint="#8A8F98"
-                            android:contentDescription="Arrow" />
-                    </RelativeLayout>
-
-                    <!-- Item 2: Wi-Fi -->
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="20dp">
-                        <ImageView
-                            android:id="@+id/set_icon2"
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_centerVertical="true"
-                            android:src="@android:drawable/ic_menu_manage"
-                            app:tint="#1A2B4C"
-                            android:contentDescription="WiFi Icon" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/set_icon2"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="16dp"
-                            android:text="Wi-Fi"
-                            android:textColor="#1A2B4C"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:id="@+id/tv_wifi_status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toStartOf="@id/arrow2"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="12dp"
-                            android:text="Connected"
-                            android:textColor="#8A8F98"
-                            android:textSize="14sp" />
-                        <ImageView
-                            android:id="@+id/arrow2"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_arrow_forward"
-                            app:tint="#8A8F98"
-                            android:contentDescription="Arrow" />
-                    </RelativeLayout>
-
-                    <!-- Item 3: Notifications (Switch) -->
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="20dp">
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp">
                         <ImageView
                             android:id="@+id/set_icon3"
                             android:layout_width="22dp"
                             android:layout_height="22dp"
                             android:layout_centerVertical="true"
-                            android:src="@android:drawable/ic_popup_reminder"
-                            app:tint="#1A2B4C"
+                            android:src="@drawable/ic_bell"
+                            app:tint="#7C3AED"
                             android:contentDescription="Notifications Icon" />
                         <TextView
                             android:layout_width="wrap_content"
@@ -222,32 +157,174 @@
                             android:layout_toEndOf="@id/set_icon3"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="16dp"
-                            android:text="Notifications"
+                            android:text="Push Notifications"
                             android:textColor="#1A2B4C"
-                            android:textSize="16sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
-                        <androidx.appcompat.widget.SwitchCompat
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switch_notifications"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:checked="true"
-                            tools:ignore="UseSwitchCompatOrMaterialXml" />
+                            android:checked="true" />
                     </RelativeLayout>
 
-                    <!-- Item 4: Location Services -->
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Section 2: Connectivity & Travel Tools -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="CONNECTIVITY &amp; TRAVEL TOOLS"
+                android:textColor="#64748B"
+                android:textSize="12sp"
+                android:letterSpacing="0.05" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Item 1: Location -->
                     <RelativeLayout
+                        android:id="@+id/row_setting_location"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:gravity="center_vertical"
-                        android:paddingHorizontal="20dp">
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp">
+                        <ImageView
+                            android:id="@+id/set_icon1"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_mylocation"
+                            app:tint="#0284C7"
+                            android:contentDescription="Location Icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/set_icon1"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="GPS &amp; Location"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_loc_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@id/arrow1"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="8dp"
+                            android:text="Enabled"
+                            android:textColor="#10B981"
+                            android:textSize="13sp" />
+                        <ImageView
+                            android:id="@+id/arrow1"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#94A3B8"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F1F5F9" />
+
+                    <!-- Item 2: Wi-Fi -->
+                    <RelativeLayout
+                        android:id="@+id/row_setting_wifi"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp">
+                        <ImageView
+                            android:id="@+id/set_icon2"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_manage"
+                            app:tint="#6366F1"
+                            android:contentDescription="WiFi Icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/set_icon2"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Wi-Fi &amp; Network"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_wifi_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@id/arrow2"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="8dp"
+                            android:text="Connected"
+                            android:textColor="#8A8F98"
+                            android:textSize="13sp" />
+                        <ImageView
+                            android:id="@+id/arrow2"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#94A3B8"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F1F5F9" />
+
+                    <!-- Item 4: Location Services / Maps -->
+                    <RelativeLayout
+                        android:id="@+id/row_setting_location_services"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp">
                         <ImageView
                             android:id="@+id/set_icon4"
                             android:layout_width="22dp"
                             android:layout_height="22dp"
                             android:layout_centerVertical="true"
-                            android:src="@android:drawable/ic_menu_mapmode"
-                            app:tint="#1A2B4C"
+                            android:src="@drawable/ic_nav_map"
+                            app:tint="#059669"
                             android:contentDescription="Services Icon" />
                         <TextView
                             android:layout_width="wrap_content"
@@ -255,33 +332,43 @@
                             android:layout_toEndOf="@id/set_icon4"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="16dp"
-                            android:text="Location Services"
+                            android:text="Live Route &amp; Maps Tracker"
                             android:textColor="#1A2B4C"
-                            android:textSize="16sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:src="@drawable/ic_arrow_forward"
-                            app:tint="#8A8F98"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#94A3B8"
                             android:contentDescription="Arrow" />
                     </RelativeLayout>
 
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F1F5F9" />
+
                     <!-- Item 5: Offline Downloads -->
                     <RelativeLayout
+                        android:id="@+id/row_setting_offline"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:gravity="center_vertical"
-                        android:paddingHorizontal="20dp">
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp">
                         <ImageView
                             android:id="@+id/set_icon5"
                             android:layout_width="22dp"
                             android:layout_height="22dp"
                             android:layout_centerVertical="true"
                             android:src="@android:drawable/ic_menu_save"
-                            app:tint="#1A2B4C"
+                            app:tint="#D97706"
                             android:contentDescription="Downloads Icon" />
                         <TextView
                             android:layout_width="wrap_content"
@@ -289,33 +376,65 @@
                             android:layout_toEndOf="@id/set_icon5"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="16dp"
-                            android:text="Offline Downloads"
+                            android:text="Offline Saved Guides"
                             android:textColor="#1A2B4C"
-                            android:textSize="16sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:src="@drawable/ic_arrow_forward"
-                            app:tint="#8A8F98"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#94A3B8"
                             android:contentDescription="Arrow" />
                     </RelativeLayout>
 
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Section 3: Support, Data & About -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="DATA &amp; SUPPORT"
+                android:textColor="#64748B"
+                android:textSize="12sp"
+                android:letterSpacing="0.05" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                     <!-- Item 6: Help & Support -->
                     <RelativeLayout
+                        android:id="@+id/row_setting_help"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:gravity="center_vertical"
-                        android:paddingHorizontal="20dp">
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp">
                         <ImageView
                             android:id="@+id/set_icon6"
                             android:layout_width="22dp"
                             android:layout_height="22dp"
                             android:layout_centerVertical="true"
                             android:src="@android:drawable/ic_menu_help"
-                            app:tint="#1A2B4C"
+                            app:tint="#2563EB"
                             android:contentDescription="Help Icon" />
                         <TextView
                             android:layout_width="wrap_content"
@@ -323,17 +442,170 @@
                             android:layout_toEndOf="@id/set_icon6"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="16dp"
-                            android:text="Help &amp; Support"
+                            android:text="Help &amp; Emergency Support"
                             android:textColor="#1A2B4C"
-                            android:textSize="16sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:src="@drawable/ic_arrow_forward"
-                            app:tint="#8A8F98"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#94A3B8"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F1F5F9" />
+
+                    <!-- Item 7: Clear Cache -->
+                    <RelativeLayout
+                        android:id="@+id/row_setting_clear_cache"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp">
+                        <ImageView
+                            android:id="@+id/set_icon_cache"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_admin_delete"
+                            app:tint="#DC2626"
+                            android:contentDescription="Clear Cache" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/set_icon_cache"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Clear Storage Cache"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_cache_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@id/arrow_cache"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="8dp"
+                            android:text="Free up space"
+                            android:textColor="#8A8F98"
+                            android:textSize="13sp" />
+                        <ImageView
+                            android:id="@+id/arrow_cache"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#94A3B8"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F1F5F9" />
+
+                    <!-- Item 8: Privacy & Terms -->
+                    <RelativeLayout
+                        android:id="@+id/row_setting_privacy"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp">
+                        <ImageView
+                            android:id="@+id/set_icon_privacy"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_shield"
+                            app:tint="#475569"
+                            android:contentDescription="Privacy" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/set_icon_privacy"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="Privacy &amp; Terms of Service"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#94A3B8"
+                            android:contentDescription="Arrow" />
+                    </RelativeLayout>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F1F5F9" />
+
+                    <!-- Item 9: About LankaGo -->
+                    <RelativeLayout
+                        android:id="@+id/row_setting_about"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingHorizontal="16dp">
+                        <ImageView
+                            android:id="@+id/set_icon_about"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_globe_web"
+                            app:tint="#0284C7"
+                            android:contentDescription="About" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/set_icon_about"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:text="About LankaGo"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@id/arrow_about"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="8dp"
+                            android:text="v1.0.0"
+                            android:textColor="#8A8F98"
+                            android:textSize="13sp" />
+                        <ImageView
+                            android:id="@+id/arrow_about"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#94A3B8"
                             android:contentDescription="Arrow" />
                     </RelativeLayout>
 

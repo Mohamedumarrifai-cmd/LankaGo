@@ -22,9 +22,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.util.UUID
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
 
 class ProfileFragment : Fragment() {
 
@@ -53,7 +56,7 @@ class ProfileFragment : Fragment() {
         val tvName = view.findViewById<TextView>(R.id.tv_profile_name)
         val tvEmail = view.findViewById<TextView>(R.id.tv_profile_email)
 
-        // Load existing user info
+        // Load existing user info and persistent avatar
         loadUserProfile(tvName, tvEmail, ivAvatar)
 
         // Camera / Gallery Image Chooser Triggers
@@ -115,11 +118,33 @@ class ProfileFragment : Fragment() {
     }
 
     private fun loadUserProfile(tvName: TextView?, tvEmail: TextView?, ivAvatar: ImageView?) {
-        val currentUser = auth.currentUser ?: return
-        val uid = currentUser.uid
+        val context = context ?: return
+        val profilePrefs = context.getSharedPreferences(PREFS_USER_PROFILE, Context.MODE_PRIVATE)
 
+        // 1. Immediately load persistent local avatar (Works 100% offline & across app restarts)
+        val savedLocalAvatarPath = profilePrefs.getString(KEY_AVATAR_PATH, null)
+        if (!savedLocalAvatarPath.isNullOrBlank() && ivAvatar != null) {
+            val localFile = File(savedLocalAvatarPath)
+            if (localFile.exists()) {
+                ivAvatar.imageTintList = null
+                Glide.with(this)
+                    .load(localFile)
+                    .circleCrop()
+                    .into(ivAvatar)
+            }
+        }
+
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            tvName?.text = profilePrefs.getString(KEY_USER_NAME, "LankaGo Traveler")
+            tvEmail?.text = profilePrefs.getString(KEY_USER_EMAIL, "traveler@lankago.lk")
+            return
+        }
+
+        val uid = currentUser.uid
         tvEmail?.text = currentUser.email ?: "traveler@lankago.lk"
 
+        // 2. Load cloud profile from Firebase
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val snapshot = database.reference.child("users").child(uid).get().await()
@@ -132,7 +157,8 @@ class ProfileFragment : Fragment() {
                     tvName?.text = currentUser.displayName ?: "LankaGo Explorer"
                 }
 
-                if (!profileUrl.isNullOrBlank() && ivAvatar != null) {
+                // If cloud URL exists and local is empty, display cloud photo
+                if (!profileUrl.isNullOrBlank() && ivAvatar != null && savedLocalAvatarPath.isNullOrBlank()) {
                     ivAvatar.imageTintList = null
                     Glide.with(this@ProfileFragment)
                         .load(profileUrl)
@@ -140,7 +166,7 @@ class ProfileFragment : Fragment() {
                         .into(ivAvatar)
                 }
             } catch (_: Exception) {
-                // Keep default placeholder
+                // Keep loaded local profile
             }
         }
     }
@@ -148,6 +174,7 @@ class ProfileFragment : Fragment() {
     private fun onProfilePhotoSelected(uri: Uri) {
         val view = view ?: return
         val ivAvatar = view.findViewById<ImageView>(R.id.iv_profile_avatar) ?: return
+        val context = requireContext()
 
         // 1. Instantly display locally with circular crop
         ivAvatar.imageTintList = null
@@ -156,32 +183,50 @@ class ProfileFragment : Fragment() {
             .circleCrop()
             .into(ivAvatar)
 
-        val currentUser = auth.currentUser
-        if (currentUser == null) {
-            Snackbar.make(view, "Profile photo updated locally", Snackbar.LENGTH_SHORT).show()
-            return
-        }
-
-        val uid = currentUser.uid
-
-        // 2. Upload to Firebase Storage in background and update Realtime Database
+        // 2. Automatically save photo to app's persistent internal storage
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                val storageRef = storage.reference.child("profile_pictures/$uid.jpg")
-                storageRef.putFile(uri).await()
-                val downloadUrl = storageRef.downloadUrl.await().toString()
+                val localFile = withContext(Dispatchers.IO) {
+                    val avatarFile = File(context.filesDir, "profile_avatar_user.jpg")
+                    context.contentResolver.openInputStream(uri)?.use { input ->
+                        FileOutputStream(avatarFile).use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+                    avatarFile
+                }
 
-                database.reference
-                    .child("users")
-                    .child(uid)
-                    .child("profileImageUrl")
-                    .setValue(downloadUrl)
-                    .await()
+                // Persist file path in SharedPreferences
+                val profilePrefs = context.getSharedPreferences(PREFS_USER_PROFILE, Context.MODE_PRIVATE)
+                profilePrefs.edit().putString(KEY_AVATAR_PATH, localFile.absolutePath).apply()
 
-                Snackbar.make(view, "Profile photo updated successfully!", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(view, "✓ Profile photo auto-saved successfully!", Snackbar.LENGTH_SHORT).show()
+
+                // 3. Sync to Firebase Storage & Realtime Database if authenticated
+                val currentUser = auth.currentUser
+                if (currentUser != null) {
+                    val uid = currentUser.uid
+                    val storageRef = storage.reference.child("profile_pictures/$uid.jpg")
+                    storageRef.putFile(Uri.fromFile(localFile)).await()
+                    val downloadUrl = storageRef.downloadUrl.await().toString()
+
+                    database.reference
+                        .child("users")
+                        .child(uid)
+                        .child("profileImageUrl")
+                        .setValue(downloadUrl)
+                        .await()
+                }
             } catch (e: Exception) {
-                Snackbar.make(view, "Photo updated locally. (Upload failed: ${e.localizedMessage})", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(view, "Photo saved locally.", Snackbar.LENGTH_SHORT).show()
             }
         }
+    }
+
+    companion object {
+        const val PREFS_USER_PROFILE = "lankago_user_profile"
+        const val KEY_AVATAR_PATH = "key_avatar_local_path"
+        const val KEY_USER_NAME = "key_user_name"
+        const val KEY_USER_EMAIL = "key_user_email"
     }
 }

@@ -28,8 +28,12 @@ class TraditionalActivitiesFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        val activeTripId = arguments?.getString("activeTripId") ?: ""
         fun openDetail(activityId: String) {
-            val bundle = bundleOf("traditionalActivityId" to activityId)
+            val bundle = bundleOf(
+                "traditionalActivityId" to activityId,
+                "activeTripId" to activeTripId
+            )
             findNavController().navigate(
                 R.id.action_traditionalActivitiesFragment_to_traditionalActivityDetailFragment,
                 bundle

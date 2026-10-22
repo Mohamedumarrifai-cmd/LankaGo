@@ -211,8 +211,8 @@ class TripPlannerFragment : Fragment() {
         }
 
         // Action Options
-        items.add("➔ Explore & Book Vehicles / Bikes")
-        items.add("➔ Explore & Book Activities / Tours")
+        items.add("➔ Explore & Book Vehicles / Bikes for this Trip")
+        items.add("➔ Explore & Book Cultural Activities / Tours")
 
         AlertDialog.Builder(requireContext())
             .setTitle(trip.tripName)
@@ -221,21 +221,42 @@ class TripPlannerFragment : Fragment() {
                 when {
                     selectedOption.contains("Book Vehicles") -> {
                         val bundle = Bundle().apply {
-                            putString("rentalId", "rental_scooter_ella")
+                            putString("activeTripId", trip.id)
+                            putString("destinationLocation", trip.tripName.split(" ").firstOrNull() ?: "All")
                         }
-                        findNavController().navigate(
-                            R.id.action_tripPlannerFragment_to_rentalDetailsFragment,
-                            bundle
-                        )
+                        try {
+                            findNavController().navigate(
+                                R.id.action_tripPlannerFragment_to_rentalListFragment,
+                                bundle
+                            )
+                        } catch (_: Exception) {
+                            findNavController().navigate(
+                                R.id.action_tripPlannerFragment_to_rentalDetailsFragment,
+                                Bundle().apply {
+                                    putString("rentalId", "rental_scooter_ella")
+                                    putString("activeTripId", trip.id)
+                                }
+                            )
+                        }
                     }
-                    selectedOption.contains("Book Activities") -> {
+                    selectedOption.contains("Cultural Activities") -> {
                         val bundle = Bundle().apply {
-                            putString("activityId", "act_sigiriya_hike")
+                            putString("activeTripId", trip.id)
                         }
-                        findNavController().navigate(
-                            R.id.action_tripPlannerFragment_to_activityBookingFragment,
-                            bundle
-                        )
+                        try {
+                            findNavController().navigate(
+                                R.id.action_tripPlannerFragment_to_traditionalActivitiesFragment,
+                                bundle
+                            )
+                        } catch (_: Exception) {
+                            findNavController().navigate(
+                                R.id.action_tripPlannerFragment_to_activityBookingFragment,
+                                Bundle().apply {
+                                    putString("activityId", "act_sigiriya_hike")
+                                    putString("activeTripId", trip.id)
+                                }
+                            )
+                        }
                     }
                 }
             }

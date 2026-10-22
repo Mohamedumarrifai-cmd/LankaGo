@@ -130,7 +130,8 @@ class ActivityBookingFragment : Fragment() {
 
     private fun showActivityBookingDialog(item: ActivityItem) {
         val trips = TripManager.getAllTrips(requireContext())
-        val targetTrip = trips.firstOrNull()
+        val passedTripId = arguments?.getString("activeTripId") ?: ""
+        val targetTrip = if (passedTripId.isNotBlank()) trips.find { it.id == passedTripId } ?: trips.firstOrNull() else trips.firstOrNull()
 
         val format = NumberFormat.getNumberInstance(Locale.US)
         val totalPrice = format.format((item.basePriceLkr + item.serviceFeeLkr).toInt())

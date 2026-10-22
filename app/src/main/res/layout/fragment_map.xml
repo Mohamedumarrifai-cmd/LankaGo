@@ -7,10 +7,9 @@
     android:layout_height="match_parent"
     android:background="@color/background_primary">
 
-    <!-- 1. Full-Screen Google Map Fragment Container -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/map_container"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <!-- 1. Full-Screen Interactive OpenStreetMap (Leaflet.js - 100% Free, No API Key Required) -->
+    <WebView
+        android:id="@+id/map_webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -95,6 +94,58 @@
             app:icon="@drawable/ic_nav_map"
             app:iconGravity="textStart"
             app:iconTint="?attr/colorOnPrimary" />
+
+        <!-- Live Current Location GPS Coordinates Card (Matching Tutorial Spec) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_current_location_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/border"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="8dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_map_pin"
+                    app:tint="?attr/colorPrimary"
+                    android:contentDescription="GPS Location" />
+
+                <TextView
+                    android:id="@+id/locationTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Location: Waiting for GPS..."
+                    android:textColor="@color/text_primary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_gps_live_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_badge_approved"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="3dp"
+                    android:text="LIVE GPS"
+                    android:textColor="#065F46"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
     <!-- 3. Progress Bar for Live Routing Requests -->

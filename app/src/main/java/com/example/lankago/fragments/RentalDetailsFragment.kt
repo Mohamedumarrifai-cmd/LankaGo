@@ -243,9 +243,7 @@ class RentalDetailsFragment : Fragment() {
             )
             .setPositiveButton("Confirm & Add to Trip") { _, _ ->
                 val tripId = targetTrip?.id ?: passedTripId
-                if (tripId.isNotBlank()) {
-                    TripManager.addRentalToTrip(requireContext(), tripId, rental)
-                }
+                TripManager.addRentalToTrip(requireContext(), tripId, rental)
 
                 // Save to Firebase Realtime Database /bookings node
                 viewLifecycleOwner.lifecycleScope.launch {

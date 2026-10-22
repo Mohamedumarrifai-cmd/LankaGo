@@ -5,21 +5,23 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -31,58 +33,43 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.lankago.R
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.JointType
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.Polyline
-import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.gms.maps.model.RoundCap
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.json.JSONObject
 import java.util.Locale
 
 /**
- * Principal Map Screen for the LankaGo Travel App.
- *
- * Capabilities:
- * 1. Embedded Google Map with SupportMapFragment.
- * 2. User location tracking via FusedLocationProviderClient with runtime permission handling.
- * 3. Geocoder destination search converting user-entered text into GPS coordinates.
- * 4. Google Maps Directions API REST integration with live polyline rendering.
- * 5. Dynamic Distance, ETA, and Turn-by-Turn GPS Navigation launcher.
+ * Principal Map Screen for LankaGo powered by OpenStreetMap (OSM) & Leaflet.js.
+ * 
+ * 100% Free - Requires NO API Key, NO Credit Card, NO Cloud Billing.
+ * 
+ * Features:
+ * 1. Interactive full-screen OpenStreetMap with custom tiles and smooth zoom.
+ * 2. Real-time GPS location tracking via FusedLocationProviderClient + LocationCallback.
+ * 3. Live coordinate display (Latitude & Longitude) on UI.
+ * 4. Destination Geocoder search and animated route plotting.
+ * 5. Re-center to user location, distance & ETA calculator, and turn-by-turn navigation launcher.
  */
-open class MapFragment : Fragment(), OnMapReadyCallback {
+open class MapFragment : Fragment() {
 
-    private val httpClient = OkHttpClient()
+    private lateinit var mapWebView: WebView
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private var googleMap: GoogleMap? = null
+    private var isMapLoaded: Boolean = false
 
     // Location State
-    private var currentUserLocation: LatLng? = null
-    private var destinationLocation: LatLng? = null
-    private var destinationTitle: String = "Destination"
-    private var destinationAddress: String = ""
-
-    // Map Overlays
-    private var userMarker: Marker? = null
-    private var destinationMarker: Marker? = null
-    private var currentPolyline: Polyline? = null
+    private var currentUserLocation: Location? = null
+    private var destLat: Double? = null
+    private var destLng: Double? = null
+    private var destTitle: String = "Destination"
+    private var destAddress: String = ""
 
     // UI View References
     private lateinit var etDestinationQuery: EditText
@@ -90,6 +77,7 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var btnFindRoute: MaterialButton
     private lateinit var pbMapLoading: ProgressBar
     private lateinit var fabRecenterLocation: FloatingActionButton
+    private lateinit var locationTextView: TextView
 
     private lateinit var cardRouteSummary: MaterialCardView
     private lateinit var tvDestTitle: TextView
@@ -99,7 +87,12 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var btnCloseSummary: ImageView
     private lateinit var btnLaunchNavigation: MaterialButton
 
-    // Location Permission Request Contract
+    // Location Updates
+    private var locationRequest: LocationRequest? = null
+    private var locationCallback: LocationCallback? = null
+    private var isFirstLocationFix: Boolean = true
+
+    // Permission Launcher
     private val locationPermissionsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -107,25 +100,28 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
         val coarseGranted = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
 
         if (fineGranted || coarseGranted) {
-            enableMyLocationOnMap()
-            fetchCurrentLocation(animateCamera = true)
+            startLocationUpdates()
+            fetchInitialLocation()
         } else {
             Toast.makeText(
                 requireContext(),
-                "Location permission denied. Using Colombo Fort as default location.",
+                "Location permission denied. Showing Colombo Fort as default.",
                 Toast.LENGTH_SHORT
             ).show()
-            // Default location: Colombo Fort, Sri Lanka
-            val fallback = LatLng(6.9344, 79.8428)
+            val fallback = Location("fallback").apply {
+                latitude = 6.9344
+                longitude = 79.8428
+            }
             currentUserLocation = fallback
-            updateUserMarker(fallback)
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(fallback, 12f))
+            updateLocationUI(fallback)
+            updateMapLocation(fallback.latitude, fallback.longitude, shouldCenter = true)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        initLocationCallback()
     }
 
     override fun onCreateView(
@@ -140,24 +136,19 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
 
         initViews(view)
+        setupWebView()
         setupListeners()
-
-        // Initialize SupportMapFragment
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map_container) as? SupportMapFragment
-            ?: SupportMapFragment.newInstance().also {
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.map_container, it)
-                    .commit()
-            }
-        mapFragment.getMapAsync(this)
+        checkLocationPermissionAndStart()
     }
 
     private fun initViews(view: View) {
+        mapWebView = view.findViewById(R.id.map_webview)
         etDestinationQuery = view.findViewById(R.id.et_destination_query)
         btnClearQuery = view.findViewById(R.id.btn_clear_query)
         btnFindRoute = view.findViewById(R.id.btn_find_route)
         pbMapLoading = view.findViewById(R.id.pb_map_loading)
         fabRecenterLocation = view.findViewById(R.id.fab_recenter_location)
+        locationTextView = view.findViewById(R.id.locationTextView)
 
         cardRouteSummary = view.findViewById(R.id.card_route_summary)
         tvDestTitle = view.findViewById(R.id.tv_dest_title)
@@ -168,8 +159,34 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
         btnLaunchNavigation = view.findViewById(R.id.btn_launch_navigation)
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun setupWebView() {
+        mapWebView.settings.apply {
+            javaScriptEnabled = true
+            domStorageEnabled = true
+            databaseEnabled = true
+            useWideViewPort = true
+            loadWithOverviewMode = true
+            setSupportZoom(true)
+            builtInZoomControls = false
+            displayZoomControls = false
+            cacheMode = WebSettings.LOAD_DEFAULT
+        }
+
+        mapWebView.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                isMapLoaded = true
+                currentUserLocation?.let { loc ->
+                    updateMapLocation(loc.latitude, loc.longitude, shouldCenter = true)
+                }
+            }
+        }
+
+        mapWebView.loadUrl("file:///android_asset/leaflet_map.html")
+    }
+
     private fun setupListeners() {
-        // Clear search text listener
         btnClearQuery.setOnClickListener {
             etDestinationQuery.text.clear()
         }
@@ -182,7 +199,6 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        // IME Keyboard Search Action
         etDestinationQuery.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
                 hideKeyboard()
@@ -193,71 +209,64 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        // Find Route CTA button
         btnFindRoute.setOnClickListener {
             hideKeyboard()
             triggerDestinationSearch()
         }
 
-        // Recenter FAB
         fabRecenterLocation.setOnClickListener {
-            currentUserLocation?.let {
-                googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(it, 15f))
-            } ?: fetchCurrentLocation(animateCamera = true)
+            mapWebView.evaluateJavascript("recenterToUser();", null)
+            Toast.makeText(requireContext(), "📍 Centering on your location", Toast.LENGTH_SHORT).show()
         }
 
-        // Close Route Summary Card
         btnCloseSummary.setOnClickListener {
             cardRouteSummary.visibility = View.GONE
-            currentPolyline?.remove()
-            currentPolyline = null
-            destinationMarker?.remove()
-            destinationMarker = null
-            destinationLocation = null
+            destLat = null
+            destLng = null
+            mapWebView.evaluateJavascript("clearRoute();", null)
         }
 
-        // Launch external Google Maps Navigation
         btnLaunchNavigation.setOnClickListener {
-            destinationLocation?.let { dest ->
-                launchExternalNavigation(dest.latitude, dest.longitude, destinationTitle)
+            val lat = destLat
+            val lng = destLng
+            if (lat != null && lng != null) {
+                launchExternalNavigation(lat, lng, destTitle)
             }
         }
     }
 
-    override fun onMapReady(map: GoogleMap) {
-        googleMap = map
+    private fun initLocationCallback() {
+        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
+            .setMinUpdateIntervalMillis(5000)
+            .build()
 
-        // Configure Map UI settings
-        map.uiSettings.apply {
-            isCompassEnabled = true
-            isZoomControlsEnabled = false
-            isMapToolbarEnabled = false
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                for (location in locationResult.locations) {
+                    currentUserLocation = location
+                    updateLocationUI(location)
+                    updateMapLocation(location.latitude, location.longitude, shouldCenter = isFirstLocationFix)
+                    if (isFirstLocationFix) {
+                        isFirstLocationFix = false
+                    }
+                }
+            }
         }
-
-        // Center initially on Sri Lanka
-        val sriLankaCenter = LatLng(7.8731, 80.7718)
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(sriLankaCenter, 7.5f))
-
-        checkLocationPermissionAndFetch()
     }
 
-    /**
-     * Checks runtime location permissions and triggers location retrieval.
-     */
-    private fun checkLocationPermissionAndFetch() {
+    private fun checkLocationPermissionAndStart() {
         val fineGranted = ContextCompat.checkSelfPermission(
             requireContext(),
             Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
-
         val coarseGranted = ContextCompat.checkSelfPermission(
             requireContext(),
             Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
         if (fineGranted || coarseGranted) {
-            enableMyLocationOnMap()
-            fetchCurrentLocation(animateCamera = true)
+            startLocationUpdates()
+            fetchInitialLocation()
         } else {
             locationPermissionsLauncher.launch(
                 arrayOf(
@@ -269,61 +278,63 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     @SuppressLint("MissingPermission")
-    private fun enableMyLocationOnMap() {
-        try {
-            googleMap?.isMyLocationEnabled = false // We use our own customized marker
-        } catch (_: Exception) {}
-    }
-
-    /**
-     * Retrieves current GPS coordinates using FusedLocationProviderClient.
-     */
-    @SuppressLint("MissingPermission")
-    private fun fetchCurrentLocation(animateCamera: Boolean) {
+    private fun fetchInitialLocation() {
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location: Location? ->
                 if (location != null) {
-                    val latLng = LatLng(location.latitude, location.longitude)
-                    currentUserLocation = latLng
-                    updateUserMarker(latLng)
-                    if (animateCamera) {
-                        googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f))
-                    }
+                    currentUserLocation = location
+                    updateLocationUI(location)
+                    updateMapLocation(location.latitude, location.longitude, shouldCenter = true)
                 } else {
                     fusedLocationClient.lastLocation.addOnSuccessListener { lastLoc: Location? ->
-                        val lat = lastLoc?.latitude ?: 6.9344
-                        val lng = lastLoc?.longitude ?: 79.8428
-                        val fallback = LatLng(lat, lng)
-                        currentUserLocation = fallback
-                        updateUserMarker(fallback)
-                        if (animateCamera) {
-                            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(fallback, 14f))
+                        val loc = lastLoc ?: Location("fallback").apply {
+                            latitude = 6.9344
+                            longitude = 79.8428
                         }
+                        currentUserLocation = loc
+                        updateLocationUI(loc)
+                        updateMapLocation(loc.latitude, loc.longitude, shouldCenter = true)
                     }
                 }
             }
-            .addOnFailureListener {
-                val fallback = LatLng(6.9344, 79.8428)
-                currentUserLocation = fallback
-                updateUserMarker(fallback)
-            }
     }
 
-    private fun updateUserMarker(latLng: LatLng) {
-        val map = googleMap ?: return
-        userMarker?.remove()
-        userMarker = map.addMarker(
-            MarkerOptions()
-                .position(latLng)
-                .title("Your Current Location")
-                .snippet("GPS Origin Point")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-        )
+    @SuppressLint("MissingPermission")
+    private fun startLocationUpdates() {
+        val fineGranted = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+        val coarseGranted = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (fineGranted || coarseGranted) {
+            val req = locationRequest ?: return
+            val cb = locationCallback ?: return
+            fusedLocationClient.requestLocationUpdates(req, cb, Looper.getMainLooper())
+        }
     }
 
-    /**
-     * Executes Geocoder lookup to convert text input into GPS coordinates, then plots route.
-     */
+    private fun stopLocationUpdates() {
+        locationCallback?.let { cb ->
+            fusedLocationClient.removeLocationUpdates(cb)
+        }
+    }
+
+    private fun updateLocationUI(location: Location) {
+        val lat = String.format(Locale.US, "%.5f", location.latitude)
+        val lng = String.format(Locale.US, "%.5f", location.longitude)
+        locationTextView.text = "Latitude: $lat\nLongitude: $lng"
+    }
+
+    private fun updateMapLocation(lat: Double, lng: Double, shouldCenter: Boolean) {
+        if (!isMapLoaded) return
+        val js = "updateUserLocation($lat, $lng, $shouldCenter);"
+        mapWebView.evaluateJavascript(js, null)
+    }
+
     private fun triggerDestinationSearch() {
         val query = etDestinationQuery.text.toString().trim()
         if (query.isBlank()) {
@@ -338,11 +349,13 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
             pbMapLoading.visibility = View.GONE
 
             if (resolvedLocation != null) {
-                destinationLocation = resolvedLocation.first
-                destinationTitle = resolvedLocation.second
-                destinationAddress = resolvedLocation.third
+                val (lat, lng, title, address) = resolvedLocation
+                destLat = lat
+                destLng = lng
+                destTitle = title
+                destAddress = address
 
-                plotRouteToDestination(resolvedLocation.first)
+                plotRouteToDestination(lat, lng, title, address)
             } else {
                 Toast.makeText(
                     requireContext(),
@@ -353,293 +366,119 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    /**
-     * Converts a place name into GPS LatLng using Android's Geocoder with resilient local travel fallback.
-     */
-    @Suppress("DEPRECATION")
-    private suspend fun resolveDestinationWithGeocoder(
-        placeName: String
-    ): Triple<LatLng, String, String>? = withContext(Dispatchers.IO) {
-        try {
-            val geocoder = Geocoder(requireContext(), Locale.US)
-            val queryWithCountry = if (!placeName.lowercase().contains("sri lanka")) {
-                "$placeName, Sri Lanka"
-            } else {
-                placeName
-            }
+    private fun plotRouteToDestination(lat: Double, lng: Double, title: String, address: String) {
+        val escapedTitle = title.replace("'", "\\'")
+        val escapedAddress = address.replace("'", "\\'")
+        val js = "plotDestinationAndRoute($lat, $lng, '$escapedTitle', '$escapedAddress');"
+        mapWebView.evaluateJavascript(js, null)
 
-            val addresses: List<Address>? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                try {
-                    geocoder.getFromLocationName(queryWithCountry, 1)
-                } catch (_: Exception) {
-                    null
-                }
-            } else {
-                @Suppress("DEPRECATION")
-                geocoder.getFromLocationName(queryWithCountry, 1)
-            }
-
-            if (!addresses.isNullOrEmpty()) {
-                val address = addresses[0]
-                val latLng = LatLng(address.latitude, address.longitude)
-                val title = address.featureName ?: placeName
-                val snippet = address.getAddressLine(0) ?: "Sri Lanka"
-                return@withContext Triple(latLng, title, snippet)
-            }
-        } catch (e: Exception) {
-            Log.e("MapFragment", "Geocoder search failed: ${e.message}")
-        }
-
-        // Resilient Offline Fallback Dictionary for Popular Sri Lankan Destinations
-        resolveSriLankanLandmarkFallback(placeName)
-    }
-
-    /**
-     * Curated fallback coordinates for Sri Lanka's top travel destinations.
-     */
-    private fun resolveSriLankanLandmarkFallback(query: String): Triple<LatLng, String, String>? {
-        val q = query.lowercase().trim()
-        return when {
-            q.contains("galle") -> Triple(LatLng(6.0329, 80.2168), "Galle Fort", "Southern Province, Sri Lanka")
-            q.contains("sigiriya") -> Triple(LatLng(7.9570, 80.7603), "Sigiriya Rock Fortress", "Central Province, Sri Lanka")
-            q.contains("ella") -> Triple(LatLng(6.8667, 81.0466), "Ella Highlands", "Badulla District, Sri Lanka")
-            q.contains("kandy") || q.contains("temple") -> Triple(LatLng(7.2936, 80.6413), "Temple of the Tooth, Kandy", "Central Province, Sri Lanka")
-            q.contains("mirissa") -> Triple(LatLng(5.9482, 80.4574), "Mirissa Beach", "Southern Province, Sri Lanka")
-            q.contains("colombo") -> Triple(LatLng(6.9271, 79.8612), "Colombo City Center", "Western Province, Sri Lanka")
-            q.contains("nuwara eliya") -> Triple(LatLng(6.9497, 80.7891), "Nuwara Eliya (Little England)", "Central Province, Sri Lanka")
-            q.contains("yala") -> Triple(LatLng(6.3688, 81.5204), "Yala National Park", "Southern/Uva Province, Sri Lanka")
-            q.contains("adam") || q.contains("sri pada") -> Triple(LatLng(6.8096, 80.4994), "Adam's Peak (Sri Pada)", "Sabaragamuwa Province, Sri Lanka")
-            q.contains("trinco") || q.contains("nilaveli") -> Triple(LatLng(8.5874, 81.2152), "Trincomalee & Nilaveli Beach", "Eastern Province, Sri Lanka")
-            q.contains("arugam") -> Triple(LatLng(6.8416, 81.8344), "Arugam Bay", "Eastern Province, Sri Lanka")
-            q.contains("bentota") -> Triple(LatLng(6.4255, 79.9958), "Bentota Beach & Lagoon", "Southern Province, Sri Lanka")
-            q.contains("dambulla") -> Triple(LatLng(7.8569, 80.6492), "Dambulla Cave Temple", "Central Province, Sri Lanka")
-            q.contains("anuradhapura") -> Triple(LatLng(8.3114, 80.4037), "Anuradhapura Ancient City", "North Central Province, Sri Lanka")
-            q.contains("polonnaruwa") -> Triple(LatLng(7.9403, 81.0188), "Polonnaruwa Ruins", "North Central Province, Sri Lanka")
-            q.contains("jaffna") -> Triple(LatLng(9.6615, 80.0255), "Jaffna Fort", "Northern Province, Sri Lanka")
-            else -> null
-        }
-    }
-
-    /**
-     * Plots origin, destination, and calls Directions API to draw the route.
-     */
-    private fun plotRouteToDestination(destination: LatLng) {
-        val origin = currentUserLocation ?: LatLng(6.9344, 79.8428)
-        pbMapLoading.visibility = View.VISIBLE
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            val routeResult = fetchDirectionsRoute(origin, destination)
-            pbMapLoading.visibility = View.GONE
-
-            renderRouteOnMap(origin, destination, routeResult)
-        }
-    }
-
-    /**
-     * Executes asynchronous call to Google Maps Directions API.
-     * Uses geodesic fallback calculation if API key is not configured.
-     */
-    private suspend fun fetchDirectionsRoute(origin: LatLng, destination: LatLng): DirectionsResult =
-        withContext(Dispatchers.IO) {
-            val apiKey = getString(R.string.google_maps_key)
-            if (apiKey.isNotBlank() && !apiKey.contains("YOUR_GOOGLE_MAPS_API_KEY")) {
-                try {
-                    val url = "https://maps.googleapis.com/maps/api/directions/json?" +
-                            "origin=${origin.latitude},${origin.longitude}" +
-                            "&destination=${destination.latitude},${destination.longitude}" +
-                            "&mode=driving" +
-                            "&key=$apiKey"
-
-                    val request = Request.Builder().url(url).build()
-                    val response = httpClient.newCall(request).execute()
-
-                    if (response.isSuccessful) {
-                        val responseBody = response.body?.string().orEmpty()
-                        val json = JSONObject(responseBody)
-                        val status = json.optString("status")
-
-                        if (status == "OK") {
-                            val routes = json.getJSONArray("routes")
-                            val route = routes.getJSONObject(0)
-                            val overviewPoly = route.getJSONObject("overview_polyline").getString("points")
-                            val legs = route.getJSONArray("legs").getJSONObject(0)
-                            val distanceText = legs.getJSONObject("distance").getString("text")
-                            val durationText = legs.getJSONObject("duration").getString("text")
-
-                            val points = decodePolyline(overviewPoly)
-                            return@withContext DirectionsResult(
-                                polylinePoints = points,
-                                distance = distanceText,
-                                duration = durationText
-                            )
-                        }
-                    }
-                } catch (e: Exception) {
-                    Log.e("MapFragment", "Directions API error: ${e.message}")
-                }
-            }
-
-            // Accurate Geodesic Fallback Calculation (Spherical Geometry + Real Driving Simulation)
+        // Calculate Distance & ETA
+        val userLoc = currentUserLocation
+        val distanceKm = if (userLoc != null) {
             val results = FloatArray(1)
-            Location.distanceBetween(
-                origin.latitude, origin.longitude,
-                destination.latitude, destination.longitude,
-                results
-            )
-            val distanceKm = results[0] / 1000.0
-            val formattedDistance = String.format(Locale.US, "%.1f km", distanceKm)
-
-            // Average driving speed in Sri Lanka ~42 km/h
-            val durationHours = distanceKm / 42.0
-            val durationMinutes = (durationHours * 60).toInt().coerceAtLeast(8)
-            val formattedDuration = if (durationMinutes >= 60) {
-                "${durationMinutes / 60} hr ${durationMinutes % 60} mins"
-            } else {
-                "$durationMinutes mins"
-            }
-
-            val interpolatedPoints = generateInterpolatedPath(origin, destination)
-
-            return@withContext DirectionsResult(
-                polylinePoints = interpolatedPoints,
-                distance = formattedDistance,
-                duration = formattedDuration
-            )
+            Location.distanceBetween(userLoc.latitude, userLoc.longitude, lat, lng, results)
+            results[0] / 1000.0
+        } else {
+            12.5
         }
 
-    /**
-     * Renders markers, polyline, and camera bounds on the Google Map.
-     */
-    private fun renderRouteOnMap(
-        origin: LatLng,
-        destination: LatLng,
-        result: DirectionsResult
-    ) {
-        val map = googleMap ?: return
+        val formattedDistance = String.format(Locale.US, "%.1f km", distanceKm)
+        val durationMinutes = (distanceKm / 40.0 * 60).toInt().coerceAtLeast(5)
+        val formattedEta = if (durationMinutes >= 60) {
+            "${durationMinutes / 60} hr ${durationMinutes % 60} mins"
+        } else {
+            "$durationMinutes mins"
+        }
 
-        // 1. Update Origin Marker
-        updateUserMarker(origin)
-
-        // 2. Add/Update Destination Marker
-        destinationMarker?.remove()
-        destinationMarker = map.addMarker(
-            MarkerOptions()
-                .position(destination)
-                .title(destinationTitle)
-                .snippet(destinationAddress)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-        )?.also { it.showInfoWindow() }
-
-        // 3. Draw Stylized Route Polyline
-        currentPolyline?.remove()
-        val polylineOptions = PolylineOptions()
-            .addAll(result.polylinePoints)
-            .width(14f)
-            .color(Color.parseColor("#1A2B4C")) // Primary Navy
-            .startCap(RoundCap())
-            .endCap(RoundCap())
-            .jointType(JointType.ROUND)
-
-        currentPolyline = map.addPolyline(polylineOptions)
-
-        // 4. Update Floating Info Card UI
-        tvDestTitle.text = destinationTitle
-        tvDestSubtitle.text = destinationAddress.ifBlank { "Selected Destination" }
-        tvRouteDistance.text = result.distance
-        tvRouteEta.text = result.duration
+        tvDestTitle.text = title
+        tvDestSubtitle.text = address
+        tvRouteDistance.text = formattedDistance
+        tvRouteEta.text = formattedEta
         cardRouteSummary.visibility = View.VISIBLE
-
-        // 5. Smooth Camera Animation enclosing the route
-        try {
-            val boundsBuilder = LatLngBounds.Builder()
-            boundsBuilder.include(origin)
-            boundsBuilder.include(destination)
-            result.polylinePoints.forEach { boundsBuilder.include(it) }
-
-            val bounds = boundsBuilder.build()
-            map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150))
-        } catch (_: Exception) {
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(destination, 12f))
-        }
     }
 
-    /**
-     * Decodes an encoded path string from Google Directions API into a List of LatLng.
-     */
-    private fun decodePolyline(encoded: String): List<LatLng> {
-        val poly = ArrayList<LatLng>()
-        var index = 0
-        val len = encoded.length
-        var lat = 0
-        var lng = 0
+    @Suppress("DEPRECATION")
+    private suspend fun resolveDestinationWithGeocoder(query: String): Quadruple<Double, Double, String, String>? =
+        withContext(Dispatchers.IO) {
+            try {
+                val geocoder = Geocoder(requireContext(), Locale.ENGLISH)
+                val addresses: List<Address>? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    var result: List<Address>? = null
+                    geocoder.getFromLocationName("$query, Sri Lanka", 1) { addressesList ->
+                        result = addressesList
+                    }
+                    var attempts = 0
+                    while (result == null && attempts < 15) {
+                        Thread.sleep(100)
+                        attempts++
+                    }
+                    result
+                } else {
+                    geocoder.getFromLocationName("$query, Sri Lanka", 1)
+                }
 
-        while (index < len) {
-            var b: Int
-            var shift = 0
-            var result = 0
-            do {
-                b = encoded[index++].code - 63
-                result = result or (b and 0x1f shl shift)
-                shift += 5
-            } while (b >= 0x20)
-            val dlat = if (result and 1 != 0) (result shr 1).inv() else result shr 1
-            lat += dlat
+                if (!addresses.isNullOrEmpty()) {
+                    val address = addresses[0]
+                    val title = address.featureName ?: query
+                    val fullAddress = address.getAddressLine(0) ?: "$title, Sri Lanka"
+                    return@withContext Quadruple(address.latitude, address.longitude, title, fullAddress)
+                }
+            } catch (_: Exception) {}
 
-            shift = 0
-            result = 0
-            do {
-                b = encoded[index++].code - 63
-                result = result or (b and 0x1f shl shift)
-                shift += 5
-            } while (b >= 0x20)
-            val dlng = if (result and 1 != 0) (result shr 1).inv() else result shr 1
-            lng += dlng
-
-            val p = LatLng(lat.toDouble() / 1E5, lng.toDouble() / 1E5)
-            poly.add(p)
-        }
-        return poly
-    }
-
-    /**
-     * Creates an interpolated multi-point path between origin and destination for fallback rendering.
-     */
-    private fun generateInterpolatedPath(start: LatLng, end: LatLng): List<LatLng> {
-        val points = mutableListOf<LatLng>()
-        val segments = 12
-        for (i in 0..segments) {
-            val fraction = i.toDouble() / segments
-            val lat = start.latitude + (end.latitude - start.latitude) * fraction
-            val lng = start.longitude + (end.longitude - start.longitude) * fraction
-            points.add(LatLng(lat, lng))
-        }
-        return points
-    }
-
-    /**
-     * Opens turn-by-turn navigation in external Google Maps app.
-     */
-    private fun launchExternalNavigation(lat: Double, lng: Double, label: String) {
-        try {
-            val gmmIntentUri = Uri.parse("google.navigation:q=$lat,$lng&mode=d")
-            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
-                setPackage("com.google.android.apps.maps")
+            // Pre-programmed famous Sri Lanka tourist spots fallback
+            val lower = query.lowercase(Locale.ROOT)
+            return@withContext when {
+                lower.contains("sigiriya") -> Quadruple(7.9570, 80.7603, "Sigiriya Rock Fortress", "Matale District, Central Province")
+                lower.contains("galle") -> Quadruple(6.0329, 80.2168, "Galle Dutch Fort", "Galle, Southern Province")
+                lower.contains("ella") -> Quadruple(6.8667, 81.0466, "Nine Arches Bridge, Ella", "Badulla District, Uva Province")
+                lower.contains("kandy") -> Quadruple(7.2936, 80.6413, "Temple of the Sacred Tooth Relic", "Kandy, Central Province")
+                lower.contains("mirissa") -> Quadruple(5.9482, 80.4578, "Mirissa Beach & Whale Watching", "Matara, Southern Province")
+                lower.contains("yala") -> Quadruple(6.3725, 81.5173, "Yala National Park", "Hambantota, Southern Province")
+                lower.contains("colombo") -> Quadruple(6.9271, 79.8612, "Galle Face Green, Colombo", "Western Province")
+                lower.contains("nuwara eliya") -> Quadruple(6.9497, 80.7891, "Gregory Lake, Nuwara Eliya", "Central Province")
+                lower.contains("trincomalee") -> Quadruple(8.5874, 81.2152, "Nilaveli Beach, Trincomalee", "Eastern Province")
+                lower.contains("anuradhapura") -> Quadruple(8.3114, 80.4037, "Ruwanwelisaya, Anuradhapura", "North Central Province")
+                else -> null
             }
-            startActivity(mapIntent)
+        }
+
+    private fun launchExternalNavigation(lat: Double, lng: Double, title: String) {
+        try {
+            val uri = Uri.parse("geo:$lat,$lng?q=$lat,$lng($title)")
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
         } catch (_: Exception) {
-            val genericGeo = Uri.parse("geo:$lat,$lng?q=$lat,$lng(${Uri.encode(label)})")
-            startActivity(Intent(Intent.ACTION_VIEW, genericGeo))
+            val webUri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=$lat,$lng")
+            startActivity(Intent(Intent.ACTION_VIEW, webUri))
         }
     }
 
     private fun hideKeyboard() {
         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-        imm?.hideSoftInputFromWindow(view?.windowToken, 0)
+        view?.let { imm?.hideSoftInputFromWindow(it.windowToken, 0) }
     }
 
-    private data class DirectionsResult(
-        val polylinePoints: List<LatLng>,
-        val distance: String,
-        val duration: String
+    override fun onResume() {
+        super.onResume()
+        mapWebView.onResume()
+        startLocationUpdates()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapWebView.onPause()
+        stopLocationUpdates()
+    }
+
+    override fun onDestroyView() {
+        mapWebView.destroy()
+        super.onDestroyView()
+    }
+
+    private data class Quadruple<A, B, C, D>(
+        val first: A,
+        val second: B,
+        val third: C,
+        val fourth: D
     )
 }
