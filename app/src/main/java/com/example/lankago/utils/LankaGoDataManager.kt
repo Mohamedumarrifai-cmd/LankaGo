@@ -9,12 +9,12 @@ import com.google.gson.reflect.TypeToken
  * Data class representing a travel destination / place in LankaGo.
  */
 data class Place(
-    val id: String,
-    val name: String,
-    val category: String,
-    val location: String,
-    val imageUri: String,
-    val description: String,
+    val id: String = "",
+    val name: String = "",
+    val category: String = "",
+    val location: String = "",
+    val imageUri: String = "",
+    val description: String = "",
     val rating: String = "4.8",
     val entranceFee: String = "Free"
 )

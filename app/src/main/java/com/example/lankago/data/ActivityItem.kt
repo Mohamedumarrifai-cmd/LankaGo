@@ -4,9 +4,9 @@ package com.example.lankago.data
  * Data model for bookable activities, excursions, and guided tours in Sri Lanka.
  */
 data class ActivityItem(
-    val id: String,
-    val title: String,
-    val category: String, // Adventure, Heritage, Wildlife Safari, Cultural
+    val id: String = "",
+    val title: String = "",
+    val category: String = "Cultural", // Adventure, Heritage, Wildlife Safari, Cultural
     val location: String = "Sri Lanka",
     val address: String = "Sri Lanka",
     val durationHours: Double = 3.0,

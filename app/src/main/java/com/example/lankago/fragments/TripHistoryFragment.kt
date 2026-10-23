@@ -103,8 +103,11 @@ class TripHistoryFragment : Fragment() {
     }
 
     /**
-     * Loads trip history from Firebase Realtime Database node: `/users/{uid}/tripHistory`
-     * Falls back to [TripManager] offline storage if disconnected.
+     * Loads trip history from Firebase Realtime Database nodes:
+     * - `/users/{uid}/tripHistory`
+     * - `/trips/{uid}`
+     * - `/bookings` (matching userId or userEmail)
+     * And merges with [TripManager] offline storage so no past or current bookings are ever lost.
      */
     private fun loadTripHistory() {
         view?.showLoadingState(contentView = rvTrips, emptyStateLayout = layoutEmptyState)
@@ -112,57 +115,151 @@ class TripHistoryFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             val authUser = FirebaseAuth.getInstance().currentUser
             val uid = authUser?.uid ?: "guest_traveler"
+            val userEmail = authUser?.email ?: ""
             val rtdb = FirebaseDatabase.getInstance().reference
 
             try {
-                val snapshot = withContext(Dispatchers.IO) {
+                val tripMap = mutableMapOf<String, Trip>()
+
+                withContext(Dispatchers.IO) {
+                    // 1. Fetch primary /users/{uid}/tripHistory
                     try {
-                        rtdb.child("users")
-                            .child(uid)
-                            .child("tripHistory")
-                            .get()
-                            .await()
-                    } catch (e: Exception) {
-                        Log.w("TripHistoryFragment", "Remote fetch failed, checking fallback: ${e.message}")
-                        null
-                    }
-                }
-
-                val tripList = mutableListOf<Trip>()
-
-                if (snapshot != null && snapshot.exists()) {
-                    for (child in snapshot.children) {
-                        try {
-                            val trip = child.getValue(Trip::class.java)
-                            if (trip != null) {
-                                tripList.add(trip)
+                        val userTripsSnap = rtdb.child("users").child(uid).child("tripHistory").get().await()
+                        if (userTripsSnap.exists()) {
+                            for (child in userTripsSnap.children) {
+                                try {
+                                    val trip = child.getValue(Trip::class.java)
+                                    if (trip != null && trip.id.isNotBlank()) {
+                                        tripMap[trip.id] = trip
+                                    }
+                                } catch (e: Exception) {
+                                    Log.w("TripHistoryFragment", "Error parsing /users/$uid/tripHistory child: ${e.message}")
+                                }
                             }
-                        } catch (parseEx: Exception) {
-                            Log.w("TripHistoryFragment", "Error parsing trip: ${parseEx.message}")
+                        }
+                    } catch (e: Exception) {
+                        Log.w("TripHistoryFragment", "Fetch /users/$uid/tripHistory failed: ${e.message}")
+                    }
+
+                    // 2. Fetch cross-referenced /trips/{uid}
+                    try {
+                        val tripsSnap = rtdb.child("trips").child(uid).get().await()
+                        if (tripsSnap.exists()) {
+                            for (child in tripsSnap.children) {
+                                try {
+                                    val trip = child.getValue(Trip::class.java)
+                                    if (trip != null && trip.id.isNotBlank() && !tripMap.containsKey(trip.id)) {
+                                        tripMap[trip.id] = trip
+                                    }
+                                } catch (e: Exception) {
+                                    Log.w("TripHistoryFragment", "Error parsing /trips/$uid child: ${e.message}")
+                                }
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.w("TripHistoryFragment", "Fetch /trips/$uid failed: ${e.message}")
+                    }
+
+                    // 3. Fetch from /bookings node (all past rental & activity bookings made by this account)
+                    try {
+                        val bookingsSnap = rtdb.child("bookings").get().await()
+                        if (bookingsSnap.exists()) {
+                            for (child in bookingsSnap.children) {
+                                try {
+                                    val booking = child.getValue(com.example.lankago.data.Booking::class.java)
+                                    if (booking != null) {
+                                        val isOwner = (booking.userId.isNotBlank() && booking.userId == uid) ||
+                                                (userEmail.isNotBlank() && booking.userEmail.equals(userEmail, ignoreCase = true))
+
+                                        if (isOwner) {
+                                            // Check if this booking is already attached to any trip
+                                            val alreadyIncluded = tripMap.values.any { t ->
+                                                t.id == booking.tripId || t.id == booking.id ||
+                                                        t.bookedRentals.any { r -> r.name.contains(booking.itemName, ignoreCase = true) } ||
+                                                        t.bookedActivities.any { a -> a.title.contains(booking.itemName, ignoreCase = true) }
+                                            }
+
+                                            if (!alreadyIncluded) {
+                                                // Synthesize a Trip entry for this booking so it is prominently visible in history
+                                                val bookingTripId = if (booking.tripId.isNotBlank()) booking.tripId else booking.id.ifBlank { "book_${System.currentTimeMillis()}" }
+                                                val rentalList = mutableListOf<com.example.lankago.data.RentalVehicle>()
+                                                val activityList = mutableListOf<com.example.lankago.data.ActivityItem>()
+
+                                                if (booking.bookingType == com.example.lankago.data.BookingType.RENTAL) {
+                                                    rentalList.add(
+                                                        com.example.lankago.data.RentalVehicle(
+                                                            id = booking.id,
+                                                            name = booking.itemName,
+                                                            type = booking.itemCategory.ifBlank { "Vehicle / Bike Rental" },
+                                                            dailyRateLkr = booking.totalPriceLkr,
+                                                            location = "Sri Lanka",
+                                                            isAvailable = true
+                                                        )
+                                                    )
+                                                } else {
+                                                    activityList.add(
+                                                        com.example.lankago.data.ActivityItem(
+                                                            id = booking.id,
+                                                            title = booking.itemName,
+                                                            category = booking.itemCategory.ifBlank { "Activity" },
+                                                            basePriceLkr = booking.totalPriceLkr
+                                                        )
+                                                    )
+                                                }
+
+                                                val synthesizedTrip = Trip(
+                                                    id = bookingTripId,
+                                                    tripName = "${booking.itemName} Reservation",
+                                                    date = booking.bookingDate.ifBlank { "Confirmed Booking" },
+                                                    travelerType = "Verified Traveler",
+                                                    places = mutableListOf(),
+                                                    bookedRentals = rentalList,
+                                                    bookedActivities = activityList,
+                                                    destination = booking.specialNotes.ifBlank { "Sri Lanka" },
+                                                    status = booking.status.name
+                                                )
+                                                tripMap[bookingTripId] = synthesizedTrip
+                                            }
+                                        }
+                                    }
+                                } catch (e: Exception) {
+                                    Log.w("TripHistoryFragment", "Error parsing /bookings child: ${e.message}")
+                                }
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.w("TripHistoryFragment", "Fetch /bookings failed: ${e.message}")
+                    }
+
+                    // 4. Merge with offline local storage from TripManager
+                    val localTrips = TripManager.getAllTrips(requireContext())
+                    for (localTrip in localTrips) {
+                        if (!tripMap.containsKey(localTrip.id)) {
+                            tripMap[localTrip.id] = localTrip
+                            // Auto sync local trip to Firebase cloud if user is logged in
+                            if (uid != "guest_traveler") {
+                                try {
+                                    rtdb.child("users").child(uid).child("tripHistory").child(localTrip.id).setValue(localTrip)
+                                } catch (_: Exception) {}
+                            }
                         }
                     }
                 }
 
-                // If remote is empty, check local offline store
-                if (tripList.isEmpty()) {
-                    val localTrips = TripManager.getAllTrips(requireContext())
-                    tripList.addAll(localTrips)
-                }
-
-                // Sort descending by timestamp / creation
-                tripList.sortByDescending { it.timestamp }
+                val finalTripList = tripMap.values.toMutableList()
+                finalTripList.sortByDescending { it.timestamp }
 
                 if (!isAdded) return@launch
 
-                if (tripList.isNotEmpty()) {
-                    adapter.submitList(tripList)
+                if (finalTripList.isNotEmpty()) {
+                    adapter.submitList(finalTripList)
                     view?.showContentState(contentView = rvTrips, emptyStateLayout = layoutEmptyState)
                 } else {
                     view?.showEmptyState(
                         contentView = rvTrips,
                         emptyStateLayout = layoutEmptyState,
-                        title = "No Trips Planned Yet",
-                        message = "You haven't scheduled any journeys in Sri Lanka yet. Plan your dream itinerary today!",
+                        title = "No Trips or Bookings Yet",
+                        message = "You haven't scheduled any journeys or vehicle rentals yet. Book your rental or plan an itinerary today!",
                         iconRes = R.drawable.ic_home_trip_plan,
                         actionButtonText = "Plan a New Trip",
                         onActionClick = {
@@ -179,7 +276,6 @@ class TripHistoryFragment : Fragment() {
                 if (!isAdded) return@launch
                 Log.e("TripHistoryFragment", "Error loading trip history", e)
 
-                // Safe fallback to local trips
                 val fallbackTrips = TripManager.getAllTrips(requireContext())
                 if (fallbackTrips.isNotEmpty()) {
                     adapter.submitList(fallbackTrips)

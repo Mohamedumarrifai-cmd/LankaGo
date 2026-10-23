@@ -83,10 +83,20 @@ object TripManager {
         return false
     }
 
+    var selectedRentalForPlanning: RentalVehicle? = null
+
     /**
      * Appends a booked RentalVehicle to the active trip, or creates a new trip if none exists.
      */
     fun addRentalToTrip(context: Context, tripId: String, rental: RentalVehicle): Boolean {
+        addRentalToTripAndReturn(context, tripId, rental)
+        return true
+    }
+
+    /**
+     * Appends a booked RentalVehicle to the active trip and returns the resulting Trip.
+     */
+    fun addRentalToTripAndReturn(context: Context, tripId: String, rental: RentalVehicle): Trip {
         val currentTrips = getAllTrips(context).toMutableList()
         val tripIndex = if (tripId.isNotEmpty()) currentTrips.indexOfFirst { it.id == tripId } else if (currentTrips.isNotEmpty()) 0 else -1
 
@@ -94,22 +104,22 @@ object TripManager {
             val targetTrip = currentTrips[tripIndex]
             targetTrip.bookedRentals.add(rental)
             persistTrips(context, currentTrips)
-            return true
+            return targetTrip
         } else {
-            // Edge-Case Handling: Auto-create active trip so booking is never lost
             val autoTrip = Trip(
                 id = if (tripId.isNotBlank()) tripId else "trip_${System.currentTimeMillis()}",
-                tripName = "${rental.location} Adventure",
+                tripName = "${rental.location.ifBlank { "Sri Lanka" }} Adventure",
                 date = "Flexible Dates",
                 travelerType = "Local (NIC)",
                 idImageUri = null,
                 places = mutableListOf(),
                 bookedRentals = mutableListOf(rental),
-                bookedActivities = mutableListOf()
+                bookedActivities = mutableListOf(),
+                destination = rental.location
             )
             currentTrips.add(0, autoTrip)
             persistTrips(context, currentTrips)
-            return true
+            return autoTrip
         }
     }
 
@@ -117,6 +127,14 @@ object TripManager {
      * Appends a booked ActivityItem to the active trip, or creates a new trip if none exists.
      */
     fun addActivityToTrip(context: Context, tripId: String, activity: ActivityItem): Boolean {
+        addActivityToTripAndReturn(context, tripId, activity)
+        return true
+    }
+
+    /**
+     * Appends a booked ActivityItem to the active trip and returns the resulting Trip.
+     */
+    fun addActivityToTripAndReturn(context: Context, tripId: String, activity: ActivityItem): Trip {
         val currentTrips = getAllTrips(context).toMutableList()
         val tripIndex = if (tripId.isNotEmpty()) currentTrips.indexOfFirst { it.id == tripId } else if (currentTrips.isNotEmpty()) 0 else -1
 
@@ -124,22 +142,22 @@ object TripManager {
             val targetTrip = currentTrips[tripIndex]
             targetTrip.bookedActivities.add(activity)
             persistTrips(context, currentTrips)
-            return true
+            return targetTrip
         } else {
-            // Edge-Case Handling: Auto-create active trip so booking is never lost
             val autoTrip = Trip(
                 id = if (tripId.isNotBlank()) tripId else "trip_${System.currentTimeMillis()}",
-                tripName = "${activity.location} Adventure",
+                tripName = "${activity.location.ifBlank { "Sri Lanka" }} Adventure",
                 date = "Flexible Dates",
                 travelerType = "Local (NIC)",
                 idImageUri = null,
                 places = mutableListOf(),
                 bookedRentals = mutableListOf(),
-                bookedActivities = mutableListOf(activity)
+                bookedActivities = mutableListOf(activity),
+                destination = activity.location
             )
             currentTrips.add(0, autoTrip)
             persistTrips(context, currentTrips)
-            return true
+            return autoTrip
         }
     }
 

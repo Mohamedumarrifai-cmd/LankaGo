@@ -120,18 +120,32 @@ class RentalDetailsFragment : Fragment() {
 
     private fun bindRentalData(view: View, rental: RentalVehicle) {
         // Hero Image
+        val fallbackRes = when {
+            rental.name.contains("Tuk", ignoreCase = true) || rental.type.contains("Tuk", ignoreCase = true) -> R.drawable.tuktuk_rental
+            rental.name.contains("Van", ignoreCase = true) || rental.type.contains("Van", ignoreCase = true) -> R.drawable.mirissa_taxi
+            rental.name.contains("X-Trail", ignoreCase = true) || rental.type.contains("SUV", ignoreCase = true) || rental.type.contains("4x4", ignoreCase = true) -> R.drawable.euro
+            rental.name.contains("Aqua", ignoreCase = true) -> R.drawable.casons_rent
+            rental.name.contains("Wagon", ignoreCase = true) || rental.type.contains("Car", ignoreCase = true) || rental.type.contains("Sedan", ignoreCase = true) -> R.drawable.kings_rent
+            rental.name.contains("Enfield", ignoreCase = true) -> R.drawable.kandy_bike
+            rental.name.contains("Yamaha", ignoreCase = true) || rental.name.contains("FZ", ignoreCase = true) -> R.drawable.dambulla_bike
+            rental.name.contains("Vespa", ignoreCase = true) -> R.drawable.unawatune_bike
+            rental.name.contains("PCX", ignoreCase = true) -> R.drawable.colombo_scotter
+            rental.type.contains("Bike", ignoreCase = true) -> R.drawable.kandy_bike
+            else -> R.drawable.ella_rental
+        }
+
         val ivHero = view.findViewById<ImageView>(R.id.iv_rental_hero)
         if (ivHero != null) {
             val heroUrl = rental.images.firstOrNull()
             if (!heroUrl.isNullOrBlank()) {
                 com.bumptech.glide.Glide.with(this)
                     .load(heroUrl)
-                    .placeholder(R.drawable.ella_rental)
-                    .error(R.drawable.ella_rental)
+                    .placeholder(fallbackRes)
+                    .error(fallbackRes)
                     .centerCrop()
                     .into(ivHero)
             } else {
-                ivHero.setImageResource(R.drawable.ella_rental)
+                ivHero.setImageResource(fallbackRes)
             }
         }
 
@@ -197,17 +211,33 @@ class RentalDetailsFragment : Fragment() {
         val tvAvailability = view.findViewById<TextView>(R.id.tv_availability_badge)
         val btnBook = view.findViewById<Button>(R.id.btn_book_rental)
 
+        val isSelectMode = arguments?.getBoolean("isSelectMode") == true ||
+            arguments?.getString("mode") == "select_rental"
+
         if (rental.isAvailable) {
             tvAvailability?.text = "✓ Available Now"
             tvAvailability?.setBackgroundColor(Color.parseColor("#15803D"))
             tvAvailability?.setTextColor(Color.WHITE)
 
             btnBook?.isEnabled = true
-            btnBook?.text = "Book This Rental"
             btnBook?.backgroundTintList = null
 
-            btnBook?.setOnClickListener {
-                showRentalBookingConfirmation(rental)
+            if (isSelectMode) {
+                btnBook?.text = "✓ Select Vehicle for Trip"
+                btnBook?.setOnClickListener {
+                    TripManager.selectedRentalForPlanning = rental
+                    Toast.makeText(
+                        requireContext(),
+                        "✓ ${rental.name} selected for your booking!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    findNavController().popBackStack()
+                }
+            } else {
+                btnBook?.text = "Book This Rental"
+                btnBook?.setOnClickListener {
+                    showRentalBookingConfirmation(rental)
+                }
             }
         } else {
             // Edge-Case Handling: Disabled with Sold Out badge
@@ -425,8 +455,8 @@ class RentalDetailsFragment : Fragment() {
             val bookingRef = "LKG-PAY-${System.currentTimeMillis().toString().takeLast(6)}"
             val tripId = targetTrip?.id ?: passedTripId
 
-            // 1. Add rental locally to TripManager
-            TripManager.addRentalToTrip(requireContext(), tripId, rental)
+            // 1. Add rental locally to TripManager and obtain updated Trip
+            val bookedTrip = TripManager.addRentalToTripAndReturn(requireContext(), tripId, rental)
 
             // 2. Dispatch Payment Success Notification & In-App notification
             com.example.lankago.utils.LankaGoNotificationHelper.postPaymentSuccessNotification(
@@ -440,9 +470,12 @@ class RentalDetailsFragment : Fragment() {
             viewLifecycleOwner.lifecycleScope.launch {
                 try {
                     val authUser = FirebaseAuth.getInstance().currentUser
+                    val uid = authUser?.uid ?: "guest_traveler"
                     val todayStr = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
                     val booking = Booking(
                         id = bookingRef,
+                        userId = uid,
+                        tripId = bookedTrip.id,
                         userName = authUser?.displayName ?: "Traveler",
                         userEmail = authUser?.email ?: "traveler@lankago.lk",
                         userPhone = "",
@@ -458,16 +491,17 @@ class RentalDetailsFragment : Fragment() {
                     AdminRepository().addBooking(booking)
 
                     // Also mirror to user trip history node
-                    val uid = authUser?.uid ?: "guest_traveler"
-                    val updatedTrip = TripManager.getTripById(requireContext(), tripId)
-                    if (updatedTrip != null) {
-                        FirebaseDatabase.getInstance().reference
-                            .child("users")
-                            .child(uid)
-                            .child("tripHistory")
-                            .child(tripId)
-                            .setValue(updatedTrip)
-                    }
+                    val rtdb = FirebaseDatabase.getInstance().reference
+                    rtdb.child("users")
+                        .child(uid)
+                        .child("tripHistory")
+                        .child(bookedTrip.id)
+                        .setValue(bookedTrip)
+
+                    rtdb.child("trips")
+                        .child(uid)
+                        .child(bookedTrip.id)
+                        .setValue(bookedTrip)
                 } catch (e: Exception) {
                     Log.w("RentalDetailsFragment", "Firebase sync warning: ${e.message}")
                 }

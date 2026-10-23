@@ -127,6 +127,46 @@
                     android:orientation="vertical"
                     android:padding="8dp">
 
+                    <!-- My Bookings & Trip History -->
+                    <LinearLayout
+                        android:id="@+id/layout_profile_trips_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_home_trip_plan"
+                            app:tint="#4F46E5" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:text="My Bookings &amp; Trip History"
+                            android:textColor="#1A2B4C"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#BCC1CD" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F3F4F6" />
+
                     <!-- Saved Favorites -->
                     <LinearLayout
                         android:id="@+id/layout_profile_favorites"

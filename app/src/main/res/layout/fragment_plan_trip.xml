@@ -369,7 +369,7 @@
                 </FrameLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 5. CRITICAL REQUIREMENT: Vehicle or Bike Rental Toggle -->
+            <!-- 5. CRITICAL REQUIREMENT: Vehicle or Bike Rental Toggle & Selection -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -381,51 +381,135 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
+                    android:orientation="vertical"
                     android:padding="16dp">
 
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:background="@drawable/bg_circle_indigo_soft"
-                        android:padding="6dp"
-                        android:src="@android:drawable/ic_menu_directions"
-                        app:tint="#5D5FEF"
-                        android:contentDescription="Rental Icon" />
-
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="14dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
 
-                        <TextView
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/bg_circle_indigo_soft"
+                            android:padding="6dp"
+                            android:src="@drawable/ic_home_rental_car"
+                            app:tint="#5D5FEF"
+                            android:contentDescription="Rental Icon" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-bold"
+                                android:text="Do you need a Vehicle or Bike Rental?"
+                                android:textColor="#1A2B4C"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="Browse scooters, coastal tuk-tuks, and self-drive cars"
+                                android:textColor="#8A8F98"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!-- Material Switch -->
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/switch_need_rental"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-bold"
-                            android:text="Do you need a Vehicle or Bike Rental for this trip?"
-                            android:textColor="#1A2B4C"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:text="Browse scooters, coastal tuk-tuks, and self-drive cars in your area"
-                            android:textColor="#8A8F98"
-                            android:textSize="12sp" />
+                            android:checked="false"
+                            app:thumbTint="#FFFFFF"
+                            app:trackTint="#5D5FEF" />
                     </LinearLayout>
 
-                    <!-- Material Switch -->
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/switch_need_rental"
-                        android:layout_width="wrap_content"
+                    <!-- Selected Vehicle Attached Card (Shown after selection) -->
+                    <LinearLayout
+                        android:id="@+id/layout_selected_vehicle_preview"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="true"
-                        app:thumbTint="#FFFFFF"
-                        app:trackTint="#5D5FEF" />
+                        android:orientation="vertical"
+                        android:layout_marginTop="12dp"
+                        android:padding="12dp"
+                        android:background="@drawable/bg_pill"
+                        android:backgroundTint="#F8FAFC"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/iv_selected_vehicle_thumb"
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/colombo_scotter" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_selected_vehicle_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-bold"
+                                    android:text="Honda PCX 150 Scooter"
+                                    android:textColor="#1A2B4C"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_selected_vehicle_specs"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:text="Bike / Scooter • LKR 3,800/day"
+                                    android:textColor="#10B981"
+                                    android:textSize="12sp"
+                                    android:fontFamily="sans-serif-medium" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/btn_change_selected_vehicle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text="Change"
+                                android:textColor="#5D5FEF"
+                                android:fontFamily="sans-serif-bold"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Manual button to choose vehicle if switch is on but no vehicle chosen yet -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_choose_rental_vehicle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:backgroundTint="#EEF2FF"
+                        android:text="🔍 Select Vehicle or Bike Now"
+                        android:textColor="#4F46E5"
+                        android:fontFamily="sans-serif-bold"
+                        app:cornerRadius="12dp"
+                        android:visibility="gone" />
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -437,7 +521,7 @@
                 android:layout_marginTop="30dp"
                 android:backgroundTint="#5D5FEF"
                 android:fontFamily="sans-serif-bold"
-                android:text="Next / Create Trip"
+                android:text="Confirm Booking"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"

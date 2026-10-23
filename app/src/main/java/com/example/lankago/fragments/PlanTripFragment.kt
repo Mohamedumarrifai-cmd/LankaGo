@@ -1,13 +1,18 @@
 package com.example.lankago.fragments
 
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.graphics.Color
+import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -15,14 +20,18 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.lankago.R
+import com.example.lankago.data.Booking
+import com.example.lankago.data.BookingStatus
+import com.example.lankago.data.BookingType
+import com.example.lankago.data.RentalVehicle
 import com.example.lankago.data.Trip
+import com.example.lankago.repository.AdminRepository
 import com.example.lankago.utils.ImagePickerHelper
 import com.example.lankago.utils.LankaGoNotificationHelper
 import com.example.lankago.utils.TripManager
@@ -34,28 +43,36 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 /**
- * Fragment handling creation of customized travel itineraries with COMPULSORY traveler ID verification.
- * Features:
- * - Robust input validation (Destination & Dates)
- * - COMPULSORY Traveler National ID (NIC) or Passport capture of the booking person via live Camera or Gallery
- * - Visual verification badge and green border upon successful document capture
- * - Error prevention if document photo is missing
- * - Safe asynchronous saving to TripManager & Firebase Realtime Database
- * - Non-abrupt dismissal with user-facing Snackbar feedback
- * - Conditional smart navigation: If "Need a Vehicle" is checked, routes to RentalShopsListFragment.
+ * Fragment handling creation of customized travel itineraries with COMPULSORY traveler ID verification
+ * and integrated Vehicle & Bike Rental selection with instant receipt and notifications.
  */
 open class PlanTripFragment : Fragment() {
 
     private var travelerCount = 2
     private var selectedTripImageUri: Uri? = null
+    private var selectedRental: RentalVehicle? = null
+
+    private lateinit var tilDestination: TextInputLayout
+    private lateinit var etDestination: TextInputEditText
+    private lateinit var tilDates: TextInputLayout
+    private lateinit var etDates: TextInputEditText
+    private lateinit var switchRental: MaterialSwitch
+    private lateinit var layoutRentalPreview: View
+    private lateinit var ivSelectedVehicleThumb: ImageView
+    private lateinit var tvSelectedVehicleName: TextView
+    private lateinit var tvSelectedVehicleSpecs: TextView
+    private lateinit var btnChangeVehicle: View
+    private lateinit var btnChooseRental: MaterialButton
+    private lateinit var btnConfirm: MaterialButton
 
     private val imagePickerHelper = ImagePickerHelper(this) { uri ->
         selectedTripImageUri = uri
@@ -91,16 +108,25 @@ open class PlanTripFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initViews(view)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Pick up vehicle if traveler selected one from rentals screen
+        val chosen = TripManager.selectedRentalForPlanning
+        if (chosen != null) {
+            selectedRental = chosen
+            updateSelectedVehicleUI()
+        }
     }
 
     private fun initViews(view: View) {
         val btnBack = view.findViewById<ImageButton>(R.id.btn_back_plan_trip)
-        val tilDestination = view.findViewById<TextInputLayout>(R.id.til_plan_destination)
-        val etDestination = view.findViewById<TextInputEditText>(R.id.et_plan_destination)
-        val tilDates = view.findViewById<TextInputLayout>(R.id.til_plan_dates)
-        val etDates = view.findViewById<TextInputEditText>(R.id.et_plan_dates)
+        tilDestination = view.findViewById(R.id.til_plan_destination)
+        etDestination = view.findViewById(R.id.et_plan_destination)
+        tilDates = view.findViewById(R.id.til_plan_dates)
+        etDates = view.findViewById(R.id.et_plan_dates)
         val btnMinus = view.findViewById<ImageButton>(R.id.btn_plan_minus_traveler)
         val btnPlus = view.findViewById<ImageButton>(R.id.btn_plan_plus_traveler)
         val tvTravelerCount = view.findViewById<TextView>(R.id.tv_plan_traveler_count)
@@ -111,8 +137,14 @@ open class PlanTripFragment : Fragment() {
         val tvIdTitle = view.findViewById<TextView>(R.id.tv_id_capture_title)
         val tvIdSubtitle = view.findViewById<TextView>(R.id.tv_id_capture_subtitle)
 
-        val switchRental = view.findViewById<MaterialSwitch>(R.id.switch_need_rental)
-        val btnConfirm = view.findViewById<MaterialButton>(R.id.btn_confirm_plan_trip)
+        switchRental = view.findViewById(R.id.switch_need_rental)
+        layoutRentalPreview = view.findViewById(R.id.layout_selected_vehicle_preview)
+        ivSelectedVehicleThumb = view.findViewById(R.id.iv_selected_vehicle_thumb)
+        tvSelectedVehicleName = view.findViewById(R.id.tv_selected_vehicle_name)
+        tvSelectedVehicleSpecs = view.findViewById(R.id.tv_selected_vehicle_specs)
+        btnChangeVehicle = view.findViewById(R.id.btn_change_selected_vehicle)
+        btnChooseRental = view.findViewById(R.id.btn_choose_rental_vehicle)
+        btnConfirm = view.findViewById(R.id.btn_confirm_plan_trip)
 
         // Back button navigation
         btnBack?.setOnClickListener {
@@ -140,7 +172,7 @@ open class PlanTripFragment : Fragment() {
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
 
-        etDates?.setOnClickListener {
+        etDates.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
                 requireContext(),
                 { _, year, month, dayOfMonth ->
@@ -154,7 +186,7 @@ open class PlanTripFragment : Fragment() {
                     calendar.add(Calendar.DAY_OF_MONTH, -5)
 
                     etDates.setText("$startDate - $endDate")
-                    tilDates?.error = null
+                    tilDates.error = null
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -165,18 +197,18 @@ open class PlanTripFragment : Fragment() {
         }
 
         // Pre-fill initial placeholder dates
-        if (etDates?.text.isNullOrBlank()) {
+        if (etDates.text.isNullOrBlank()) {
             val start = dateFormat.format(calendar.time)
             calendar.add(Calendar.DAY_OF_MONTH, 5)
             val end = dateFormat.format(calendar.time)
             calendar.add(Calendar.DAY_OF_MONTH, -5)
-            etDates?.setText("$start - $end")
+            etDates.setText("$start - $end")
         }
 
         // Pre-fill destination if passed as safe argument
         arguments?.getString("destinationName")?.let { prefilled ->
             if (prefilled.isNotBlank()) {
-                etDestination?.setText(prefilled)
+                etDestination.setText(prefilled)
             }
         }
 
@@ -195,29 +227,52 @@ open class PlanTripFragment : Fragment() {
             }
         }
 
+        // Vehicle Rental Switch Toggle: When enabled, immediately open rentals screen to choose
+        switchRental.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                if (selectedRental == null) {
+                    openRentalSelectionScreen()
+                } else {
+                    updateSelectedVehicleUI()
+                }
+            } else {
+                selectedRental = null
+                TripManager.selectedRentalForPlanning = null
+                layoutRentalPreview.visibility = View.GONE
+                btnChooseRental.visibility = View.GONE
+            }
+        }
+
+        btnChooseRental.setOnClickListener {
+            openRentalSelectionScreen()
+        }
+
+        btnChangeVehicle.setOnClickListener {
+            openRentalSelectionScreen()
+        }
+
         // Confirm & Create Trip Click Listener
-        btnConfirm?.setOnClickListener {
-            val destination = etDestination?.text?.toString()?.trim() ?: ""
-            val dates = etDates?.text?.toString()?.trim() ?: ""
-            val needVehicle = switchRental?.isChecked ?: false
+        btnConfirm.setOnClickListener {
+            val destination = etDestination.text?.toString()?.trim() ?: ""
+            val dates = etDates.text?.toString()?.trim() ?: ""
             val isLocal = rbLocalNic?.isChecked ?: true
             val travelerTypeString = if (isLocal) "Local (NIC)" else "Foreign (Passport)"
 
             // 1. Destination Validation
             if (destination.isBlank()) {
-                tilDestination?.error = "Please enter a travel destination"
-                etDestination?.requestFocus()
+                tilDestination.error = "Please enter a travel destination"
+                etDestination.requestFocus()
                 return@setOnClickListener
             }
-            tilDestination?.error = null
+            tilDestination.error = null
 
             // 2. Dates Validation
             if (dates.isBlank()) {
-                tilDates?.error = "Please select travel dates"
-                etDates?.requestFocus()
+                tilDates.error = "Please select travel dates"
+                etDates.requestFocus()
                 return@setOnClickListener
             }
-            tilDates?.error = null
+            tilDates.error = null
 
             // 3. COMPULSORY REQUIREMENT: Booking Person's ID / Passport Photo Check
             if (selectedTripImageUri == null) {
@@ -249,6 +304,7 @@ open class PlanTripFragment : Fragment() {
                 try {
                     val tripId = "trip_${System.currentTimeMillis()}"
                     val tripTitle = "$destination Adventure ($travelerCount Travelers)"
+                    val rentalList = if (selectedRental != null) mutableListOf(selectedRental!!) else mutableListOf()
 
                     val newTrip = Trip(
                         id = tripId,
@@ -257,63 +313,81 @@ open class PlanTripFragment : Fragment() {
                         travelerType = travelerTypeString,
                         idImageUri = selectedTripImageUri?.toString(),
                         places = mutableListOf(),
-                        bookedRentals = mutableListOf(),
-                        bookedActivities = mutableListOf()
+                        bookedRentals = rentalList,
+                        bookedActivities = mutableListOf(),
+                        destination = destination
                     )
 
                     // 5a. Save locally via TripManager
                     TripManager.saveTrip(requireContext(), newTrip)
 
                     // 5b. Sync to Firebase Realtime Database
+                    val auth = FirebaseAuth.getInstance()
+                    val uid = auth.currentUser?.uid ?: "guest_traveler"
+                    val userEmail = auth.currentUser?.email ?: "traveler@lankago.lk"
+                    val userName = auth.currentUser?.displayName ?: "Traveler"
+                    val rtdb = FirebaseDatabase.getInstance().reference
+
                     try {
-                        val auth = FirebaseAuth.getInstance()
-                        val uid = auth.currentUser?.uid ?: "guest_traveler"
-                        val rtdb = FirebaseDatabase.getInstance().reference
                         // Primary Trip History node under user profile
                         rtdb.child("users").child(uid).child("tripHistory").child(newTrip.id).setValue(newTrip).await()
                         // Cross-reference under /trips node
                         rtdb.child("trips").child(uid).child(newTrip.id).setValue(newTrip).await()
+
+                        // If rental vehicle attached, register confirmed Booking in /bookings node
+                        selectedRental?.let { rental ->
+                            val bookingRef = "LKG-RENT-${System.currentTimeMillis().toString().takeLast(6)}"
+                            val todayStr = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
+                            val totalRentalPrice = rental.dailyRateLkr + rental.depositLkr
+                            val booking = Booking(
+                                id = bookingRef,
+                                userId = uid,
+                                tripId = newTrip.id,
+                                userName = userName,
+                                userEmail = userEmail,
+                                userPhone = "",
+                                itemName = "${rental.name} (${rental.vendorName})",
+                                itemCategory = rental.type,
+                                bookingType = BookingType.RENTAL,
+                                bookingDate = todayStr,
+                                bookingTime = "09:00 AM",
+                                totalPriceLkr = totalRentalPrice,
+                                status = BookingStatus.CONFIRMED,
+                                specialNotes = "Trip Booking to $destination. Pickup: ${rental.location}"
+                            )
+                            AdminRepository().addBooking(booking)
+
+                            // Post rental payment / booking notification
+                            LankaGoNotificationHelper.postPaymentSuccessNotification(
+                                context = requireContext(),
+                                bookingRef = bookingRef,
+                                vehicleName = rental.name,
+                                amountLkr = totalRentalPrice
+                            )
+                        }
                     } catch (e: Exception) {
-                        Log.w("CreateTrip", "Firebase RTDB sync non-fatal warning: ${e.message}")
+                        Log.w("PlanTripFragment", "Firebase RTDB sync non-fatal warning: ${e.message}")
                     }
 
-                    // 6. Post Notification & Show Success Feedback Snackbar
+                    // 6. Post Trip Created Notification
                     LankaGoNotificationHelper.postTripCreatedNotification(requireContext(), newTrip)
 
-                    Snackbar.make(
-                        view,
-                        "Trip confirmed! ID Document verified successfully.",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-
-                    // Safe UI delay to let user see feedback before navigation
-                    delay(700L)
+                    // Clear temporary selection
+                    TripManager.selectedRentalForPlanning = null
 
                     if (!isAdded) return@launch
 
-                    // 7. Smart Conditional Routing to rentals_and_transport screen
-                    if (needVehicle) {
-                        val bundle = bundleOf(
-                            "activeTripId" to tripId,
-                            "destinationCity" to destination,
-                            "destinationLocation" to destination,
-                            "travelerCount" to travelerCount
-                        )
-                        try {
-                            findNavController().navigate(
-                                R.id.action_planTripFragment_to_rentalsTransportFragment,
-                                bundle
-                            )
-                        } catch (navEx: Exception) {
-                            findNavController().navigate(R.id.rentalsTransportFragment, bundle)
-                        }
-                    } else {
-                        findNavController().popBackStack()
-                    }
+                    // 7. Show Generated Rich Confirmation Receipt Dialog
+                    val bookingRef = "LKG-CONF-${newTrip.id.takeLast(6)}"
+                    showBookingReceiptDialog(
+                        bookingRef = bookingRef,
+                        trip = newTrip,
+                        rental = selectedRental
+                    )
 
                 } catch (e: Exception) {
                     btnConfirm.isEnabled = true
-                    btnConfirm.text = "Confirm & Plan Trip"
+                    btnConfirm.text = "Confirm Booking"
                     Snackbar.make(
                         view,
                         "Error confirming booking: ${e.localizedMessage ?: "Please try again"}",
@@ -322,5 +396,197 @@ open class PlanTripFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun openRentalSelectionScreen() {
+        val destination = etDestination.text?.toString()?.trim() ?: "Sri Lanka"
+        val bundle = bundleOf(
+            "destinationCity" to destination,
+            "destinationLocation" to destination,
+            "isSelectMode" to true,
+            "mode" to "select_rental"
+        )
+        try {
+            findNavController().navigate(
+                R.id.action_planTripFragment_to_rentalsTransportFragment,
+                bundle
+            )
+        } catch (_: Exception) {
+            try {
+                findNavController().navigate(R.id.rentalsTransportFragment, bundle)
+            } catch (_: Exception) {
+                findNavController().navigate(R.id.rentalListFragment, bundle)
+            }
+        }
+    }
+
+    private fun updateSelectedVehicleUI() {
+        val rental = selectedRental ?: return
+        switchRental.isChecked = true
+        layoutRentalPreview.visibility = View.VISIBLE
+        btnChooseRental.visibility = View.GONE
+
+        tvSelectedVehicleName.text = rental.name
+        val format = NumberFormat.getNumberInstance(Locale.US)
+        tvSelectedVehicleSpecs.text = "${rental.type} • LKR ${format.format(rental.dailyRateLkr.toInt())}/day • ${rental.location}"
+
+        val localDrawable = when {
+            rental.name.contains("Tuk", ignoreCase = true) || rental.type.contains("Tuk", ignoreCase = true) -> R.drawable.tuktuk_rental
+            rental.name.contains("Van", ignoreCase = true) || rental.type.contains("Van", ignoreCase = true) -> R.drawable.mirissa_taxi
+            rental.name.contains("X-Trail", ignoreCase = true) || rental.type.contains("SUV", ignoreCase = true) -> R.drawable.euro
+            rental.name.contains("Aqua", ignoreCase = true) -> R.drawable.casons_rent
+            rental.name.contains("Wagon", ignoreCase = true) || rental.type.contains("Car", ignoreCase = true) -> R.drawable.kings_rent
+            rental.name.contains("Enfield", ignoreCase = true) -> R.drawable.kandy_bike
+            rental.name.contains("Yamaha", ignoreCase = true) || rental.name.contains("FZ", ignoreCase = true) -> R.drawable.dambulla_bike
+            rental.name.contains("Vespa", ignoreCase = true) -> R.drawable.unawatune_bike
+            rental.name.contains("PCX", ignoreCase = true) -> R.drawable.colombo_scotter
+            rental.type.contains("Bike", ignoreCase = true) -> R.drawable.kandy_bike
+            else -> R.drawable.ella_rental
+        }
+
+        val heroUrl = rental.images.firstOrNull()
+        if (!heroUrl.isNullOrBlank()) {
+            Glide.with(this)
+                .load(heroUrl)
+                .placeholder(localDrawable)
+                .error(localDrawable)
+                .centerCrop()
+                .into(ivSelectedVehicleThumb)
+        } else {
+            ivSelectedVehicleThumb.setImageResource(localDrawable)
+        }
+    }
+
+    private fun showBookingReceiptDialog(
+        bookingRef: String,
+        trip: Trip,
+        rental: RentalVehicle?
+    ) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(false)
+
+        val rootLayout = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+            setBackgroundResource(R.drawable.bg_bottom_sheet)
+            setPadding(40, 40, 40, 40)
+        }
+
+        // Green success badge
+        val tvBadge = TextView(requireContext()).apply {
+            text = "✓ BOOKING CONFIRMED & RESERVED"
+            textSize = 14f
+            setTypeface(null, Typeface.BOLD)
+            setTextColor(Color.parseColor("#10B981"))
+            setPadding(0, 0, 0, 8)
+        }
+
+        val tvTitle = TextView(requireContext()).apply {
+            text = "Booking & Payment Receipt"
+            textSize = 22f
+            setTypeface(null, Typeface.BOLD)
+            setTextColor(Color.parseColor("#1A2B4C"))
+        }
+
+        val tvSubtext = TextView(requireContext()).apply {
+            text = "Your journey has been confirmed with verified ID. Saved to your Trip History."
+            textSize = 13f
+            setTextColor(Color.parseColor("#64748B"))
+            setPadding(0, 6, 0, 20)
+        }
+
+        // Receipt Details Box
+        val boxReceipt = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+            setBackgroundColor(Color.parseColor("#F8FAFC"))
+            setPadding(24, 24, 24, 24)
+        }
+
+        fun addReceiptLine(label: String, value: String) {
+            boxReceipt.addView(LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.HORIZONTAL
+                setPadding(0, 6, 0, 6)
+                addView(TextView(requireContext()).apply {
+                    text = label
+                    layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
+                    setTextColor(Color.parseColor("#64748B"))
+                    textSize = 13f
+                })
+                addView(TextView(requireContext()).apply {
+                    text = value
+                    setTextColor(Color.parseColor("#1A2B4C"))
+                    textSize = 13f
+                    setTypeface(null, Typeface.BOLD)
+                })
+            })
+        }
+
+        val dateStr = SimpleDateFormat("MMM dd, yyyy · hh:mm a", Locale.US).format(Date())
+        addReceiptLine("Receipt No.", bookingRef)
+        addReceiptLine("Date & Time", dateStr)
+        addReceiptLine("Trip Itinerary", trip.tripName)
+        addReceiptLine("Scheduled Dates", trip.date)
+        addReceiptLine("Traveler Verification", "${trip.travelerType} (Verified)")
+
+        if (rental != null) {
+            val format = NumberFormat.getNumberInstance(Locale.US)
+            val totalRentalLkr = rental.dailyRateLkr + rental.depositLkr
+            addReceiptLine("Vehicle Reserved", rental.name)
+            addReceiptLine("Rental Provider", rental.vendorName)
+            addReceiptLine("Pickup Hub", rental.location)
+            addReceiptLine("Rental Total", "Rs. ${format.format(totalRentalLkr.toInt())}")
+        } else {
+            addReceiptLine("Rental Vehicle", "Self-Arranged Transport")
+        }
+
+        addReceiptLine("Status", "CONFIRMED & ACTIVE")
+
+        // View in Trip History Button
+        val btnViewHistory = Button(requireContext()).apply {
+            text = "View in Trip History"
+            setBackgroundResource(R.drawable.button_primary)
+            setTextColor(Color.WHITE)
+            setTypeface(null, Typeface.BOLD)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(0, 24, 0, 8)
+            }
+        }
+
+        btnViewHistory.setOnClickListener {
+            dialog.dismiss()
+            try {
+                findNavController().navigate(R.id.action_planTripFragment_to_tripHistoryFragment)
+            } catch (_: Exception) {
+                try {
+                    findNavController().navigate(R.id.tripHistoryFragment)
+                } catch (_: Exception) {
+                    findNavController().popBackStack()
+                }
+            }
+        }
+
+        val btnClose = Button(requireContext()).apply {
+            text = "Done"
+            setBackgroundColor(Color.TRANSPARENT)
+            setTextColor(Color.parseColor("#64748B"))
+        }
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+            findNavController().popBackStack()
+        }
+
+        rootLayout.addView(tvBadge)
+        rootLayout.addView(tvTitle)
+        rootLayout.addView(tvSubtext)
+        rootLayout.addView(boxReceipt)
+        rootLayout.addView(btnViewHistory)
+        rootLayout.addView(btnClose)
+
+        dialog.setContentView(rootLayout)
+        dialog.show()
     }
 }

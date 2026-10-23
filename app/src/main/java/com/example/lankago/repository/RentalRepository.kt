@@ -41,6 +41,7 @@ object RentalRepository {
     )
 
     private val sampleVehicles = listOf(
+        // === BIKES & SCOOTERS (BIKE RENTALS: BIKE PICTURES & DETAILS ONLY) ===
         Vehicle(
             id = "rental_honda_pcx",
             name = "Honda PCX 150 Scooter",
@@ -64,6 +65,71 @@ object RentalRepository {
                 Review("rev_v2", "Kasun Perera", null, 4.8f, "05 Oct 2026", "Quick deposit return, very polite staff at the Ella branch.")
             )
         ),
+        Vehicle(
+            id = "rental_enfield_kandy",
+            name = "Royal Enfield Himalayan 411cc",
+            type = "Adventure Bike",
+            imageUrl = "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80",
+            images = listOf(
+                "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80"
+            ),
+            pricePerDayLkr = 7500.0,
+            depositLkr = 25000.0,
+            rating = 4.9f,
+            reviewCount = 64,
+            isAvailable = true,
+            seats = 2,
+            transmission = "Manual 5-Speed",
+            fuelType = "Petrol",
+            provider = providers[0],
+            reviews = listOf(
+                Review("rev_v7", "Alexandre Dumas", null, 5.0f, "28 Sep 2026", "Incredible torque for steep hairpins around Nuwara Eliya. High demand, book ahead.")
+            )
+        ),
+        Vehicle(
+            id = "rental_yamaha_fzs",
+            name = "Yamaha FZ-S 150cc Touring Bike",
+            type = "Bike / Motorcycle",
+            imageUrl = "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=80",
+            images = listOf(
+                "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=80"
+            ),
+            pricePerDayLkr = 4500.0,
+            depositLkr = 15000.0,
+            rating = 4.8f,
+            reviewCount = 48,
+            isAvailable = true,
+            seats = 2,
+            transmission = "Manual 5-Speed",
+            fuelType = "Petrol",
+            provider = providers[0],
+            reviews = listOf(
+                Review("rev_v9", "Michael Chen", null, 5.0f, "19 Oct 2026", "Reliable suspension and great fuel economy across southern routes.")
+            )
+        ),
+        Vehicle(
+            id = "rental_vespa_galle",
+            name = "Vespa Primavera 125 Classic Scooter",
+            type = "Bike / Scooter",
+            imageUrl = "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80",
+            images = listOf(
+                "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80"
+            ),
+            pricePerDayLkr = 4200.0,
+            depositLkr = 12000.0,
+            rating = 4.9f,
+            reviewCount = 77,
+            isAvailable = true,
+            seats = 2,
+            transmission = "Automatic",
+            fuelType = "Petrol",
+            provider = providers[2],
+            reviews = listOf(
+                Review("rev_v10", "Elena Rostova", null, 5.0f, "21 Oct 2026", "Chic Italian design, perfect for cruising through Galle Fort ramparts.")
+            )
+        ),
+
+        // === VEHICLES (CARS, VANS, 4X4, TUK-TUKS: VEHICLE PICTURES & DETAILS) ===
         Vehicle(
             id = "rental_toyota_aqua",
             name = "Toyota Aqua Hybrid (Automatic)",
@@ -111,27 +177,6 @@ object RentalRepository {
             )
         ),
         Vehicle(
-            id = "rental_enfield_kandy",
-            name = "Royal Enfield Himalayan 411cc",
-            type = "Adventure Bike",
-            imageUrl = "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80",
-            images = listOf(
-                "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80"
-            ),
-            pricePerDayLkr = 7500.0,
-            depositLkr = 25000.0,
-            rating = 4.9f,
-            reviewCount = 64,
-            isAvailable = true,
-            seats = 2,
-            transmission = "Manual 5-Speed",
-            fuelType = "Petrol",
-            provider = providers[0],
-            reviews = listOf(
-                Review("rev_v7", "Alexandre Dumas", null, 5.0f, "28 Sep 2026", "Incredible torque for steep hairpins around Nuwara Eliya. High demand, book ahead.")
-            )
-        ),
-        Vehicle(
             id = "rental_nissan_xtrail",
             name = "Nissan X-Trail 4WD Safari Edition",
             type = "SUV / 4x4",
@@ -150,6 +195,48 @@ object RentalRepository {
             provider = providers[1],
             reviews = listOf(
                 Review("rev_v8", "Hans Zimmer", null, 5.0f, "10 Oct 2026", "Robust 4x4. Handled Yala national park approach and knuckles ranges with ease.")
+            )
+        ),
+        Vehicle(
+            id = "rental_toyota_kdh",
+            name = "Toyota KDH Commuter High-Roof Van",
+            type = "Van / Minibus",
+            imageUrl = "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80",
+            images = listOf(
+                "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80"
+            ),
+            pricePerDayLkr = 18500.0,
+            depositLkr = 35000.0,
+            rating = 4.9f,
+            reviewCount = 61,
+            isAvailable = true,
+            seats = 14,
+            transmission = "Manual 5-Speed",
+            fuelType = "Diesel",
+            provider = providers[1],
+            reviews = listOf(
+                Review("rev_v11", "Rohan Jayawardene", null, 5.0f, "14 Oct 2026", "Spacious family van with dual AC. Ideal for 10-14 passengers.")
+            )
+        ),
+        Vehicle(
+            id = "rental_suzuki_wagonr",
+            name = "Suzuki Wagon R FX Hybrid",
+            type = "Car / Hatchback",
+            imageUrl = "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80",
+            images = listOf(
+                "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80"
+            ),
+            pricePerDayLkr = 8000.0,
+            depositLkr = 20000.0,
+            rating = 4.8f,
+            reviewCount = 43,
+            isAvailable = true,
+            seats = 4,
+            transmission = "Automatic",
+            fuelType = "Hybrid",
+            provider = providers[1],
+            reviews = listOf(
+                Review("rev_v12", "Chaminda Vaas", null, 4.8f, "03 Oct 2026", "Compact, easy to park in crowded city centers, and super economical.")
             )
         )
     )

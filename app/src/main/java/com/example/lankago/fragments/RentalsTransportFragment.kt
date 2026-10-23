@@ -125,11 +125,14 @@ class RentalsTransportFragment : Fragment() {
 
     private fun setupRentalCards(view: View) {
         val activeTripId = arguments?.getString("activeTripId") ?: ""
+        val isSelectMode = arguments?.getBoolean("isSelectMode") == true ||
+            arguments?.getString("mode") == "select_rental"
 
         fun selectVehicle(rentalId: String, shopId: String) {
             val bundle = Bundle().apply {
                 putString("rentalId", rentalId)
                 putString("shopId", shopId)
+                putBoolean("isSelectMode", isSelectMode)
                 if (activeTripId.isNotBlank()) {
                     putString("activeTripId", activeTripId)
                 }

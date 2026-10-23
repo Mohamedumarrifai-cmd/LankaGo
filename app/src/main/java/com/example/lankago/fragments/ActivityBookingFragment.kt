@@ -147,14 +147,19 @@ class ActivityBookingFragment : Fragment() {
             )
             .setPositiveButton("Confirm Booking") { _, _ ->
                 val tripId = targetTrip?.id ?: ""
-                TripManager.addActivityToTrip(requireContext(), tripId, item)
+                val bookedTrip = TripManager.addActivityToTripAndReturn(requireContext(), tripId, item)
 
-                // Save to Firebase Realtime Database /bookings node
+                // Save to Firebase Realtime Database /bookings node and user tripHistory
                 viewLifecycleOwner.lifecycleScope.launch {
                     try {
                         val authUser = FirebaseAuth.getInstance().currentUser
+                        val uid = authUser?.uid ?: "guest_traveler"
                         val todayStr = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
+                        val bookingId = "LKG-ACT-${System.currentTimeMillis().toString().takeLast(6)}"
                         val booking = Booking(
+                            id = bookingId,
+                            userId = uid,
+                            tripId = bookedTrip.id,
                             userName = authUser?.displayName ?: "Traveler",
                             userEmail = authUser?.email ?: "traveler@lankago.lk",
                             userPhone = "",
@@ -168,6 +173,10 @@ class ActivityBookingFragment : Fragment() {
                             specialNotes = "Location: ${item.address}. Duration: ${item.durationHours} hrs."
                         )
                         AdminRepository().addBooking(booking)
+
+                        val rtdb = com.google.firebase.database.FirebaseDatabase.getInstance().reference
+                        rtdb.child("users").child(uid).child("tripHistory").child(bookedTrip.id).setValue(bookedTrip)
+                        rtdb.child("trips").child(uid).child(bookedTrip.id).setValue(bookedTrip)
                     } catch (_: Exception) {
                         // TripManager has already recorded reservation
                     }

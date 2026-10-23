@@ -87,6 +87,10 @@ class ProfileFragment : Fragment() {
         }
 
         // Navigation shortcuts with debounce and destination guards
+        view.findViewById<View>(R.id.layout_profile_trips_history)?.setOnSafeClickListener {
+            findNavController().safeNavigate(R.id.action_profileFragment_to_tripHistoryFragment)
+        }
+
         view.findViewById<View>(R.id.layout_profile_favorites)?.setOnSafeClickListener {
             findNavController().safeNavigate(R.id.action_profileFragment_to_favoritesFragment)
         }

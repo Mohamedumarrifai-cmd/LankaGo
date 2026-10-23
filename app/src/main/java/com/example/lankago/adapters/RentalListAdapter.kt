@@ -53,13 +53,29 @@ class RentalListAdapter(
         }
 
         val localDrawable = when {
-            vehicle.name.contains("Tuk", ignoreCase = true) -> R.drawable.tuktuk_rental
-            vehicle.name.contains("Aqua", ignoreCase = true) || vehicle.type.contains("Car", ignoreCase = true) -> R.drawable.colombo_scotter
-            vehicle.name.contains("PCX", ignoreCase = true) -> R.drawable.colombo_scotter
+            vehicle.name.contains("Tuk", ignoreCase = true) || vehicle.type.contains("Tuk", ignoreCase = true) -> R.drawable.tuktuk_rental
+            vehicle.name.contains("Van", ignoreCase = true) || vehicle.type.contains("Van", ignoreCase = true) -> R.drawable.mirissa_taxi
+            vehicle.name.contains("X-Trail", ignoreCase = true) || vehicle.type.contains("SUV", ignoreCase = true) || vehicle.type.contains("4x4", ignoreCase = true) -> R.drawable.euro
+            vehicle.name.contains("Aqua", ignoreCase = true) -> R.drawable.casons_rent
+            vehicle.name.contains("Wagon", ignoreCase = true) || vehicle.type.contains("Car", ignoreCase = true) || vehicle.type.contains("Sedan", ignoreCase = true) -> R.drawable.kings_rent
             vehicle.name.contains("Enfield", ignoreCase = true) -> R.drawable.kandy_bike
+            vehicle.name.contains("Yamaha", ignoreCase = true) || vehicle.name.contains("FZ", ignoreCase = true) -> R.drawable.dambulla_bike
+            vehicle.name.contains("Vespa", ignoreCase = true) -> R.drawable.unawatune_bike
+            vehicle.name.contains("PCX", ignoreCase = true) -> R.drawable.colombo_scotter
+            vehicle.type.contains("Bike", ignoreCase = true) -> R.drawable.kandy_bike
             else -> R.drawable.ella_rental
         }
-        holder.ivThumb.setImageResource(localDrawable)
+
+        if (vehicle.imageUrl.isNotBlank()) {
+            com.bumptech.glide.Glide.with(holder.itemView.context)
+                .load(vehicle.imageUrl)
+                .placeholder(localDrawable)
+                .error(localDrawable)
+                .centerCrop()
+                .into(holder.ivThumb)
+        } else {
+            holder.ivThumb.setImageResource(localDrawable)
+        }
 
         holder.itemView.setOnClickListener { onVehicleClick(vehicle) }
         holder.btnView.setOnClickListener { onVehicleClick(vehicle) }

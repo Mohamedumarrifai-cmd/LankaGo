@@ -20,7 +20,7 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class LoginFragment : Fragment() {
+class LoginFragment : Fragment  () {
 
     private val authViewModel: AuthViewModel by viewModels()
 
