@@ -32,5 +32,6 @@ class LankaGoApp : Application() {
     companion object {
         const val PREFS_SETTINGS = "lankago_settings"
         const val KEY_DARK_MODE = "dark_mode_enabled"
+        const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
     }
 }

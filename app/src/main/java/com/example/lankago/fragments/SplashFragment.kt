@@ -1,5 +1,6 @@
 package com.example.lankago.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.lankago.LankaGoApp
 import com.example.lankago.R
 import com.example.lankago.viewmodels.AuthViewModel
 import com.example.lankago.viewmodels.SessionCheckState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -29,8 +32,26 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Observe session state and trigger navigation accordingly
+        val prefs = requireContext().getSharedPreferences(LankaGoApp.PREFS_SETTINGS, Context.MODE_PRIVATE)
+        val onboardingCompleted = prefs.getBoolean(LankaGoApp.KEY_ONBOARDING_COMPLETED, false)
+
         viewLifecycleOwner.lifecycleScope.launch {
+            // First time user: show branding for 1.5 seconds, then launch onboarding sequence
+            if (!onboardingCompleted) {
+                delay(1500)
+                if (isAdded) {
+                    try {
+                        findNavController().navigate(R.id.action_splashFragment_to_discoverFragment)
+                    } catch (_: Exception) {
+                        try {
+                            findNavController().navigate(R.id.discoverFragment)
+                        } catch (_: Exception) {}
+                    }
+                }
+                return@launch
+            }
+
+            // Subsequent launches: observe session state and route accordingly
             authViewModel.sessionCheckState.collectLatest { state ->
                 when (state) {
                     is SessionCheckState.Checking -> {
@@ -44,7 +65,7 @@ class SplashFragment : Fragment() {
                                 } else {
                                     findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
                                 }
-                            } catch (e: Exception) {
+                            } catch (_: Exception) {
                                 findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
                             }
                         }
@@ -53,7 +74,7 @@ class SplashFragment : Fragment() {
                         if (isAdded) {
                             try {
                                 findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
-                            } catch (e: Exception) {
+                            } catch (_: Exception) {
                                 // Ignore navigation race conditions
                             }
                         }
@@ -62,7 +83,8 @@ class SplashFragment : Fragment() {
             }
         }
 
-        // Start session check
-        authViewModel.checkSession(requireContext())
+        if (onboardingCompleted) {
+            authViewModel.checkSession(requireContext())
+        }
     }
 }

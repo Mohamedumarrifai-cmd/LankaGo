@@ -27,9 +27,14 @@
             app:destination="@id/adminDashboardFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_discoverFragment"
+            app:destination="@id/discoverFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
-    <!-- 2. Discover Screen -->
+    <!-- 2. Discover Screen (Onboarding 1) -->
     <fragment
         android:id="@+id/discoverFragment"
         android:name="com.example.lankago.fragments.DiscoverFragment"
@@ -38,17 +43,56 @@
         <action
             android:id="@+id/action_discoverFragment_to_experienceFragment"
             app:destination="@id/experienceFragment" />
+        <action
+            android:id="@+id/action_discoverFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/discoverFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
-    <!-- 3. Experience Screen -->
+    <!-- 3. Experience Screen (Onboarding 2) -->
     <fragment
         android:id="@+id/experienceFragment"
         android:name="com.example.lankago.fragments.ExperienceFragment"
         android:label="Experience"
         tools:layout="@layout/experience">
         <action
-            android:id="@+id/action_experienceFragment_to_planTripFragment"
-            app:destination="@id/planTripFragment" />
+            android:id="@+id/action_experienceFragment_to_rentalsOnboardingFragment"
+            app:destination="@id/rentalsOnboardingFragment" />
+        <action
+            android:id="@+id/action_experienceFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/discoverFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- 4. Rentals Onboarding Screen (Onboarding 3) -->
+    <fragment
+        android:id="@+id/rentalsOnboardingFragment"
+        android:name="com.example.lankago.fragments.RentalsOnboardingFragment"
+        android:label="Rentals Onboarding"
+        tools:layout="@layout/onboarding_rentals">
+        <action
+            android:id="@+id/action_rentalsOnboardingFragment_to_planOnboardingFragment"
+            app:destination="@id/planOnboardingFragment" />
+        <action
+            android:id="@+id/action_rentalsOnboardingFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/discoverFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- 5. Plan Onboarding Screen (Onboarding 4) -->
+    <fragment
+        android:id="@+id/planOnboardingFragment"
+        android:name="com.example.lankago.fragments.PlanOnboardingFragment"
+        android:label="Plan Onboarding"
+        tools:layout="@layout/onboarding_plan">
+        <action
+            android:id="@+id/action_planOnboardingFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/discoverFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <!-- 4. Plan Trip Screen -->

@@ -26,7 +26,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
         android:fontFamily="sans-serif-medium"
-
+        android:text="Skip"
         android:textColor="#1A2B4C"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"

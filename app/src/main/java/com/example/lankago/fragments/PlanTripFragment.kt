@@ -475,17 +475,23 @@ open class PlanTripFragment : Fragment() {
         tvSelectedVehicleSpecs.text = "${rental.type} • LKR ${format.format(rental.dailyRateLkr.toInt())}/day • ${rental.location}"
 
         val localDrawable = when {
-            rental.name.contains("Tuk", ignoreCase = true) || rental.type.contains("Tuk", ignoreCase = true) -> R.drawable.tuktuk_rental
-            rental.name.contains("Van", ignoreCase = true) || rental.type.contains("Van", ignoreCase = true) -> R.drawable.mirissa_taxi
-            rental.name.contains("X-Trail", ignoreCase = true) || rental.type.contains("SUV", ignoreCase = true) -> R.drawable.euro
-            rental.name.contains("Aqua", ignoreCase = true) -> R.drawable.casons_rent
-            rental.name.contains("Wagon", ignoreCase = true) || rental.type.contains("Car", ignoreCase = true) -> R.drawable.kings_rent
-            rental.name.contains("Enfield", ignoreCase = true) -> R.drawable.kandy_bike
-            rental.name.contains("Yamaha", ignoreCase = true) || rental.name.contains("FZ", ignoreCase = true) -> R.drawable.dambulla_bike
-            rental.name.contains("Vespa", ignoreCase = true) -> R.drawable.unawatune_bike
-            rental.name.contains("PCX", ignoreCase = true) -> R.drawable.colombo_scotter
-            rental.type.contains("Bike", ignoreCase = true) -> R.drawable.kandy_bike
-            else -> R.drawable.ella_rental
+            rental.name.contains("Tuk", ignoreCase = true) || rental.type.contains("Tuk", ignoreCase = true) -> R.drawable.tourist_tuktuk
+            rental.name.contains("KDH", ignoreCase = true) || rental.name.contains("Van", ignoreCase = true) || rental.type.contains("Van", ignoreCase = true) -> R.drawable.kdh
+            rental.name.contains("Montero", ignoreCase = true) -> R.drawable.montero
+            rental.name.contains("X-Trail", ignoreCase = true) || rental.type.contains("SUV", ignoreCase = true) || rental.type.contains("4x4", ignoreCase = true) -> R.drawable.xtrail
+            rental.name.contains("Grace", ignoreCase = true) -> R.drawable.grace
+            rental.name.contains("Prius", ignoreCase = true) -> R.drawable.prius
+            rental.name.contains("Aqua", ignoreCase = true) -> R.drawable.aqua
+            rental.name.contains("Alto", ignoreCase = true) -> R.drawable.alto
+            rental.name.contains("Wagon", ignoreCase = true) -> R.drawable.wagonr
+            rental.name.contains("NS200", ignoreCase = true) || rental.name.contains("Pulsar", ignoreCase = true) -> R.drawable.ns200
+            rental.name.contains("FZ", ignoreCase = true) || rental.name.contains("Yamaha", ignoreCase = true) -> R.drawable.fz
+            rental.name.contains("Dio", ignoreCase = true) -> R.drawable.dio
+            rental.name.contains("NMAX", ignoreCase = true) -> R.drawable.nmax
+            rental.name.contains("PCX", ignoreCase = true) -> R.drawable.pcx
+            rental.name.contains("Enfield", ignoreCase = true) || rental.name.contains("Himalayan", ignoreCase = true) -> R.drawable.royalenflied
+            rental.type.contains("Bike", ignoreCase = true) -> R.drawable.fz
+            else -> R.drawable.aqua
         }
 
         val heroUrl = rental.images.firstOrNull()

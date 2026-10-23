@@ -53,17 +53,23 @@ class RentalListAdapter(
         }
 
         val localDrawable = when {
-            vehicle.name.contains("Tuk", ignoreCase = true) || vehicle.type.contains("Tuk", ignoreCase = true) -> R.drawable.tuktuk_rental
-            vehicle.name.contains("Van", ignoreCase = true) || vehicle.type.contains("Van", ignoreCase = true) -> R.drawable.mirissa_taxi
-            vehicle.name.contains("X-Trail", ignoreCase = true) || vehicle.type.contains("SUV", ignoreCase = true) || vehicle.type.contains("4x4", ignoreCase = true) -> R.drawable.euro
-            vehicle.name.contains("Aqua", ignoreCase = true) -> R.drawable.casons_rent
-            vehicle.name.contains("Wagon", ignoreCase = true) || vehicle.type.contains("Car", ignoreCase = true) || vehicle.type.contains("Sedan", ignoreCase = true) -> R.drawable.kings_rent
-            vehicle.name.contains("Enfield", ignoreCase = true) -> R.drawable.kandy_bike
-            vehicle.name.contains("Yamaha", ignoreCase = true) || vehicle.name.contains("FZ", ignoreCase = true) -> R.drawable.dambulla_bike
-            vehicle.name.contains("Vespa", ignoreCase = true) -> R.drawable.unawatune_bike
-            vehicle.name.contains("PCX", ignoreCase = true) -> R.drawable.colombo_scotter
-            vehicle.type.contains("Bike", ignoreCase = true) -> R.drawable.kandy_bike
-            else -> R.drawable.ella_rental
+            vehicle.name.contains("Tuk", ignoreCase = true) || vehicle.type.contains("Tuk", ignoreCase = true) -> R.drawable.tourist_tuktuk
+            vehicle.name.contains("KDH", ignoreCase = true) || vehicle.name.contains("Van", ignoreCase = true) || vehicle.type.contains("Van", ignoreCase = true) -> R.drawable.kdh
+            vehicle.name.contains("Montero", ignoreCase = true) -> R.drawable.montero
+            vehicle.name.contains("X-Trail", ignoreCase = true) || vehicle.type.contains("SUV", ignoreCase = true) || vehicle.type.contains("4x4", ignoreCase = true) -> R.drawable.xtrail
+            vehicle.name.contains("Grace", ignoreCase = true) -> R.drawable.grace
+            vehicle.name.contains("Prius", ignoreCase = true) -> R.drawable.prius
+            vehicle.name.contains("Aqua", ignoreCase = true) -> R.drawable.aqua
+            vehicle.name.contains("Alto", ignoreCase = true) -> R.drawable.alto
+            vehicle.name.contains("Wagon", ignoreCase = true) -> R.drawable.wagonr
+            vehicle.name.contains("NS200", ignoreCase = true) || vehicle.name.contains("Pulsar", ignoreCase = true) -> R.drawable.ns200
+            vehicle.name.contains("FZ", ignoreCase = true) || vehicle.name.contains("Yamaha", ignoreCase = true) -> R.drawable.fz
+            vehicle.name.contains("Dio", ignoreCase = true) -> R.drawable.dio
+            vehicle.name.contains("NMAX", ignoreCase = true) -> R.drawable.nmax
+            vehicle.name.contains("PCX", ignoreCase = true) -> R.drawable.pcx
+            vehicle.name.contains("Enfield", ignoreCase = true) || vehicle.name.contains("Himalayan", ignoreCase = true) -> R.drawable.royalenflied
+            vehicle.type.contains("Bike", ignoreCase = true) -> R.drawable.fz
+            else -> R.drawable.aqua
         }
 
         if (vehicle.imageUrl.isNotBlank()) {
