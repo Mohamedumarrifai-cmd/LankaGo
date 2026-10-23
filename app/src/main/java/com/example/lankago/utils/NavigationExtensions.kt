@@ -24,11 +24,14 @@ fun NavController.safeNavigate(
             return
         }
 
-        // Check if resId is another destination rather than action
-        if (currentDest.id != resId) {
+        // Check if resId is a valid destination node in the graph rather than an invalid action
+        val destinationNode = try { graph.findNode(resId) } catch (_: Throwable) { null }
+        if (destinationNode != null && currentDest.id != resId) {
             navigate(resId, args, navOptions)
+        } else {
+            Log.w("NavigationExtensions", "safeNavigate ignored navigation: $resId from ${currentDest.label} (${currentDest.id})")
         }
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         Log.w("NavigationExtensions", "safeNavigate prevented crash: ${e.message}")
     }
 }
@@ -42,8 +45,10 @@ fun NavController.safeNavigate(
         val action = currentDest.getAction(directions.actionId)
         if (action != null) {
             navigate(directions, navOptions)
+        } else {
+            Log.w("NavigationExtensions", "safeNavigate ignored direction ${directions.actionId} from ${currentDest.label}")
         }
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         Log.w("NavigationExtensions", "safeNavigate prevented crash: ${e.message}")
     }
 }
