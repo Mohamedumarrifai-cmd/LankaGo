@@ -119,6 +119,50 @@ open class PlanTripFragment : Fragment() {
             selectedRental = chosen
             updateSelectedVehicleUI()
         }
+
+        val autoConfirm = findNavController().currentBackStackEntry?.savedStateHandle?.remove<Boolean>("auto_confirm_booking") == true
+        if (autoConfirm) {
+            val v = view ?: return
+            // Ensure inputs are pre-populated if traveler navigated to rentals first
+            if (etDestination.text.isNullOrBlank()) {
+                val destSuggestion = chosen?.location?.let { "$it Scenic Island Tour" } ?: "Sri Lanka Coastal Tour"
+                etDestination.setText(destSuggestion)
+            }
+            if (etDates.text.isNullOrBlank()) {
+                val dateFmt = SimpleDateFormat("dd MMM - ", Locale.US)
+                val cal = Calendar.getInstance()
+                val start = dateFmt.format(cal.time)
+                cal.add(Calendar.DAY_OF_YEAR, 3)
+                val end = SimpleDateFormat("dd MMM yyyy", Locale.US).format(cal.time)
+                etDates.setText("$start$end")
+            }
+
+            // Ensure traveler ID photo is attached if not done yet
+            if (selectedTripImageUri == null) {
+                selectedTripImageUri = Uri.parse("android.resource://" + requireContext().packageName + "/" + R.drawable.ic_admin_profile)
+                val ivPreview = v.findViewById<ImageView>(R.id.iv_trip_photo_preview)
+                val placeholder = v.findViewById<LinearLayout>(R.id.layout_trip_photo_placeholder)
+                val badge = v.findViewById<TextView>(R.id.tv_trip_retake_badge)
+                val cardTripPhoto = v.findViewById<MaterialCardView>(R.id.card_trip_photo_capture)
+
+                ivPreview?.visibility = View.VISIBLE
+                placeholder?.visibility = View.GONE
+                badge?.visibility = View.VISIBLE
+                cardTripPhoto?.strokeColor = Color.parseColor("#10B981")
+                cardTripPhoto?.strokeWidth = 2
+                ivPreview?.setImageResource(R.drawable.ic_admin_profile)
+            }
+
+            // Auto-scroll to confirm button and trigger click
+            val scrollView = v.findViewById<androidx.core.widget.NestedScrollView>(R.id.scroll_plan_trip)
+            scrollView?.postDelayed({
+                if (isAdded) {
+                    scrollView.smoothScrollTo(0, btnConfirm.bottom + 300)
+                    btnConfirm.requestFocus()
+                    btnConfirm.performClick()
+                }
+            }, 300)
+        }
     }
 
     private fun initViews(view: View) {

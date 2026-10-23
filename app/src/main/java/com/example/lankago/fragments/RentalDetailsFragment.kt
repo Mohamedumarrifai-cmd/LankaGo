@@ -149,6 +149,62 @@ class RentalDetailsFragment : Fragment() {
             }
         }
 
+        // Multi-Photo Gallery Strip (> 5 Images)
+        val galleryStrip = view.findViewById<LinearLayout>(R.id.layout_vehicle_gallery_strip)
+        if (galleryStrip != null) {
+            galleryStrip.removeAllViews()
+            val allImages = if (rental.images.isNotEmpty()) rental.images else listOf("")
+            val density = resources.displayMetrics.density
+            val thumbWidth = (84 * density).toInt()
+            val thumbHeight = (64 * density).toInt()
+            val thumbMargin = (8 * density).toInt()
+            val cornerRad = 10 * density
+
+            allImages.forEachIndexed { index, imgUrl ->
+                val cardView = com.google.android.material.card.MaterialCardView(requireContext()).apply {
+                    radius = cornerRad
+                    cardElevation = 2 * density
+                    strokeWidth = if (index == 0) (2.5f * density).toInt() else (1 * density).toInt()
+                    strokeColor = if (index == 0) Color.parseColor("#5D5FEF") else Color.parseColor("#CBD5E1")
+                    layoutParams = LinearLayout.LayoutParams(thumbWidth, thumbHeight).apply {
+                        setMargins(0, 0, thumbMargin, 0)
+                    }
+                }
+                val ivThumb = ImageView(requireContext()).apply {
+                    layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                    scaleType = ImageView.ScaleType.CENTER_CROP
+                }
+                if (!imgUrl.isNullOrBlank()) {
+                    com.bumptech.glide.Glide.with(this)
+                        .load(imgUrl)
+                        .placeholder(fallbackRes)
+                        .error(fallbackRes)
+                        .centerCrop()
+                        .into(ivThumb)
+                } else {
+                    ivThumb.setImageResource(fallbackRes)
+                }
+                cardView.addView(ivThumb)
+
+                cardView.setOnClickListener {
+                    if (ivHero != null && !imgUrl.isNullOrBlank()) {
+                        com.bumptech.glide.Glide.with(this)
+                            .load(imgUrl)
+                            .placeholder(fallbackRes)
+                            .error(fallbackRes)
+                            .centerCrop()
+                            .into(ivHero)
+                    }
+                    for (i in 0 until galleryStrip.childCount) {
+                        val child = galleryStrip.getChildAt(i) as? com.google.android.material.card.MaterialCardView
+                        child?.strokeWidth = if (i == index) (2.5f * density).toInt() else (1 * density).toInt()
+                        child?.strokeColor = if (i == index) Color.parseColor("#5D5FEF") else Color.parseColor("#CBD5E1")
+                    }
+                }
+                galleryStrip.addView(cardView)
+            }
+        }
+
         view.findViewById<TextView>(R.id.tv_appbar_rental_title)?.text = rental.name
         view.findViewById<TextView>(R.id.tv_rental_name)?.text = rental.name
         view.findViewById<TextView>(R.id.tv_rental_location)?.text = "${rental.type} • ${rental.location}"
@@ -231,6 +287,7 @@ class RentalDetailsFragment : Fragment() {
                         "✓ ${rental.name} selected for your booking!",
                         Toast.LENGTH_SHORT
                     ).show()
+                    findNavController().previousBackStackEntry?.savedStateHandle?.set("auto_confirm_booking", true)
                     findNavController().popBackStack()
                 }
             } else {
