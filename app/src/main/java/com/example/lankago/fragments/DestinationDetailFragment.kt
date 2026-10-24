@@ -42,6 +42,13 @@ class DestinationDetailFragment : Fragment() {
             tvRating?.text = "★ ${it.rating}"
             tvCategory?.text = it.category
             tvDescription?.text = it.description
+
+            if (ivHero != null && it.imageUri.isNotBlank()) {
+                com.bumptech.glide.Glide.with(this)
+                    .load(it.imageUri)
+                    .centerCrop()
+                    .into(ivHero)
+            }
         }
 
         // Back button navigation
@@ -70,7 +77,15 @@ class DestinationDetailFragment : Fragment() {
 
         // View Route on Map Navigation
         root.findViewById<View>(R.id.btn_view_map)?.setOnClickListener {
-            findNavController().navigate(R.id.action_destinationDetailFragment_to_mapRouteFragment)
+            val bundle = Bundle().apply {
+                if (place != null) {
+                    putDouble("destLat", place.lat)
+                    putDouble("destLng", place.lng)
+                    putString("destTitle", place.name)
+                    putString("destAddress", place.location)
+                }
+            }
+            findNavController().navigate(R.id.action_destinationDetailFragment_to_mapRouteFragment, bundle)
         }
 
         return root

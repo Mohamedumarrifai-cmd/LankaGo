@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -105,16 +106,10 @@ open class MapFragment : Fragment() {
         } else {
             Toast.makeText(
                 requireContext(),
-                "Location permission denied. Showing Colombo Fort as default.",
+                "Location permission denied. Please enable GPS permissions in Settings.",
                 Toast.LENGTH_SHORT
             ).show()
-            val fallback = Location("fallback").apply {
-                latitude = 6.9344
-                longitude = 79.8428
-            }
-            currentUserLocation = fallback
-            updateLocationUI(fallback)
-            updateMapLocation(fallback.latitude, fallback.longitude, shouldCenter = true)
+            locationTextView.text = "📍 Location permission denied\nPlease grant GPS permission in Settings"
         }
     }
 
@@ -134,6 +129,11 @@ open class MapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        destLat = arguments?.getDouble("destLat", 0.0)?.takeIf { it != 0.0 }
+        destLng = arguments?.getDouble("destLng", 0.0)?.takeIf { it != 0.0 }
+        destTitle = arguments?.getString("destTitle") ?: "Destination"
+        destAddress = arguments?.getString("destAddress") ?: ""
 
         initViews(view)
         setupWebView()
@@ -164,7 +164,6 @@ open class MapFragment : Fragment() {
         mapWebView.settings.apply {
             javaScriptEnabled = true
             domStorageEnabled = true
-            databaseEnabled = true
             useWideViewPort = true
             loadWithOverviewMode = true
             setSupportZoom(true)
@@ -179,6 +178,11 @@ open class MapFragment : Fragment() {
                 isMapLoaded = true
                 currentUserLocation?.let { loc ->
                     updateMapLocation(loc.latitude, loc.longitude, shouldCenter = true)
+                }
+                val dLat = destLat
+                val dLng = destLng
+                if (dLat != null && dLng != null) {
+                    plotRouteToDestination(dLat, dLng, destTitle, destAddress)
                 }
             }
         }
@@ -215,7 +219,11 @@ open class MapFragment : Fragment() {
         }
 
         fabRecenterLocation.setOnClickListener {
-            mapWebView.evaluateJavascript("recenterToUser();", null)
+            currentUserLocation?.let { loc ->
+                updateMapLocation(loc.latitude, loc.longitude, shouldCenter = true)
+            } ?: run {
+                mapWebView.evaluateJavascript("recenterToUser();", null)
+            }
             Toast.makeText(requireContext(), "📍 Centering on your location", Toast.LENGTH_SHORT).show()
         }
 
@@ -236,8 +244,8 @@ open class MapFragment : Fragment() {
     }
 
     private fun initLocationCallback() {
-        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
-            .setMinUpdateIntervalMillis(5000)
+        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 2000)
+            .setMinUpdateIntervalMillis(1000)
             .build()
 
         locationCallback = object : LocationCallback() {
@@ -248,6 +256,11 @@ open class MapFragment : Fragment() {
                     updateMapLocation(location.latitude, location.longitude, shouldCenter = isFirstLocationFix)
                     if (isFirstLocationFix) {
                         isFirstLocationFix = false
+                        val dLat = destLat
+                        val dLng = destLng
+                        if (dLat != null && dLng != null) {
+                            plotRouteToDestination(dLat, dLng, destTitle, destAddress)
+                        }
                     }
                 }
             }
@@ -279,21 +292,60 @@ open class MapFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun fetchInitialLocation() {
+        // 1. Immediately check system LocationManager (fastest on-device hardware GPS fix)
+        val lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+        val lastKnownGps = try { lm?.getLastKnownLocation(LocationManager.GPS_PROVIDER) } catch (_: SecurityException) { null }
+        val lastKnownNet = try { lm?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) } catch (_: SecurityException) { null }
+        val bestInitial = lastKnownGps ?: lastKnownNet
+
+        if (bestInitial != null) {
+            currentUserLocation = bestInitial
+            updateLocationUI(bestInitial)
+            updateMapLocation(bestInitial.latitude, bestInitial.longitude, shouldCenter = true)
+            isFirstLocationFix = false
+            val dLat = destLat
+            val dLng = destLng
+            if (dLat != null && dLng != null) {
+                plotRouteToDestination(dLat, dLng, destTitle, destAddress)
+            }
+        } else {
+            locationTextView.text = "📍 Finding your current GPS location..."
+        }
+
+        // 2. Query FusedLocationProviderClient for cached last location
+        fusedLocationClient.lastLocation.addOnSuccessListener { lastLoc: Location? ->
+            if (lastLoc != null) {
+                val shouldUpdate = currentUserLocation == null || lastLoc.time > (currentUserLocation?.time ?: 0)
+                if (shouldUpdate) {
+                    currentUserLocation = lastLoc
+                    updateLocationUI(lastLoc)
+                    updateMapLocation(lastLoc.latitude, lastLoc.longitude, shouldCenter = isFirstLocationFix)
+                    if (isFirstLocationFix) {
+                        isFirstLocationFix = false
+                        val dLat = destLat
+                        val dLng = destLng
+                        if (dLat != null && dLng != null) {
+                            plotRouteToDestination(dLat, dLng, destTitle, destAddress)
+                        }
+                    }
+                }
+            }
+        }
+
+        // 3. Request fresh single high-accuracy location fix
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location: Location? ->
                 if (location != null) {
                     currentUserLocation = location
                     updateLocationUI(location)
-                    updateMapLocation(location.latitude, location.longitude, shouldCenter = true)
-                } else {
-                    fusedLocationClient.lastLocation.addOnSuccessListener { lastLoc: Location? ->
-                        val loc = lastLoc ?: Location("fallback").apply {
-                            latitude = 6.9344
-                            longitude = 79.8428
+                    updateMapLocation(location.latitude, location.longitude, shouldCenter = isFirstLocationFix)
+                    if (isFirstLocationFix) {
+                        isFirstLocationFix = false
+                        val dLat = destLat
+                        val dLng = destLng
+                        if (dLat != null && dLng != null) {
+                            plotRouteToDestination(dLat, dLng, destTitle, destAddress)
                         }
-                        currentUserLocation = loc
-                        updateLocationUI(loc)
-                        updateMapLocation(loc.latitude, loc.longitude, shouldCenter = true)
                     }
                 }
             }
@@ -324,9 +376,24 @@ open class MapFragment : Fragment() {
     }
 
     private fun updateLocationUI(location: Location) {
-        val lat = String.format(Locale.US, "%.5f", location.latitude)
-        val lng = String.format(Locale.US, "%.5f", location.longitude)
-        locationTextView.text = "Latitude: $lat\nLongitude: $lng"
+        val lat = String.format(Locale.US, "%.4f", location.latitude)
+        val lng = String.format(Locale.US, "%.4f", location.longitude)
+        locationTextView.text = "📍 Lat: $lat, Lng: $lng"
+
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val geocoder = Geocoder(requireContext(), Locale.ENGLISH)
+                val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                val address = addresses?.firstOrNull()
+                val city = address?.locality
+                    ?: address?.subAdminArea
+                    ?: address?.adminArea
+                val label = if (city != null) "📍 $city, Sri Lanka\n$lat° N, $lng° E" else "📍 Lat: $lat, Lng: $lng"
+                withContext(Dispatchers.Main) {
+                    locationTextView.text = label
+                }
+            } catch (_: Exception) {}
+        }
     }
 
     private fun updateMapLocation(lat: Double, lng: Double, shouldCenter: Boolean) {

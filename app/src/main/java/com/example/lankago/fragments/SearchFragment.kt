@@ -30,6 +30,8 @@ class SearchFragment : Fragment() {
 
     private lateinit var chipAll: TextView
     private lateinit var chipHeritage: TextView
+    private lateinit var chipLakes: TextView
+    private lateinit var chipHills: TextView
     private lateinit var chipBeach: TextView
     private lateinit var chipWildlife: TextView
 
@@ -62,6 +64,8 @@ class SearchFragment : Fragment() {
 
         chipAll = view.findViewById(R.id.chip_all)
         chipHeritage = view.findViewById(R.id.chip_heritage)
+        chipLakes = view.findViewById(R.id.chip_lakes)
+        chipHills = view.findViewById(R.id.chip_hills)
         chipBeach = view.findViewById(R.id.chip_beach)
         chipWildlife = view.findViewById(R.id.chip_wildlife)
 
@@ -74,6 +78,8 @@ class SearchFragment : Fragment() {
         val chips = listOf(
             chipAll to "All",
             chipHeritage to "Heritage",
+            chipLakes to "Lakes",
+            chipHills to "Hills",
             chipBeach to "Beach",
             chipWildlife to "Wildlife"
         )
@@ -104,6 +110,18 @@ class SearchFragment : Fragment() {
             filterData()
         }
 
+        chipLakes.setOnClickListener {
+            selectedCategory = "Lakes"
+            updateChipsUi(chipLakes)
+            filterData()
+        }
+
+        chipHills.setOnClickListener {
+            selectedCategory = "Hills"
+            updateChipsUi(chipHills)
+            filterData()
+        }
+
         chipBeach.setOnClickListener {
             selectedCategory = "Beach"
             updateChipsUi(chipBeach)
@@ -114,6 +132,16 @@ class SearchFragment : Fragment() {
             selectedCategory = "Wildlife"
             updateChipsUi(chipWildlife)
             filterData()
+        }
+
+        // Check if an initial category was passed from Home or elsewhere
+        val incomingCategory = arguments?.getString("selected_category")
+        if (!incomingCategory.isNullOrBlank()) {
+            val matchedChipPair = chips.find { it.second.equals(incomingCategory, ignoreCase = true) }
+            if (matchedChipPair != null) {
+                selectedCategory = matchedChipPair.second
+                updateChipsUi(matchedChipPair.first)
+            }
         }
     }
 

@@ -24,6 +24,10 @@ import com.example.lankago.LankaGoApp
 import com.example.lankago.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.example.lankago.utils.ImagePickerHelper
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,6 +38,15 @@ import kotlinx.coroutines.withContext
  * itineraries, notifications, support hotline, and storage management.
  */
 class SettingsFragment : Fragment() {
+
+    private val imagePickerHelper = ImagePickerHelper(this) { uri: Uri ->
+        val ivAvatar = view?.findViewById<ImageView>(R.id.iv_settings_avatar)
+        com.example.lankago.utils.ProfileAvatarManager.saveAvatar(this, uri, ivAvatar) { success, msg ->
+            if (isAdded) {
+                Toast.makeText(requireContext(), if (success) "✓ Profile photo updated for your account!" else msg, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +59,9 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val prefs = requireContext().getSharedPreferences(LankaGoApp.PREFS_SETTINGS, Context.MODE_PRIVATE)
+
+        // 0. User Profile Header Card & Image Picker
+        setupProfileHeader(view)
 
         // 1. Back Navigation
         view.findViewById<ImageView>(R.id.btn_back_settings)?.setOnClickListener {
@@ -273,5 +289,55 @@ class SettingsFragment : Fragment() {
             )
             .setPositiveButton("Awesome", null)
             .show()
+    }
+
+    private fun setupProfileHeader(view: View) {
+        val ivAvatar = view.findViewById<ImageView>(R.id.iv_settings_avatar)
+        val btnChangeAvatar = view.findViewById<View>(R.id.btn_change_settings_avatar)
+        val layoutAvatar = view.findViewById<View>(R.id.layout_settings_avatar)
+        val tvName = view.findViewById<TextView>(R.id.tv_settings_user_name)
+        val tvEmail = view.findViewById<TextView>(R.id.tv_settings_user_email)
+        val layoutUserInfo = view.findViewById<View>(R.id.layout_settings_user_info)
+
+        val context = context ?: return
+
+        // 1. Load user avatar via ProfileAvatarManager (user-specific local file + Firebase RTDB)
+        com.example.lankago.utils.ProfileAvatarManager.loadAvatar(this, ivAvatar)
+
+        // 2. Load user name & email
+        val authUser = FirebaseAuth.getInstance().currentUser
+        if (authUser != null) {
+            tvEmail?.text = authUser.email ?: "traveler@lankago.lk"
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val snapshot = FirebaseDatabase.getInstance().reference.child("users").child(authUser.uid).get().await()
+                    val name = snapshot.child("name").getValue(String::class.java)
+                    tvName?.text = if (!name.isNullOrBlank()) name else (authUser.displayName ?: "LankaGo Traveler")
+                } catch (_: Exception) {
+                    tvName?.text = authUser.displayName ?: "LankaGo Traveler"
+                }
+            }
+        } else {
+            tvName?.text = com.example.lankago.utils.AuthManager.getLoggedInName(context)
+            tvEmail?.text = com.example.lankago.utils.AuthManager.getLoggedInEmail(context)
+        }
+
+        // 3. Avatar click opens camera/gallery chooser
+        val openPicker = View.OnClickListener {
+            imagePickerHelper.showImageSourceDialog("Change Profile Picture")
+        }
+        layoutAvatar?.setOnClickListener(openPicker)
+        btnChangeAvatar?.setOnClickListener(openPicker)
+        ivAvatar?.setOnClickListener(openPicker)
+
+        // 4. Clicking user info row opens ProfileFragment
+        val openProfile = View.OnClickListener {
+            try {
+                findNavController().navigate(R.id.action_settingsFragment_to_profileFragment)
+            } catch (_: Exception) {
+                findNavController().navigateUp()
+            }
+        }
+        layoutUserInfo?.setOnClickListener(openProfile)
     }
 }

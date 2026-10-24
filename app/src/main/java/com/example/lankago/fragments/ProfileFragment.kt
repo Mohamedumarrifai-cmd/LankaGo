@@ -118,6 +118,8 @@ class ProfileFragment : Fragment() {
         // Logout
         view.findViewById<View>(R.id.btn_profile_logout)?.setOnSafeClickListener {
             auth.signOut()
+            com.example.lankago.utils.AuthManager.logout(requireContext())
+            ivAvatar?.setImageResource(R.drawable.ic_admin_profile)
             Toast.makeText(requireContext(), "Logged out successfully", Toast.LENGTH_SHORT).show()
             findNavController().safeNavigate(R.id.action_profileFragment_to_loginFragment)
         }
@@ -125,54 +127,33 @@ class ProfileFragment : Fragment() {
 
     private fun loadUserProfile(tvName: TextView?, tvEmail: TextView?, ivAvatar: ImageView?) {
         val context = context ?: return
-        val profilePrefs = context.getSharedPreferences(PREFS_USER_PROFILE, Context.MODE_PRIVATE)
-
-        // 1. Immediately load persistent local avatar (Works 100% offline & across app restarts)
-        val savedLocalAvatarPath = profilePrefs.getString(KEY_AVATAR_PATH, null)
-        if (!savedLocalAvatarPath.isNullOrBlank() && ivAvatar != null) {
-            val localFile = File(savedLocalAvatarPath)
-            if (localFile.exists()) {
-                ivAvatar.imageTintList = null
-                Glide.with(this)
-                    .load(localFile)
-                    .circleCrop()
-                    .into(ivAvatar)
-            }
-        }
-
         val currentUser = auth.currentUser
+
+        // 1. Load avatar via ProfileAvatarManager (Instant local cache + Firebase RTDB Base64 / Cloud)
+        com.example.lankago.utils.ProfileAvatarManager.loadAvatar(this, ivAvatar)
+
         if (currentUser == null) {
-            tvName?.text = profilePrefs.getString(KEY_USER_NAME, "LankaGo Traveler")
-            tvEmail?.text = profilePrefs.getString(KEY_USER_EMAIL, "traveler@lankago.lk")
+            tvName?.text = com.example.lankago.utils.AuthManager.getLoggedInName(context)
+            tvEmail?.text = com.example.lankago.utils.AuthManager.getLoggedInEmail(context)
             return
         }
 
         val uid = currentUser.uid
         tvEmail?.text = currentUser.email ?: "traveler@lankago.lk"
 
-        // 2. Load cloud profile from Firebase
+        // 2. Fetch User display name from Firebase Realtime Database
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val snapshot = database.reference.child("users").child(uid).get().await()
                 val name = snapshot.child("name").getValue(String::class.java)
-                val profileUrl = snapshot.child("profileImageUrl").getValue(String::class.java)
 
                 if (!name.isNullOrBlank()) {
                     tvName?.text = name
                 } else {
                     tvName?.text = currentUser.displayName ?: "LankaGo Explorer"
                 }
-
-                // If cloud URL exists and local is empty, display cloud photo
-                if (!profileUrl.isNullOrBlank() && ivAvatar != null && savedLocalAvatarPath.isNullOrBlank()) {
-                    ivAvatar.imageTintList = null
-                    Glide.with(this@ProfileFragment)
-                        .load(profileUrl)
-                        .circleCrop()
-                        .into(ivAvatar)
-                }
             } catch (_: Exception) {
-                // Keep loaded local profile
+                tvName?.text = currentUser.displayName ?: "LankaGo Explorer"
             }
         }
     }
@@ -180,51 +161,10 @@ class ProfileFragment : Fragment() {
     private fun onProfilePhotoSelected(uri: Uri) {
         val view = view ?: return
         val ivAvatar = view.findViewById<ImageView>(R.id.iv_profile_avatar) ?: return
-        val context = requireContext()
 
-        // 1. Instantly display locally with circular crop
-        ivAvatar.imageTintList = null
-        Glide.with(this)
-            .load(uri)
-            .circleCrop()
-            .into(ivAvatar)
-
-        // 2. Automatically save photo to app's persistent internal storage
-        viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                val localFile = withContext(Dispatchers.IO) {
-                    val avatarFile = File(context.filesDir, "profile_avatar_user.jpg")
-                    context.contentResolver.openInputStream(uri)?.use { input ->
-                        FileOutputStream(avatarFile).use { output ->
-                            input.copyTo(output)
-                        }
-                    }
-                    avatarFile
-                }
-
-                // Persist file path in SharedPreferences
-                val profilePrefs = context.getSharedPreferences(PREFS_USER_PROFILE, Context.MODE_PRIVATE)
-                profilePrefs.edit().putString(KEY_AVATAR_PATH, localFile.absolutePath).apply()
-
-                Snackbar.make(view, "✓ Profile photo auto-saved successfully!", Snackbar.LENGTH_SHORT).show()
-
-                // 3. Sync to Firebase Storage & Realtime Database if authenticated
-                val currentUser = auth.currentUser
-                if (currentUser != null) {
-                    val uid = currentUser.uid
-                    val storageRef = storage.reference.child("profile_pictures/$uid.jpg")
-                    storageRef.putFile(Uri.fromFile(localFile)).await()
-                    val downloadUrl = storageRef.downloadUrl.await().toString()
-
-                    database.reference
-                        .child("users")
-                        .child(uid)
-                        .child("profileImageUrl")
-                        .setValue(downloadUrl)
-                        .await()
-                }
-            } catch (e: Exception) {
-                Snackbar.make(view, "Photo saved locally.", Snackbar.LENGTH_SHORT).show()
+        com.example.lankago.utils.ProfileAvatarManager.saveAvatar(this, uri, ivAvatar) { success, msg ->
+            if (isAdded) {
+                Snackbar.make(view, if (success) "✓ Profile photo saved for your account!" else msg, Snackbar.LENGTH_SHORT).show()
             }
         }
     }

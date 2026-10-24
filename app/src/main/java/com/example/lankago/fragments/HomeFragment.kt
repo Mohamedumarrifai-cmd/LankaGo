@@ -41,23 +41,23 @@ class HomeFragment : Fragment() {
     private fun setupPopularDestinations(view: View) {
         view.findViewById<View>(R.id.card_popular_1)?.setOnClickListener {
             val bundle = Bundle().apply {
-                putString("place_id", "place_1")
+                putString("selected_category", "Heritage")
             }
-            findNavController().safeNavigate(R.id.action_homeFragment_to_destinationDetailFragment, bundle)
+            findNavController().safeNavigate(R.id.action_homeFragment_to_searchFragment, bundle)
         }
 
         view.findViewById<View>(R.id.card_popular_2)?.setOnClickListener {
             val bundle = Bundle().apply {
-                putString("place_id", "place_4")
+                putString("selected_category", "Lakes")
             }
-            findNavController().safeNavigate(R.id.action_homeFragment_to_destinationDetailFragment, bundle)
+            findNavController().safeNavigate(R.id.action_homeFragment_to_searchFragment, bundle)
         }
 
         view.findViewById<View>(R.id.card_popular_3)?.setOnClickListener {
             val bundle = Bundle().apply {
-                putString("place_id", "place_2")
+                putString("selected_category", "Hills")
             }
-            findNavController().safeNavigate(R.id.action_homeFragment_to_destinationDetailFragment, bundle)
+            findNavController().safeNavigate(R.id.action_homeFragment_to_searchFragment, bundle)
         }
     }
 

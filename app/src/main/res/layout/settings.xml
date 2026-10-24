@@ -70,6 +70,99 @@
             android:paddingTop="16dp"
             android:paddingBottom="32dp">
 
+            <!-- Section 0: User Profile Header Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_settings_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:cardBackgroundColor="?attr/colorSurface">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <FrameLayout
+                        android:id="@+id/layout_settings_avatar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:id="@+id/iv_settings_avatar"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:background="@drawable/bg_circle_avatar"
+                            android:padding="4dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_admin_profile"
+                            app:tint="?attr/colorOnSurface"
+                            android:contentDescription="Profile Picture" />
+
+                        <ImageView
+                            android:id="@+id/btn_change_settings_avatar"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="bottom|end"
+                            android:background="@drawable/bg_white_circle"
+                            android:elevation="3dp"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_camera"
+                            app:tint="#1A2B4C"
+                            android:contentDescription="Change photo" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_settings_user_info"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="14dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_settings_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="LankaGo Traveler"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tv_settings_user_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="traveler@lankago.lk"
+                            android:textColor="#64748B"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Tap to change photo • View Profile"
+                            android:textColor="@color/primary"
+                            android:textSize="12sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="#94A3B8"
+                        android:contentDescription="Open Profile" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
             <!-- Section 1: General & Appearance -->
             <TextView
                 android:layout_width="wrap_content"

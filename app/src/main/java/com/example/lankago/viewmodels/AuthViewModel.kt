@@ -102,7 +102,7 @@ class AuthViewModel(
                 val name = user?.name ?: authResult.user?.displayName ?: "Traveler"
                 val role = user?.role ?: "user"
 
-                AuthManager.login(context, trimmedEmail)
+                AuthManager.login(context, trimmedEmail, name)
                 _authState.value = AuthState.Authenticated(trimmedEmail, name, role)
 
             } catch (e: Exception) {

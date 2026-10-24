@@ -485,7 +485,7 @@
                     android:orientation="horizontal"
                     android:paddingHorizontal="16dp">
 
-                    <!-- Card 1: 5/5 (Sigiriya) -->
+                    <!-- Card 1: Heritage -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_popular_1"
                         android:layout_width="140dp"
@@ -494,8 +494,8 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?attr/selectableItemBackground"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="0dp">
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="2dp">
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
@@ -503,21 +503,26 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/royalenflied"
-                                android:contentDescription="Destination 1" />
+                                android:src="@drawable/sigiriya"
+                                android:contentDescription="Heritage &amp; Forts" />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="60dp"
+                                android:layout_gravity="bottom"
+                                android:background="@drawable/bg_dark_scrim" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom|start"
                                 android:layout_margin="10dp"
-                                android:text="5/5"
+                                android:text="🏛️ Heritage"
                                 android:textColor="#FFFFFF"
                                 android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:fontFamily="sans-serif-bold" />
                         </FrameLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <!-- Card 2: Lake -->
+                    <!-- Card 2: Lakes -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_popular_2"
                         android:layout_width="140dp"
@@ -526,8 +531,8 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?attr/selectableItemBackground"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="0dp">
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="2dp">
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
@@ -536,16 +541,21 @@
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/lake"
-                                android:contentDescription="Destination 2" />
+                                android:contentDescription="Lakes &amp; Waterways" />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="60dp"
+                                android:layout_gravity="bottom"
+                                android:background="@drawable/bg_dark_scrim" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom|start"
                                 android:layout_margin="10dp"
-                                android:text="Lake"
+                                android:text="🌊 Lakes"
                                 android:textColor="#FFFFFF"
                                 android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:fontFamily="sans-serif-bold" />
                         </FrameLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -558,8 +568,8 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?attr/selectableItemBackground"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="0dp">
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="2dp">
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
@@ -568,16 +578,21 @@
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/hills"
-                                android:contentDescription="Destination 3" />
+                                android:contentDescription="Hills &amp; Mountains" />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="60dp"
+                                android:layout_gravity="bottom"
+                                android:background="@drawable/bg_dark_scrim" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom|start"
                                 android:layout_margin="10dp"
-                                android:text="Hills"
+                                android:text="⛰️ Hills"
                                 android:textColor="#FFFFFF"
                                 android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:fontFamily="sans-serif-bold" />
                         </FrameLayout>
                     </androidx.cardview.widget.CardView>
 

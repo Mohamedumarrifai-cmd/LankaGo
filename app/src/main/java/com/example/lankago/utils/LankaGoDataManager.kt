@@ -16,7 +16,9 @@ data class Place(
     val imageUri: String = "",
     val description: String = "",
     val rating: String = "4.8",
-    val entranceFee: String = "Free"
+    val entranceFee: String = "Free",
+    val lat: Double = 0.0,
+    val lng: Double = 0.0
 )
 
 /**
@@ -27,6 +29,8 @@ object LankaGoDataManager {
 
     private const val PREFS_NAME = "lankago_places_pref"
     private const val KEY_PLACES_JSON = "saved_places_json"
+    private const val DATA_VERSION = 2 // Updated for rich Lakes, Hills & Heritage catalogue
+    private const val KEY_DATA_VERSION = "saved_places_version"
     private val gson = Gson()
 
     // In-memory cache for fast access
@@ -43,38 +47,64 @@ object LankaGoDataManager {
      */
     fun getPlaces(context: Context): List<Place> {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val currentVersion = prefs.getInt(KEY_DATA_VERSION, 0)
         val json = prefs.getString(KEY_PLACES_JSON, null)
 
-        if (!json.isNullOrEmpty()) {
+        if (!json.isNullOrEmpty() && currentVersion >= DATA_VERSION) {
             val type = object : TypeToken<ArrayList<Place>>() {}.type
             val savedList: ArrayList<Place>? = gson.fromJson(json, type)
-            if (!savedList.isNullOrEmpty()) {
+            if (!savedList.isNullOrEmpty() && savedList.any { it.category.equals("Lakes", ignoreCase = true) }) {
                 placesList.clear()
                 placesList.addAll(savedList)
                 return savedList
             }
         }
 
-        // First launch: initialize with defaults and save
+        // Initialize with comprehensive defaults and save
         val defaults = getDefaultPlaces()
         savePlacesToPrefs(context, defaults)
+        prefs.edit().putInt(KEY_DATA_VERSION, DATA_VERSION).apply()
         placesList.clear()
         placesList.addAll(defaults)
         return defaults
     }
 
     /**
-     * Adds a new destination (e.g. from Admin panel) and persists it permanently to SharedPreferences.
+     * Adds a newly submitted destination from Admin panel and persists to disk.
      */
     fun addPlace(context: Context, place: Place) {
-        val currentList = ArrayList(getPlaces(context))
-        // Add new place at the top of the list
-        currentList.add(0, place)
-        savePlacesToPrefs(context, currentList)
-
-        // Update in-memory cache
+        val current = getPlaces(context).toMutableList()
+        current.add(0, place)
+        savePlacesToPrefs(context, current)
         placesList.clear()
-        placesList.addAll(currentList)
+        placesList.addAll(current)
+    }
+
+    /**
+     * Searches places matching a query in title, location, or description.
+     */
+    fun searchPlaces(context: Context, query: String): List<Place> {
+        val all = getPlaces(context)
+        if (query.isBlank()) return all
+
+        val q = query.trim().lowercase()
+        return all.filter {
+            it.name.lowercase().contains(q) ||
+            it.location.lowercase().contains(q) ||
+            it.category.lowercase().contains(q) ||
+            it.description.lowercase().contains(q)
+        }
+    }
+
+    /**
+     * Filters places by specific category ("Lakes", "Hills", "Heritage", "Beach", "Wildlife").
+     */
+    fun filterByCategory(context: Context, category: String): List<Place> {
+        val all = getPlaces(context)
+        if (category.equals("All", ignoreCase = true) || category.isBlank()) {
+            return all
+        }
+        return all.filter { it.category.equals(category, ignoreCase = true) }
     }
 
     /**
@@ -93,85 +123,266 @@ object LankaGoDataManager {
 
     private fun getDefaultPlaces(): List<Place> {
         return listOf(
+            // ================= 1. LAKES OF SRI LANKA =================
             Place(
-                id = "place_1",
+                id = "lake_gregory",
+                name = "Gregory Lake",
+                category = "Lakes",
+                location = "Nuwara Eliya, Central Province",
+                imageUri = "android.resource://com.example.lankago/drawable/lake",
+                description = "Scenic colonial reservoir nestled among mist-covered hills in Little England. Popular for swan paddle boating, jet skiing, pony rides, and waterfront walking trails.",
+                rating = "4.8",
+                entranceFee = "LKR 500",
+                lat = 6.9535,
+                lng = 80.7816
+            ),
+            Place(
+                id = "lake_kandy",
+                name = "Kandy Lake (Kiri Muhuda)",
+                category = "Lakes",
+                location = "Kandy, Central Province",
+                imageUri = "android.resource://com.example.lankago/drawable/lake",
+                description = "Historic royal heart of Kandy built in 1807 beside Sri Dalada Maligawa. Enjoy tranquil shaded lakeside strolls, watching pelicans, cormorants, and scenic hill views.",
+                rating = "4.7",
+                entranceFee = "Free",
+                lat = 7.2936,
+                lng = 80.6413
+            ),
+            Place(
+                id = "lake_sembuwatta",
+                name = "Sembuwatta Lake",
+                category = "Lakes",
+                location = "Elkaduwa, Matale District",
+                imageUri = "android.resource://com.example.lankago/drawable/lake",
+                description = "Breathtaking man-made lake fed by natural springs, framed by towering pine forests and emerald tea hills. A paradise for photography, picnics, and mountain breezes.",
+                rating = "4.9",
+                entranceFee = "LKR 400",
+                lat = 7.4338,
+                lng = 80.6974
+            ),
+            Place(
+                id = "lake_bolgoda",
+                name = "Bolgoda Lake",
+                category = "Lakes",
+                location = "Moratuwa & Panadura, Western Province",
+                imageUri = "android.resource://com.example.lankago/drawable/lake",
+                description = "The largest natural freshwater lake in Sri Lanka. Renowned for boat safaris, bird watching, mangrove ecosystems, and thrilling jet-ski watersports.",
+                rating = "4.6",
+                entranceFee = "Free",
+                lat = 6.7417,
+                lng = 79.9392
+            ),
+            Place(
+                id = "lake_tissa",
+                name = "Tissa Wewa Reservoir",
+                category = "Lakes",
+                location = "Tissamaharama, Southern Province",
+                imageUri = "android.resource://com.example.lankago/drawable/lake",
+                description = "Magnificent 3rd-century BC ancient irrigation lake constructed by King Yatala Tissa. Shaded by ancient giant trees, with glorious sunsets and aquatic birdlife.",
+                rating = "4.7",
+                entranceFee = "Free",
+                lat = 6.2797,
+                lng = 81.2882
+            ),
+            Place(
+                id = "lake_castlereagh",
+                name = "Castlereagh Reservoir",
+                category = "Lakes",
+                location = "Hatton, Central Highlands",
+                imageUri = "android.resource://com.example.lankago/drawable/lake",
+                description = "Dramatic emerald mountain lake surrounded by rolling tea plantations and colonial bungalows. Famous for seaplane landings and peaceful valley scenery.",
+                rating = "4.9",
+                entranceFee = "Free",
+                lat = 6.8667,
+                lng = 80.5667
+            ),
+
+            // ================= 2. HILLS & MOUNTAINS =================
+            Place(
+                id = "hill_nine_arches",
+                name = "Nine Arches Bridge",
+                category = "Hills",
+                location = "Ella, Badulla District",
+                imageUri = "android.resource://com.example.lankago/drawable/bridge",
+                description = "Iconic colonial-era stone rail viaduct nestled amidst dense jungle and lush green tea mountain valleys in Ella. Watch the blue train cross into the misty hills.",
+                rating = "4.9",
+                entranceFee = "Free",
+                lat = 6.8768,
+                lng = 81.0608
+            ),
+            Place(
+                id = "hill_little_adams",
+                name = "Little Adam's Peak & Ella Rock",
+                category = "Hills",
+                location = "Ella, Uva Province",
+                imageUri = "android.resource://com.example.lankago/drawable/hills",
+                description = "Invigorating mountain hike offering 360-degree panoramic vistas of Ella Gap, Ravana Falls, and rolling green tea plantations.",
+                rating = "4.8",
+                entranceFee = "Free",
+                lat = 6.8617,
+                lng = 81.0544
+            ),
+            Place(
+                id = "hill_horton_plains",
+                name = "Horton Plains & World's End",
+                category = "Hills",
+                location = "Nuwara Eliya, Central Highlands",
+                imageUri = "android.resource://com.example.lankago/drawable/hills",
+                description = "UNESCO World Heritage high-altitude cloud plateau at 2,100 meters. Features a dramatic sheer vertical cliff drop of 870 meters overlooking the southern plains.",
+                rating = "4.9",
+                entranceFee = "LKR 3,500",
+                lat = 6.8028,
+                lng = 80.8039
+            ),
+            Place(
+                id = "hill_knuckles",
+                name = "Knuckles Mountain Range",
+                category = "Hills",
+                location = "Matale & Kandy Districts",
+                imageUri = "android.resource://com.example.lankago/drawable/hills",
+                description = "Rugged UNESCO biosphere reserve shaped like the knuckles of a clenched fist. Home to cloud forests, hidden waterfalls, and premier trekking expeditions.",
+                rating = "4.9",
+                entranceFee = "LKR 1,500",
+                lat = 7.4667,
+                lng = 80.7833
+            ),
+            Place(
+                id = "hill_pidurutalagala",
+                name = "Pidurutalagala (Mount Pedro)",
+                category = "Hills",
+                location = "Nuwara Eliya, Central Province",
+                imageUri = "android.resource://com.example.lankago/drawable/hills",
+                description = "Sri Lanka's highest peak rising to 2,524 meters (8,281 feet). Offers cool temperatures, pine forests, and sweeping views of the central massif.",
+                rating = "4.7",
+                entranceFee = "Free",
+                lat = 7.0000,
+                lng = 80.7667
+            ),
+            Place(
+                id = "hill_ambuluwawa",
+                name = "Ambuluwawa Biodiversity Peak",
+                category = "Hills",
+                location = "Gampola, Central Province",
+                imageUri = "android.resource://com.example.lankago/drawable/hills",
+                description = "A striking cone-shaped mountain spire crowned with a spiraling narrow white tower extending high into the clouds.",
+                rating = "4.8",
+                entranceFee = "LKR 1,000",
+                lat = 7.1719,
+                lng = 80.5489
+            ),
+
+            // ================= 3. HERITAGE & FORTS =================
+            Place(
+                id = "heritage_sigiriya",
                 name = "Sigiriya Rock Fortress",
                 category = "Heritage",
                 location = "Matale, Central Province",
                 imageUri = "android.resource://com.example.lankago/drawable/sigiriya",
-                description = "Ancient 5th century rock citadel with world-renowned frescoes, water gardens, and lion paw entrance.",
+                description = "Ancient 5th-century rock fortress and palace of King Kashyapa. World-renowned for its colorful frescoes, mirrored wall, water gardens, and lion paw entrance.",
                 rating = "4.9",
-                entranceFee = "LKR 1,500"
+                entranceFee = "LKR 1,500",
+                lat = 7.9570,
+                lng = 80.7603
             ),
             Place(
-                id = "place_2",
-                name = "Nine Arches Bridge",
-                category = "Heritage",
-                location = "Ella, Badulla",
-                imageUri = "android.resource://com.example.lankago/drawable/bridge",
-                description = "Iconic colonial-era stone rail viaduct spanning lush green tea mountain valleys.",
-                rating = "4.8",
-                entranceFee = "Free"
-            ),
-            Place(
-                id = "place_3",
+                id = "heritage_galle_fort",
                 name = "Galle Dutch Fort",
                 category = "Heritage",
                 location = "Galle, Southern Province",
-                imageUri = "android.resource://com.example.lankago/drawable/hills",
-                description = "17th-century coastal fortress built by the Portuguese and extensively fortified by the Dutch.",
-                rating = "4.7",
-                entranceFee = "Free"
-            ),
-            Place(
-                id = "place_4",
-                name = "Mirissa Beach & Coconut Tree Hill",
-                category = "Beach",
-                location = "Mirissa, Southern Province",
-                imageUri = "android.resource://com.example.lankago/drawable/lake",
-                description = "Crescent beach famous for surfing, whale watching, and picturesque palm-tree cliffs over the ocean.",
+                imageUri = "android.resource://com.example.lankago/drawable/sigiriya1",
+                description = "Living 17th-century coastal UNESCO fortress overlooking the Indian Ocean. Stroll along cobblestone streets, ramparts, lighthouse, and colonial mansions.",
                 rating = "4.8",
-                entranceFee = "Free"
+                entranceFee = "Free",
+                lat = 6.0268,
+                lng = 80.2170
             ),
             Place(
-                id = "place_5",
-                name = "Bentota Golden Beach",
-                category = "Beach",
-                location = "Bentota, Galle District",
-                imageUri = "android.resource://com.example.lankago/drawable/hills",
-                description = "Premier tropical coastal destination with water sports, coral reefs, and tranquil lagoon cruises.",
-                rating = "4.6",
-                entranceFee = "Free"
-            ),
-            Place(
-                id = "place_6",
-                name = "Yala National Park Safari",
-                category = "Wildlife",
-                location = "Hambantota, Southern Province",
-                imageUri = "android.resource://com.example.lankago/drawable/elephent",
-                description = "Renowned sanctuary hosting one of the world's highest leopard densities, wild elephants, and rich birdlife.",
-                rating = "4.9",
-                entranceFee = "LKR 3,000"
-            ),
-            Place(
-                id = "place_7",
-                name = "Udawalawe Elephant Sanctuary",
-                category = "Wildlife",
-                location = "Udawalawe, Sabaragamuwa",
-                imageUri = "android.resource://com.example.lankago/drawable/elephent",
-                description = "Sprawling national park centered around a massive reservoir, famous for guaranteed wild elephant sightings.",
-                rating = "4.7",
-                entranceFee = "LKR 2,500"
-            ),
-            Place(
-                id = "place_8",
+                id = "heritage_tooth_temple",
                 name = "Temple of the Sacred Tooth Relic",
                 category = "Heritage",
                 location = "Kandy, Central Province",
                 imageUri = "android.resource://com.example.lankago/drawable/sigiriya1",
-                description = "Sacred Buddhist shrine in the Royal Palace complex housing the relic of the tooth of the Buddha.",
+                description = "Sacred Buddhist shrine in the Royal Palace complex of Kandy housing the holy tooth relic of Gautama Buddha. A centerpiece of world heritage.",
                 rating = "4.9",
-                entranceFee = "LKR 1,000"
+                entranceFee = "LKR 1,000",
+                lat = 7.2936,
+                lng = 80.6413
+            ),
+            Place(
+                id = "heritage_dambulla",
+                name = "Dambulla Golden Cave Temple",
+                category = "Heritage",
+                location = "Dambulla, Matale District",
+                imageUri = "android.resource://com.example.lankago/drawable/sigiriya",
+                description = "The largest and best-preserved rock cave temple monastery in Sri Lanka, boasting 153 Buddha statues and ancient murals dating to the 1st century BC.",
+                rating = "4.8",
+                entranceFee = "LKR 1,500",
+                lat = 7.8564,
+                lng = 80.6483
+            ),
+            Place(
+                id = "heritage_polonnaruwa",
+                name = "Polonnaruwa Ancient City",
+                category = "Heritage",
+                location = "Polonnaruwa, North Central",
+                imageUri = "android.resource://com.example.lankago/drawable/sigiriya",
+                description = "Medieval royal capital of Sri Lanka featuring magnificent stone ruins, royal palace audience halls, and the majestic Gal Vihara rock statues.",
+                rating = "4.8",
+                entranceFee = "LKR 2,000",
+                lat = 7.9403,
+                lng = 81.0188
+            ),
+
+            // ================= 4. BEACHES =================
+            Place(
+                id = "beach_mirissa",
+                name = "Mirissa Beach & Coconut Tree Hill",
+                category = "Beach",
+                location = "Mirissa, Southern Province",
+                imageUri = "android.resource://com.example.lankago/drawable/lake",
+                description = "Golden crescent bay celebrated for surfing, blue whale watching excursions, beachfront seafood, and Instagram-famous palm promontories.",
+                rating = "4.8",
+                entranceFee = "Free",
+                lat = 5.9483,
+                lng = 80.4578
+            ),
+            Place(
+                id = "beach_bentota",
+                name = "Bentota Golden Beach",
+                category = "Beach",
+                location = "Bentota, Galle District",
+                imageUri = "android.resource://com.example.lankago/drawable/hills",
+                description = "Premier tropical coastal destination with water sports, coral reefs, and tranquil Madu river lagoon cruises.",
+                rating = "4.6",
+                entranceFee = "Free",
+                lat = 6.4258,
+                lng = 79.9961
+            ),
+
+            // ================= 5. WILDLIFE =================
+            Place(
+                id = "wildlife_yala",
+                name = "Yala National Park Safari",
+                category = "Wildlife",
+                location = "Hambantota, Southern Province",
+                imageUri = "android.resource://com.example.lankago/drawable/elephent",
+                description = "World-famous sanctuary boasting the highest density of leopards on earth, herds of wild elephants, sloth bears, and crocodiles.",
+                rating = "4.9",
+                entranceFee = "LKR 3,000",
+                lat = 6.3683,
+                lng = 81.5208
+            ),
+            Place(
+                id = "wildlife_udawalawe",
+                name = "Udawalawe Elephant Sanctuary",
+                category = "Wildlife",
+                location = "Udawalawe, Sabaragamuwa",
+                imageUri = "android.resource://com.example.lankago/drawable/elephent",
+                description = "Sprawling national park centered around a massive reservoir, famous for guaranteed wild elephant sightings and conservation orphanage.",
+                rating = "4.8",
+                entranceFee = "LKR 2,500",
+                lat = 6.4744,
+                lng = 80.8986
             )
         )
     }
