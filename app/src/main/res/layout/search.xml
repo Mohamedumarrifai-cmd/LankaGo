@@ -128,7 +128,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scroll_chips"
-        tools:listitem="@layout/item_search_place" />
+        tools:listitem="@layout/item_place" />
 
     <!-- Empty State View -->
     <LinearLayout

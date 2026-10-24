@@ -42,26 +42,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".RentalsTransportActivity" android:exported="false" />
-        <activity android:name=".RentalsAndTransportActivity" android:exported="false" />
-        <activity android:name=".LoginActivity" android:exported="false" />
-        <activity android:name=".RegisterActivity" android:exported="false" />
-        <activity android:name=".HomeActivity" android:exported="false" />
-        <activity android:name=".SearchActivity" android:exported="false" />
-        <activity android:name=".LocalProductsActivity" android:exported="false" />
-        <activity android:name=".TraditionalActivitiesActivity" android:exported="false" />
-        <activity android:name=".ShowsAndFestivalsActivity" android:exported="false" />
-        <activity android:name=".DestinationDetailActivity" android:exported="false" />
-        <activity android:name=".MapRouteActivity" android:exported="false" />
-        <activity android:name=".PlanTripActivity" android:exported="false" />
-        <activity android:name=".NotificationsActivity" android:exported="false" />
-        <activity android:name=".FavoritesActivity" android:exported="false" />
-        <activity android:name=".OfflineAccessActivity" android:exported="false" />
-        <activity android:name=".OfflineSavedActivity" android:exported="false" />
-        <activity android:name=".ProfileActivity" android:exported="false" />
-        <activity android:name=".ReviewsActivity" android:exported="false" />
-        <activity android:name=".DiscoverActivity" android:exported="false" />
-        <activity android:name=".ExperienceActivity" android:exported="false" />
+
 
         <!-- Google Maps API Key Meta-Data -->
         <meta-data
