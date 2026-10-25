@@ -135,6 +135,7 @@ class RentalsTransportFragment : Fragment() {
                 putString("shopCategory", shopCategory)
                 putString("destinationLocation", location)
                 putBoolean("isSelectMode", isSelectMode)
+                putString("mode", if (isSelectMode) "select_rental" else "")
                 if (activeTripId.isNotBlank()) {
                     putString("activeTripId", activeTripId)
                 }

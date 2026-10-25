@@ -2,6 +2,7 @@ package com.example.lankago.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
 import com.example.lankago.data.ActivityItem
 import com.example.lankago.data.RentalVehicle
 import com.example.lankago.data.Trip
@@ -83,7 +84,21 @@ object TripManager {
         return false
     }
 
+    var draftDestination: String = ""
+    var draftDates: String = ""
+    var draftTravelers: Int = 2
+    var draftIsLocalNic: Boolean = true
+    var draftIdImageUri: Uri? = null
     var selectedRentalForPlanning: RentalVehicle? = null
+
+    fun clearDraft() {
+        draftDestination = ""
+        draftDates = ""
+        draftTravelers = 2
+        draftIsLocalNic = true
+        draftIdImageUri = null
+        selectedRentalForPlanning = null
+    }
 
     /**
      * Appends a booked RentalVehicle to the active trip, or creates a new trip if none exists.

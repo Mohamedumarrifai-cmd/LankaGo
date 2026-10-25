@@ -98,10 +98,34 @@ class RentalDetailsFragment : Fragment() {
         val rentalId = arguments?.getString("rentalId")
             ?: arguments?.getString("vehicleId")
             ?: "rental_honda_dio"
-        view.findViewById<Button>(R.id.btn_book_rental)?.setOnClickListener {
+        val isSelectMode = arguments?.getBoolean("isSelectMode") == true ||
+            arguments?.getString("mode") == "select_rental"
+
+        val btnBookInit = view.findViewById<Button>(R.id.btn_book_rental)
+        if (isSelectMode) {
+            btnBookInit?.text = "✓ Confirm Vehicle for Trip"
+        }
+        btnBookInit?.setOnClickListener {
             val current = viewModel.rental.value ?: RentalRepository.getRentalById(rentalId)
             if (current != null) {
-                showRentalBookingConfirmation(current)
+                if (isSelectMode) {
+                    TripManager.selectedRentalForPlanning = current
+                    Toast.makeText(
+                        requireContext(),
+                        "✓ ${current.name} confirmed for your trip!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val popped = findNavController().popBackStack(R.id.planTripFragment, false)
+                    if (!popped) {
+                        try {
+                            findNavController().navigate(R.id.planTripFragment)
+                        } catch (_: Exception) {
+                            findNavController().popBackStack()
+                        }
+                    }
+                } else {
+                    showRentalBookingConfirmation(current)
+                }
             }
         }
     }
@@ -290,16 +314,22 @@ class RentalDetailsFragment : Fragment() {
             btnBook?.backgroundTintList = null
 
             if (isSelectMode) {
-                btnBook?.text = "✓ Select Vehicle for Trip"
+                btnBook?.text = "✓ Confirm Vehicle for Trip"
                 btnBook?.setOnClickListener {
                     TripManager.selectedRentalForPlanning = rental
                     Toast.makeText(
                         requireContext(),
-                        "✓ ${rental.name} selected for your booking!",
+                        "✓ ${rental.name} confirmed for your trip!",
                         Toast.LENGTH_SHORT
                     ).show()
-                    findNavController().previousBackStackEntry?.savedStateHandle?.set("auto_confirm_booking", true)
-                    findNavController().popBackStack()
+                    val popped = findNavController().popBackStack(R.id.planTripFragment, false)
+                    if (!popped) {
+                        try {
+                            findNavController().navigate(R.id.planTripFragment)
+                        } catch (_: Exception) {
+                            findNavController().popBackStack()
+                        }
+                    }
                 }
             } else {
                 btnBook?.text = "Book This Rental"

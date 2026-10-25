@@ -76,6 +76,7 @@ open class PlanTripFragment : Fragment() {
 
     private val imagePickerHelper = ImagePickerHelper(this) { uri ->
         selectedTripImageUri = uri
+        TripManager.draftIdImageUri = uri
         val view = view ?: return@ImagePickerHelper
         val ivPreview = view.findViewById<ImageView>(R.id.iv_trip_photo_preview)
         val placeholder = view.findViewById<LinearLayout>(R.id.layout_trip_photo_placeholder)
@@ -113,55 +114,35 @@ open class PlanTripFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Pick up vehicle if traveler selected one from rentals screen
+        // 1. Pick up vehicle if traveler selected one from rentals screen
         val chosen = TripManager.selectedRentalForPlanning
         if (chosen != null) {
             selectedRental = chosen
             updateSelectedVehicleUI()
         }
 
-        val autoConfirm = findNavController().currentBackStackEntry?.savedStateHandle?.remove<Boolean>("auto_confirm_booking") == true
-        if (autoConfirm) {
+        // 2. Ensure ID/Passport photo is restored and displayed
+        val idUri = TripManager.draftIdImageUri ?: selectedTripImageUri
+        if (idUri != null) {
+            selectedTripImageUri = idUri
             val v = view ?: return
-            // Ensure inputs are pre-populated if traveler navigated to rentals first
-            if (etDestination.text.isNullOrBlank()) {
-                val destSuggestion = chosen?.location?.let { "$it Scenic Island Tour" } ?: "Sri Lanka Coastal Tour"
-                etDestination.setText(destSuggestion)
-            }
-            if (etDates.text.isNullOrBlank()) {
-                val dateFmt = SimpleDateFormat("dd MMM - ", Locale.US)
-                val cal = Calendar.getInstance()
-                val start = dateFmt.format(cal.time)
-                cal.add(Calendar.DAY_OF_YEAR, 3)
-                val end = SimpleDateFormat("dd MMM yyyy", Locale.US).format(cal.time)
-                etDates.setText("$start$end")
-            }
+            val ivPreview = v.findViewById<ImageView>(R.id.iv_trip_photo_preview)
+            val placeholder = v.findViewById<LinearLayout>(R.id.layout_trip_photo_placeholder)
+            val badge = v.findViewById<TextView>(R.id.tv_trip_retake_badge)
+            val cardTripPhoto = v.findViewById<MaterialCardView>(R.id.card_trip_photo_capture)
 
-            // Ensure traveler ID photo is attached if not done yet
-            if (selectedTripImageUri == null) {
-                selectedTripImageUri = Uri.parse("android.resource://" + requireContext().packageName + "/" + R.drawable.ic_admin_profile)
-                val ivPreview = v.findViewById<ImageView>(R.id.iv_trip_photo_preview)
-                val placeholder = v.findViewById<LinearLayout>(R.id.layout_trip_photo_placeholder)
-                val badge = v.findViewById<TextView>(R.id.tv_trip_retake_badge)
-                val cardTripPhoto = v.findViewById<MaterialCardView>(R.id.card_trip_photo_capture)
+            ivPreview?.visibility = View.VISIBLE
+            placeholder?.visibility = View.GONE
+            badge?.visibility = View.VISIBLE
+            cardTripPhoto?.strokeColor = Color.parseColor("#10B981")
+            cardTripPhoto?.strokeWidth = 2
 
-                ivPreview?.visibility = View.VISIBLE
-                placeholder?.visibility = View.GONE
-                badge?.visibility = View.VISIBLE
-                cardTripPhoto?.strokeColor = Color.parseColor("#10B981")
-                cardTripPhoto?.strokeWidth = 2
-                ivPreview?.setImageResource(R.drawable.ic_admin_profile)
+            ivPreview?.let {
+                Glide.with(this)
+                    .load(idUri)
+                    .centerCrop()
+                    .into(it)
             }
-
-            // Auto-scroll to confirm button and trigger click
-            val scrollView = v.findViewById<androidx.core.widget.NestedScrollView>(R.id.scroll_plan_trip)
-            scrollView?.postDelayed({
-                if (isAdded) {
-                    scrollView.smoothScrollTo(0, btnConfirm.bottom + 300)
-                    btnConfirm.requestFocus()
-                    btnConfirm.performClick()
-                }
-            }, 300)
         }
     }
 
@@ -240,8 +221,10 @@ open class PlanTripFragment : Fragment() {
             datePickerDialog.show()
         }
 
-        // Pre-fill initial placeholder dates
-        if (etDates.text.isNullOrBlank()) {
+        // Pre-fill initial placeholder dates or restore from draft
+        if (TripManager.draftDates.isNotBlank()) {
+            etDates.setText(TripManager.draftDates)
+        } else if (etDates.text.isNullOrBlank()) {
             val start = dateFormat.format(calendar.time)
             calendar.add(Calendar.DAY_OF_MONTH, 5)
             val end = dateFormat.format(calendar.time)
@@ -249,10 +232,47 @@ open class PlanTripFragment : Fragment() {
             etDates.setText("$start - $end")
         }
 
-        // Pre-fill destination if passed as safe argument
-        arguments?.getString("destinationName")?.let { prefilled ->
-            if (prefilled.isNotBlank()) {
-                etDestination.setText(prefilled)
+        // Restore destination from draft or pre-fill if passed as safe argument
+        if (TripManager.draftDestination.isNotBlank()) {
+            etDestination.setText(TripManager.draftDestination)
+        } else {
+            arguments?.getString("destinationName")?.let { prefilled ->
+                if (prefilled.isNotBlank()) {
+                    etDestination.setText(prefilled)
+                }
+            }
+        }
+
+        // Restore traveler count and type from draft
+        if (TripManager.draftTravelers > 1) {
+            travelerCount = TripManager.draftTravelers
+            tvTravelerCount?.text = "$travelerCount Travelers"
+        }
+        if (TripManager.draftIsLocalNic) {
+            rbLocalNic?.isChecked = true
+        } else {
+            view.findViewById<RadioButton>(R.id.rb_plan_foreign_passport)?.isChecked = true
+        }
+
+        // Restore Draft ID Photo if user already took/uploaded one
+        val currentIdUri = TripManager.draftIdImageUri ?: selectedTripImageUri
+        if (currentIdUri != null) {
+            selectedTripImageUri = currentIdUri
+            val ivPreview = view.findViewById<ImageView>(R.id.iv_trip_photo_preview)
+            val placeholder = view.findViewById<LinearLayout>(R.id.layout_trip_photo_placeholder)
+            val badge = view.findViewById<TextView>(R.id.tv_trip_retake_badge)
+
+            ivPreview?.visibility = View.VISIBLE
+            placeholder?.visibility = View.GONE
+            badge?.visibility = View.VISIBLE
+            cardTripPhoto?.strokeColor = Color.parseColor("#10B981")
+            cardTripPhoto?.strokeWidth = 2
+
+            ivPreview?.let {
+                Glide.with(this)
+                    .load(currentIdUri)
+                    .centerCrop()
+                    .into(it)
             }
         }
 
@@ -416,8 +436,8 @@ open class PlanTripFragment : Fragment() {
                     // 6. Post Trip Created Notification
                     LankaGoNotificationHelper.postTripCreatedNotification(requireContext(), newTrip)
 
-                    // Clear temporary selection
-                    TripManager.selectedRentalForPlanning = null
+                    // Clear temporary selection and draft
+                    TripManager.clearDraft()
 
                     if (!isAdded) return@launch
 
@@ -444,6 +464,14 @@ open class PlanTripFragment : Fragment() {
 
     private fun openRentalSelectionScreen() {
         val destination = etDestination.text?.toString()?.trim() ?: "Sri Lanka"
+        // Save current draft before opening vehicle selection so nothing is lost!
+        TripManager.draftDestination = destination
+        TripManager.draftDates = etDates.text?.toString()?.trim() ?: ""
+        TripManager.draftTravelers = travelerCount
+        val rbLocalNic = view?.findViewById<RadioButton>(R.id.rb_plan_local_nic)
+        TripManager.draftIsLocalNic = rbLocalNic?.isChecked ?: true
+        TripManager.draftIdImageUri = selectedTripImageUri
+
         val bundle = bundleOf(
             "destinationCity" to destination,
             "destinationLocation" to destination,

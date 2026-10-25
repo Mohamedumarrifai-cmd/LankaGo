@@ -66,11 +66,15 @@ class RentalListFragment : Fragment() {
 
         val rvRentals = view.findViewById<RecyclerView>(R.id.rv_rentals_list)
         val activeTripId = arguments?.getString("activeTripId") ?: ""
+        val isSelectMode = arguments?.getBoolean("isSelectMode") == true ||
+            arguments?.getString("mode") == "select_rental"
 
         rentalAdapter = RentalListAdapter(emptyList()) { selectedVehicle ->
             val bundle = bundleOf(
                 "rentalId" to selectedVehicle.id,
                 "vehicleId" to selectedVehicle.id,
+                "isSelectMode" to isSelectMode,
+                "mode" to if (isSelectMode) "select_rental" else "",
                 "activeTripId" to activeTripId
             )
             findNavController().navigate(
