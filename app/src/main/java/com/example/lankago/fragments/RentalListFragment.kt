@@ -22,6 +22,9 @@ class RentalListFragment : Fragment() {
     private lateinit var rentalAdapter: RentalListAdapter
     private var allVehicles: List<Vehicle> = emptyList()
     private var destinationLocation: String = "Sri Lanka"
+    private var shopId: String? = null
+    private var shopName: String? = null
+    private var shopCategory: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +37,9 @@ class RentalListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        shopId = arguments?.getString("shopId")
+        shopName = arguments?.getString("shopName")
+        shopCategory = arguments?.getString("shopCategory")
         destinationLocation = arguments?.getString("destinationCity")
             ?: arguments?.getString("destinationLocation")
             ?: "Sri Lanka"
@@ -47,8 +53,16 @@ class RentalListFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        view.findViewById<TextView>(R.id.tv_rental_list_destination)?.text =
-            "Available verified providers in $destinationLocation"
+        val tvTitle = view.findViewById<TextView>(R.id.tv_rental_list_title)
+        val tvSub = view.findViewById<TextView>(R.id.tv_rental_list_destination)
+
+        if (!shopName.isNullOrBlank()) {
+            tvTitle?.text = shopName
+            tvSub?.text = "Verified Fleet • $destinationLocation"
+        } else {
+            tvTitle?.text = "Vehicle & Bike Rentals"
+            tvSub?.text = "Available verified fleet in $destinationLocation"
+        }
 
         val rvRentals = view.findViewById<RecyclerView>(R.id.rv_rentals_list)
         val activeTripId = arguments?.getString("activeTripId") ?: ""
@@ -56,6 +70,7 @@ class RentalListFragment : Fragment() {
         rentalAdapter = RentalListAdapter(emptyList()) { selectedVehicle ->
             val bundle = bundleOf(
                 "rentalId" to selectedVehicle.id,
+                "vehicleId" to selectedVehicle.id,
                 "activeTripId" to activeTripId
             )
             findNavController().navigate(
@@ -78,7 +93,7 @@ class RentalListFragment : Fragment() {
     }
 
     private fun loadVehicles(view: View) {
-        allVehicles = RentalRepository.getVehiclesByLocation(destinationLocation)
+        allVehicles = RentalRepository.getVehiclesForShop(shopId, shopCategory, destinationLocation)
         rentalAdapter.updateData(allVehicles)
         toggleEmptyState(view, allVehicles.isEmpty())
     }

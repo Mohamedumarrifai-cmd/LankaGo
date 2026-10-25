@@ -515,4 +515,78 @@ object RentalRepository {
     fun getNearbyRentals(excludeId: String): List<RentalVehicle> {
         return sampleRentals.filter { it.id != excludeId }
     }
+
+    fun getVehiclesForShop(
+        shopId: String?,
+        shopCategory: String?,
+        location: String?
+    ): List<Vehicle> {
+        val sId = shopId?.lowercase() ?: ""
+        val cat = shopCategory?.lowercase() ?: ""
+
+        return when {
+            // Bike & Scooter Shops: Show bikes only (Dio, PCX, NMAX, FZ-S, Pulsar NS200, Royal Enfield)
+            sId.contains("epic_ride") || sId.contains("colombo_scooter") ||
+            sId.contains("unawatuna") || sId.contains("dambulla") ||
+            sId.contains("hikkaduwa") || sId.contains("kandy_bike") ||
+            sId.contains("ella_bike") || sId.contains("arugam") ||
+            cat == "scooter" || cat == "bike" -> {
+                sampleVehicles.filter {
+                    it.type.contains("Bike", ignoreCase = true) ||
+                    it.type.contains("Scooter", ignoreCase = true) ||
+                    it.type.contains("Motorcycle", ignoreCase = true)
+                }
+            }
+
+            // Car Rental Shops: Show cars only (Alto, Wagon R, Aqua, Prius, Grace, X-Trail, Montero)
+            sId.contains("malkey_car") || sId.contains("casons_car") ||
+            sId.contains("kings_car") || sId.contains("euro_car") ||
+            cat == "car" -> {
+                sampleVehicles.filter {
+                    it.type.contains("Car", ignoreCase = true) ||
+                    it.type.contains("Sedan", ignoreCase = true) ||
+                    it.type.contains("Hatchback", ignoreCase = true) ||
+                    it.type.contains("SUV", ignoreCase = true) ||
+                    it.type.contains("4x4", ignoreCase = true)
+                }
+            }
+
+            // Van & Coach Shops: Show vans & large passenger transport
+            sId.contains("van") || sId.contains("bus") || cat == "van" || cat == "bus" -> {
+                sampleVehicles.filter {
+                    it.type.contains("Van", ignoreCase = true) ||
+                    it.name.contains("KDH", ignoreCase = true) ||
+                    it.type.contains("SUV", ignoreCase = true) ||
+                    it.type.contains("4x4", ignoreCase = true)
+                }
+            }
+
+            // Tuk-Tuk Shops: Show tuk-tuks
+            sId.contains("tuktuk") && !sId.contains("colombo_tuktuk") && !sId.contains("mirissa") || cat == "tuktuk" -> {
+                sampleVehicles.filter {
+                    it.type.contains("Tuk", ignoreCase = true)
+                }
+            }
+
+            // Combined Shops (Bikes + Tuk-Tuks or Cars + Tuk-Tuks): Show both!
+            sId.contains("mirissa") -> {
+                sampleVehicles.filter {
+                    it.type.contains("Bike", ignoreCase = true) ||
+                    it.type.contains("Scooter", ignoreCase = true) ||
+                    it.type.contains("Tuk", ignoreCase = true)
+                }
+            }
+            sId.contains("colombo_tuktuk") -> {
+                sampleVehicles.filter {
+                    it.type.contains("Tuk", ignoreCase = true) ||
+                    it.name.contains("Alto", ignoreCase = true) ||
+                    it.name.contains("Wagon", ignoreCase = true) ||
+                    it.name.contains("Dio", ignoreCase = true)
+                }
+            }
+
+            !location.isNullOrBlank() -> getVehiclesByLocation(location)
+            else -> sampleVehicles
+        }
+    }
 }

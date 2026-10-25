@@ -61,7 +61,9 @@ class RentalDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val rentalId = arguments?.getString("rentalId") ?: "rental_scooter_ella"
+        val rentalId = arguments?.getString("rentalId")
+            ?: arguments?.getString("vehicleId")
+            ?: "rental_honda_dio"
 
         initViews(view)
         observeData(view)
@@ -93,7 +95,9 @@ class RentalDetailsFragment : Fragment() {
         }
 
         // Eager Booking Listener to ensure immediate responsiveness
-        val rentalId = arguments?.getString("rentalId") ?: "rental_scooter_ella"
+        val rentalId = arguments?.getString("rentalId")
+            ?: arguments?.getString("vehicleId")
+            ?: "rental_honda_dio"
         view.findViewById<Button>(R.id.btn_book_rental)?.setOnClickListener {
             val current = viewModel.rental.value ?: RentalRepository.getRentalById(rentalId)
             if (current != null) {

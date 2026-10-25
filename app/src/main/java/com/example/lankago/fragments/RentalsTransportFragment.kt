@@ -128,10 +128,12 @@ class RentalsTransportFragment : Fragment() {
         val isSelectMode = arguments?.getBoolean("isSelectMode") == true ||
             arguments?.getString("mode") == "select_rental"
 
-        fun selectVehicle(rentalId: String, shopId: String) {
+        fun openShopFleet(shopId: String, shopName: String, shopCategory: String, location: String) {
             val bundle = Bundle().apply {
-                putString("rentalId", rentalId)
                 putString("shopId", shopId)
+                putString("shopName", shopName)
+                putString("shopCategory", shopCategory)
+                putString("destinationLocation", location)
                 putBoolean("isSelectMode", isSelectMode)
                 if (activeTripId.isNotBlank()) {
                     putString("activeTripId", activeTripId)
@@ -139,101 +141,115 @@ class RentalsTransportFragment : Fragment() {
             }
             try {
                 findNavController().navigate(
-                    R.id.action_rentalsTransportFragment_to_rentalDetailsFragment,
+                    R.id.action_rentalsTransportFragment_to_rentalListFragment,
                     bundle
                 )
             } catch (_: Exception) {
                 findNavController().navigate(
-                    R.id.action_rentalsTransportFragment_to_shopDetailsFragment,
+                    R.id.action_rentalsTransportFragment_to_rentalDetailsFragment,
                     bundle
                 )
             }
         }
 
-        // 1. Epic Ride Scooter Rental (Galle Fort)
+        // 1. Epic Ride Scooter Rental (Galle Fort) - Bike & Scooter Fleet
         view.findViewById<CardView>(R.id.card_epic_ride)?.setOnClickListener {
-            selectVehicle("rental_honda_pcx", "shop_epic_ride")
+            openShopFleet("shop_epic_ride", "Epic Ride Scooter Rental", "bike", "Galle Fort")
         }
 
-        // 2. Colombo Scooter Rentals (Colombo 03)
+        // 2. Colombo Scooter Rentals (Colombo 03) - City Scooters
         view.findViewById<CardView>(R.id.card_colombo_scooter)?.setOnClickListener {
-            selectVehicle("rental_honda_pcx", "shop_colombo_scooter")
+            openShopFleet("shop_colombo_scooter", "Colombo Scooter Rentals", "scooter", "Colombo 03")
         }
 
         // 3. Unawatuna Scooter Rental (Unawatuna)
         view.findViewById<CardView>(R.id.card_unawatuna)?.setOnClickListener {
-            selectVehicle("rental_honda_pcx", "shop_unawatuna")
+            openShopFleet("shop_unawatuna", "Unawatuna Scooter Rental", "scooter", "Unawatuna")
         }
 
         // 4. Dambulla Scooter Rentals (Dambulla)
         view.findViewById<CardView>(R.id.card_dambulla_scooter)?.setOnClickListener {
-            selectVehicle("rental_honda_pcx", "shop_dambulla_scooter")
+            openShopFleet("shop_dambulla_scooter", "Dambulla Scooter Rentals", "scooter", "Dambulla")
         }
 
         // 5. Hikkaduwa Scooter Rental (Hikkaduwa)
         view.findViewById<CardView>(R.id.card_hikkaduwa_scooter)?.setOnClickListener {
-            selectVehicle("rental_honda_pcx", "shop_hikkaduwa")
+            openShopFleet("shop_hikkaduwa", "Hikkaduwa Scooter Rental", "scooter", "Hikkaduwa")
         }
 
-        // 6. Kandy Bike Rental (Kandy)
+        // 6. Kandy Bike Rental (Kandy) - Mountain & Touring Bikes
         view.findViewById<CardView>(R.id.card_kandy_bike)?.setOnClickListener {
-            selectVehicle("rental_enfield_kandy", "shop_kandy_bike")
+            openShopFleet("shop_kandy_bike", "Kandy Bike Rental", "bike", "Kandy")
         }
 
-        // 7. Mirissa Bike Rental
+        // 7. Mirissa Bike Rental (Mirissa) - Bikes & Tuk-Tuks
         view.findViewById<CardView>(R.id.card_mirissa_bike)?.setOnClickListener {
-            selectVehicle("rental_tuktuk_mirissa", "shop_mirissa_tuktuk")
+            openShopFleet("shop_mirissa_bike", "Mirissa Bike & Tuk-Tuk Rental", "both", "Mirissa")
         }
 
-        // 8. Ella Bike Rental
+        // 8. Ella Bike Rental (Ella) - Mountain Adventures
         view.findViewById<CardView>(R.id.card_ella_bike)?.setOnClickListener {
-            selectVehicle("rental_enfield_kandy", "shop_ella_moto")
+            openShopFleet("shop_ella_bike", "Ella Bike Rental", "bike", "Ella")
         }
 
-        // 9. Arugam Bay Bike Rental
+        // 9. Arugam Bay Bike Rental (Arugam Bay)
         view.findViewById<CardView>(R.id.card_arugam_bike)?.setOnClickListener {
-            selectVehicle("rental_enfield_kandy", "shop_galle_bike")
+            openShopFleet("shop_arugam_bike", "Arugam Bay Bike Rental", "bike", "Arugam Bay")
         }
 
-        // 10-13. Cars
+        // 10. Malkey Rent A Car (Colombo) - Full Car Fleet
         view.findViewById<CardView>(R.id.card_malkey_car)?.setOnClickListener {
-            selectVehicle("rental_toyota_aqua", "shop_colombo_rentals")
+            openShopFleet("shop_malkey_car", "Malkey Rent A Car", "car", "Colombo & Islandwide")
         }
+
+        // 11. Casons Rent A Car (Airport & City) - Full Car Fleet
         view.findViewById<CardView>(R.id.card_casons_car)?.setOnClickListener {
-            selectVehicle("rental_toyota_aqua", "shop_colombo_rentals")
+            openShopFleet("shop_casons_car", "Casons Rent A Car", "car", "Airport & Islandwide")
         }
+
+        // 12. Kings Rent A Car (Colombo 07) - Luxury Cars
         view.findViewById<CardView>(R.id.card_kings_car)?.setOnClickListener {
-            selectVehicle("rental_toyota_aqua", "shop_colombo_rentals")
+            openShopFleet("shop_kings_car", "Kings Rent A Car", "car", "Colombo 07")
         }
+
+        // 13. Europcar Sri Lanka - Premium Cars & 4x4
         view.findViewById<CardView>(R.id.card_euro_car)?.setOnClickListener {
-            selectVehicle("rental_nissan_xtrail", "shop_colombo_rentals")
+            openShopFleet("shop_euro_car", "Europcar Sri Lanka", "car", "Colombo")
         }
 
-        // 14-16. Vans
+        // 14. Casons Vans (Islandwide) - Passenger Vans & KDH
         view.findViewById<CardView>(R.id.card_casons_van)?.setOnClickListener {
-            selectVehicle("rental_nissan_xtrail", "shop_colombo_rentals")
+            openShopFleet("shop_casons_van", "Casons Vans & Passenger Fleet", "van", "Islandwide")
         }
+
+        // 15. Malkey Vans (Islandwide) - Vans & Safari 4x4
         view.findViewById<CardView>(R.id.card_malkey_van)?.setOnClickListener {
-            selectVehicle("rental_nissan_xtrail", "shop_colombo_rentals")
+            openShopFleet("shop_malkey_van", "Malkey Vans & Safari Fleet", "van", "Islandwide")
         }
+
+        // 16. Kandy Tours Vans (Kandy) - Hill Country Vans & 4x4
         view.findViewById<CardView>(R.id.card_kandy_van)?.setOnClickListener {
-            selectVehicle("rental_nissan_xtrail", "shop_kandy_rides")
+            openShopFleet("shop_kandy_van", "Kandy Tours Vans", "van", "Kandy")
         }
 
-        // 17-19. Tuk Tuks
+        // 17. Negombo Tuk Tuk Tours (Negombo)
         view.findViewById<CardView>(R.id.card_negombo_tuktuk)?.setOnClickListener {
-            selectVehicle("rental_tuktuk_mirissa", "shop_mirissa_tuktuk")
-        }
-        view.findViewById<CardView>(R.id.card_galle_tuktuk)?.setOnClickListener {
-            selectVehicle("rental_tuktuk_mirissa", "shop_galle_bike")
-        }
-        view.findViewById<CardView>(R.id.card_colombo_tuktuk)?.setOnClickListener {
-            selectVehicle("rental_tuktuk_mirissa", "shop_colombo_rentals")
+            openShopFleet("shop_negombo_tuktuk", "Negombo Tuk Tuk Tours", "tuktuk", "Negombo")
         }
 
-        // 20. Buses
+        // 18. Galle Tuk Tuk Rental (Galle Fort)
+        view.findViewById<CardView>(R.id.card_galle_tuktuk)?.setOnClickListener {
+            openShopFleet("shop_galle_tuktuk", "Galle Tuk Tuk Rental", "tuktuk", "Galle Fort")
+        }
+
+        // 19. Colombo Tuk Tuk Tours (Colombo) - Tuk-Tuks & City Cars
+        view.findViewById<CardView>(R.id.card_colombo_tuktuk)?.setOnClickListener {
+            openShopFleet("shop_colombo_tuktuk", "Colombo Tuk Tuk Tours", "both", "Colombo")
+        }
+
+        // 20. Lanka Coach Tours (Colombo) - Coaches & Vans
         view.findViewById<CardView>(R.id.card_lanka_bus)?.setOnClickListener {
-            selectVehicle("rental_nissan_xtrail", "shop_colombo_rentals")
+            openShopFleet("shop_lanka_bus", "Lanka Coach Tours", "van", "Colombo")
         }
     }
 }
