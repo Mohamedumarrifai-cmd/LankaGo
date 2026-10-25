@@ -35,10 +35,12 @@ class SearchFragment : Fragment() {
     private lateinit var chipHills: TextView
     private lateinit var chipBeach: TextView
     private lateinit var chipWildlife: TextView
+    private lateinit var chipSortAz: TextView
 
     private lateinit var adapter: PlaceAdapter
     private val displayedPlaces = mutableListOf<Place>()
     private var selectedCategory: String = "All"
+    private var isSortAz: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,6 +72,7 @@ class SearchFragment : Fragment() {
         chipHills = view.findViewById(R.id.chip_hills)
         chipBeach = view.findViewById(R.id.chip_beach)
         chipWildlife = view.findViewById(R.id.chip_wildlife)
+        chipSortAz = view.findViewById(R.id.chip_sort_az)
 
         btnBack.setOnClickListener {
             findNavController().navigateUp()
@@ -135,6 +138,30 @@ class SearchFragment : Fragment() {
             updateChipsUi(chipWildlife)
             filterData()
         }
+
+        fun updateSortAzUi() {
+            if (isSortAz) {
+                chipSortAz.setBackgroundResource(R.drawable.chip_active)
+                chipSortAz.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                chipSortAz.setTypeface(null, Typeface.BOLD)
+                chipSortAz.text = "✓ Sorted (A-Z)"
+            } else {
+                chipSortAz.setBackgroundResource(R.drawable.chip_inactive)
+                chipSortAz.setTextColor(0xFF1A2B4C.toInt())
+                chipSortAz.setTypeface(null, Typeface.NORMAL)
+                chipSortAz.text = "🔤 Sort A-Z"
+            }
+        }
+
+        chipSortAz.setOnClickListener {
+            isSortAz = !isSortAz
+            updateSortAzUi()
+            filterData()
+        }
+
+        // Check if an initial sort order was passed
+        isSortAz = arguments?.getBoolean("sort_az", false) ?: false
+        updateSortAzUi()
 
         // Check if an initial category was passed from Home or elsewhere
         val incomingCategory = arguments?.getString("selected_category")
@@ -218,8 +245,14 @@ class SearchFragment : Fragment() {
             matchesCategory && matchesQuery
         }
 
+        val sortedList = if (isSortAz) {
+            filtered.sortedBy { it.name.lowercase() }
+        } else {
+            filtered
+        }
+
         displayedPlaces.clear()
-        displayedPlaces.addAll(filtered)
+        displayedPlaces.addAll(sortedList)
         adapter.notifyDataSetChanged()
 
         if (displayedPlaces.isEmpty()) {

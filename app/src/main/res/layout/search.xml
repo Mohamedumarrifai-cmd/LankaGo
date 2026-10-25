@@ -137,6 +137,18 @@
                 android:textColor="#1A2B4C"
                 android:textSize="13sp" />
 
+            <TextView
+                android:id="@+id/chip_sort_az"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/chip_inactive"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="9dp"
+                android:text="🔤 Sort A-Z"
+                android:textColor="#1A2B4C"
+                android:textSize="13sp" />
+
         </LinearLayout>
     </HorizontalScrollView>
 

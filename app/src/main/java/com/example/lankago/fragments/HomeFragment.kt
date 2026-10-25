@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.lankago.R
 import com.example.lankago.utils.safeNavigate
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class HomeFragment : Fragment() {
 
@@ -81,18 +82,27 @@ class HomeFragment : Fragment() {
             findNavController().safeNavigate(R.id.action_homeFragment_to_showsAndFestivalsFragment)
         }
 
-        // Popular Destinations "See all"
+        // Popular Destinations "See all" -> Opens all places
         view.findViewById<View>(R.id.btn_see_all_destinations)?.setOnClickListener {
-            findNavController().safeNavigate(R.id.action_homeFragment_to_discoverFragment)
+            val bundle = Bundle().apply {
+                putString("selected_category", "All")
+                putBoolean("sort_az", true)
+            }
+            findNavController().safeNavigate(R.id.action_homeFragment_to_searchFragment, bundle)
         }
 
-        // Category "More"
-        view.findViewById<View>(R.id.btn_category_more)?.setOnClickListener {
-            findNavController().safeNavigate(R.id.action_homeFragment_to_discoverFragment)
+        // Category "Places" Hub
+        view.findViewById<View>(R.id.btn_category_places)?.setOnClickListener {
+            showPlacesCategoryBottomSheet()
         }
     }
 
     private fun setupCategoryButtons(view: View) {
+        // Places Category Hub (Replaced old "More")
+        view.findViewById<View>(R.id.btn_category_places)?.setOnClickListener {
+            showPlacesCategoryBottomSheet()
+        }
+
         // Products Hub (from Category Grid)
         view.findViewById<View>(R.id.btn_products_hub)?.setOnClickListener {
             findNavController().safeNavigate(R.id.action_homeFragment_to_localProductsFragment)
@@ -132,6 +142,55 @@ class HomeFragment : Fragment() {
         view.findViewById<View>(R.id.btn_notifications)?.setOnClickListener {
             findNavController().safeNavigate(R.id.action_homeFragment_to_notificationsFragment)
         }
+    }
+
+    /**
+     * Shows a modal bottom sheet displaying the 5 prime destination categories:
+     * Hills, Wildlife, Lakes, Heritage, and Beaches, plus an A-Z view-all option.
+     */
+    private fun showPlacesCategoryBottomSheet() {
+        val dialog = BottomSheetDialog(requireContext())
+        val sheetView = layoutInflater.inflate(R.layout.bottom_sheet_places_categories, null)
+        dialog.setContentView(sheetView)
+
+        fun navigateToCategory(cat: String, sortAz: Boolean = false) {
+            dialog.dismiss()
+            val bundle = Bundle().apply {
+                putString("selected_category", cat)
+                putBoolean("sort_az", sortAz)
+            }
+            findNavController().safeNavigate(R.id.action_homeFragment_to_searchFragment, bundle)
+        }
+
+        sheetView.findViewById<View>(R.id.btn_close_places_sheet)?.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        sheetView.findViewById<View>(R.id.item_cat_hills)?.setOnClickListener {
+            navigateToCategory("Hills")
+        }
+
+        sheetView.findViewById<View>(R.id.item_cat_wildlife)?.setOnClickListener {
+            navigateToCategory("Wildlife")
+        }
+
+        sheetView.findViewById<View>(R.id.item_cat_lakes)?.setOnClickListener {
+            navigateToCategory("Lakes")
+        }
+
+        sheetView.findViewById<View>(R.id.item_cat_heritage)?.setOnClickListener {
+            navigateToCategory("Heritage")
+        }
+
+        sheetView.findViewById<View>(R.id.item_cat_beaches)?.setOnClickListener {
+            navigateToCategory("Beach")
+        }
+
+        sheetView.findViewById<View>(R.id.btn_view_all_places_az)?.setOnClickListener {
+            navigateToCategory("All", sortAz = true)
+        }
+
+        dialog.show()
     }
 
     private fun setupSearchBar(view: View) {
