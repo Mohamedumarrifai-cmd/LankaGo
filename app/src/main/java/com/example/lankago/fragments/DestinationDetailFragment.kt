@@ -44,10 +44,23 @@ class DestinationDetailFragment : Fragment() {
             tvDescription?.text = it.description
 
             if (ivHero != null && it.imageUri.isNotBlank()) {
-                com.bumptech.glide.Glide.with(this)
-                    .load(it.imageUri)
-                    .centerCrop()
-                    .into(ivHero)
+                val resName = it.imageUri.substringAfterLast("/")
+                val resId = requireContext().resources.getIdentifier(resName, "drawable", requireContext().packageName)
+                if (resId != 0) {
+                    com.bumptech.glide.Glide.with(this)
+                        .load(resId)
+                        .centerCrop()
+                        .placeholder(R.drawable.heritage_sigiriya)
+                        .error(R.drawable.heritage_sigiriya)
+                        .into(ivHero)
+                } else {
+                    com.bumptech.glide.Glide.with(this)
+                        .load(it.imageUri)
+                        .centerCrop()
+                        .placeholder(R.drawable.heritage_sigiriya)
+                        .error(R.drawable.heritage_sigiriya)
+                        .into(ivHero)
+                }
             }
         }
 

@@ -22,7 +22,9 @@ class PlaceAdapter(
         val ivThumbnail: ImageView = itemView.findViewById(R.id.iv_place_thumbnail)
         val tvName: TextView = itemView.findViewById(R.id.tv_place_name)
         val tvLocation: TextView = itemView.findViewById(R.id.tv_place_location)
+        val tvDescription: TextView? = itemView.findViewById(R.id.tv_place_description)
         val tvCategory: TextView = itemView.findViewById(R.id.tv_place_category)
+        val tvFee: TextView? = itemView.findViewById(R.id.tv_place_fee)
         val tvRating: TextView = itemView.findViewById(R.id.tv_place_rating)
         val ivFavorite: ImageView = itemView.findViewById(R.id.ivFavorite)
     }
@@ -40,22 +42,35 @@ class PlaceAdapter(
         holder.tvLocation.text = place.location
         holder.tvCategory.text = place.category
         holder.tvRating.text = "★ ${place.rating}"
+        holder.tvDescription?.text = place.description
+        if (holder.tvFee != null) {
+            holder.tvFee.text = place.entranceFee
+            holder.tvFee.visibility = if (place.entranceFee.isNotBlank()) View.VISIBLE else View.GONE
+        }
 
-        // Safely load thumbnail
+        // Safely load thumbnail with Glide & drawable name resolution
         try {
-            if (place.imageUri.startsWith("android.resource://") ||
-                place.imageUri.startsWith("content://") ||
-                place.imageUri.startsWith("file://")
-            ) {
-                holder.ivThumbnail.setImageURI(Uri.parse(place.imageUri))
+            val resName = place.imageUri.substringAfterLast("/")
+            val resId = context.resources.getIdentifier(resName, "drawable", context.packageName)
+            if (resId != 0) {
+                com.bumptech.glide.Glide.with(context)
+                    .load(resId)
+                    .centerCrop()
+                    .placeholder(R.drawable.heritage_sigiriya)
+                    .error(R.drawable.heritage_sigiriya)
+                    .into(holder.ivThumbnail)
+            } else if (place.imageUri.isNotBlank()) {
+                com.bumptech.glide.Glide.with(context)
+                    .load(place.imageUri)
+                    .centerCrop()
+                    .placeholder(R.drawable.heritage_sigiriya)
+                    .error(R.drawable.heritage_sigiriya)
+                    .into(holder.ivThumbnail)
             } else {
-                holder.ivThumbnail.setImageResource(R.drawable.sigiriya)
-            }
-            if (holder.ivThumbnail.drawable == null) {
-                holder.ivThumbnail.setImageResource(R.drawable.sigiriya)
+                holder.ivThumbnail.setImageResource(R.drawable.heritage_sigiriya)
             }
         } catch (e: Exception) {
-            holder.ivThumbnail.setImageResource(R.drawable.sigiriya)
+            holder.ivThumbnail.setImageResource(R.drawable.heritage_sigiriya)
         }
 
         // Set favorite state from FavoritesManager

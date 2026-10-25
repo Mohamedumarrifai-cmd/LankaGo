@@ -374,7 +374,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/sigiriya"
+                        android:src="@drawable/heritage_sigiriya"
                         android:contentDescription="Sigiriya" />
 
                     <!-- Text overlay -->
@@ -485,7 +485,7 @@
                     android:orientation="horizontal"
                     android:paddingHorizontal="16dp">
 
-                    <!-- Card 1: Heritage -->
+                    <!-- Card 1: Hills -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_popular_1"
                         android:layout_width="140dp"
@@ -500,11 +500,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
                             <ImageView
+                                android:id="@+id/img_popular_hills"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/sigiriya"
-                                android:contentDescription="Heritage &amp; Forts" />
+                                android:src="@drawable/hill_nine_arch"
+                                android:contentDescription="Hills &amp; Mountains" />
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="60dp"
@@ -515,14 +516,14 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom|start"
                                 android:layout_margin="10dp"
-                                android:text="🏛️ Heritage"
+                                android:text="⛰️ Hills"
                                 android:textColor="#FFFFFF"
                                 android:textSize="14sp"
                                 android:fontFamily="sans-serif-bold" />
                         </FrameLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <!-- Card 2: Lakes -->
+                    <!-- Card 2: Wildlife -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_popular_2"
                         android:layout_width="140dp"
@@ -537,10 +538,49 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
                             <ImageView
+                                android:id="@+id/img_popular_wildlife"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/lake"
+                                android:src="@drawable/wildlife_yala"
+                                android:contentDescription="Wildlife Safaris" />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="60dp"
+                                android:layout_gravity="bottom"
+                                android:background="@drawable/bg_dark_scrim" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|start"
+                                android:layout_margin="10dp"
+                                android:text="🦁 Wildlife"
+                                android:textColor="#FFFFFF"
+                                android:textSize="14sp"
+                                android:fontFamily="sans-serif-bold" />
+                        </FrameLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Card 3: Lakes -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_popular_3"
+                        android:layout_width="140dp"
+                        android:layout_height="130dp"
+                        android:layout_marginEnd="12dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="2dp">
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <ImageView
+                                android:id="@+id/img_popular_lakes"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/gregoru_lake_nuwaraeliya"
                                 android:contentDescription="Lakes &amp; Waterways" />
                             <View
                                 android:layout_width="match_parent"
@@ -559,9 +599,9 @@
                         </FrameLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <!-- Card 3: Hills -->
+                    <!-- Card 4: Heritage -->
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/card_popular_3"
+                        android:id="@+id/card_popular_4"
                         android:layout_width="140dp"
                         android:layout_height="130dp"
                         android:layout_marginEnd="12dp"
@@ -574,11 +614,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
                             <ImageView
+                                android:id="@+id/img_popular_heritage"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/hills"
-                                android:contentDescription="Hills &amp; Mountains" />
+                                android:src="@drawable/heritage_sigiriya"
+                                android:contentDescription="Heritage &amp; Forts" />
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="60dp"
@@ -589,7 +630,45 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom|start"
                                 android:layout_margin="10dp"
-                                android:text="⛰️ Hills"
+                                android:text="🏛️ Heritage"
+                                android:textColor="#FFFFFF"
+                                android:textSize="14sp"
+                                android:fontFamily="sans-serif-bold" />
+                        </FrameLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Card 5: Beaches -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_popular_5"
+                        android:layout_width="140dp"
+                        android:layout_height="130dp"
+                        android:layout_marginEnd="12dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="2dp">
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <ImageView
+                                android:id="@+id/img_popular_beaches"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/beach_mirissa"
+                                android:contentDescription="Tropical Beaches" />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="60dp"
+                                android:layout_gravity="bottom"
+                                android:background="@drawable/bg_dark_scrim" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|start"
+                                android:layout_margin="10dp"
+                                android:text="🏖️ Beaches"
                                 android:textColor="#FFFFFF"
                                 android:textSize="14sp"
                                 android:fontFamily="sans-serif-bold" />

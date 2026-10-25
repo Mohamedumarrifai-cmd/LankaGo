@@ -29,7 +29,7 @@ object LankaGoDataManager {
             location = "Matale, Central Province",
             entranceFee = "LKR 1,500 ($36)",
             description = "Ancient 5th century rock citadel with world-renowned frescoes.",
-            imageUri = "android.resource://com.example.lankago/drawable/sigiriya",
+            imageUri = "android.resource://com.example.lankago/drawable/heritage_sigiriya",
             isApproved = true
         ),
         Destination(
@@ -39,7 +39,7 @@ object LankaGoDataManager {
             location = "Ella, Badulla",
             entranceFee = "Free Admission",
             description = "Iconic colonial-era stone rail bridge spanning lush misty tea valleys.",
-            imageUri = "android.resource://com.example.lankago/drawable/bridge",
+            imageUri = "android.resource://com.example.lankago/drawable/hill_nine_arch",
             isApproved = true
         )
     )

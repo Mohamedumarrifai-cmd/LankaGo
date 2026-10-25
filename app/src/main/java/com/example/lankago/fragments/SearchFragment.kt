@@ -27,6 +27,7 @@ class SearchFragment : Fragment() {
     private lateinit var btnBack: ImageView
     private lateinit var rvSearchResults: RecyclerView
     private lateinit var layoutEmptyState: View
+    private var scrollChips: android.widget.HorizontalScrollView? = null
 
     private lateinit var chipAll: TextView
     private lateinit var chipHeritage: TextView
@@ -61,6 +62,7 @@ class SearchFragment : Fragment() {
         etSearch = view.findViewById(R.id.et_search)
         rvSearchResults = view.findViewById(R.id.rv_search_results)
         layoutEmptyState = view.findViewById(R.id.layout_empty_state)
+        scrollChips = view.findViewById(R.id.scroll_chips)
 
         chipAll = view.findViewById(R.id.chip_all)
         chipHeritage = view.findViewById(R.id.chip_heritage)
@@ -137,10 +139,18 @@ class SearchFragment : Fragment() {
         // Check if an initial category was passed from Home or elsewhere
         val incomingCategory = arguments?.getString("selected_category")
         if (!incomingCategory.isNullOrBlank()) {
-            val matchedChipPair = chips.find { it.second.equals(incomingCategory, ignoreCase = true) }
+            val matchedChipPair = chips.find {
+                it.second.equals(incomingCategory, ignoreCase = true) ||
+                (incomingCategory.startsWith("Beach", ignoreCase = true) && it.second.startsWith("Beach", ignoreCase = true)) ||
+                (incomingCategory.startsWith("Lake", ignoreCase = true) && it.second.startsWith("Lake", ignoreCase = true)) ||
+                (incomingCategory.startsWith("Hill", ignoreCase = true) && it.second.startsWith("Hill", ignoreCase = true))
+            }
             if (matchedChipPair != null) {
                 selectedCategory = matchedChipPair.second
                 updateChipsUi(matchedChipPair.first)
+                scrollChips?.post {
+                    scrollChips?.smoothScrollTo(matchedChipPair.first.left - 40, 0)
+                }
             }
         }
     }
@@ -187,10 +197,13 @@ class SearchFragment : Fragment() {
         val query = etSearch.text?.toString()?.trim() ?: ""
 
         val filtered = allPlaces.filter { place ->
-            val matchesCategory = if (selectedCategory == "All") {
+            val matchesCategory = if (selectedCategory.equals("All", ignoreCase = true)) {
                 true
             } else {
-                place.category.equals(selectedCategory, ignoreCase = true)
+                place.category.equals(selectedCategory, ignoreCase = true) ||
+                (selectedCategory.startsWith("Beach", ignoreCase = true) && place.category.startsWith("Beach", ignoreCase = true)) ||
+                (selectedCategory.startsWith("Lake", ignoreCase = true) && place.category.startsWith("Lake", ignoreCase = true)) ||
+                (selectedCategory.startsWith("Hill", ignoreCase = true) && place.category.startsWith("Hill", ignoreCase = true))
             }
 
             val matchesQuery = if (query.isBlank()) {

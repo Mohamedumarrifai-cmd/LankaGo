@@ -32,7 +32,7 @@ class HomeFragment : Fragment() {
     private fun setupHeroDestination(view: View) {
         view.findViewById<View>(R.id.card_hero_destination)?.setOnClickListener {
             val bundle = Bundle().apply {
-                putString("place_id", "place_1")
+                putString("place_id", "heritage_sigiriya")
             }
             findNavController().safeNavigate(R.id.action_homeFragment_to_destinationDetailFragment, bundle)
         }
@@ -41,21 +41,35 @@ class HomeFragment : Fragment() {
     private fun setupPopularDestinations(view: View) {
         view.findViewById<View>(R.id.card_popular_1)?.setOnClickListener {
             val bundle = Bundle().apply {
-                putString("selected_category", "Heritage")
+                putString("selected_category", "Hills")
             }
             findNavController().safeNavigate(R.id.action_homeFragment_to_searchFragment, bundle)
         }
 
         view.findViewById<View>(R.id.card_popular_2)?.setOnClickListener {
             val bundle = Bundle().apply {
-                putString("selected_category", "Lakes")
+                putString("selected_category", "Wildlife")
             }
             findNavController().safeNavigate(R.id.action_homeFragment_to_searchFragment, bundle)
         }
 
         view.findViewById<View>(R.id.card_popular_3)?.setOnClickListener {
             val bundle = Bundle().apply {
-                putString("selected_category", "Hills")
+                putString("selected_category", "Lakes")
+            }
+            findNavController().safeNavigate(R.id.action_homeFragment_to_searchFragment, bundle)
+        }
+
+        view.findViewById<View>(R.id.card_popular_4)?.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("selected_category", "Heritage")
+            }
+            findNavController().safeNavigate(R.id.action_homeFragment_to_searchFragment, bundle)
+        }
+
+        view.findViewById<View>(R.id.card_popular_5)?.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("selected_category", "Beach")
             }
             findNavController().safeNavigate(R.id.action_homeFragment_to_searchFragment, bundle)
         }
