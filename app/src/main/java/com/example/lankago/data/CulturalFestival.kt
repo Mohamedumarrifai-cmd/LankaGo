@@ -14,18 +14,19 @@ data class FestivalScheduleItem(
  * Data model for cultural and historical festivals across Sri Lanka.
  */
 data class CulturalFestival(
-    val id: String,
-    val name: String,
-    val category: String,
-    val dates: String,
-    val time: String,
-    val locationName: String,
-    val coordinates: String,
-    val bannerRes: Int,
-    val historicalBackground: String,
-    val rating: Float,
-    val reviewCount: Int,
-    val visitorTips: List<String>,
-    val schedule: List<FestivalScheduleItem>,
+    val id: String = "",
+    val name: String = "",
+    val category: String = "",
+    val dates: String = "",
+    val time: String = "",
+    val locationName: String = "",
+    val coordinates: String = "",
+    val bannerRes: Int = 0,
+    val imageUrl: String = "",
+    val historicalBackground: String = "",
+    val rating: Float = 4.8f,
+    val reviewCount: Int = 100,
+    val visitorTips: List<String> = emptyList(),
+    val schedule: List<FestivalScheduleItem> = emptyList(),
     val isReminderSet: Boolean = false
 )

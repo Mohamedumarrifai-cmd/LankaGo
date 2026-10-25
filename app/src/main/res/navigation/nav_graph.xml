@@ -488,6 +488,12 @@
             android:id="@+id/action_adminDashboardFragment_to_adminActivityListFragment"
             app:destination="@id/adminActivityListFragment" />
         <action
+            android:id="@+id/action_adminDashboardFragment_to_adminPlaceListFragment"
+            app:destination="@id/adminPlaceListFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminFestivalListFragment"
+            app:destination="@id/adminFestivalListFragment" />
+        <action
             android:id="@+id/action_adminDashboardFragment_to_adminBookingsListFragment"
             app:destination="@id/adminBookingsListFragment" />
         <action
@@ -625,6 +631,52 @@
         android:name="com.example.lankago.fragments.admin.AdminBookingsListFragment"
         android:label="User Bookings"
         tools:layout="@layout/fragment_admin_bookings_list" />
+
+    <!-- Admin Manage Places / Destinations Flow -->
+    <fragment
+        android:id="@+id/adminPlaceListFragment"
+        android:name="com.example.lankago.fragments.admin.AdminPlaceListFragment"
+        android:label="Manage Destinations"
+        tools:layout="@layout/fragment_admin_place_list">
+        <action
+            android:id="@+id/action_adminPlaceListFragment_to_addEditPlaceFragment"
+            app:destination="@id/addEditPlaceFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditPlaceFragment"
+        android:name="com.example.lankago.fragments.admin.AddEditPlaceFragment"
+        android:label="Add / Edit Destination"
+        tools:layout="@layout/fragment_add_edit_place">
+        <argument
+            android:name="placeId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
+    <!-- Admin Manage Shows & Festivals Flow -->
+    <fragment
+        android:id="@+id/adminFestivalListFragment"
+        android:name="com.example.lankago.fragments.admin.AdminFestivalListFragment"
+        android:label="Manage Festivals"
+        tools:layout="@layout/fragment_admin_festival_list">
+        <action
+            android:id="@+id/action_adminFestivalListFragment_to_addEditFestivalFragment"
+            app:destination="@id/addEditFestivalFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditFestivalFragment"
+        android:name="com.example.lankago.fragments.admin.AddEditFestivalFragment"
+        android:label="Add / Edit Festival"
+        tools:layout="@layout/fragment_add_edit_festival">
+        <argument
+            android:name="festivalId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 
     <!-- Admin Trip Details & SMS Dispatch Screen -->
     <fragment

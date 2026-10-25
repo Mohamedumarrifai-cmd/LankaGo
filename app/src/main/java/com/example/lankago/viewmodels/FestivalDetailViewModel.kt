@@ -22,7 +22,7 @@ class FestivalDetailViewModel : ViewModel() {
 
     fun loadFestival(id: String, context: Context) {
         viewModelScope.launch {
-            val item = CulturalFestivalRepository.getFestivalById(id)
+            val item = CulturalFestivalRepository.getFestivalById(context, id)
             _festival.value = item
 
             val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)

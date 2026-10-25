@@ -36,16 +36,63 @@ class ShowsAndFestivalsFragment : Fragment() {
             )
         }
 
-        view.findViewById<CardView>(R.id.card_kandy_esala)?.setOnClickListener {
-            openFestival("fest_kandy_perahera")
-        }
+        val allFestivals = com.example.lankago.repository.CulturalFestivalRepository.getFestivals(requireContext())
+        val baseIds = setOf("fest_kandy_perahera", "fest_vesak", "fest_vel_festival")
 
-        view.findViewById<CardView>(R.id.card_vesak_literary)?.setOnClickListener {
-            openFestival("fest_vesak")
-        }
+        val cardKandy = view.findViewById<CardView>(R.id.card_kandy_esala)
+        val cardVesak = view.findViewById<CardView>(R.id.card_vesak_literary)
+        val cardVel = view.findViewById<CardView>(R.id.card_vel_parade)
 
-        view.findViewById<CardView>(R.id.card_vel_parade)?.setOnClickListener {
-            openFestival("fest_vel_festival")
+        cardKandy?.visibility = if (allFestivals.any { it.id == "fest_kandy_perahera" }) View.VISIBLE else View.GONE
+        cardVesak?.visibility = if (allFestivals.any { it.id == "fest_vesak" }) View.VISIBLE else View.GONE
+        cardVel?.visibility = if (allFestivals.any { it.id == "fest_vel_festival" }) View.VISIBLE else View.GONE
+
+        cardKandy?.setOnClickListener { openFestival("fest_kandy_perahera") }
+        cardVesak?.setOnClickListener { openFestival("fest_vesak") }
+        cardVel?.setOnClickListener { openFestival("fest_vel_festival") }
+
+        // Dynamically add extra or newly added festivals from Admin
+        val dynamicContainer = view.findViewById<android.widget.LinearLayout>(R.id.layout_dynamic_festivals)
+        dynamicContainer?.removeAllViews()
+
+        val extraFestivals = allFestivals.filter { it.id !in baseIds }
+        for (fest in extraFestivals) {
+            val card = LayoutInflater.from(requireContext()).inflate(R.layout.item_admin_festival, dynamicContainer, false)
+            card.findViewById<View>(R.id.btn_edit_festival)?.visibility = View.GONE
+            card.findViewById<View>(R.id.btn_delete_festival)?.visibility = View.GONE
+            card.findViewById<android.widget.TextView>(R.id.tv_admin_festival_id)?.visibility = View.GONE
+
+            card.findViewById<android.widget.TextView>(R.id.tv_admin_festival_name)?.text = fest.name
+            card.findViewById<android.widget.TextView>(R.id.tv_admin_festival_category)?.text = fest.category
+            card.findViewById<android.widget.TextView>(R.id.tv_admin_festival_rating)?.text = "★ ${fest.rating}"
+            card.findViewById<android.widget.TextView>(R.id.tv_admin_festival_dates)?.text = fest.dates
+            card.findViewById<android.widget.TextView>(R.id.tv_admin_festival_location)?.text = fest.locationName
+
+            val ivThumb = card.findViewById<ImageView>(R.id.iv_admin_festival_thumb)
+            if (ivThumb != null) {
+                when {
+                    fest.imageUrl.isNotBlank() -> {
+                        try {
+                            val resName = fest.imageUrl.substringAfterLast("/")
+                            val resId = requireContext().resources.getIdentifier(resName, "drawable", requireContext().packageName)
+                            if (resId != 0) {
+                                com.bumptech.glide.Glide.with(this).load(resId).centerCrop().into(ivThumb)
+                            } else {
+                                com.bumptech.glide.Glide.with(this).load(fest.imageUrl).centerCrop().placeholder(R.drawable.kandy_esala).into(ivThumb)
+                            }
+                        } catch (_: Exception) {
+                            ivThumb.setImageResource(R.drawable.kandy_esala)
+                        }
+                    }
+                    fest.bannerRes != 0 -> ivThumb.setImageResource(fest.bannerRes)
+                    else -> ivThumb.setImageResource(R.drawable.kandy_esala)
+                }
+            }
+
+            card.setOnClickListener {
+                openFestival(fest.id)
+            }
+            dynamicContainer?.addView(card)
         }
     }
 }

@@ -180,9 +180,84 @@ object CulturalFestivalRepository {
         )
     )
 
-    fun getAllFestivals(): List<CulturalFestival> = festivals
+    private const val PREFS_NAME = "lankago_festivals_pref"
+    private const val KEY_FESTIVALS_JSON = "saved_festivals_json"
+    private val gson = com.google.gson.Gson()
+
+    // In-memory cache
+    private val cachedFestivals = ArrayList<CulturalFestival>()
+
+    init {
+        cachedFestivals.addAll(festivals)
+    }
+
+    fun getFestivals(context: android.content.Context): List<CulturalFestival> {
+        val prefs = context.getSharedPreferences(PREFS_NAME, android.content.Context.MODE_PRIVATE)
+        val json = prefs.getString(KEY_FESTIVALS_JSON, null)
+        if (!json.isNullOrEmpty()) {
+            try {
+                val type = object : com.google.gson.reflect.TypeToken<ArrayList<CulturalFestival>>() {}.type
+                val savedList: ArrayList<CulturalFestival>? = gson.fromJson(json, type)
+                if (!savedList.isNullOrEmpty()) {
+                    cachedFestivals.clear()
+                    cachedFestivals.addAll(savedList)
+                    return savedList
+                }
+            } catch (_: Exception) {}
+        }
+        // Save initial defaults
+        saveToPrefs(context, festivals)
+        cachedFestivals.clear()
+        cachedFestivals.addAll(festivals)
+        return festivals
+    }
+
+    fun addFestival(context: android.content.Context, festival: CulturalFestival) {
+        val current = getFestivals(context).toMutableList()
+        current.add(0, festival)
+        saveToPrefs(context, current)
+        cachedFestivals.clear()
+        cachedFestivals.addAll(current)
+    }
+
+    fun updateFestival(context: android.content.Context, festival: CulturalFestival) {
+        val current = getFestivals(context).toMutableList()
+        val index = current.indexOfFirst { it.id == festival.id }
+        if (index != -1) {
+            current[index] = festival
+            saveToPrefs(context, current)
+            cachedFestivals.clear()
+            cachedFestivals.addAll(current)
+        }
+    }
+
+    fun deleteFestival(context: android.content.Context, festivalId: String) {
+        val current = getFestivals(context).toMutableList()
+        val removed = current.removeAll { it.id == festivalId }
+        if (removed) {
+            saveToPrefs(context, current)
+            cachedFestivals.clear()
+            cachedFestivals.addAll(current)
+        }
+    }
+
+    fun getFestivalById(context: android.content.Context, id: String): CulturalFestival? {
+        val all = getFestivals(context)
+        return all.find { it.id.equals(id, ignoreCase = true) } ?: all.firstOrNull()
+    }
+
+    fun getAllFestivals(): List<CulturalFestival> {
+        return if (cachedFestivals.isNotEmpty()) cachedFestivals else festivals
+    }
 
     fun getFestivalById(id: String): CulturalFestival? {
-        return festivals.find { it.id.equals(id, ignoreCase = true) } ?: festivals.firstOrNull()
+        val list = getAllFestivals()
+        return list.find { it.id.equals(id, ignoreCase = true) } ?: list.firstOrNull()
+    }
+
+    private fun saveToPrefs(context: android.content.Context, list: List<CulturalFestival>) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, android.content.Context.MODE_PRIVATE)
+        val json = gson.toJson(list)
+        prefs.edit().putString(KEY_FESTIVALS_JSON, json).apply()
     }
 }

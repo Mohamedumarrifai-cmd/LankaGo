@@ -510,6 +510,13 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Dynamic Added Festivals from Admin -->
+            <LinearLayout
+                android:id="@+id/layout_dynamic_festivals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -129,22 +129,22 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-black"
-                            android:text="3"
-                            android:textColor="#1A2B4C"
-                            android:textSize="22sp" />
+                            android:text="11"
+                            android:textColor="#5D5FEF"
+                            android:textSize="20sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:text="Rental Shops"
+                            android:text="Rentals"
                             android:textColor="#8A8F98"
-                            android:textSize="12sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="1dp"
-                        android:layout_height="36dp"
+                        android:layout_height="32dp"
                         android:layout_gravity="center_vertical"
                         android:background="#E5E7EB" />
 
@@ -156,20 +156,83 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_metric_products_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-black"
-                            android:text="In-Memory"
+                            android:text="6"
                             android:textColor="#10B981"
-                            android:textSize="18sp" />
+                            android:textSize="20sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:text="StateFlow Mode"
+                            android:text="Products"
                             android:textColor="#8A8F98"
-                            android:textSize="12sp" />
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="#E5E7EB" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_metric_places_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:text="21"
+                            android:textColor="#1A56DB"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Places"
+                            android:textColor="#8A8F98"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="#E5E7EB" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_metric_festivals_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:text="4"
+                            android:textColor="#8B5CF6"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Festivals"
+                            android:textColor="#8A8F98"
+                            android:textSize="11sp" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -186,7 +249,7 @@
                 android:textColor="#8A8F98"
                 android:textSize="12sp" />
 
-            <!-- Dashboard 2x2 Grid of Actions -->
+            <!-- Dashboard Grid of Actions -->
             <GridLayout
                 android:id="@+id/grid_admin_options"
                 android:layout_width="match_parent"
@@ -194,7 +257,6 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="12dp"
                 android:columnCount="2"
-                android:rowCount="2"
                 android:useDefaultMargins="true">
 
                 <!-- 1. Manage Rentals Card -->
@@ -246,7 +308,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:fontFamily="sans-serif"
-                            android:text="Fleet shops, scooters &amp; rates"
+                            android:text="Fleet shops, bikes &amp; rates"
                             android:textColor="#8A8F98"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -356,13 +418,123 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:fontFamily="sans-serif"
-                            android:text="Tours, guides &amp; events"
+                            android:text="Tours, guides &amp; workshops"
                             android:textColor="#8A8F98"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- 4. View User Bookings Card -->
+                <!-- 4. Manage Places Card (Heritage, Hills, Lakes, Wildlife, Beach) -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_manage_places"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="3dp"
+                    app:rippleColor="#261A56DB"
+                    app:strokeColor="#E5E7EB"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <FrameLayout
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:background="@drawable/bg_circle_blue">
+
+                            <ImageView
+                                android:layout_width="26dp"
+                                android:layout_height="26dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="Places"
+                                android:src="@drawable/ic_nav_map"
+                                app:tint="#1A56DB" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Manage Places"
+                            android:textColor="#1A2B4C"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Hills, lakes &amp; heritage sites"
+                            android:textColor="#8A8F98"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 5. Manage Shows & Festivals Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_manage_festivals"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="3dp"
+                    app:rippleColor="#268B5CF6"
+                    app:strokeColor="#E5E7EB"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <FrameLayout
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:background="@drawable/bg_circle_indigo_soft">
+
+                            <ImageView
+                                android:layout_width="26dp"
+                                android:layout_height="26dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="Festivals"
+                                android:src="@drawable/ic_sparkle"
+                                app:tint="#8B5CF6" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Manage Festivals"
+                            android:textColor="#1A2B4C"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="sans-serif"
+                            android:text="Shows, pageants &amp; dates"
+                            android:textColor="#8A8F98"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 6. View User Bookings Card -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_view_bookings"
                     android:layout_width="0dp"
@@ -386,7 +558,7 @@
                         <FrameLayout
                             android:layout_width="52dp"
                             android:layout_height="52dp"
-                            android:background="@drawable/bg_circle_blue">
+                            android:background="@drawable/bg_circle_rose_soft">
 
                             <ImageView
                                 android:layout_width="26dp"
@@ -394,7 +566,7 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="User Bookings"
                                 android:src="@drawable/ic_calendar"
-                                app:tint="#5D5FEF" />
+                                app:tint="#EF4444" />
                         </FrameLayout>
 
                         <TextView

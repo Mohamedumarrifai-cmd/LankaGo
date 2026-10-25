@@ -81,6 +81,33 @@ object LankaGoDataManager {
     }
 
     /**
+     * Updates an existing destination and persists changes to disk.
+     */
+    fun updatePlace(context: Context, place: Place) {
+        val current = getPlaces(context).toMutableList()
+        val index = current.indexOfFirst { it.id == place.id }
+        if (index != -1) {
+            current[index] = place
+            savePlacesToPrefs(context, current)
+            placesList.clear()
+            placesList.addAll(current)
+        }
+    }
+
+    /**
+     * Permanently deletes a destination by ID and persists changes to disk.
+     */
+    fun deletePlace(context: Context, placeId: String) {
+        val current = getPlaces(context).toMutableList()
+        val removed = current.removeAll { it.id == placeId }
+        if (removed) {
+            savePlacesToPrefs(context, current)
+            placesList.clear()
+            placesList.addAll(current)
+        }
+    }
+
+    /**
      * Searches places matching a query in title, location, or description.
      */
     fun searchPlaces(context: Context, query: String): List<Place> {

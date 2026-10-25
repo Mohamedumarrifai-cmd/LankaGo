@@ -116,19 +116,44 @@ class AdminProductListFragment : Fragment() {
             try {
                 val onceList = adminRepository.getAllProductsOnce()
                 pbLoading.visibility = View.GONE
-                if (onceList.isEmpty()) {
+                val resolved = if (onceList.isNotEmpty()) onceList else getDefaultProducts()
+                if (resolved.isEmpty()) {
                     rvProducts.visibility = View.GONE
                     layoutEmpty.visibility = View.VISIBLE
                 } else {
                     rvProducts.visibility = View.VISIBLE
                     layoutEmpty.visibility = View.GONE
-                    productAdapter.submitList(onceList)
+                    productAdapter.submitList(resolved)
                 }
             } catch (_: Exception) {
                 pbLoading.visibility = View.GONE
-                rvProducts.visibility = View.GONE
-                layoutEmpty.visibility = View.VISIBLE
+                val fallback = getDefaultProducts()
+                if (fallback.isNotEmpty()) {
+                    rvProducts.visibility = View.VISIBLE
+                    layoutEmpty.visibility = View.GONE
+                    productAdapter.submitList(fallback)
+                } else {
+                    rvProducts.visibility = View.GONE
+                    layoutEmpty.visibility = View.VISIBLE
+                }
             }
+        }
+    }
+
+    private fun getDefaultProducts(): List<LocalProduct> {
+        return com.example.lankago.data.LocalItemDataProvider.items.map { item ->
+            LocalProduct(
+                id = item.id,
+                name = item.title,
+                category = item.category,
+                description = item.description,
+                priceLkr = 2500.0,
+                originRegion = item.famousCity,
+                imageUrl = item.imageUrl,
+                imageRes = item.imageRes,
+                rating = item.rating,
+                reviewCount = item.reviewCount
+            )
         }
     }
 

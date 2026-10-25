@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="2dp"
+    app:strokeColor="#E5E7EB"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Destination Thumbnail Image -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_admin_place_thumb"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:contentDescription="Destination Photo"
+                android:scaleType="centerCrop"
+                android:src="@drawable/heritage_sigiriya"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
+
+            <!-- Destination Info -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_admin_place_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-black"
+                    android:maxLines="1"
+                    android:textColor="#1A2B4C"
+                    android:textSize="16sp"
+                    tools:text="Sigiriya Rock Fortress" />
+
+                <!-- Category Pill & Rating -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_admin_place_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_badge_approved"
+                        android:fontFamily="sans-serif-bold"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="2dp"
+                        android:textColor="#1A56DB"
+                        android:textSize="11sp"
+                        tools:text="Heritage" />
+
+                    <TextView
+                        android:id="@+id/tv_admin_place_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="sans-serif-bold"
+                        android:textColor="#F59E0B"
+                        android:textSize="12sp"
+                        tools:text="★ 4.9" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_admin_place_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif"
+                    android:maxLines="1"
+                    android:textColor="#8A8F98"
+                    android:textSize="12sp"
+                    tools:text="Matale District, Central Province" />
+
+                <TextView
+                    android:id="@+id/tv_admin_place_fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="#10B981"
+                    android:textSize="12sp"
+                    tools:text="Fee: $36 / LKR 11,000" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Description Snippet -->
+        <TextView
+            android:id="@+id/tv_admin_place_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif"
+            android:maxLines="2"
+            android:textColor="#64748B"
+            android:textSize="12sp"
+            tools:text="Ancient palace fortress carved into a 200m vertical rock." />
+
+        <!-- Divider Line -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="10dp"
+            android:background="#F0F2F5" />
+
+        <!-- Bottom Action Bar (Edit & Delete) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_admin_place_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:maxLines="1"
+                android:textColor="#A0AEC0"
+                android:textSize="11sp"
+                tools:text="ID: heritage_sigiriya" />
+
+            <!-- Edit Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_edit_place"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Edit"
+                android:textColor="#5D5FEF"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_admin_edit"
+                app:iconTint="#5D5FEF" />
+
+            <!-- Delete Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_delete_place"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Delete"
+                android:textColor="#EF4444"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_admin_delete"
+                app:iconTint="#EF4444" />
+        </LinearLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

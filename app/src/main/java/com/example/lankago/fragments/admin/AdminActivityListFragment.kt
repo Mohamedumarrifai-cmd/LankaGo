@@ -116,18 +116,26 @@ class AdminActivityListFragment : Fragment() {
             try {
                 val onceList = adminRepository.getAllActivitiesOnce()
                 pbLoading.visibility = View.GONE
-                if (onceList.isEmpty()) {
+                val resolved = if (onceList.isNotEmpty()) onceList else com.example.lankago.repository.TraditionalActivityRepository.getAllActivities()
+                if (resolved.isEmpty()) {
                     rvActivities.visibility = View.GONE
                     layoutEmpty.visibility = View.VISIBLE
                 } else {
                     rvActivities.visibility = View.VISIBLE
                     layoutEmpty.visibility = View.GONE
-                    activityAdapter.submitList(onceList)
+                    activityAdapter.submitList(resolved)
                 }
             } catch (_: Exception) {
                 pbLoading.visibility = View.GONE
-                rvActivities.visibility = View.GONE
-                layoutEmpty.visibility = View.VISIBLE
+                val fallback = com.example.lankago.repository.TraditionalActivityRepository.getAllActivities()
+                if (fallback.isNotEmpty()) {
+                    rvActivities.visibility = View.VISIBLE
+                    layoutEmpty.visibility = View.GONE
+                    activityAdapter.submitList(fallback)
+                } else {
+                    rvActivities.visibility = View.GONE
+                    layoutEmpty.visibility = View.VISIBLE
+                }
             }
         }
     }

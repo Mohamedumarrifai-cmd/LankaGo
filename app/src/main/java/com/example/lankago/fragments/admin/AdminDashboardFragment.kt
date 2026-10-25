@@ -40,58 +40,97 @@ class AdminDashboardFragment : Fragment() {
         val cardRentals = view.findViewById<MaterialCardView>(R.id.card_manage_rentals)
         val cardProducts = view.findViewById<MaterialCardView>(R.id.card_manage_products)
         val cardActivities = view.findViewById<MaterialCardView>(R.id.card_manage_activities)
+        val cardPlaces = view.findViewById<MaterialCardView>(R.id.card_manage_places)
+        val cardFestivals = view.findViewById<MaterialCardView>(R.id.card_manage_festivals)
         val cardBookings = view.findViewById<MaterialCardView>(R.id.card_view_bookings)
         val cardLogout = view.findViewById<MaterialCardView>(R.id.card_admin_logout)
-        val tvRentalsCount = view.findViewById<TextView>(R.id.tv_metric_rentals_count)
 
-        // Reactively observe live rentals from Firebase Realtime Database
+        val tvRentalsCount = view.findViewById<TextView>(R.id.tv_metric_rentals_count)
+        val tvProductsCount = view.findViewById<TextView>(R.id.tv_metric_products_count)
+        val tvPlacesCount = view.findViewById<TextView>(R.id.tv_metric_places_count)
+        val tvFestivalsCount = view.findViewById<TextView>(R.id.tv_metric_festivals_count)
+
+        // Observe Places and Festivals counts
+        try {
+            val places = com.example.lankago.utils.LankaGoDataManager.getPlaces(requireContext())
+            tvPlacesCount?.text = places.size.toString()
+        } catch (_: Exception) {}
+
+        try {
+            val festivals = com.example.lankago.repository.CulturalFestivalRepository.getFestivals(requireContext())
+            tvFestivalsCount?.text = festivals.size.toString()
+        } catch (_: Exception) {}
+
+        // Reactively observe live rentals & products from Firebase
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 try {
                     adminRepository.observeRentals().collect { shops ->
-                        tvRentalsCount.text = shops.size.toString()
+                        val count = if (shops.isNotEmpty()) shops.size else com.example.lankago.data.RentalShopDataProvider.shops.size
+                        tvRentalsCount?.text = count.toString()
                     }
                 } catch (_: Exception) {
-                    // Fallback to fetch once
-                    try {
-                        val once = adminRepository.getAllRentalsOnce()
-                        tvRentalsCount.text = once.size.toString()
-                    } catch (_: Exception) {
-                        tvRentalsCount.text = "0"
+                    tvRentalsCount?.text = com.example.lankago.data.RentalShopDataProvider.shops.size.toString()
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                try {
+                    adminRepository.observeProducts().collect { prods ->
+                        val count = if (prods.isNotEmpty()) prods.size else com.example.lankago.data.LocalItemDataProvider.items.size
+                        tvProductsCount?.text = count.toString()
                     }
+                } catch (_: Exception) {
+                    tvProductsCount?.text = com.example.lankago.data.LocalItemDataProvider.items.size.toString()
                 }
             }
         }
 
         // 1. Manage Rentals -> Navigate to AdminRentalListFragment
-        cardRentals.setOnClickListener {
+        cardRentals?.setOnClickListener {
             findNavController().safeNavigate(
                 R.id.action_adminDashboardFragment_to_adminRentalListFragment
             )
         }
 
         // 2. Manage Products -> Navigate to AdminProductListFragment
-        cardProducts.setOnClickListener {
+        cardProducts?.setOnClickListener {
             findNavController().safeNavigate(
                 R.id.action_adminDashboardFragment_to_adminProductListFragment
             )
         }
 
         // 3. Manage Activities -> Navigate to AdminActivityListFragment
-        cardActivities.setOnClickListener {
+        cardActivities?.setOnClickListener {
             findNavController().safeNavigate(
                 R.id.action_adminDashboardFragment_to_adminActivityListFragment
             )
         }
 
-        // 4. View User Bookings -> Navigate to AdminBookingsListFragment
+        // 4. Manage Places & Destinations -> Navigate to AdminPlaceListFragment
+        cardPlaces?.setOnClickListener {
+            findNavController().safeNavigate(
+                R.id.action_adminDashboardFragment_to_adminPlaceListFragment
+            )
+        }
+
+        // 5. Manage Shows & Festivals -> Navigate to AdminFestivalListFragment
+        cardFestivals?.setOnClickListener {
+            findNavController().safeNavigate(
+                R.id.action_adminDashboardFragment_to_adminFestivalListFragment
+            )
+        }
+
+        // 6. View User Bookings -> Navigate to AdminBookingsListFragment
         cardBookings?.setOnClickListener {
             findNavController().safeNavigate(
                 R.id.action_adminDashboardFragment_to_adminBookingsListFragment
             )
         }
 
-        // 5. Switch to Traveler Home View
+        // 7. Switch to Traveler Home View
         val cardSwitchMode = view.findViewById<View>(R.id.card_switch_to_user_mode)
         cardSwitchMode?.setOnClickListener {
             findNavController().safeNavigate(

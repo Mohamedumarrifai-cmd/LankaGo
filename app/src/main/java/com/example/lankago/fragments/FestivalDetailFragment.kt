@@ -103,7 +103,30 @@ class FestivalDetailFragment : Fragment() {
     }
 
     private fun bindFestivalDetails(view: View, item: CulturalFestival) {
-        view.findViewById<ImageView>(R.id.iv_festival_banner)?.setImageResource(item.bannerRes)
+        val ivBanner = view.findViewById<ImageView>(R.id.iv_festival_banner)
+        if (ivBanner != null) {
+            when {
+                item.imageUrl.isNotBlank() -> {
+                    try {
+                        val resName = item.imageUrl.substringAfterLast("/")
+                        val resId = requireContext().resources.getIdentifier(resName, "drawable", requireContext().packageName)
+                        if (resId != 0) {
+                            com.bumptech.glide.Glide.with(this).load(resId).centerCrop().into(ivBanner)
+                        } else {
+                            com.bumptech.glide.Glide.with(this).load(item.imageUrl).centerCrop().placeholder(R.drawable.kandy_esala).into(ivBanner)
+                        }
+                    } catch (_: Exception) {
+                        ivBanner.setImageResource(R.drawable.kandy_esala)
+                    }
+                }
+                item.bannerRes != 0 -> {
+                    ivBanner.setImageResource(item.bannerRes)
+                }
+                else -> {
+                    ivBanner.setImageResource(R.drawable.kandy_esala)
+                }
+            }
+        }
         view.findViewById<TextView>(R.id.tv_festival_category)?.text = item.category
         view.findViewById<TextView>(R.id.tv_festival_title)?.text = item.name
         view.findViewById<TextView>(R.id.tv_festival_rating)?.text =

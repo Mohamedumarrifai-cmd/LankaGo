@@ -117,18 +117,26 @@ class AdminRentalListFragment : Fragment() {
             try {
                 val onceList = adminRepository.getAllRentalsOnce()
                 pbLoading.visibility = View.GONE
-                if (onceList.isEmpty()) {
+                val resolved = if (onceList.isNotEmpty()) onceList else com.example.lankago.data.RentalShopDataProvider.shops
+                if (resolved.isEmpty()) {
                     rvRentals.visibility = View.GONE
                     layoutEmpty.visibility = View.VISIBLE
                 } else {
                     rvRentals.visibility = View.VISIBLE
                     layoutEmpty.visibility = View.GONE
-                    rentalAdapter.submitList(onceList)
+                    rentalAdapter.submitList(resolved)
                 }
             } catch (_: Exception) {
                 pbLoading.visibility = View.GONE
-                rvRentals.visibility = View.GONE
-                layoutEmpty.visibility = View.VISIBLE
+                val fallback = com.example.lankago.data.RentalShopDataProvider.shops
+                if (fallback.isNotEmpty()) {
+                    rvRentals.visibility = View.VISIBLE
+                    layoutEmpty.visibility = View.GONE
+                    rentalAdapter.submitList(fallback)
+                } else {
+                    rvRentals.visibility = View.GONE
+                    layoutEmpty.visibility = View.VISIBLE
+                }
             }
         }
     }
