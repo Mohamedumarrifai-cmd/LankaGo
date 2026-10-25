@@ -53,6 +53,7 @@ class RentalListAdapter(
         }
 
         val localDrawable = when {
+            vehicle.id.contains("galle", ignoreCase = true) || vehicle.name.contains("Galle", ignoreCase = true) -> R.drawable.galle_tuktuk
             vehicle.name.contains("Tuk", ignoreCase = true) || vehicle.type.contains("Tuk", ignoreCase = true) -> R.drawable.tourist_tuktuk
             vehicle.name.contains("KDH", ignoreCase = true) || vehicle.name.contains("Van", ignoreCase = true) || vehicle.type.contains("Van", ignoreCase = true) -> R.drawable.kdh
             vehicle.name.contains("Montero", ignoreCase = true) -> R.drawable.montero
@@ -63,12 +64,12 @@ class RentalListAdapter(
             vehicle.name.contains("Alto", ignoreCase = true) -> R.drawable.alto
             vehicle.name.contains("Wagon", ignoreCase = true) -> R.drawable.wagonr
             vehicle.name.contains("NS200", ignoreCase = true) || vehicle.name.contains("Pulsar", ignoreCase = true) -> R.drawable.ns200
-            vehicle.name.contains("FZ", ignoreCase = true) || vehicle.name.contains("Yamaha", ignoreCase = true) -> R.drawable.fz
-            vehicle.name.contains("Dio", ignoreCase = true) -> R.drawable.dio
             vehicle.name.contains("NMAX", ignoreCase = true) -> R.drawable.nmax
+            vehicle.name.contains("Dio", ignoreCase = true) -> R.drawable.dio
             vehicle.name.contains("PCX", ignoreCase = true) -> R.drawable.pcx
+            vehicle.name.contains("FZ", ignoreCase = true) -> R.drawable.fz
             vehicle.name.contains("Enfield", ignoreCase = true) || vehicle.name.contains("Himalayan", ignoreCase = true) -> R.drawable.royalenflied
-            vehicle.type.contains("Bike", ignoreCase = true) -> R.drawable.fz
+            vehicle.type.contains("Bike", ignoreCase = true) || vehicle.name.contains("Yamaha", ignoreCase = true) -> R.drawable.fz
             else -> R.drawable.aqua
         }
 

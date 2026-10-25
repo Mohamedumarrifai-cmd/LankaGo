@@ -150,90 +150,113 @@ class RentalsTransportFragment : Fragment() {
             }
         }
 
-        // 1. Epic Ride Scooter Rental (Galle Fort)
-        view.findViewById<CardView>(R.id.card_epic_ride)?.setOnClickListener {
-            selectVehicle("rental_honda_pcx", "shop_epic_ride")
+        // 0. Browse All Fleet Vehicles Banner
+        view.findViewById<View>(R.id.card_view_all_vehicles)?.setOnClickListener {
+            try {
+                findNavController().navigate(R.id.action_rentalsTransportFragment_to_rentalListFragment)
+            } catch (_: Exception) {
+                // Resilient fallback
+            }
         }
 
-        // 2. Colombo Scooter Rentals (Colombo 03)
+        // 1. Honda Dio 110cc (Galle Fort)
+        view.findViewById<CardView>(R.id.card_epic_ride)?.setOnClickListener {
+            selectVehicle("rental_honda_dio", "shop_epic_ride")
+        }
+
+        // 2. Honda PCX 150 (Colombo 03)
         view.findViewById<CardView>(R.id.card_colombo_scooter)?.setOnClickListener {
             selectVehicle("rental_honda_pcx", "shop_colombo_scooter")
         }
 
-        // 3. Unawatuna Scooter Rental (Unawatuna)
+        // 3. Yamaha NMAX 155cc (Unawatuna)
         view.findViewById<CardView>(R.id.card_unawatuna)?.setOnClickListener {
-            selectVehicle("rental_honda_pcx", "shop_unawatuna")
+            selectVehicle("rental_yamaha_nmax", "shop_unawatuna")
         }
 
-        // 4. Dambulla Scooter Rentals (Dambulla)
+        // 4. Yamaha FZ-S 150cc (Dambulla)
         view.findViewById<CardView>(R.id.card_dambulla_scooter)?.setOnClickListener {
-            selectVehicle("rental_honda_pcx", "shop_dambulla_scooter")
+            selectVehicle("rental_yamaha_fzs", "shop_dambulla_scooter")
         }
 
-        // 5. Hikkaduwa Scooter Rental (Hikkaduwa)
+        // 5. Bajaj Pulsar NS200 (Hikkaduwa)
         view.findViewById<CardView>(R.id.card_hikkaduwa_scooter)?.setOnClickListener {
-            selectVehicle("rental_honda_pcx", "shop_hikkaduwa")
+            selectVehicle("rental_pulsar_ns200", "shop_hikkaduwa")
         }
 
-        // 6. Kandy Bike Rental (Kandy)
+        // 6. Royal Enfield Himalayan 411cc (Kandy)
         view.findViewById<CardView>(R.id.card_kandy_bike)?.setOnClickListener {
             selectVehicle("rental_enfield_kandy", "shop_kandy_bike")
         }
 
-        // 7. Mirissa Bike Rental
+        // 7. Sri Lankan Tourist Tuk-Tuk (Mirissa)
         view.findViewById<CardView>(R.id.card_mirissa_bike)?.setOnClickListener {
             selectVehicle("rental_tuktuk_mirissa", "shop_mirissa_tuktuk")
         }
 
-        // 8. Ella Bike Rental
+        // 8. Royal Enfield Mountain Adventure (Ella)
         view.findViewById<CardView>(R.id.card_ella_bike)?.setOnClickListener {
             selectVehicle("rental_enfield_kandy", "shop_ella_moto")
         }
 
-        // 9. Arugam Bay Bike Rental
+        // 9. Yamaha FZ Beach Cruiser (Arugam Bay)
         view.findViewById<CardView>(R.id.card_arugam_bike)?.setOnClickListener {
-            selectVehicle("rental_enfield_kandy", "shop_galle_bike")
+            selectVehicle("rental_yamaha_fzs", "shop_galle_bike")
         }
 
-        // 10-13. Cars
+        // 10. Suzuki Alto 800 Economy (Colombo)
         view.findViewById<CardView>(R.id.card_malkey_car)?.setOnClickListener {
-            selectVehicle("rental_toyota_aqua", "shop_colombo_rentals")
+            selectVehicle("rental_suzuki_alto", "shop_colombo_rentals")
         }
+
+        // 11. Suzuki Wagon R FX Hybrid (Airport & City)
         view.findViewById<CardView>(R.id.card_casons_car)?.setOnClickListener {
-            selectVehicle("rental_toyota_aqua", "shop_colombo_rentals")
+            selectVehicle("rental_suzuki_wagonr", "shop_colombo_rentals")
         }
+
+        // 12. Toyota Aqua Hybrid (Colombo 07)
         view.findViewById<CardView>(R.id.card_kings_car)?.setOnClickListener {
             selectVehicle("rental_toyota_aqua", "shop_colombo_rentals")
         }
+
+        // 13. Toyota Prius Luxury Hybrid (Colombo Hub)
         view.findViewById<CardView>(R.id.card_euro_car)?.setOnClickListener {
-            selectVehicle("rental_nissan_xtrail", "shop_colombo_rentals")
+            selectVehicle("rental_toyota_prius", "shop_colombo_rentals")
         }
 
-        // 14-16. Vans
+        // 14. Toyota KDH Commuter High-Roof (Colombo)
         view.findViewById<CardView>(R.id.card_casons_van)?.setOnClickListener {
-            selectVehicle("rental_nissan_xtrail", "shop_colombo_rentals")
+            selectVehicle("rental_toyota_kdh", "shop_colombo_rentals")
         }
+
+        // 15. Nissan X-Trail 4WD Safari Edition (Colombo)
         view.findViewById<CardView>(R.id.card_malkey_van)?.setOnClickListener {
             selectVehicle("rental_nissan_xtrail", "shop_colombo_rentals")
         }
+
+        // 16. Mitsubishi Montero 4x4 Expedition (Kandy)
         view.findViewById<CardView>(R.id.card_kandy_van)?.setOnClickListener {
-            selectVehicle("rental_nissan_xtrail", "shop_kandy_rides")
+            selectVehicle("rental_mitsubishi_montero", "shop_kandy_rides")
         }
 
-        // 17-19. Tuk Tuks
+        // 17. Negombo Tourist Tuk-Tuk
         view.findViewById<CardView>(R.id.card_negombo_tuktuk)?.setOnClickListener {
             selectVehicle("rental_tuktuk_mirissa", "shop_mirissa_tuktuk")
         }
+
+        // 18. Galle Heritage Coastal Tuk-Tuk
         view.findViewById<CardView>(R.id.card_galle_tuktuk)?.setOnClickListener {
-            selectVehicle("rental_tuktuk_mirissa", "shop_galle_bike")
-        }
-        view.findViewById<CardView>(R.id.card_colombo_tuktuk)?.setOnClickListener {
-            selectVehicle("rental_tuktuk_mirissa", "shop_colombo_rentals")
+            selectVehicle("rental_tuktuk_galle", "shop_galle_bike")
         }
 
-        // 20. Buses
+        // 19. Honda Grace Hybrid Sedan
+        view.findViewById<CardView>(R.id.card_colombo_tuktuk)?.setOnClickListener {
+            selectVehicle("rental_honda_grace", "shop_colombo_rentals")
+        }
+
+        // 20. Toyota KDH VIP Van
         view.findViewById<CardView>(R.id.card_lanka_bus)?.setOnClickListener {
-            selectVehicle("rental_nissan_xtrail", "shop_colombo_rentals")
+            selectVehicle("rental_toyota_kdh", "shop_colombo_rentals")
         }
     }
 }

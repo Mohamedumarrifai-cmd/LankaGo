@@ -17,6 +17,7 @@ class NearbyRentalAdapter(
 ) : RecyclerView.Adapter<NearbyRentalAdapter.RentalViewHolder>() {
 
     class RentalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val ivThumb: android.widget.ImageView? = itemView.findViewById(R.id.iv_vehicle_thumb)
         val tvName: TextView = itemView.findViewById(R.id.tv_nearby_rental_name)
         val tvType: TextView = itemView.findViewById(R.id.tv_nearby_rental_type)
         val tvPrice: TextView = itemView.findViewById(R.id.tv_nearby_rental_price)
@@ -41,6 +42,41 @@ class NearbyRentalAdapter(
         } else {
             holder.tvStatus.text = "Sold Out"
             holder.tvStatus.setBackgroundColor(Color.parseColor("#B91C1C"))
+        }
+
+        val localDrawable = when {
+            item.id.contains("galle", ignoreCase = true) || item.name.contains("Galle", ignoreCase = true) -> R.drawable.galle_tuktuk
+            item.name.contains("Tuk", ignoreCase = true) || item.type.contains("Tuk", ignoreCase = true) -> R.drawable.tourist_tuktuk
+            item.name.contains("KDH", ignoreCase = true) || item.name.contains("Van", ignoreCase = true) || item.type.contains("Van", ignoreCase = true) -> R.drawable.kdh
+            item.name.contains("Montero", ignoreCase = true) -> R.drawable.montero
+            item.name.contains("X-Trail", ignoreCase = true) || item.type.contains("SUV", ignoreCase = true) || item.type.contains("4x4", ignoreCase = true) -> R.drawable.xtrail
+            item.name.contains("Grace", ignoreCase = true) -> R.drawable.grace
+            item.name.contains("Prius", ignoreCase = true) -> R.drawable.prius
+            item.name.contains("Aqua", ignoreCase = true) -> R.drawable.aqua
+            item.name.contains("Alto", ignoreCase = true) -> R.drawable.alto
+            item.name.contains("Wagon", ignoreCase = true) -> R.drawable.wagonr
+            item.name.contains("NS200", ignoreCase = true) || item.name.contains("Pulsar", ignoreCase = true) -> R.drawable.ns200
+            item.name.contains("NMAX", ignoreCase = true) -> R.drawable.nmax
+            item.name.contains("Dio", ignoreCase = true) -> R.drawable.dio
+            item.name.contains("PCX", ignoreCase = true) -> R.drawable.pcx
+            item.name.contains("FZ", ignoreCase = true) -> R.drawable.fz
+            item.name.contains("Enfield", ignoreCase = true) || item.name.contains("Himalayan", ignoreCase = true) -> R.drawable.royalenflied
+            item.type.contains("Bike", ignoreCase = true) || item.name.contains("Yamaha", ignoreCase = true) -> R.drawable.fz
+            else -> R.drawable.aqua
+        }
+
+        holder.ivThumb?.let { iv ->
+            val firstImg = item.images.firstOrNull()
+            if (!firstImg.isNullOrBlank()) {
+                com.bumptech.glide.Glide.with(iv.context)
+                    .load(firstImg)
+                    .placeholder(localDrawable)
+                    .error(localDrawable)
+                    .centerCrop()
+                    .into(iv)
+            } else {
+                iv.setImageResource(localDrawable)
+            }
         }
 
         holder.itemView.setOnClickListener {

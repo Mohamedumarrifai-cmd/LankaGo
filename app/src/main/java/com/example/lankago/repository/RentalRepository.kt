@@ -438,6 +438,28 @@ object RentalRepository {
             reviews = listOf(
                 Review("rev_v11", "Rohan Jayawardene", null, 5.0f, "14 Oct 2026", "Spacious family van with dual AC. Ideal for 10-14 passengers.")
             )
+        ),
+        Vehicle(
+            id = "rental_tuktuk_galle",
+            name = "Galle Heritage Coastal Tuk-Tuk",
+            type = "Tuk-Tuk",
+            imageUrl = "${RES_PREFIX}galle_tuktuk",
+            images = listOf(
+                "${RES_PREFIX}galle_tuktuk",
+                "${RES_PREFIX}tourist_tuktuk"
+            ),
+            pricePerDayLkr = 5200.0,
+            depositLkr = 15000.0,
+            rating = 4.9f,
+            reviewCount = 84,
+            isAvailable = true,
+            seats = 3,
+            transmission = "Manual 4-Speed",
+            fuelType = "Petrol",
+            provider = providers[2],
+            reviews = listOf(
+                Review("rev_gtk1", "Oliver Twist", null, 5.0f, "19 Oct 2026", "Exploring Galle Fort and coastal viewpoints with this authentic tuk-tuk was magical.")
+            )
         )
     )
 

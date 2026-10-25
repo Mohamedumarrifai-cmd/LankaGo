@@ -314,6 +314,9 @@
         <action
             android:id="@+id/action_rentalsTransportFragment_to_rentalDetailsFragment"
             app:destination="@id/rentalDetailsFragment" />
+        <action
+            android:id="@+id/action_rentalsTransportFragment_to_rentalListFragment"
+            app:destination="@id/rentalListFragment" />
     </fragment>
 
     <fragment

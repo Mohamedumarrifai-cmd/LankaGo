@@ -121,6 +121,7 @@ class RentalDetailsFragment : Fragment() {
     private fun bindRentalData(view: View, rental: RentalVehicle) {
         // Hero Image
         val fallbackRes = when {
+            rental.id.contains("galle", ignoreCase = true) || rental.name.contains("Galle", ignoreCase = true) -> R.drawable.galle_tuktuk
             rental.name.contains("Tuk", ignoreCase = true) || rental.type.contains("Tuk", ignoreCase = true) -> R.drawable.tourist_tuktuk
             rental.name.contains("KDH", ignoreCase = true) || rental.name.contains("Van", ignoreCase = true) || rental.type.contains("Van", ignoreCase = true) -> R.drawable.kdh
             rental.name.contains("Montero", ignoreCase = true) -> R.drawable.montero
@@ -131,12 +132,12 @@ class RentalDetailsFragment : Fragment() {
             rental.name.contains("Alto", ignoreCase = true) -> R.drawable.alto
             rental.name.contains("Wagon", ignoreCase = true) -> R.drawable.wagonr
             rental.name.contains("NS200", ignoreCase = true) || rental.name.contains("Pulsar", ignoreCase = true) -> R.drawable.ns200
-            rental.name.contains("FZ", ignoreCase = true) || rental.name.contains("Yamaha", ignoreCase = true) -> R.drawable.fz
-            rental.name.contains("Dio", ignoreCase = true) -> R.drawable.dio
             rental.name.contains("NMAX", ignoreCase = true) -> R.drawable.nmax
+            rental.name.contains("Dio", ignoreCase = true) -> R.drawable.dio
             rental.name.contains("PCX", ignoreCase = true) -> R.drawable.pcx
+            rental.name.contains("FZ", ignoreCase = true) -> R.drawable.fz
             rental.name.contains("Enfield", ignoreCase = true) || rental.name.contains("Himalayan", ignoreCase = true) -> R.drawable.royalenflied
-            rental.type.contains("Bike", ignoreCase = true) -> R.drawable.fz
+            rental.type.contains("Bike", ignoreCase = true) || rental.name.contains("Yamaha", ignoreCase = true) -> R.drawable.fz
             else -> R.drawable.aqua
         }
 
