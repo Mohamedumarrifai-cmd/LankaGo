@@ -155,62 +155,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- 0. Explore All Fleet Vehicles Banner -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_view_all_vehicles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="#5D5FEF">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="16dp">
-                    <ImageView
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:src="@drawable/ic_home_rental_car"
-                        app:tint="#FFFFFF"
-                        android:background="@drawable/bg_white_circle"
-                        android:backgroundTint="#20FFFFFF"
-                        android:padding="8dp" />
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="14dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Explore All Fleet Vehicles"
-                            android:textColor="#FFFFFF"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="Browse all 16 vehicles with individual pictures, specs &amp; prices"
-                            android:textColor="#E0E7FF"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:src="@drawable/ic_arrow_forward"
-                        app:tint="#FFFFFF" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- 1. Honda Dio 110cc City Scooter -->
+            <!-- 1. Epic Ride Scooter Rental -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_epic_ride"
                 android:layout_width="match_parent"
@@ -233,12 +178,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/dio"
-                        tools:src="@drawable/dio"
+                        android:src="@drawable/epic_ride"
+                        tools:src="@drawable/epic_ride"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Honda Dio" />
+                        android:contentDescription="Epic Ride" />
                     <TextView
                         android:id="@+id/title_epic_ride"
                         android:layout_width="0dp"
@@ -247,8 +192,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Honda Dio 110cc City Scooter"
-                        tools:text="Honda Dio 110cc City Scooter"
+                        android:text="Epic Ride Scooter Rental"
+                        tools:text="Epic Ride Scooter Rental"
                         app:layout_constraintStart_toEndOf="@id/img_epic_ride"
                         app:layout_constraintEnd_toStartOf="@id/arrow_epic_ride"
                         app:layout_constraintTop_toTopOf="@id/img_epic_ride" />
@@ -260,8 +205,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Scooter · Automatic · LKR 3,200/day · Galle"
-                        tools:text="Scooter · Automatic · LKR 3,200/day · Galle"
+                        android:text="Scooter · LKR 3,500/day · Galle Fort"
+                        tools:text="Scooter · LKR 3,500/day · Galle Fort"
                         app:layout_constraintStart_toEndOf="@id/img_epic_ride"
                         app:layout_constraintEnd_toStartOf="@id/arrow_epic_ride"
                         app:layout_constraintTop_toBottomOf="@id/title_epic_ride" />
@@ -273,8 +218,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.7"
-                        tools:text="★ 4.7"
+                        android:text="★ 4.9"
+                        tools:text="★ 4.9"
                         app:layout_constraintStart_toEndOf="@id/img_epic_ride"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_epic_ride" />
                     <ImageView
@@ -290,7 +235,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 2. Honda PCX 150 Scooter -->
+            <!-- 2. Colombo Scooter Rentals -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_colombo_scooter"
                 android:layout_width="match_parent"
@@ -313,12 +258,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/pcx"
-                        tools:src="@drawable/pcx"
+                        android:src="@drawable/colombo_scotter"
+                        tools:src="@drawable/colombo_scotter"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Honda PCX" />
+                        android:contentDescription="Colombo Scooter" />
                     <TextView
                         android:id="@+id/title_colombo_scooter"
                         android:layout_width="0dp"
@@ -327,8 +272,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Honda PCX 150 Scooter"
-                        tools:text="Honda PCX 150 Scooter"
+                        android:text="Colombo Scooter Rentals"
+                        tools:text="Colombo Scooter Rentals"
                         app:layout_constraintStart_toEndOf="@id/img_colombo_scooter"
                         app:layout_constraintEnd_toStartOf="@id/arrow_colombo_scooter"
                         app:layout_constraintTop_toTopOf="@id/img_colombo_scooter" />
@@ -340,8 +285,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Scooter · Automatic · LKR 3,800/day · Colombo"
-                        tools:text="Scooter · Automatic · LKR 3,800/day · Colombo"
+                        android:text="Scooter · LKR 3,800/day · Colombo 03"
+                        tools:text="Scooter · LKR 3,800/day · Colombo 03"
                         app:layout_constraintStart_toEndOf="@id/img_colombo_scooter"
                         app:layout_constraintEnd_toStartOf="@id/arrow_colombo_scooter"
                         app:layout_constraintTop_toBottomOf="@id/title_colombo_scooter" />
@@ -353,8 +298,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.9"
-                        tools:text="★ 4.9"
+                        android:text="★ 4.6"
+                        tools:text="★ 4.6"
                         app:layout_constraintStart_toEndOf="@id/img_colombo_scooter"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_colombo_scooter" />
                     <ImageView
@@ -370,7 +315,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 3. Yamaha NMAX 155cc Maxi Scooter -->
+            <!-- 3. Unawatuna Scooter Rental -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_unawatuna"
                 android:layout_width="match_parent"
@@ -393,12 +338,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/nmax"
-                        tools:src="@drawable/nmax"
+                        android:src="@drawable/unawatune_bike"
+                        tools:src="@drawable/unawatune_bike"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Yamaha NMAX" />
+                        android:contentDescription="Unawatuna Scooter" />
                     <TextView
                         android:id="@+id/title_unawatuna"
                         android:layout_width="0dp"
@@ -407,8 +352,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Yamaha NMAX 155cc Maxi Scooter"
-                        tools:text="Yamaha NMAX 155cc Maxi Scooter"
+                        android:text="Unawatuna Scooter Rental"
+                        tools:text="Unawatuna Scooter Rental"
                         app:layout_constraintStart_toEndOf="@id/img_unawatuna"
                         app:layout_constraintEnd_toStartOf="@id/arrow_unawatuna"
                         app:layout_constraintTop_toTopOf="@id/img_unawatuna" />
@@ -420,8 +365,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Scooter · Automatic · LKR 4,000/day · Unawatuna"
-                        tools:text="Scooter · Automatic · LKR 4,000/day · Unawatuna"
+                        android:text="Scooter · LKR 3,300/day · Unawatuna"
+                        tools:text="Scooter · LKR 3,300/day · Unawatuna"
                         app:layout_constraintStart_toEndOf="@id/img_unawatuna"
                         app:layout_constraintEnd_toStartOf="@id/arrow_unawatuna"
                         app:layout_constraintTop_toBottomOf="@id/title_unawatuna" />
@@ -433,8 +378,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.9"
-                        tools:text="★ 4.9"
+                        android:text="★ 4.7"
+                        tools:text="★ 4.7"
                         app:layout_constraintStart_toEndOf="@id/img_unawatuna"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_unawatuna" />
                     <ImageView
@@ -450,13 +395,13 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 4. Yamaha FZ-S 150cc Touring Bike -->
+            <!-- 4. Dambulla Scooter Rentals -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_dambulla_scooter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:tag="bike"
+                android:tag="scooter"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="#FFFFFF"
@@ -473,12 +418,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/fz"
-                        tools:src="@drawable/fz"
+                        android:src="@drawable/dambulla_bike"
+                        tools:src="@drawable/dambulla_bike"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Yamaha FZ-S" />
+                        android:contentDescription="Dambulla Scooter" />
                     <TextView
                         android:id="@+id/title_dambulla_scooter"
                         android:layout_width="0dp"
@@ -487,8 +432,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Yamaha FZ-S 150cc Touring Bike"
-                        tools:text="Yamaha FZ-S 150cc Touring Bike"
+                        android:text="Dambulla Scooter Rentals"
+                        tools:text="Dambulla Scooter Rentals"
                         app:layout_constraintStart_toEndOf="@id/img_dambulla_scooter"
                         app:layout_constraintEnd_toStartOf="@id/arrow_dambulla_scooter"
                         app:layout_constraintTop_toTopOf="@id/img_dambulla_scooter" />
@@ -500,8 +445,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Motorcycle · Manual 5-Speed · LKR 4,500/day · Dambulla"
-                        tools:text="Motorcycle · Manual 5-Speed · LKR 4,500/day · Dambulla"
+                        android:text="Scooter · LKR 3,400/day · Dambulla"
+                        tools:text="Scooter · LKR 3,400/day · Dambulla"
                         app:layout_constraintStart_toEndOf="@id/img_dambulla_scooter"
                         app:layout_constraintEnd_toStartOf="@id/arrow_dambulla_scooter"
                         app:layout_constraintTop_toBottomOf="@id/title_dambulla_scooter" />
@@ -513,8 +458,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.8"
-                        tools:text="★ 4.8"
+                        android:text="★ 4.5"
+                        tools:text="★ 4.5"
                         app:layout_constraintStart_toEndOf="@id/img_dambulla_scooter"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_dambulla_scooter" />
                     <ImageView
@@ -530,13 +475,13 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 5. Bajaj Pulsar NS200 Street Sport -->
+            <!-- 5. Hikkaduwa Scooter Rental -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_hikkaduwa_scooter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:tag="bike"
+                android:tag="scooter"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="#FFFFFF"
@@ -553,12 +498,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/ns200"
-                        tools:src="@drawable/ns200"
+                        android:src="@drawable/hikka_rent"
+                        tools:src="@drawable/hikka_rent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Bajaj Pulsar NS200" />
+                        android:contentDescription="Hikkaduwa Scooter" />
                     <TextView
                         android:id="@+id/title_hikkaduwa_scooter"
                         android:layout_width="0dp"
@@ -567,8 +512,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Bajaj Pulsar NS200 Street Sport"
-                        tools:text="Bajaj Pulsar NS200 Street Sport"
+                        android:text="Hikkaduwa Scooter Rental"
+                        tools:text="Hikkaduwa Scooter Rental"
                         app:layout_constraintStart_toEndOf="@id/img_hikkaduwa_scooter"
                         app:layout_constraintEnd_toStartOf="@id/arrow_hikkaduwa_scooter"
                         app:layout_constraintTop_toTopOf="@id/img_hikkaduwa_scooter" />
@@ -580,8 +525,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Motorcycle · Manual 6-Speed · LKR 4,800/day · Hikkaduwa"
-                        tools:text="Motorcycle · Manual 6-Speed · LKR 4,800/day · Hikkaduwa"
+                        android:text="Scooter · LKR 3,200/day · Hikkaduwa"
+                        tools:text="Scooter · LKR 3,200/day · Hikkaduwa"
                         app:layout_constraintStart_toEndOf="@id/img_hikkaduwa_scooter"
                         app:layout_constraintEnd_toStartOf="@id/arrow_hikkaduwa_scooter"
                         app:layout_constraintTop_toBottomOf="@id/title_hikkaduwa_scooter" />
@@ -593,8 +538,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.8"
-                        tools:text="★ 4.8"
+                        android:text="★ 4.7"
+                        tools:text="★ 4.7"
                         app:layout_constraintStart_toEndOf="@id/img_hikkaduwa_scooter"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_hikkaduwa_scooter" />
                     <ImageView
@@ -610,7 +555,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 6. Royal Enfield Himalayan 411cc -->
+            <!-- 6. Kandy Bike Rental -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_kandy_bike"
                 android:layout_width="match_parent"
@@ -633,12 +578,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/royalenflied"
-                        tools:src="@drawable/royalenflied"
+                        android:src="@drawable/kandy_bike"
+                        tools:src="@drawable/kandy_bike"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Royal Enfield" />
+                        android:contentDescription="Kandy Bike" />
                     <TextView
                         android:id="@+id/title_kandy_bike"
                         android:layout_width="0dp"
@@ -647,8 +592,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Royal Enfield Himalayan 411cc"
-                        tools:text="Royal Enfield Himalayan 411cc"
+                        android:text="Kandy Bike Rental"
+                        tools:text="Kandy Bike Rental"
                         app:layout_constraintStart_toEndOf="@id/img_kandy_bike"
                         app:layout_constraintEnd_toStartOf="@id/arrow_kandy_bike"
                         app:layout_constraintTop_toTopOf="@id/img_kandy_bike" />
@@ -660,8 +605,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Adventure Bike · Manual 5-Speed · LKR 7,500/day · Kandy"
-                        tools:text="Adventure Bike · Manual 5-Speed · LKR 7,500/day · Kandy"
+                        android:text="Bicycle · LKR 2,000/day · Kandy Lake"
+                        tools:text="Bicycle · LKR 2,000/day · Kandy Lake"
                         app:layout_constraintStart_toEndOf="@id/img_kandy_bike"
                         app:layout_constraintEnd_toStartOf="@id/arrow_kandy_bike"
                         app:layout_constraintTop_toBottomOf="@id/title_kandy_bike" />
@@ -673,8 +618,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.9"
-                        tools:text="★ 4.9"
+                        android:text="★ 4.7"
+                        tools:text="★ 4.7"
                         app:layout_constraintStart_toEndOf="@id/img_kandy_bike"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_kandy_bike" />
                     <ImageView
@@ -690,13 +635,13 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 7. Sri Lankan Tourist Tuk-Tuk -->
+            <!-- 7. Mirissa Bike Rental -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_mirissa_bike"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:tag="tuktuk"
+                android:tag="bike"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="#FFFFFF"
@@ -713,12 +658,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/tourist_tuktuk"
-                        tools:src="@drawable/tourist_tuktuk"
+                        android:src="@drawable/mirissa_taxi"
+                        tools:src="@drawable/mirissa_taxi"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Tourist Tuk-Tuk" />
+                        android:contentDescription="Mirissa Bike" />
                     <TextView
                         android:id="@+id/title_mirissa_bike"
                         android:layout_width="0dp"
@@ -727,8 +672,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Sri Lankan Tourist Tuk-Tuk"
-                        tools:text="Sri Lankan Tourist Tuk-Tuk"
+                        android:text="Mirissa Bike Rental"
+                        tools:text="Mirissa Bike Rental"
                         app:layout_constraintStart_toEndOf="@id/img_mirissa_bike"
                         app:layout_constraintEnd_toStartOf="@id/arrow_mirissa_bike"
                         app:layout_constraintTop_toTopOf="@id/img_mirissa_bike" />
@@ -740,8 +685,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Tuk-Tuk · Manual 4-Speed · LKR 5,200/day · Mirissa"
-                        tools:text="Tuk-Tuk · Manual 4-Speed · LKR 5,200/day · Mirissa"
+                        android:text="Bicycle · LKR 1,800/day · Mirissa Beach"
+                        tools:text="Bicycle · LKR 1,800/day · Mirissa Beach"
                         app:layout_constraintStart_toEndOf="@id/img_mirissa_bike"
                         app:layout_constraintEnd_toStartOf="@id/arrow_mirissa_bike"
                         app:layout_constraintTop_toBottomOf="@id/title_mirissa_bike" />
@@ -753,8 +698,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.8"
-                        tools:text="★ 4.8"
+                        android:text="★ 4.5"
+                        tools:text="★ 4.5"
                         app:layout_constraintStart_toEndOf="@id/img_mirissa_bike"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_mirissa_bike" />
                     <ImageView
@@ -770,7 +715,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 8. Royal Enfield Mountain Tourer -->
+            <!-- 8. Ella Adventure Rentals -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_ella_bike"
                 android:layout_width="match_parent"
@@ -793,12 +738,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/royalenflied"
-                        tools:src="@drawable/royalenflied"
+                        android:src="@drawable/ella_rental"
+                        tools:src="@drawable/ella_rental"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Royal Enfield Ella" />
+                        android:contentDescription="Ella Bike" />
                     <TextView
                         android:id="@+id/title_ella_bike"
                         android:layout_width="0dp"
@@ -807,8 +752,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Royal Enfield Mountain Tourer"
-                        tools:text="Royal Enfield Mountain Tourer"
+                        android:text="Ella Adventure Rentals"
+                        tools:text="Ella Adventure Rentals"
                         app:layout_constraintStart_toEndOf="@id/img_ella_bike"
                         app:layout_constraintEnd_toStartOf="@id/arrow_ella_bike"
                         app:layout_constraintTop_toTopOf="@id/img_ella_bike" />
@@ -820,8 +765,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Adventure Bike · Manual 5-Speed · LKR 7,500/day · Ella"
-                        tools:text="Adventure Bike · Manual 5-Speed · LKR 7,500/day · Ella"
+                        android:text="Mountain Bike · LKR 2,500/day · Ella"
+                        tools:text="Mountain Bike · LKR 2,500/day · Ella"
                         app:layout_constraintStart_toEndOf="@id/img_ella_bike"
                         app:layout_constraintEnd_toStartOf="@id/arrow_ella_bike"
                         app:layout_constraintTop_toBottomOf="@id/title_ella_bike" />
@@ -833,8 +778,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.9"
-                        tools:text="★ 4.9"
+                        android:text="★ 4.8"
+                        tools:text="★ 4.8"
                         app:layout_constraintStart_toEndOf="@id/img_ella_bike"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_ella_bike" />
                     <ImageView
@@ -850,7 +795,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 9. Yamaha FZ-S Coast Explorer -->
+            <!-- 9. Arugam Bay Surf & Bike -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_arugam_bike"
                 android:layout_width="match_parent"
@@ -873,12 +818,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/fz"
-                        tools:src="@drawable/fz"
+                        android:src="@drawable/dambulla_bike"
+                        tools:src="@drawable/dambulla_bike"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Yamaha FZ-S Arugam" />
+                        android:contentDescription="Arugam Bike" />
                     <TextView
                         android:id="@+id/title_arugam_bike"
                         android:layout_width="0dp"
@@ -887,8 +832,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Yamaha FZ-S Coast Explorer"
-                        tools:text="Yamaha FZ-S Coast Explorer"
+                        android:text="Arugam Bay Surf &amp; Bike"
+                        tools:text="Arugam Bay Surf &amp; Bike"
                         app:layout_constraintStart_toEndOf="@id/img_arugam_bike"
                         app:layout_constraintEnd_toStartOf="@id/arrow_arugam_bike"
                         app:layout_constraintTop_toTopOf="@id/img_arugam_bike" />
@@ -900,8 +845,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Motorcycle · Manual · LKR 4,500/day · Arugam Bay"
-                        tools:text="Motorcycle · Manual · LKR 4,500/day · Arugam Bay"
+                        android:text="Bicycle · LKR 1,500/day · Arugam Bay"
+                        tools:text="Bicycle · LKR 1,500/day · Arugam Bay"
                         app:layout_constraintStart_toEndOf="@id/img_arugam_bike"
                         app:layout_constraintEnd_toStartOf="@id/arrow_arugam_bike"
                         app:layout_constraintTop_toBottomOf="@id/title_arugam_bike" />
@@ -913,8 +858,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.8"
-                        tools:text="★ 4.8"
+                        android:text="★ 4.9"
+                        tools:text="★ 4.9"
                         app:layout_constraintStart_toEndOf="@id/img_arugam_bike"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_arugam_bike" />
                     <ImageView
@@ -930,7 +875,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 10. Suzuki Alto 800 Economy City Car -->
+            <!-- 10. Malkey Rent A Car -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_malkey_car"
                 android:layout_width="match_parent"
@@ -953,12 +898,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/alto"
-                        tools:src="@drawable/alto"
+                        android:src="@drawable/malkey_rent"
+                        tools:src="@drawable/malkey_rent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Suzuki Alto" />
+                        android:contentDescription="Malkey Car" />
                     <TextView
                         android:id="@+id/title_malkey_car"
                         android:layout_width="0dp"
@@ -967,8 +912,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Suzuki Alto 800 Economy City Car"
-                        tools:text="Suzuki Alto 800 Economy City Car"
+                        android:text="Malkey Rent A Car"
+                        tools:text="Malkey Rent A Car"
                         app:layout_constraintStart_toEndOf="@id/img_malkey_car"
                         app:layout_constraintEnd_toStartOf="@id/arrow_malkey_car"
                         app:layout_constraintTop_toTopOf="@id/img_malkey_car" />
@@ -980,8 +925,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Car · Manual 5-Speed · LKR 6,500/day · Colombo"
-                        tools:text="Car · Manual 5-Speed · LKR 6,500/day · Colombo"
+                        android:text="Car · Toyota Axio · LKR 8,500/day · Colombo"
+                        tools:text="Car · Toyota Axio · LKR 8,500/day · Colombo"
                         app:layout_constraintStart_toEndOf="@id/img_malkey_car"
                         app:layout_constraintEnd_toStartOf="@id/arrow_malkey_car"
                         app:layout_constraintTop_toBottomOf="@id/title_malkey_car" />
@@ -993,8 +938,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.7"
-                        tools:text="★ 4.7"
+                        android:text="★ 4.8"
+                        tools:text="★ 4.8"
                         app:layout_constraintStart_toEndOf="@id/img_malkey_car"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_malkey_car" />
                     <ImageView
@@ -1010,7 +955,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 11. Suzuki Wagon R FX Hybrid -->
+            <!-- 11. Casons Rent A Car -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_casons_car"
                 android:layout_width="match_parent"
@@ -1033,12 +978,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/wagonr"
-                        tools:src="@drawable/wagonr"
+                        android:src="@drawable/casons_rent"
+                        tools:src="@drawable/casons_rent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Suzuki Wagon R" />
+                        android:contentDescription="Casons Car" />
                     <TextView
                         android:id="@+id/title_casons_car"
                         android:layout_width="0dp"
@@ -1047,8 +992,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Suzuki Wagon R FX Hybrid"
-                        tools:text="Suzuki Wagon R FX Hybrid"
+                        android:text="Casons Rent A Car"
+                        tools:text="Casons Rent A Car"
                         app:layout_constraintStart_toEndOf="@id/img_casons_car"
                         app:layout_constraintEnd_toStartOf="@id/arrow_casons_car"
                         app:layout_constraintTop_toTopOf="@id/img_casons_car" />
@@ -1060,8 +1005,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Car · Automatic Hybrid · LKR 8,000/day · Airport &amp; City"
-                        tools:text="Car · Automatic Hybrid · LKR 8,000/day · Airport &amp; City"
+                        android:text="Car · Suzuki Wagon R · LKR 7,500/day · Colombo"
+                        tools:text="Car · Suzuki Wagon R · LKR 7,500/day · Colombo"
                         app:layout_constraintStart_toEndOf="@id/img_casons_car"
                         app:layout_constraintEnd_toStartOf="@id/arrow_casons_car"
                         app:layout_constraintTop_toBottomOf="@id/title_casons_car" />
@@ -1073,8 +1018,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.8"
-                        tools:text="★ 4.8"
+                        android:text="★ 4.7"
+                        tools:text="★ 4.7"
                         app:layout_constraintStart_toEndOf="@id/img_casons_car"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_casons_car" />
                     <ImageView
@@ -1090,7 +1035,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 12. Toyota Aqua Hybrid (Automatic) -->
+            <!-- 12. Kings Rent A Car -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_kings_car"
                 android:layout_width="match_parent"
@@ -1113,12 +1058,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/aqua"
-                        tools:src="@drawable/aqua"
+                        android:src="@drawable/kings_rent"
+                        tools:src="@drawable/kings_rent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Toyota Aqua" />
+                        android:contentDescription="Kings Car" />
                     <TextView
                         android:id="@+id/title_kings_car"
                         android:layout_width="0dp"
@@ -1127,8 +1072,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Toyota Aqua Hybrid (Automatic)"
-                        tools:text="Toyota Aqua Hybrid (Automatic)"
+                        android:text="Kings Rent A Car"
+                        tools:text="Kings Rent A Car"
                         app:layout_constraintStart_toEndOf="@id/img_kings_car"
                         app:layout_constraintEnd_toStartOf="@id/arrow_kings_car"
                         app:layout_constraintTop_toTopOf="@id/img_kings_car" />
@@ -1140,8 +1085,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Car · Automatic Sedan · LKR 9,500/day · Colombo 07"
-                        tools:text="Car · Automatic Sedan · LKR 9,500/day · Colombo 07"
+                        android:text="Car · Honda Fit · LKR 8,000/day · Kandy"
+                        tools:text="Car · Honda Fit · LKR 8,000/day · Kandy"
                         app:layout_constraintStart_toEndOf="@id/img_kings_car"
                         app:layout_constraintEnd_toStartOf="@id/arrow_kings_car"
                         app:layout_constraintTop_toBottomOf="@id/title_kings_car" />
@@ -1153,8 +1098,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.8"
-                        tools:text="★ 4.8"
+                        android:text="★ 4.6"
+                        tools:text="★ 4.6"
                         app:layout_constraintStart_toEndOf="@id/img_kings_car"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_kings_car" />
                     <ImageView
@@ -1170,7 +1115,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 13. Toyota Prius Luxury Hybrid -->
+            <!-- 13. Euro Car Rental -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_euro_car"
                 android:layout_width="match_parent"
@@ -1193,12 +1138,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/prius"
-                        tools:src="@drawable/prius"
+                        android:src="@drawable/euro"
+                        tools:src="@drawable/euro"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Toyota Prius" />
+                        android:contentDescription="Euro Car" />
                     <TextView
                         android:id="@+id/title_euro_car"
                         android:layout_width="0dp"
@@ -1207,8 +1152,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Toyota Prius Luxury Hybrid"
-                        tools:text="Toyota Prius Luxury Hybrid"
+                        android:text="Euro Car Rental"
+                        tools:text="Euro Car Rental"
                         app:layout_constraintStart_toEndOf="@id/img_euro_car"
                         app:layout_constraintEnd_toStartOf="@id/arrow_euro_car"
                         app:layout_constraintTop_toTopOf="@id/img_euro_car" />
@@ -1220,8 +1165,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Car · Luxury Sedan · LKR 12,000/day · Colombo Hub"
-                        tools:text="Car · Luxury Sedan · LKR 12,000/day · Colombo Hub"
+                        android:text="Car · Toyota Prius · LKR 10,000/day · Colombo"
+                        tools:text="Car · Toyota Prius · LKR 10,000/day · Colombo"
                         app:layout_constraintStart_toEndOf="@id/img_euro_car"
                         app:layout_constraintEnd_toStartOf="@id/arrow_euro_car"
                         app:layout_constraintTop_toBottomOf="@id/title_euro_car" />
@@ -1233,8 +1178,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.9"
-                        tools:text="★ 4.9"
+                        android:text="★ 4.5"
+                        tools:text="★ 4.5"
                         app:layout_constraintStart_toEndOf="@id/img_euro_car"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_euro_car" />
                     <ImageView
@@ -1250,7 +1195,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 14. Toyota KDH Commuter High-Roof Van -->
+            <!-- 14. Casons Van Rental -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_casons_van"
                 android:layout_width="match_parent"
@@ -1273,12 +1218,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/kdh"
-                        tools:src="@drawable/kdh"
+                        android:src="@drawable/casons_rent"
+                        tools:src="@drawable/casons_rent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Toyota KDH Van" />
+                        android:contentDescription="Casons Van" />
                     <TextView
                         android:id="@+id/title_casons_van"
                         android:layout_width="0dp"
@@ -1287,8 +1232,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Toyota KDH Commuter High-Roof Van"
-                        tools:text="Toyota KDH Commuter High-Roof Van"
+                        android:text="Casons Van Rental"
+                        tools:text="Casons Van Rental"
                         app:layout_constraintStart_toEndOf="@id/img_casons_van"
                         app:layout_constraintEnd_toStartOf="@id/arrow_casons_van"
                         app:layout_constraintTop_toTopOf="@id/img_casons_van" />
@@ -1300,8 +1245,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Van · 14 Passengers · LKR 18,500/day · Colombo"
-                        tools:text="Van · 14 Passengers · LKR 18,500/day · Colombo"
+                        android:text="Van · KDH 10 Seater · LKR 15,000/day · Colombo"
+                        tools:text="Van · KDH 10 Seater · LKR 15,000/day · Colombo"
                         app:layout_constraintStart_toEndOf="@id/img_casons_van"
                         app:layout_constraintEnd_toStartOf="@id/arrow_casons_van"
                         app:layout_constraintTop_toBottomOf="@id/title_casons_van" />
@@ -1313,8 +1258,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.9"
-                        tools:text="★ 4.9"
+                        android:text="★ 4.7"
+                        tools:text="★ 4.7"
                         app:layout_constraintStart_toEndOf="@id/img_casons_van"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_casons_van" />
                     <ImageView
@@ -1330,13 +1275,13 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 15. Nissan X-Trail 4WD Safari Edition -->
+            <!-- 15. Malkey Van Rental -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_malkey_van"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:tag="car"
+                android:tag="van"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="#FFFFFF"
@@ -1353,12 +1298,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/xtrail"
-                        tools:src="@drawable/xtrail"
+                        android:src="@drawable/malkey_rent"
+                        tools:src="@drawable/malkey_rent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Nissan X-Trail" />
+                        android:contentDescription="Malkey Van" />
                     <TextView
                         android:id="@+id/title_malkey_van"
                         android:layout_width="0dp"
@@ -1367,8 +1312,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Nissan X-Trail 4WD Safari Edition"
-                        tools:text="Nissan X-Trail 4WD Safari Edition"
+                        android:text="Malkey Van Rental"
+                        tools:text="Malkey Van Rental"
                         app:layout_constraintStart_toEndOf="@id/img_malkey_van"
                         app:layout_constraintEnd_toStartOf="@id/arrow_malkey_van"
                         app:layout_constraintTop_toTopOf="@id/img_malkey_van" />
@@ -1380,8 +1325,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="SUV / 4x4 · 7 Passengers · LKR 16,000/day · Colombo"
-                        tools:text="SUV / 4x4 · 7 Passengers · LKR 16,000/day · Colombo"
+                        android:text="Van · Toyota HiAce · LKR 16,500/day · Colombo"
+                        tools:text="Van · Toyota HiAce · LKR 16,500/day · Colombo"
                         app:layout_constraintStart_toEndOf="@id/img_malkey_van"
                         app:layout_constraintEnd_toStartOf="@id/arrow_malkey_van"
                         app:layout_constraintTop_toBottomOf="@id/title_malkey_van" />
@@ -1393,8 +1338,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.9"
-                        tools:text="★ 4.9"
+                        android:text="★ 4.6"
+                        tools:text="★ 4.6"
                         app:layout_constraintStart_toEndOf="@id/img_malkey_van"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_malkey_van" />
                     <ImageView
@@ -1410,13 +1355,13 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 16. Mitsubishi Montero 4x4 Expedition -->
+            <!-- 16. Kandy Van Tours -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_kandy_van"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:tag="car"
+                android:tag="van"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="#FFFFFF"
@@ -1433,12 +1378,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/montero"
-                        tools:src="@drawable/montero"
+                        android:src="@drawable/kandy_bike"
+                        tools:src="@drawable/kandy_bike"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Mitsubishi Montero" />
+                        android:contentDescription="Kandy Van" />
                     <TextView
                         android:id="@+id/title_kandy_van"
                         android:layout_width="0dp"
@@ -1447,8 +1392,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Mitsubishi Montero 4x4 Expedition"
-                        tools:text="Mitsubishi Montero 4x4 Expedition"
+                        android:text="Kandy Van Tours"
+                        tools:text="Kandy Van Tours"
                         app:layout_constraintStart_toEndOf="@id/img_kandy_van"
                         app:layout_constraintEnd_toStartOf="@id/arrow_kandy_van"
                         app:layout_constraintTop_toTopOf="@id/img_kandy_van" />
@@ -1460,8 +1405,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="SUV / 4x4 · 7 Seats · LKR 19,500/day · Kandy"
-                        tools:text="SUV / 4x4 · 7 Seats · LKR 19,500/day · Kandy"
+                        android:text="Van · 14 Seater · LKR 14,000/day · Kandy"
+                        tools:text="Van · 14 Seater · LKR 14,000/day · Kandy"
                         app:layout_constraintStart_toEndOf="@id/img_kandy_van"
                         app:layout_constraintEnd_toStartOf="@id/arrow_kandy_van"
                         app:layout_constraintTop_toBottomOf="@id/title_kandy_van" />
@@ -1473,8 +1418,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 5.0"
-                        tools:text="★ 5.0"
+                        android:text="★ 4.5"
+                        tools:text="★ 4.5"
                         app:layout_constraintStart_toEndOf="@id/img_kandy_van"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_kandy_van" />
                     <ImageView
@@ -1490,7 +1435,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 17. Negombo Tourist Tuk-Tuk -->
+            <!-- 17. Negombo Tuk Tuk Rentals -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_negombo_tuktuk"
                 android:layout_width="match_parent"
@@ -1513,8 +1458,8 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/tourist_tuktuk"
-                        tools:src="@drawable/tourist_tuktuk"
+                        android:src="@drawable/tuktuk_rental"
+                        tools:src="@drawable/tuktuk_rental"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -1527,8 +1472,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Negombo Tourist Tuk-Tuk"
-                        tools:text="Negombo Tourist Tuk-Tuk"
+                        android:text="Negombo Tuk Tuk Rentals"
+                        tools:text="Negombo Tuk Tuk Rentals"
                         app:layout_constraintStart_toEndOf="@id/img_negombo_tuktuk"
                         app:layout_constraintEnd_toStartOf="@id/arrow_negombo_tuktuk"
                         app:layout_constraintTop_toTopOf="@id/img_negombo_tuktuk" />
@@ -1540,8 +1485,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Tuk-Tuk · 3 Seats · LKR 5,000/day · Negombo Beach"
-                        tools:text="Tuk-Tuk · 3 Seats · LKR 5,000/day · Negombo Beach"
+                        android:text="Tuk Tuk · LKR 5,000/day · Negombo"
+                        tools:text="Tuk Tuk · LKR 5,000/day · Negombo"
                         app:layout_constraintStart_toEndOf="@id/img_negombo_tuktuk"
                         app:layout_constraintEnd_toStartOf="@id/arrow_negombo_tuktuk"
                         app:layout_constraintTop_toBottomOf="@id/title_negombo_tuktuk" />
@@ -1553,8 +1498,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.8"
-                        tools:text="★ 4.8"
+                        android:text="★ 4.4"
+                        tools:text="★ 4.4"
                         app:layout_constraintStart_toEndOf="@id/img_negombo_tuktuk"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_negombo_tuktuk" />
                     <ImageView
@@ -1570,7 +1515,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 18. Galle Heritage Coastal Tuk-Tuk -->
+            <!-- 18. Galle Tuk Tuk Rental -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_galle_tuktuk"
                 android:layout_width="match_parent"
@@ -1607,8 +1552,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Galle Heritage Coastal Tuk-Tuk"
-                        tools:text="Galle Heritage Coastal Tuk-Tuk"
+                        android:text="Galle Tuk Tuk Rental"
+                        tools:text="Galle Tuk Tuk Rental"
                         app:layout_constraintStart_toEndOf="@id/img_galle_tuktuk"
                         app:layout_constraintEnd_toStartOf="@id/arrow_galle_tuktuk"
                         app:layout_constraintTop_toTopOf="@id/img_galle_tuktuk" />
@@ -1620,8 +1565,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Tuk-Tuk · 3 Seats · LKR 5,200/day · Galle Fort"
-                        tools:text="Tuk-Tuk · 3 Seats · LKR 5,200/day · Galle Fort"
+                        android:text="Tuk Tuk · LKR 4,500/day · Galle Fort"
+                        tools:text="Tuk Tuk · LKR 4,500/day · Galle Fort"
                         app:layout_constraintStart_toEndOf="@id/img_galle_tuktuk"
                         app:layout_constraintEnd_toStartOf="@id/arrow_galle_tuktuk"
                         app:layout_constraintTop_toBottomOf="@id/title_galle_tuktuk" />
@@ -1633,8 +1578,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.9"
-                        tools:text="★ 4.9"
+                        android:text="★ 4.6"
+                        tools:text="★ 4.6"
                         app:layout_constraintStart_toEndOf="@id/img_galle_tuktuk"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_galle_tuktuk" />
                     <ImageView
@@ -1650,13 +1595,13 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 19. Honda Grace Hybrid Sedan -->
+            <!-- 19. Colombo Tuk Tuk Tours -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_colombo_tuktuk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:tag="car"
+                android:tag="tuktuk"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="#FFFFFF"
@@ -1673,12 +1618,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/grace"
-                        tools:src="@drawable/grace"
+                        android:src="@drawable/green_son"
+                        tools:src="@drawable/green_son"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Honda Grace" />
+                        android:contentDescription="Colombo Tuk Tuk" />
                     <TextView
                         android:id="@+id/title_colombo_tuktuk"
                         android:layout_width="0dp"
@@ -1687,8 +1632,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Honda Grace Hybrid Sedan"
-                        tools:text="Honda Grace Hybrid Sedan"
+                        android:text="Colombo Tuk Tuk Tours"
+                        tools:text="Colombo Tuk Tuk Tours"
                         app:layout_constraintStart_toEndOf="@id/img_colombo_tuktuk"
                         app:layout_constraintEnd_toStartOf="@id/arrow_colombo_tuktuk"
                         app:layout_constraintTop_toTopOf="@id/img_colombo_tuktuk" />
@@ -1700,8 +1645,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Car · Dual Clutch · LKR 11,500/day · Colombo"
-                        tools:text="Car · Dual Clutch · LKR 11,500/day · Colombo"
+                        android:text="Tuk Tuk · LKR 5,500/day · Colombo"
+                        tools:text="Tuk Tuk · LKR 5,500/day · Colombo"
                         app:layout_constraintStart_toEndOf="@id/img_colombo_tuktuk"
                         app:layout_constraintEnd_toStartOf="@id/arrow_colombo_tuktuk"
                         app:layout_constraintTop_toBottomOf="@id/title_colombo_tuktuk" />
@@ -1713,8 +1658,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.9"
-                        tools:text="★ 4.9"
+                        android:text="★ 4.5"
+                        tools:text="★ 4.5"
                         app:layout_constraintStart_toEndOf="@id/img_colombo_tuktuk"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_colombo_tuktuk" />
                     <ImageView
@@ -1730,13 +1675,13 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- 20. Toyota KDH Luxury VIP Van -->
+            <!-- 20. Lanka Coach Tours -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_lanka_bus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:tag="van"
+                android:tag="bus"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="#FFFFFF"
@@ -1753,12 +1698,12 @@
                         android:scaleType="fitCenter"
                         android:padding="6dp"
                         android:background="#F0F2F5"
-                        android:src="@drawable/kdh"
-                        tools:src="@drawable/kdh"
+                        android:src="@drawable/casons_rent"
+                        tools:src="@drawable/casons_rent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:contentDescription="Toyota KDH VIP" />
+                        android:contentDescription="Lanka Coach" />
                     <TextView
                         android:id="@+id/title_lanka_bus"
                         android:layout_width="0dp"
@@ -1767,8 +1712,8 @@
                         android:fontFamily="sans-serif-black"
                         android:textColor="#1A2B4C"
                         android:textSize="16sp"
-                        android:text="Toyota KDH Luxury VIP Van"
-                        tools:text="Toyota KDH Luxury VIP Van"
+                        android:text="Lanka Coach Tours"
+                        tools:text="Lanka Coach Tours"
                         app:layout_constraintStart_toEndOf="@id/img_lanka_bus"
                         app:layout_constraintEnd_toStartOf="@id/arrow_lanka_bus"
                         app:layout_constraintTop_toTopOf="@id/img_lanka_bus" />
@@ -1780,8 +1725,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#8A8F98"
                         android:textSize="13sp"
-                        android:text="Van · AC High-Roof 14 Seats · LKR 18,500/day · Islandwide"
-                        tools:text="Van · AC High-Roof 14 Seats · LKR 18,500/day · Islandwide"
+                        android:text="Bus · 45 Seater · LKR 45,000/day · Colombo"
+                        tools:text="Bus · 45 Seater · LKR 45,000/day · Colombo"
                         app:layout_constraintStart_toEndOf="@id/img_lanka_bus"
                         app:layout_constraintEnd_toStartOf="@id/arrow_lanka_bus"
                         app:layout_constraintTop_toBottomOf="@id/title_lanka_bus" />
@@ -1793,8 +1738,8 @@
                         android:layout_marginTop="4dp"
                         android:textColor="#FFA500"
                         android:textSize="13sp"
-                        android:text="★ 4.9"
-                        tools:text="★ 4.9"
+                        android:text="★ 4.7"
+                        tools:text="★ 4.7"
                         app:layout_constraintStart_toEndOf="@id/img_lanka_bus"
                         app:layout_constraintTop_toBottomOf="@id/subtitle_lanka_bus" />
                     <ImageView
