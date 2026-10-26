@@ -273,6 +273,65 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_forgot_password" />
 
+            <!-- Divider: "OR" -->
+            <LinearLayout
+                android:id="@+id/layout_divider_google"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_login">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#E2E8F0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="OR"
+                    android:textColor="#94A3B8"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="#E2E8F0" />
+            </LinearLayout>
+
+            <!-- Continue with Google Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_google_sign_in"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="54dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#FFFFFF"
+                android:fontFamily="sans-serif-bold"
+                android:text="Continue with Google"
+                android:textAllCaps="false"
+                android:textColor="#1A2B4C"
+                android:textSize="15sp"
+                app:cornerRadius="14dp"
+                app:icon="@drawable/ic_google"
+                app:iconGravity="textStart"
+                app:iconPadding="12dp"
+                app:iconSize="20dp"
+                app:iconTint="@null"
+                app:strokeColor="#CBD5E1"
+                app:strokeWidth="1.5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_divider_google" />
+
             <!-- Loading Spinner -->
             <ProgressBar
                 android:id="@+id/pb_login_loading"
@@ -283,7 +342,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_login" />
+                app:layout_constraintTop_toBottomOf="@id/btn_google_sign_in" />
 
             <!-- Quick Switch to Admin Portal -->
             <TextView
