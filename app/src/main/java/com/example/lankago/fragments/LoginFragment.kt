@@ -10,8 +10,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -28,6 +30,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
@@ -45,7 +48,7 @@ class LoginFragment : Fragment() {
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
 
-    private lateinit var googleSignInClient: GoogleSignInClient
+    private var googleSignInClient: GoogleSignInClient? = null
     private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
 
     private var pbLoading: ProgressBar? = null
@@ -54,7 +57,7 @@ class LoginFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initGoogleSignIn()
+        initGoogleSignInLauncher()
     }
 
     override fun onCreateView(
@@ -102,7 +105,7 @@ class LoginFragment : Fragment() {
                     }
                     is AuthState.Error -> {
                         setLoadingState(false)
-                        Snackbar.make(view, state.message, Snackbar.LENGTH_LONG).show()
+                        showError(state.message)
                     }
                 }
             }
@@ -110,10 +113,7 @@ class LoginFragment : Fragment() {
 
         // 2. Google Sign-In Click Listener
         btnGoogleSignIn?.setOnClickListener {
-            googleSignInClient.signOut().addOnCompleteListener {
-                val signInIntent = googleSignInClient.signInIntent
-                googleSignInLauncher.launch(signInIntent)
-            }
+            launchGoogleSignInFlow()
         }
 
         // 3. Top Navigation: Back and Skip as Guest
@@ -185,51 +185,100 @@ class LoginFragment : Fragment() {
     }
 
     /**
-     * Initializes GoogleSignInOptions and registerForActivityResult launcher.
+     * Registers ActivityResultLauncher for Google Sign-In.
      */
-    private fun initGoogleSignIn() {
-        val webClientIdResId = resources.getIdentifier(
-            "default_web_client_id",
-            "string",
-            requireContext().packageName
-        )
-
-        val webClientId = if (webClientIdResId != 0) {
-            getString(webClientIdResId)
-        } else {
-            ""
-        }
-
-        val gsoBuilder = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-
-        if (webClientId.isNotEmpty()) {
-            gsoBuilder.requestIdToken(webClientId)
-        }
-
-        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gsoBuilder.build())
-
+    private fun initGoogleSignInLauncher() {
         googleSignInLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
+            setLoadingState(false)
             if (result.resultCode == Activity.RESULT_OK && result.data != null) {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 try {
                     val account = task.getResult(ApiException::class.java)
                     val idToken = account?.idToken
+                    Log.d("LoginFragment", "Google Sign-In successful for email: ${account?.email}, idToken present: ${!idToken.isNullOrBlank()}")
+
                     if (!idToken.isNullOrBlank()) {
                         authenticateWithFirebaseGoogle(idToken, account)
                     } else {
-                        showError("Failed to obtain Google ID token. Please verify Web Client ID.")
+                        val errorMsg = "Google Account connected (${account?.email}), but no ID Token was returned. Your Firebase Web Client ID must be added in strings.xml."
+                        Log.e("LoginFragment", errorMsg)
+                        showDialog("Configuration Notice", errorMsg)
                     }
                 } catch (e: ApiException) {
-                    Log.e("LoginFragment", "Google Sign-In failed: code=${e.statusCode}, msg=${e.message}", e)
-                    showError("Google Sign-In canceled or failed (Code: ${e.statusCode})")
+                    val statusCode = e.statusCode
+                    Log.e("LoginFragment", "Google Sign-In ApiException: code=$statusCode, msg=${e.message}", e)
+                    val userFriendlyMsg = when (statusCode) {
+                        CommonStatusCodes.DEVELOPER_ERROR -> {
+                            "Google Sign-In Error (Code 10: DEVELOPER_ERROR).\n\nPlease add your SHA-1 fingerprint (from gradlew signingReport) to your Firebase Console under Project Settings -> Android App."
+                        }
+                        CommonStatusCodes.NETWORK_ERROR -> {
+                            "Network connection failed. Please check your internet connection."
+                        }
+                        12500 -> {
+                            "Google Play Services configuration error (Code 12500). Please verify Google Sign-in is enabled in Firebase Console."
+                        }
+                        12501 -> {
+                            "Sign-in was cancelled."
+                        }
+                        else -> {
+                            "Google Sign-In failed (Status Code: $statusCode): ${e.localizedMessage}"
+                        }
+                    }
+                    if (statusCode != 12501) {
+                        showDialog("Google Sign-In Failed", userFriendlyMsg)
+                    }
                 }
             } else {
-                setLoadingState(false)
+                Log.w("LoginFragment", "Google Sign-In canceled or no data: resultCode=${result.resultCode}")
             }
         }
+    }
+
+    /**
+     * Resolves the Web Client ID and launches the Google Sign-In Intent.
+     */
+    private fun launchGoogleSignInFlow() {
+        val webClientId = getWebClientId()
+
+        val gsoBuilder = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+
+        if (webClientId.isNotBlank()) {
+            gsoBuilder.requestIdToken(webClientId)
+        } else {
+            Log.w("LoginFragment", "default_web_client_id is not yet set in strings.xml or google-services.json")
+        }
+
+        val gso = gsoBuilder.build()
+        val client = GoogleSignIn.getClient(requireActivity(), gso)
+        googleSignInClient = client
+
+        setLoadingState(true)
+        // Clear cached credentials so account chooser always pops up
+        client.signOut().addOnCompleteListener {
+            val signInIntent = client.signInIntent
+            googleSignInLauncher.launch(signInIntent)
+        }
+    }
+
+    /**
+     * Resolves the Web Client ID from auto-generated resource or strings.xml.
+     */
+    private fun getWebClientId(): String {
+        val autoResId = resources.getIdentifier("default_web_client_id", "string", requireContext().packageName)
+        if (autoResId != 0) {
+            val id = getString(autoResId)
+            if (id.isNotBlank()) return id
+        }
+
+        val manualResId = resources.getIdentifier("google_web_client_id", "string", requireContext().packageName)
+        if (manualResId != 0) {
+            val id = getString(manualResId)
+            if (id.isNotBlank() && !id.contains("YOUR_")) return id
+        }
+        return ""
     }
 
     /**
@@ -247,12 +296,12 @@ class LoginFragment : Fragment() {
                     syncGoogleUserWithDatabase(firebaseUser, googleAccount)
                 } else {
                     setLoadingState(false)
-                    showError("Authentication completed but user is null.")
+                    showError("Authentication finished, but Firebase user is null.")
                 }
             } catch (e: Exception) {
                 setLoadingState(false)
-                Log.e("LoginFragment", "Firebase Google Auth error: ${e.message}", e)
-                showError(e.localizedMessage ?: "Google Authentication failed.")
+                Log.e("LoginFragment", "Firebase Google Auth failed: ${e.message}", e)
+                showDialog("Authentication Failed", e.localizedMessage ?: "Failed to authenticate with Firebase.")
             }
         }
     }
@@ -265,24 +314,23 @@ class LoginFragment : Fragment() {
         firebaseUser: FirebaseUser,
         googleAccount: GoogleSignInAccount
     ) {
+        val displayName = firebaseUser.displayName
+            ?: googleAccount.displayName
+            ?: "Traveler"
+        val email = firebaseUser.email
+            ?: googleAccount.email
+            ?: ""
+        val photoUrl = firebaseUser.photoUrl?.toString()
+            ?: googleAccount.photoUrl?.toString()
+            ?: ""
+
+        var finalRole = "user"
+
         try {
             val userRef = database.reference.child("users").child(firebaseUser.uid)
             val snapshot = userRef.get().await()
 
-            val displayName = firebaseUser.displayName
-                ?: googleAccount.displayName
-                ?: "Traveler"
-            val email = firebaseUser.email
-                ?: googleAccount.email
-                ?: ""
-            val photoUrl = firebaseUser.photoUrl?.toString()
-                ?: googleAccount.photoUrl?.toString()
-                ?: ""
-
-            val finalRole: String
-
             if (!snapshot.exists()) {
-                finalRole = "user"
                 val newUser = User(
                     uid = firebaseUser.uid,
                     name = displayName,
@@ -298,16 +346,16 @@ class LoginFragment : Fragment() {
             } else {
                 finalRole = snapshot.child("role").getValue(String::class.java) ?: "user"
             }
+        } catch (dbError: Exception) {
+            // Log database sync failure but continue login so traveler is not blocked
+            Log.e("LoginFragment", "Database write exception: ${dbError.message}", dbError)
+        }
 
-            if (isAdded) {
-                AuthManager.login(requireContext(), email, displayName)
-                setLoadingState(false)
-                navigateToHomeAndClearBackstack()
-            }
-        } catch (e: Exception) {
+        if (isAdded) {
+            AuthManager.login(requireContext(), email, displayName)
             setLoadingState(false)
-            Log.e("LoginFragment", "Database sync error: ${e.message}", e)
-            showError("Logged in, but failed to sync profile: ${e.localizedMessage}")
+            Toast.makeText(requireContext(), "Welcome back, $displayName!", Toast.LENGTH_SHORT).show()
+            navigateToHomeAndClearBackstack()
         }
     }
 
@@ -329,8 +377,16 @@ class LoginFragment : Fragment() {
     }
 
     private fun showError(message: String) {
-        view?.let {
-            Snackbar.make(it, message, Snackbar.LENGTH_LONG).show()
-        }
+        if (!isAdded) return
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showDialog(title: String, message: String) {
+        if (!isAdded) return
+        AlertDialog.Builder(requireContext())
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("OK", null)
+            .show()
     }
 }

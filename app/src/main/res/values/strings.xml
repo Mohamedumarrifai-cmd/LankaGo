@@ -5,4 +5,5 @@
     <string name="background_desc">Background image</string>
     <string name="logo_desc">App logo</string>
     <string name="google_maps_key" translatable="false">YOUR_GOOGLE_MAPS_API_KEY_HERE</string>
+    <string name="google_web_client_id" translatable="false">YOUR_FIREBASE_WEB_CLIENT_ID_HERE</string>
 </resources>
