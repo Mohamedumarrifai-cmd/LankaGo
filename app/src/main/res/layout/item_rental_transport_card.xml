@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeColor="#E5E7EB"
+    app:strokeWidth="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <!-- Vehicle / Shop Photo -->
+        <ImageView
+            android:id="@+id/img_rental_thumb"
+            android:layout_width="100dp"
+            android:layout_height="90dp"
+            android:background="#F0F2F5"
+            android:contentDescription="Rental Thumbnail"
+            android:padding="4dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/epic_ride"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Rental Title -->
+        <TextView
+            android:id="@+id/tv_rental_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-black"
+            android:maxLines="1"
+            android:textColor="#1A2B4C"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/iv_rental_arrow"
+            app:layout_constraintStart_toEndOf="@id/img_rental_thumb"
+            app:layout_constraintTop_toTopOf="@id/img_rental_thumb"
+            tools:text="Epic Ride Scooter Rental" />
+
+        <!-- Category & Price & Location Subtitle -->
+        <TextView
+            android:id="@+id/tv_rental_subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif"
+            android:maxLines="2"
+            android:textColor="#8A8F98"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@id/iv_rental_arrow"
+            app:layout_constraintStart_toEndOf="@id/img_rental_thumb"
+            app:layout_constraintTop_toBottomOf="@id/tv_rental_title"
+            tools:text="Scooter · LKR 3,500/day · Galle Fort" />
+
+        <!-- Star Rating -->
+        <TextView
+            android:id="@+id/tv_rental_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#FFA500"
+            android:textSize="13sp"
+            app:layout_constraintStart_toEndOf="@id/img_rental_thumb"
+            app:layout_constraintTop_toBottomOf="@id/tv_rental_subtitle"
+            tools:text="★ 4.9" />
+
+        <!-- Forward Chevron Arrow -->
+        <ImageView
+            android:id="@+id/iv_rental_arrow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:contentDescription="Open Details"
+            android:src="@drawable/ic_chevron_right"
+            app:tint="#8A8F98"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

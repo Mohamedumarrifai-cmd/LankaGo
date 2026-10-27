@@ -123,9 +123,9 @@ class HomeFragment : Fragment() {
             findNavController().safeNavigate(R.id.action_homeFragment_to_showsAndFestivalsFragment)
         }
 
-        // Rentals & Transport Hub (Shows live admin rental shops)
+        // Rentals & Transport Hub (Shows live admin rental shops in exact requested style)
         view.findViewById<View>(R.id.btn_rentals_transport)?.setOnClickListener {
-            findNavController().safeNavigate(R.id.action_homeFragment_to_rentalShopsListFragment)
+            findNavController().safeNavigate(R.id.action_homeFragment_to_rentalsTransportFragment)
         }
 
         // Trip Planner
