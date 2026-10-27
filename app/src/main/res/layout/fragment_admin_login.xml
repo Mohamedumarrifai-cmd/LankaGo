@@ -280,7 +280,6 @@
                             android:fontFamily="sans-serif"
                             android:inputType="text"
                             android:maxLines="1"
-                            android:text="admin"
                             android:textColor="#1A2B4C"
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -311,39 +310,9 @@
                             android:fontFamily="sans-serif"
                             android:inputType="textPassword"
                             android:maxLines="1"
-                            android:text="admin123"
                             android:textColor="#1A2B4C"
                             android:textSize="15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <!-- Mock Credential Helper Chip -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/bg_admin_chip_inactive"
-                        android:backgroundTint="#F0F2F5"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="8dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:contentDescription="Info"
-                            android:src="@drawable/ic_sparkle"
-                            app:tint="#5D5FEF" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Demo Access: admin / admin123"
-                            android:textColor="#5D5FEF"
-                            android:textSize="12sp" />
-                    </LinearLayout>
 
                     <!-- Login Button -->
                     <com.google.android.material.button.MaterialButton

@@ -4,31 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.lankago.R
-import com.example.lankago.data.User
 import com.example.lankago.viewmodels.AdminViewModel
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 /**
  * Screen providing dedicated administrator authentication.
- * Uses FirebaseAuth + Firebase Realtime Database `/users/{uid}/role` check.
  */
 class AdminLoginFragment : Fragment() {
 
     private val adminViewModel: AdminViewModel by activityViewModels()
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,98 +52,28 @@ class AdminLoginFragment : Fragment() {
         view.findViewById<View>(R.id.btn_switch_to_user_login)?.setOnClickListener { navigateToUserLogin() }
 
         btnLogin.setOnClickListener {
-            val rawInput = etUsername.text?.toString().orEmpty().trim()
+            val username = etUsername.text?.toString().orEmpty().trim()
             val password = etPassword.text?.toString().orEmpty().trim()
 
             // Reset field errors
-            tilUsername.error = null
-            tilPassword.error = null
+            tilUsername?.error = null
+            tilPassword?.error = null
 
-            if (rawInput.isEmpty()) {
-                tilUsername.error = "Admin email or username is required"
-                showSnackbar(view, "Please enter your admin credentials", isError = true)
-                return@setOnClickListener
-            }
-
-            if (password.isEmpty()) {
-                tilPassword.error = "Password is required"
-                showSnackbar(view, "Please enter your admin password", isError = true)
-                return@setOnClickListener
-            }
-
-            val email = if (rawInput.contains("@")) rawInput else "${rawInput}@lankago.lk"
-
-            btnLogin.isEnabled = false
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                try {
-                    // Developer bypass for offline demo testing
-                    if (rawInput == "admin" && password == "admin123") {
-                        adminViewModel.authenticate("admin", "admin123")
-                        findNavController().navigate(
-                            R.id.action_adminLoginFragment_to_adminDashboardFragment
-                        )
-                        return@launch
-                    }
-
-                    // 1. FirebaseAuth Email & Password Sign-In
-                    val result = auth.signInWithEmailAndPassword(email, password).await()
-                    val uid = result.user?.uid ?: ""
-
-                    // 2. Verify admin role from Realtime Database /users/{uid} node
-                    val snapshot = database.reference.child("users").child(uid).get().await()
-                    val user = snapshot.getValue(User::class.java)
-                    val role = user?.role ?: snapshot.child("role").getValue(String::class.java) ?: "user"
-
-                    if (role.equals("admin", ignoreCase = true)) {
-                        adminViewModel.authenticate(email, password)
-                        findNavController().navigate(
-                            R.id.action_adminLoginFragment_to_adminDashboardFragment
-                        )
-                    } else {
-                        btnLogin.isEnabled = true
-                        tilUsername.error = "Unauthorized role"
-                        showSnackbarWithAction(
-                            view,
-                            "Access Denied: Account '$email' has Traveler role. Please use Traveler Login.",
-                            "Switch to Traveler"
-                        ) {
-                            navigateToUserLogin()
-                        }
-                    }
-
-                } catch (e: Exception) {
-                    btnLogin.isEnabled = true
-                    tilPassword.error = "Authentication failed"
-                    showSnackbar(view, "Sign-in Failed: ${e.localizedMessage ?: "Invalid credentials"}", isError = true)
-                }
+            if (username == "admin" && password == "admin123") {
+                adminViewModel.authenticate("admin", "admin123")
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.adminLoginFragment, true)
+                    .build()
+                findNavController().navigate(
+                    R.id.action_adminLoginFragment_to_adminDashboardFragment,
+                    null,
+                    navOptions
+                )
+            } else {
+                tilUsername?.error = "Invalid credentials"
+                tilPassword?.error = "Invalid credentials"
+                Toast.makeText(requireContext(), "Invalid Admin Credentials", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun showSnackbarWithAction(
-        rootView: View,
-        message: String,
-        actionText: String,
-        action: () -> Unit
-    ) {
-        val snackbar = Snackbar.make(rootView, message, Snackbar.LENGTH_INDEFINITE)
-        snackbar.setAction(actionText) { action() }
-        snackbar.setActionTextColor(requireContext().getColor(R.color.white))
-        snackbar.setBackgroundTint(requireContext().getColor(R.color.admin_danger))
-        snackbar.setTextColor(requireContext().getColor(R.color.white))
-        snackbar.show()
-    }
-
-    private fun showSnackbar(rootView: View, message: String, isError: Boolean) {
-        val snackbar = Snackbar.make(rootView, message, Snackbar.LENGTH_LONG)
-        if (isError) {
-            snackbar.setBackgroundTint(requireContext().getColor(R.color.admin_danger))
-            snackbar.setTextColor(requireContext().getColor(R.color.white))
-        } else {
-            snackbar.setBackgroundTint(requireContext().getColor(R.color.admin_primary_navy))
-            snackbar.setTextColor(requireContext().getColor(R.color.white))
-        }
-        snackbar.show()
     }
 }

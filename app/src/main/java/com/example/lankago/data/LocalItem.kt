@@ -36,7 +36,7 @@ data class LocalItem(
 /**
  * Comprehensive Mock Data Repository for Sri Lankan Heritage & Cultural Artifacts.
  */
-object LocalItemDataProvider {
+object LocalItemDataProvider {  //app ekata display karanna puluwan local items laba deema.
 
     val items: List<LocalItem> = listOf(
         // 1. Handmade Pottery (Arts & Crafts)

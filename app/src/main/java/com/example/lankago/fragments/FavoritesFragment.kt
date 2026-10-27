@@ -32,7 +32,7 @@ class FavoritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.favorites, container, false)
-    }
+    }   //load the favourite.xml
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,14 +48,14 @@ class FavoritesFragment : Fragment() {
 
         btnExplore.setOnClickListener {
             try {
-                findNavController().safeNavigate(R.id.action_favoritesFragment_to_discoverFragment)
+                findNavController().safeNavigate(R.id.action_favoritesFragment_to_discoverFragment)  //move to the discover fragment
             } catch (_: Exception) {
                 findNavController().safeNavigate(R.id.discoverFragment)
             }
         }
 
-        adapter = PlaceAdapter(
-            places = favoritePlaces,
+        adapter = PlaceAdapter(     // mehi arguments 3 tiyanawa,, places, onplaceclick, onfavouritetoogled
+            places = favoritePlaces,  //destination eka click karama
             onPlaceClick = { place ->
                 val bundle = Bundle().apply {
                     putString("place_id", place.id)
@@ -65,7 +65,7 @@ class FavoritesFragment : Fragment() {
                     bundle
                 )
             },
-            onFavoriteToggled = { place, isFavorite ->
+            onFavoriteToggled = { place, isFavorite ->  //when remove the favourite it show false
                 if (!isFavorite) {
                     favoritePlaces.removeAll { it.id == place.id }
                     adapter.notifyDataSetChanged()

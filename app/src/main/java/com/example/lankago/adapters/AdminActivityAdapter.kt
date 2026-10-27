@@ -20,7 +20,7 @@ import java.util.Locale
  * Supports Glide image loading with placeholder/fallback and fast DiffUtil comparisons.
  */
 class AdminActivityAdapter(
-    private val onEditClick: (TraditionalActivity) -> Unit,
+    private val onEditClick: (TraditionalActivity) -> Unit,  //call the function when click the edit button
     private val onDeleteClick: (TraditionalActivity) -> Unit
 ) : ListAdapter<TraditionalActivity, AdminActivityAdapter.ActivityViewHolder>(ActivityDiffCallback()) {
 
@@ -29,10 +29,14 @@ class AdminActivityAdapter(
             .inflate(R.layout.item_admin_activity, parent, false)
         return ActivityViewHolder(view)
     }
+    //inflate()- Turn the UI layout created in XML into a View that can be shown on Android.
 
     override fun onBindViewHolder(holder: ActivityViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position))  //onBindViewHolder==list eke eka eka item ekata addala data show kereema.
     }
+    //onCreateViewHolder- item eke UI View eka hadanawa
+    //onBindViewHolder- e view ekata adala data eka daanawa
+
 
     inner class ActivityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val ivThumb: ShapeableImageView = itemView.findViewById(R.id.iv_admin_activity_thumb)
@@ -45,7 +49,7 @@ class AdminActivityAdapter(
         private val btnEdit: MaterialButton = itemView.findViewById(R.id.btn_edit_activity)
         private val btnDelete: MaterialButton = itemView.findViewById(R.id.btn_delete_activity)
 
-        fun bind(activity: TraditionalActivity) {
+        fun bind(activity: TraditionalActivity) {   //provide data for UI
             val context = itemView.context
 
             tvTitle.text = activity.title
@@ -56,7 +60,8 @@ class AdminActivityAdapter(
             val formatter = NumberFormat.getNumberInstance(Locale.US)
             tvPrice.text = "LKR ${formatter.format(activity.priceLkr)} / person"
 
-            tvHost.text = if (activity.hostName.isNotBlank()) "Host: ${activity.hostName}" else "Certified Tour Guide"
+            tvHost.text = if (activity.hostName.isNotBlank()) "Host: ${activity.hostName}"
+            else "Certified Tour Guide"
             tvLocation.text = "Address: ${activity.address.ifBlank { activity.location }}"
 
             // Image loading with Glide

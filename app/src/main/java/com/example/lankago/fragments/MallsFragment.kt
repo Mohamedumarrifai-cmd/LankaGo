@@ -88,7 +88,7 @@ class MallsFragment : Fragment() {
         chipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
             activeFilterCity = when {
                 checkedIds.contains(R.id.chip_colombo) -> "Colombo"
-                checkedIds.contains(R.id.chip_kandy) -> "Kandy"
+                checkedIds.contains(R.id.chip_galle) -> "Galle"
                 checkedIds.contains(R.id.chip_cinemas) -> "Cinemas"
                 checkedIds.contains(R.id.chip_food_courts) -> "Food"
                 else -> "All"
@@ -129,7 +129,7 @@ class MallsFragment : Fragment() {
 
             val matchesCategory = when (activeFilterCity) {
                 "Colombo" -> mall.city.contains("Colombo", ignoreCase = true) || mall.address.contains("Colombo", ignoreCase = true)
-                "Kandy" -> mall.city.contains("Kandy", ignoreCase = true) || mall.address.contains("Kandy", ignoreCase = true)
+                "Galle" -> mall.city.contains("Galle", ignoreCase = true) || mall.address.contains("Galle", ignoreCase = true)
                 "Cinemas" -> mall.features.any { it.contains("Cinema", ignoreCase = true) || it.contains("IMAX", ignoreCase = true) } || mall.description.contains("Cinema", ignoreCase = true)
                 "Food" -> mall.features.any { it.contains("Food", ignoreCase = true) || it.contains("Dining", ignoreCase = true) } || mall.description.contains("Food", ignoreCase = true)
                 else -> true

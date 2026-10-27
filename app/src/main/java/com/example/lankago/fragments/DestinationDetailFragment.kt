@@ -17,14 +17,14 @@ class DestinationDetailFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
-        container: ViewGroup?,
+        container: ViewGroup?,  //UI components and container
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.destination_detail, container, false)
 
         // Retrieve placeId passed via Bundle
-        val placeId = arguments?.getString("place_id") ?: "place_1"
-        val place = LankaGoDataManager.getPlaceById(requireContext(), placeId)
+        val placeId = arguments?.getString("place_id") ?: "place_1" // it show default ID is place_1 when value is null
+        val place = LankaGoDataManager.getPlaceById(requireContext(), placeId)  //id ekata adaala destination eka gannawa
 
         val ivHero = root.findViewById<ImageView>(R.id.iv_detail_hero)
         val tvTitle = root.findViewById<TextView>(R.id.tv_detail_title)
@@ -35,7 +35,7 @@ class DestinationDetailFragment : Fragment() {
         val btnBack = root.findViewById<ImageView>(R.id.btn_back)
         val btnFavorite = root.findViewById<ImageView>(R.id.btn_favorite)
 
-        // Bind data
+        // That execute the block when place?.let not null
         place?.let {
             tvTitle?.text = it.name
             tvLocation?.text = it.location
@@ -54,7 +54,7 @@ class DestinationDetailFragment : Fragment() {
                         .error(R.drawable.heritage_sigiriya)
                         .into(ivHero)
                 } else {
-                    com.bumptech.glide.Glide.with(this)
+                    com.bumptech.glide.Glide.with(this)     //fragment lifecycle  ekata sambanda image loading
                         .load(it.imageUri)
                         .centerCrop()
                         .placeholder(R.drawable.heritage_sigiriya)
@@ -69,10 +69,15 @@ class DestinationDetailFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        // Favorite Toggle
+
+        //setOnClickListener--it defines the action to perform when user click a view
+
+        // Favorite Toggle (add/remove)
         var isFav = FavoritesManager.isFavorite(requireContext(), placeId)
         updateFavoriteIcon(btnFavorite, isFav)
 
+
+            //favourite eka click karanaawa
         btnFavorite?.setOnClickListener {
             isFav = !isFav
             if (isFav) {
@@ -84,7 +89,7 @@ class DestinationDetailFragment : Fragment() {
         }
 
         // Add to Trip Navigation
-        root.findViewById<View>(R.id.btn_add_to_trip)?.setOnClickListener {
+        root.findViewById<View>(R.id.btn_add_to_trip)?.setOnClickListener {    //add to trip button eka click karama plantripfragment ekata navigate wenawa
             findNavController().navigate(R.id.action_destinationDetailFragment_to_planTripFragment)
         }
 
@@ -109,6 +114,6 @@ class DestinationDetailFragment : Fragment() {
             imageView?.setImageResource(R.drawable.ic_heart_filled)
         } else {
             imageView?.setImageResource(R.drawable.ic_heart_outline)
-        }
+        }   //favourite click karanam heart eka fill weno
     }
 }

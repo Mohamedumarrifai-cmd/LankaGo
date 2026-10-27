@@ -73,18 +73,18 @@ class NearbyRentalAdapter(
                     .placeholder(localDrawable)
                     .error(localDrawable)
                     .centerCrop()
-                    .into(iv)
+                    .into(iv) //image eka image view ekata daanawa
             } else {
-                iv.setImageResource(localDrawable)
+                iv.setImageResource(localDrawable) //url eka netnam
             }
         }
 
-        holder.itemView.setOnClickListener {
+        holder.itemView.setOnClickListener {   //user kenek card eka click karama setonclicklistener eka process weno
             onRentalClick(item)
         }
     }
 
-    override fun getItemCount(): Int = rentals.size
+    override fun getItemCount(): Int = rentals.size //list eken mulu waahana gaana aran denawa
 
     fun updateData(newRentals: List<RentalVehicle>) {
         rentals = newRentals

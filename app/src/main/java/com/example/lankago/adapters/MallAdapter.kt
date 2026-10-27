@@ -13,11 +13,10 @@ import com.example.lankago.R
 import com.example.lankago.data.Mall
 import com.google.android.material.button.MaterialButton
 
-/**
- * ListAdapter displaying shopping malls to travelers in LankaGo.
- * Supports image loading via Glide with placeholder fallback, rating badge,
- * operating hours, and exploration callback.
- */
+//  ListAdapter displaying shopping malls to travelers in LankaGo.
+//  Supports image loading via Glide with placeholder fallback, rating badge,
+//  operating hours, and exploration callback.
+
 class MallAdapter(
     private val onMallClick: (Mall) -> Unit
 ) : ListAdapter<Mall, MallAdapter.MallViewHolder>(MallDiffCallback()) {

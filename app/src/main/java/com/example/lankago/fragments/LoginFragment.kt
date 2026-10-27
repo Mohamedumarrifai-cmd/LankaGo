@@ -55,7 +55,7 @@ class LoginFragment : Fragment() {
      */
     private val googleSignInLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            Log.d(TAG, "Google Sign-In ActivityResult: resultCode=${result.resultCode}")
+            Log.d(TAG, "Google Sign-In ActivityResult: resultCode=${result.resultCode}")     //for using google sign in
 
             if (result.resultCode == Activity.RESULT_OK) {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
@@ -116,8 +116,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tilEmail = view.findViewById<TextInputLayout>(R.id.til_email)
-        val etEmail = view.findViewById<EditText>(R.id.et_email)
+        val tilEmail = view.findViewById<TextInputLayout>(R.id.til_email)  //email eka wate tiyana input layout eka
+        val etEmail = view.findViewById<EditText>(R.id.et_email)    //email eka type karana edit text eka
         val tilPassword = view.findViewById<TextInputLayout>(R.id.til_password)
         val etPassword = view.findViewById<EditText>(R.id.et_password)
         btnLogin = view.findViewById(R.id.btn_login)

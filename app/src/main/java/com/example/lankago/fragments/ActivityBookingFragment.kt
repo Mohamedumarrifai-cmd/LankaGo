@@ -38,7 +38,7 @@ class ActivityBookingFragment : Fragment() {
     private val viewModel: ActivityBookingViewModel by viewModels()
     private lateinit var reviewAdapter: ReviewAdapter
 
-    override fun onCreateView(
+    override fun onCreateView(     //create and returns UI view from fregment
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,24 +51,30 @@ class ActivityBookingFragment : Fragment() {
 
         val activityId = arguments?.getString("activityId") ?: "act_sigiriya_hike"
 
-        initViews(view)
-        observeData(view)
-        viewModel.loadActivityDetails(activityId)
+
+        //onViewCreated==mehi process 3 sidu we
+        initViews(view)        //view and reviews
+        observeData(view)       //observe the data from view model
+        viewModel.loadActivityDetails(activityId)       //load the details of relevent activity
     }
 
+
+            //recycle view adapter
     private fun initViews(view: View) {
         view.findViewById<ImageView>(R.id.btn_back_activity)?.setOnClickListener {
-            findNavController().navigateUp()
+            findNavController().navigateUp()  //mehidi before screen ekata yanna attempt karanawa
         }
 
         val rvReviews = view.findViewById<RecyclerView>(R.id.rv_activity_reviews)
         reviewAdapter = ReviewAdapter(emptyList())
         rvReviews?.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = reviewAdapter
+            layoutManager = LinearLayoutManager(requireContext())    //Displays all the reviews under one.
+            adapter = reviewAdapter    //connect the UI for review data
         }
     }
 
+
+            //get the data fronm view model
     private fun observeData(view: View) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.activity.collectLatest { item ->
@@ -81,7 +87,7 @@ class ActivityBookingFragment : Fragment() {
 
     private fun bindActivityData(view: View, item: ActivityItem) {
         // Hero Cover Image
-        val ivHero = view.findViewById<ImageView>(R.id.iv_activity_hero)
+        val ivHero = view.findViewById<ImageView>(R.id.iv_activity_hero) //load the image
             ?: view.findViewById<ImageView>(R.id.ivCoverImage)
         if (ivHero != null) {
             if (!item.imageUrl.isNullOrBlank()) {
@@ -121,7 +127,7 @@ class ActivityBookingFragment : Fragment() {
 
         // Booking Action
         view.findViewById<Button>(R.id.btn_book_activity)?.setOnClickListener {
-            showActivityBookingDialog(item)
+            showActivityBookingDialog(item) //when user click booking button, called this function "showActivityBookingDialog"
         }
 
         // Reviews
@@ -131,7 +137,9 @@ class ActivityBookingFragment : Fragment() {
     private fun showActivityBookingDialog(item: ActivityItem) {
         val trips = TripManager.getAllTrips(requireContext())
         val passedTripId = arguments?.getString("activeTripId") ?: ""
-        val targetTrip = if (passedTripId.isNotBlank()) trips.find { it.id == passedTripId } ?: trips.firstOrNull() else trips.firstOrNull()
+        val targetTrip = if (passedTripId.isNotBlank())
+            trips.find { it.id == passedTripId } ?: trips.firstOrNull()
+        else trips.firstOrNull()
 
         val format = NumberFormat.getNumberInstance(Locale.US)
         val totalPrice = format.format((item.basePriceLkr + item.serviceFeeLkr).toInt())
@@ -155,7 +163,7 @@ class ActivityBookingFragment : Fragment() {
                         val authUser = FirebaseAuth.getInstance().currentUser
                         val uid = authUser?.uid ?: "guest_traveler"
                         val todayStr = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
-                        val bookingId = "LKG-ACT-${System.currentTimeMillis().toString().takeLast(6)}"
+                        val bookingId = "LKG-ACT-${System.currentTimeMillis().toString().takeLast(6)}"  //generate the vooking id
                         val booking = Booking(
                             id = bookingId,
                             userId = uid,
