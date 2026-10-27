@@ -48,7 +48,7 @@ class RentalShopsViewModel : ViewModel() {
             _uiState.value = _uiState.value.copy(isLoading = true)
             try {
                 adminRepository.observeRentals().collect { firebaseShops ->
-                    val resolved = if (firebaseShops.isNotEmpty()) {
+                    val resolved = (if (firebaseShops.isNotEmpty()) {
                         val combined = firebaseShops.toMutableList()
                         val firebaseIds = firebaseShops.map { it.id }.toSet()
                         for (defaultShop in RentalShopDataProvider.getAllShops()) {
@@ -60,7 +60,7 @@ class RentalShopsViewModel : ViewModel() {
                     } else {
                         // Fallback to initial local catalogue if firebase node is empty
                         RentalShopDataProvider.getAllShops()
-                    }
+                    }).sortedBy { it.name.trim().lowercase(java.util.Locale.ROOT) }
                     allCachedShops = resolved
                     _allRentals.value = resolved
 

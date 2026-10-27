@@ -203,18 +203,17 @@ class ShopDetailsFragment : Fragment() {
         tvHours.text = shop.operatingHours
         tvAddress.text = shop.address
 
-        // Seamless image loading: Use Glide for web URLs with local fallback
-        if (!shop.imageUrl.isNullOrBlank()) {
+        // Seamless image loading: Use Glide for web/base64 URLs with accurate authentic fallback
+        val fallbackRes = com.example.lankago.adapters.RentalTransportAdapter.resolveShopDrawable(shop)
+        if (!shop.imageUrl.isNullOrBlank() && (shop.imageUrl.startsWith("data:image") || shop.imageUrl.startsWith("http"))) {
             Glide.with(this)
                 .load(shop.imageUrl)
-                .placeholder(if (shop.imageRes != 0) shop.imageRes else R.drawable.casons_rent)
-                .error(if (shop.imageRes != 0) shop.imageRes else R.drawable.casons_rent)
+                .placeholder(fallbackRes)
+                .error(fallbackRes)
                 .centerCrop()
                 .into(ivCover)
-        } else if (shop.imageRes != 0) {
-            ivCover.setImageResource(shop.imageRes)
         } else {
-            ivCover.setImageResource(R.drawable.casons_rent)
+            ivCover.setImageResource(fallbackRes)
         }
 
         // Fleet Chips

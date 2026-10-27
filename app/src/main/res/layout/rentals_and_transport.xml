@@ -155,6 +155,13 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Container for real-time Firebase Admin Added Rentals -->
+            <LinearLayout
+                android:id="@+id/container_admin_rentals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
             <!-- 1. Epic Ride Scooter Rental -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_epic_ride"

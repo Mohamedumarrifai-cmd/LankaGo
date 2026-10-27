@@ -54,17 +54,16 @@ class RentalShopAdapter(
             tvDesc.text = shop.description
             tvPriceStart.text = shop.priceStartingFrom
 
-            if (!shop.imageUrl.isNullOrBlank()) {
+            val fallbackRes = RentalTransportAdapter.resolveShopDrawable(shop)
+            if (!shop.imageUrl.isNullOrBlank() && (shop.imageUrl.startsWith("data:image") || shop.imageUrl.startsWith("http"))) {
                 Glide.with(itemView.context)
                     .load(shop.imageUrl)
-                    .placeholder(if (shop.imageRes != 0) shop.imageRes else R.drawable.casons_rent)
-                    .error(if (shop.imageRes != 0) shop.imageRes else R.drawable.casons_rent)
+                    .placeholder(fallbackRes)
+                    .error(fallbackRes)
                     .centerCrop()
                     .into(ivImage)
-            } else if (shop.imageRes != 0) {
-                ivImage.setImageResource(shop.imageRes)
             } else {
-                ivImage.setImageResource(R.drawable.casons_rent)
+                ivImage.setImageResource(fallbackRes)
             }
 
             cardRoot.setOnClickListener { onShopClick(shop) }
