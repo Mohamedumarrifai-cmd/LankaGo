@@ -10,24 +10,43 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.lankago.R
+import com.example.lankago.adapters.UserProductAdapter
+import com.example.lankago.data.LocalProduct
+import com.example.lankago.repository.AdminRepository
 import com.example.lankago.utils.safeNavigate
+import kotlinx.coroutines.launch
 
 /**
  * Fragment rendering the Local Products showcase screen matching local_products.xml.
  * Features:
- * - Top header with Back navigation, Title, and Gallery icon
+ * - Real-time observation of live admin-added products from Firebase Realtime Database
+ * - Dynamic RecyclerView presenting new artisan additions with photo, price, and region
  * - Category filter chips ("Arts & Crafts", "Products", "Markets", "Medicines")
- * - 2-Column Product Grid with instant SafeArgs navigation to LocalItemDetailsFragment
+ * - Cultural Heritage highlights with SafeArgs navigation to LocalItemDetailsFragment
  * - Bottom Navigation for seamless cross-module routing
  */
 class LocalProductsFragment : Fragment() {
+
+    private val adminRepository = AdminRepository()
+    private lateinit var userProductAdapter: UserProductAdapter
 
     private lateinit var tabArtsCrafts: TextView
     private lateinit var tabProducts: TextView
     private lateinit var tabMarkets: TextView
     private lateinit var tabMedicines: TextView
+
+    private lateinit var tvAdminHeading: TextView
+    private lateinit var rvFirebaseProducts: RecyclerView
+
+    private var allFirebaseProducts: List<LocalProduct> = emptyList()
+    private var currentCategory: String = "Arts & Crafts"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,15 +59,48 @@ class LocalProductsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        tvAdminHeading = view.findViewById(R.id.tv_admin_products_heading)
+        rvFirebaseProducts = view.findViewById(R.id.rv_firebase_products)
+
         setupTopBar(view)
+        setupFirebaseProductsRecyclerView()
         setupCategoryTabs(view)
         setupProductCards(view)
         setupBottomNavigation(view)
+        observeLiveProducts()
     }
 
     private fun setupTopBar(view: View) {
         view.findViewById<View>(R.id.btn_back_local_products)?.setOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun setupFirebaseProductsRecyclerView() {
+        userProductAdapter = UserProductAdapter { product ->
+            val bundle = bundleOf(
+                "itemId" to product.id,
+                "productId" to product.id,
+                "productName" to product.name
+            )
+            findNavController().safeNavigate(
+                R.id.action_localProductsFragment_to_localItemDetailsFragment,
+                bundle
+            )
+        }
+
+        rvFirebaseProducts.layoutManager = LinearLayoutManager(requireContext())
+        rvFirebaseProducts.adapter = userProductAdapter
+    }
+
+    private fun observeLiveProducts() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adminRepository.observeProducts().collect { products ->
+                    allFirebaseProducts = products
+                    applyFilter(currentCategory)
+                }
+            }
         }
     }
 
@@ -61,6 +113,7 @@ class LocalProductsFragment : Fragment() {
         val tabs = listOf(tabArtsCrafts, tabProducts, tabMarkets, tabMedicines)
 
         fun selectTab(selectedTab: TextView, category: String) {
+            currentCategory = category
             for (tab in tabs) {
                 if (tab == selectedTab) {
                     tab.setBackgroundResource(R.drawable.bg_chip_selected)
@@ -72,7 +125,7 @@ class LocalProductsFragment : Fragment() {
                     tab.setTypeface(null, Typeface.NORMAL)
                 }
             }
-            filterProductsByCategory(view, category)
+            applyFilter(category)
         }
 
         tabArtsCrafts.setOnClickListener { selectTab(tabArtsCrafts, "Arts & Crafts") }
@@ -81,13 +134,55 @@ class LocalProductsFragment : Fragment() {
         tabMedicines.setOnClickListener { selectTab(tabMedicines, "Medicines") }
     }
 
-    private fun filterProductsByCategory(view: View, category: String) {
-        val cardPottery = view.findViewById<CardView>(R.id.card_pottery)
-        val cardSpices = view.findViewById<CardView>(R.id.card_spices)
-        val cardElephant = view.findViewById<CardView>(R.id.card_elephant)
-        val cardTextiles = view.findViewById<CardView>(R.id.card_textiles)
-        val cardShellBowls = view.findViewById<CardView>(R.id.card_shell_bowls)
-        val cardTeaSet = view.findViewById<CardView>(R.id.card_tea_set)
+    private fun applyFilter(category: String) {
+        // 1. Filter Live Firebase Products
+        val filteredFirebase = when (category) {
+            "Arts & Crafts" -> allFirebaseProducts.filter {
+                it.category.contains("craft", ignoreCase = true) ||
+                it.category.contains("art", ignoreCase = true) ||
+                it.category.contains("batik", ignoreCase = true) ||
+                it.category.contains("pottery", ignoreCase = true) ||
+                it.category.contains("handicraft", ignoreCase = true) ||
+                it.category.contains("wood", ignoreCase = true)
+            }.ifEmpty { allFirebaseProducts } // Resilient fallback: show all if specific tag isn't set
+
+            "Products" -> allFirebaseProducts.filter {
+                it.category.contains("tea", ignoreCase = true) ||
+                it.category.contains("spice", ignoreCase = true) ||
+                it.category.contains("product", ignoreCase = true) ||
+                it.category.contains("food", ignoreCase = true)
+            }.ifEmpty { allFirebaseProducts }
+
+            "Markets" -> allFirebaseProducts.filter {
+                it.category.contains("market", ignoreCase = true) ||
+                it.category.contains("bazaar", ignoreCase = true)
+            }.ifEmpty { allFirebaseProducts }
+
+            "Medicines" -> allFirebaseProducts.filter {
+                it.category.contains("medicine", ignoreCase = true) ||
+                it.category.contains("ayurveda", ignoreCase = true) ||
+                it.category.contains("herb", ignoreCase = true)
+            }.ifEmpty { allFirebaseProducts }
+
+            else -> allFirebaseProducts
+        }
+
+        if (filteredFirebase.isNotEmpty()) {
+            tvAdminHeading.visibility = View.VISIBLE
+            rvFirebaseProducts.visibility = View.VISIBLE
+            userProductAdapter.submitList(filteredFirebase)
+        } else {
+            tvAdminHeading.visibility = View.GONE
+            rvFirebaseProducts.visibility = View.GONE
+        }
+
+        // 2. Filter Static Cultural Heritage Cards
+        val cardPottery = view?.findViewById<CardView>(R.id.card_pottery)
+        val cardSpices = view?.findViewById<CardView>(R.id.card_spices)
+        val cardElephant = view?.findViewById<CardView>(R.id.card_elephant)
+        val cardTextiles = view?.findViewById<CardView>(R.id.card_textiles)
+        val cardShellBowls = view?.findViewById<CardView>(R.id.card_shell_bowls)
+        val cardTeaSet = view?.findViewById<CardView>(R.id.card_tea_set)
 
         when (category) {
             "Arts & Crafts" -> {
@@ -134,39 +229,15 @@ class LocalProductsFragment : Fragment() {
             )
         }
 
-        // 1. Handmade pottery (Trincomalee)
-        view.findViewById<CardView>(R.id.card_pottery)?.setOnClickListener {
-            openDetail("item_pottery")
-        }
-
-        // 2. Sri Lankan spices (Matale)
-        view.findViewById<CardView>(R.id.card_spices)?.setOnClickListener {
-            openDetail("item_spices")
-        }
-
-        // 3. Wooden elephant (Lakmali / Colombo)
-        view.findViewById<CardView>(R.id.card_elephant)?.setOnClickListener {
-            openDetail("item_elephant")
-        }
-
-        // 4. Woven textiles (Embilipitiya / Loomcrafts)
-        view.findViewById<CardView>(R.id.card_textiles)?.setOnClickListener {
-            openDetail("item_textiles")
-        }
-
-        // 5. Coconut shell bowls (Galle)
-        view.findViewById<CardView>(R.id.card_shell_bowls)?.setOnClickListener {
-            openDetail("item_shell_bowls")
-        }
-
-        // 6. Ceylon tea set (Kandy)
-        view.findViewById<CardView>(R.id.card_tea_set)?.setOnClickListener {
-            openDetail("item_ceylon_tea")
-        }
+        view.findViewById<CardView>(R.id.card_pottery)?.setOnClickListener { openDetail("item_pottery") }
+        view.findViewById<CardView>(R.id.card_spices)?.setOnClickListener { openDetail("item_spices") }
+        view.findViewById<CardView>(R.id.card_elephant)?.setOnClickListener { openDetail("item_elephant") }
+        view.findViewById<CardView>(R.id.card_textiles)?.setOnClickListener { openDetail("item_textiles") }
+        view.findViewById<CardView>(R.id.card_shell_bowls)?.setOnClickListener { openDetail("item_shell_bowls") }
+        view.findViewById<CardView>(R.id.card_tea_set)?.setOnClickListener { openDetail("item_ceylon_tea") }
     }
 
     private fun setupBottomNavigation(view: View) {
-        // Home Navigation (pop back to Home or navigate safely)
         view.findViewById<View>(R.id.nav_home)?.setOnClickListener {
             if (findNavController().currentDestination?.id == R.id.homeFragment) return@setOnClickListener
             val popped = findNavController().popBackStack(R.id.homeFragment, false)
@@ -175,7 +246,6 @@ class LocalProductsFragment : Fragment() {
             }
         }
 
-        // Products Navigation (Already on products screen - scroll to top and reset tab)
         view.findViewById<View>(R.id.nav_products)?.setOnClickListener {
             view.findViewById<androidx.core.widget.NestedScrollView>(R.id.scroll_products)?.smoothScrollTo(0, 0)
             if (::tabArtsCrafts.isInitialized) {
@@ -183,12 +253,10 @@ class LocalProductsFragment : Fragment() {
             }
         }
 
-        // Maps Navigation
         view.findViewById<View>(R.id.nav_maps)?.setOnClickListener {
             findNavController().safeNavigate(R.id.action_localProductsFragment_to_mapRouteFragment)
         }
 
-        // Profile Navigation
         view.findViewById<View>(R.id.nav_profile)?.setOnClickListener {
             findNavController().safeNavigate(R.id.action_localProductsFragment_to_profileFragment)
         }

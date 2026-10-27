@@ -49,7 +49,14 @@ class RentalShopsViewModel : ViewModel() {
             try {
                 adminRepository.observeRentals().collect { firebaseShops ->
                     val resolved = if (firebaseShops.isNotEmpty()) {
-                        firebaseShops
+                        val combined = firebaseShops.toMutableList()
+                        val firebaseIds = firebaseShops.map { it.id }.toSet()
+                        for (defaultShop in RentalShopDataProvider.getAllShops()) {
+                            if (!firebaseIds.contains(defaultShop.id)) {
+                                combined.add(defaultShop)
+                            }
+                        }
+                        combined
                     } else {
                         // Fallback to initial local catalogue if firebase node is empty
                         RentalShopDataProvider.getAllShops()
