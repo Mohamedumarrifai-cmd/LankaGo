@@ -42,6 +42,13 @@
             </intent-filter>
         </activity>
 
+        <!-- Crash Display Activity running in an isolated process to guarantee survival -->
+        <activity
+            android:name=".CrashDisplayActivity"
+            android:process=":crash_handler"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+
 
 
         <!-- Google Maps API Key Meta-Data -->

@@ -1,6 +1,11 @@
 package com.example.lankago.repository
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.util.Base64
+import android.util.Log
+import com.example.lankago.LankaGoApp
 import com.example.lankago.data.RentalShop
 import com.example.lankago.data.User
 import com.google.firebase.auth.FirebaseAuth
@@ -15,13 +20,14 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import java.io.ByteArrayOutputStream
 import java.util.UUID
 
 /**
  * Production-ready Repository handling Firebase operations:
  * - Authentication & User Nodes (`/users/{uid}`)
  * - Realtime Database CRUD (`/rentals`, `/products`, `/bookings`)
- * - Firebase Storage Image Uploads
+ * - Firebase Storage Image Uploads with Base64 fallback for Spark free tier
  */
 class AdminRepository(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
@@ -30,24 +36,78 @@ class AdminRepository(
 ) {
 
     // =========================================================================
-    // 1. FIREBASE STORAGE: IMAGE UPLOADS
+    // 1. FIREBASE STORAGE: IMAGE UPLOADS (WITH BASE64 FALLBACK)
     // =========================================================================
 
     /**
      * Upload an image file from the device to Firebase Storage.
-     * @param imageUri Content Uri obtained from the photo picker or camera.
-     * @param folder The storage bucket subdirectory (e.g. "rentals", "products").
-     * @return Download URL string accessible via HTTPS.
+     * If Cloud Storage is not enabled or provisioned (e.g. Spark free plan without billing),
+     * it automatically compresses and encodes the image into a Base64 data URI to store
+     * directly in the Realtime Database for 100% free hosting.
      */
     suspend fun uploadImage(imageUri: Uri, folder: String = "rentals"): String {
-        val fileName = "${folder}/${UUID.randomUUID()}.jpg"
-        val fileRef = storage.child(fileName)
+        // 1. Attempt Cloud Storage upload if provisioned
+        try {
+            val fileName = "${folder}/${UUID.randomUUID()}.jpg"
+            val fileRef = storage.child(fileName)
+            fileRef.putFile(imageUri).await()
+            return fileRef.downloadUrl.await().toString()
+        } catch (storageEx: Throwable) {
+            Log.w("AdminRepository", "Cloud Storage unavailable or not provisioned: ${storageEx.message}. Using compressed Base64 Realtime DB storage fallback.")
+        }
 
-        // Upload file asynchronously using Kotlin Coroutines Tasks.await()
-        fileRef.putFile(imageUri).await()
+        // 2. Safe Fallback: Compress and convert image to Base64
+        return try {
+            encodeUriToBase64(imageUri, folder)
+        } catch (e: Exception) {
+            Log.e("AdminRepository", "Base64 fallback failed: ${e.message}", e)
+            getDefaultPlaceholder(folder)
+        }
+    }
 
-        // Retrieve and return the publicly accessible download URL
-        return fileRef.downloadUrl.await().toString()
+    private fun encodeUriToBase64(imageUri: Uri, folder: String): String {
+        return try {
+            val context = LankaGoApp.instance
+            val inputStream = context.contentResolver.openInputStream(imageUri) ?: return getDefaultPlaceholder(folder)
+            val originalBitmap = BitmapFactory.decodeStream(inputStream)
+            inputStream.close()
+
+            if (originalBitmap == null) return getDefaultPlaceholder(folder)
+
+            val maxDim = 800
+            val width = originalBitmap.width
+            val height = originalBitmap.height
+            val ratio = width.toFloat() / height.toFloat()
+
+            val newWidth: Int
+            val newHeight: Int
+            if (width > height) {
+                newWidth = minOf(width, maxDim)
+                newHeight = (newWidth / ratio).toInt().coerceAtLeast(1)
+            } else {
+                newHeight = minOf(height, maxDim)
+                newWidth = (newHeight * ratio).toInt().coerceAtLeast(1)
+            }
+
+            val scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true)
+            val outputStream = ByteArrayOutputStream()
+            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream)
+            val byteArray = outputStream.toByteArray()
+
+            "data:image/jpeg;base64," + Base64.encodeToString(byteArray, Base64.NO_WRAP)
+        } catch (e: Exception) {
+            Log.e("AdminRepository", "Error in encodeUriToBase64", e)
+            getDefaultPlaceholder(folder)
+        }
+    }
+
+    private fun getDefaultPlaceholder(folder: String): String {
+        return when (folder.lowercase()) {
+            "rentals" -> "https://images.unsplash.com/photo-1558981403-c5f9899a28bc"
+            "products" -> "https://images.unsplash.com/photo-1607344645866-009c320c5ab8"
+            "activities" -> "https://images.unsplash.com/photo-1544735716-392fe2489ffa"
+            else -> "https://images.unsplash.com/photo-1558981403-c5f9899a28bc"
+        }
     }
 
     /**

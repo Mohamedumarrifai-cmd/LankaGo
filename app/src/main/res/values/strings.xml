@@ -5,5 +5,6 @@
     <string name="background_desc">Background image</string>
     <string name="logo_desc">App logo</string>
     <string name="google_maps_key" translatable="false">YOUR_GOOGLE_MAPS_API_KEY_HERE</string>
-    <string name="google_web_client_id" translatable="false">YOUR_FIREBASE_WEB_CLIENT_ID_HERE</string>
+    <!-- Google Sign-In OAuth 2.0 Web Client ID (from Firebase Console -> Authentication -> Sign-in method -> Google or Google Cloud Credentials) -->
+    <string name="default_web_client_id" translatable="false">PASTE_YOUR_WEB_CLIENT_ID_HERE</string>
 </resources>

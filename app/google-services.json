@@ -13,7 +13,20 @@
           "package_name": "com.example.lankago"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "361819312061-1rr34ct681j2nbr4n5itc225cusdd3eq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lankago",
+            "certificate_hash": "0b5af22d6323d18cc0d413ac0694ca5621ff1412"
+          }
+        },
+        {
+          "client_id": "361819312061-fqkdtvi4djg8ntrv4n58uhbpq6qskq1a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDm9RImyZIjuMa1W7-Zukxt8qFYzSsiuGM"
@@ -21,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "361819312061-fqkdtvi4djg8ntrv4n58uhbpq6qskq1a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
