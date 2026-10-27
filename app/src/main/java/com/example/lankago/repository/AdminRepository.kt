@@ -513,4 +513,99 @@ class AdminRepository(
         val currentUid = auth.currentUser?.uid ?: return false
         return getUserRole(currentUid) == "admin"
     }
+
+    // =========================================================================
+    // 6. REALTIME DATABASE: SHOPPING MALLS CRUD (/malls)
+    // =========================================================================
+
+    suspend fun addMall(
+        name: String,
+        city: String = "Colombo",
+        address: String,
+        description: String,
+        operatingHours: String = "10:00 AM - 10:00 PM",
+        contactNumber: String = "+94 11 200 0000",
+        storeCount: Int = 100,
+        rating: Double = 4.8,
+        category: String = "Shopping & Leisure",
+        features: List<String> = listOf("Cinema", "Food Court", "Supermarket", "Parking", "Shopping"),
+        imageUri: Uri? = null,
+        existingImageUrl: String = ""
+    ): com.example.lankago.data.Mall {
+        val finalImageUrl = if (imageUri != null) {
+            uploadImage(imageUri, folder = "malls")
+        } else {
+            existingImageUrl
+        }
+
+        val mallsRef = database.child("malls")
+        val mallKey = mallsRef.push().key ?: UUID.randomUUID().toString()
+
+        val mall = com.example.lankago.data.Mall(
+            id = mallKey,
+            name = name.trim(),
+            city = city.trim(),
+            address = address.trim(),
+            description = description.trim(),
+            operatingHours = operatingHours.trim(),
+            imageUrl = finalImageUrl.trim(),
+            imageRes = 0,
+            rating = rating,
+            storeCount = storeCount,
+            contactNumber = contactNumber.trim(),
+            category = category.trim(),
+            features = features
+        )
+
+        mallsRef.child(mallKey).setValue(mall).await()
+        return mall
+    }
+
+    suspend fun updateMall(
+        mallId: String,
+        updates: Map<String, Any?>,
+        newImageUri: Uri? = null
+    ) {
+        val mutableUpdates = updates.toMutableMap()
+        if (newImageUri != null) {
+            val downloadUrl = uploadImage(newImageUri, folder = "malls")
+            mutableUpdates["imageUrl"] = downloadUrl
+        }
+        database.child("malls").child(mallId).updateChildren(mutableUpdates).await()
+    }
+
+    suspend fun deleteMall(mallId: String, imageUrl: String? = null) {
+        database.child("malls").child(mallId).removeValue().await()
+        if (!imageUrl.isNullOrBlank()) {
+            deleteImageByUrl(imageUrl)
+        }
+    }
+
+    suspend fun getAllMallsOnce(): List<com.example.lankago.data.Mall> {
+        val snapshot = database.child("malls").get().await()
+        val list = mutableListOf<com.example.lankago.data.Mall>()
+        for (child in snapshot.children) {
+            child.getValue(com.example.lankago.data.Mall::class.java)?.let { list.add(it) }
+        }
+        return list
+    }
+
+    fun observeMalls(): Flow<List<com.example.lankago.data.Mall>> = callbackFlow {
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list = mutableListOf<com.example.lankago.data.Mall>()
+                for (child in snapshot.children) {
+                    child.getValue(com.example.lankago.data.Mall::class.java)?.let { list.add(it) }
+                }
+                trySend(list)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                close(error.toException())
+            }
+        }
+        val ref = database.child("malls")
+        ref.addValueEventListener(listener)
+        awaitClose { ref.removeEventListener(listener) }
+    }
 }

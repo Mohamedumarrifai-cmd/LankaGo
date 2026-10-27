@@ -307,10 +307,10 @@
                         <ImageView
                             android:layout_width="52dp"
                             android:layout_height="52dp"
-                            android:background="@drawable/bg_circle_pink"
-                            android:padding="14dp"
-                            android:src="@android:drawable/btn_star_big_off"
-                            app:tint="#E91E63"
+                            android:background="@drawable/bg_circle_blue"
+                            android:padding="13dp"
+                            android:src="@drawable/ic_heart_filled"
+                            app:tint="#1E88E5"
                             android:contentDescription="Favorites" />
                         <TextView
                             android:layout_width="wrap_content"

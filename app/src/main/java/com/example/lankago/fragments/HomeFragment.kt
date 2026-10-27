@@ -108,9 +108,9 @@ class HomeFragment : Fragment() {
             findNavController().safeNavigate(R.id.action_homeFragment_to_localProductsFragment)
         }
 
-        // Local Products (Malls)
+        // Shopping Malls (Havelock City, GCC, CCC, KCC, Marino, etc.)
         view.findViewById<View>(R.id.btn_local_products)?.setOnClickListener {
-            findNavController().safeNavigate(R.id.action_homeFragment_to_localProductsFragment)
+            findNavController().safeNavigate(R.id.action_homeFragment_to_mallsFragment)
         }
 
         // Traditional Activities

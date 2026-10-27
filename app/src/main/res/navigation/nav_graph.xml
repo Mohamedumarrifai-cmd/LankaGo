@@ -185,6 +185,9 @@
             android:id="@+id/action_homeFragment_to_localProductsFragment"
             app:destination="@id/localProductsFragment" />
         <action
+            android:id="@+id/action_homeFragment_to_mallsFragment"
+            app:destination="@id/mallsFragment" />
+        <action
             android:id="@+id/action_homeFragment_to_traditionalActivitiesFragment"
             app:destination="@id/traditionalActivitiesFragment" />
         <action
@@ -519,6 +522,9 @@
             app:destination="@id/adminLoginFragment"
             app:popUpTo="@id/adminLoginFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminMallListFragment"
+            app:destination="@id/adminMallListFragment" />
         <action
             android:id="@+id/action_adminDashboardFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -863,5 +869,35 @@
             android:id="@+id/action_tripHistoryFragment_to_tripPlannerFragment"
             app:destination="@id/tripPlannerFragment" />
     </fragment>
+
+    <!-- Admin Manage Shopping Malls Flow -->
+    <fragment
+        android:id="@+id/adminMallListFragment"
+        android:name="com.example.lankago.fragments.admin.AdminMallListFragment"
+        android:label="Manage Shopping Malls"
+        tools:layout="@layout/fragment_admin_mall_list">
+        <action
+            android:id="@+id/action_adminMallListFragment_to_addEditMallFragment"
+            app:destination="@id/addEditMallFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditMallFragment"
+        android:name="com.example.lankago.fragments.admin.AddEditMallFragment"
+        android:label="Add / Edit Mall"
+        tools:layout="@layout/fragment_add_edit_mall">
+        <argument
+            android:name="mallId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
+    <!-- User Shopping Malls Screen -->
+    <fragment
+        android:id="@+id/mallsFragment"
+        android:name="com.example.lankago.fragments.MallsFragment"
+        android:label="Shopping Malls"
+        tools:layout="@layout/fragment_malls" />
 
 </navigation>

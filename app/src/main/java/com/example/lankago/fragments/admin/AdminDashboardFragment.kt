@@ -130,6 +130,14 @@ class AdminDashboardFragment : Fragment() {
             )
         }
 
+        // 7. Manage Shopping Malls -> Navigate to AdminMallListFragment
+        val cardMalls = view.findViewById<View>(R.id.card_manage_malls)
+        cardMalls?.setOnClickListener {
+            findNavController().safeNavigate(
+                R.id.action_adminDashboardFragment_to_adminMallListFragment
+            )
+        }
+
         // 7. Switch to Traveler Home View
         val cardSwitchMode = view.findViewById<View>(R.id.card_switch_to_user_mode)
         cardSwitchMode?.setOnClickListener {
