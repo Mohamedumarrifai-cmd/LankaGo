@@ -110,6 +110,11 @@ class RentalDetailsFragment : Fragment() {
             if (current != null) {
                 if (isSelectMode) {
                     TripManager.selectedRentalForPlanning = current
+                    com.example.lankago.utils.LankaGoNotificationHelper.postVehicleSelectedNotification(
+                        requireContext(),
+                        current.name,
+                        current.dailyRateLkr
+                    )
                     Toast.makeText(
                         requireContext(),
                         "✓ ${current.name} confirmed for your trip!",
@@ -317,6 +322,11 @@ class RentalDetailsFragment : Fragment() {
                 btnBook?.text = "✓ Confirm Vehicle for Trip"
                 btnBook?.setOnClickListener {
                     TripManager.selectedRentalForPlanning = rental
+                    com.example.lankago.utils.LankaGoNotificationHelper.postVehicleSelectedNotification(
+                        requireContext(),
+                        rental.name,
+                        rental.dailyRateLkr
+                    )
                     Toast.makeText(
                         requireContext(),
                         "✓ ${rental.name} confirmed for your trip!",

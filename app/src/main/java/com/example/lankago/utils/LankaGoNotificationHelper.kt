@@ -301,4 +301,50 @@ object LankaGoNotificationHelper {
             Log.e(TAG, "Error posting payment notification", e)
         }
     }
+
+    /**
+     * Emits a notification when a traveler selects/confirms a vehicle for their planned trip.
+     */
+    fun postVehicleSelectedNotification(
+        context: Context,
+        vehicleName: String,
+        dailyRateLkr: Double
+    ) {
+        try {
+            createNotificationChannels(context)
+
+            val title = "🚗 Vehicle Selected: $vehicleName"
+            val body = "$vehicleName (LKR ${String.format(Locale.US, "%,.0f", dailyRateLkr)}/day) has been attached to your planned trip!"
+
+            val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val notification = NotificationCompat.Builder(context, CHANNEL_TRIPS_ID)
+                .setSmallIcon(R.drawable.ic_bell)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(body))
+                .setColor(Color.parseColor("#10B981"))
+                .setAutoCancel(true)
+                .setSound(soundUri)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .build()
+
+            val notificationId = (System.currentTimeMillis() % 100000).toInt()
+            try {
+                NotificationManagerCompat.from(context).notify(notificationId, notification)
+            } catch (_: SecurityException) {}
+
+            val inAppNotification = AppNotification(
+                id = "notif_veh_${System.currentTimeMillis()}",
+                title = "Vehicle Selected: $vehicleName",
+                message = body,
+                timeAgo = "Just now",
+                type = NotificationType.RENTAL_BOOKING,
+                targetId = vehicleName,
+                iconRes = R.drawable.ic_bell
+            )
+            saveInAppNotification(context, inAppNotification)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error posting vehicle selected notification", e)
+        }
+    }
 }
