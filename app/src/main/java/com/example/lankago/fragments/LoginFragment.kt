@@ -153,7 +153,7 @@ class LoginFragment : Fragment() {
                             } else {
                                 findNavController().safeNavigate(R.id.action_loginFragment_to_homeFragment)
                             }
-                        }
+                        }       //check the user role(admin or user)
                     }
                     is AuthState.Error -> {
                         setLoading(false)

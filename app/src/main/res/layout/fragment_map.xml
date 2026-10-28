@@ -167,12 +167,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="160dp"
-        android:contentDescription="My Location"
-        android:src="@drawable/ic_nav_plan"
+        android:layout_marginBottom="96dp"
+        android:contentDescription="Re-center on My Current Location"
+        android:src="@drawable/ic_my_location"
         app:backgroundTint="@color/surface_card"
         app:elevation="6dp"
-        app:fabSize="mini"
+        app:fabSize="normal"
         app:tint="?attr/colorPrimary" />
 
     <!-- 5. Floating Bottom Info Card: Distance & ETA -->

@@ -310,7 +310,7 @@
                             android:background="@drawable/bg_circle_blue"
                             android:padding="13dp"
                             android:src="@drawable/ic_heart_filled"
-                            app:tint="#1E88E5"
+                            app:tint="#1A2B4C"
                             android:contentDescription="Favorites" />
                         <TextView
                             android:layout_width="wrap_content"

@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -20,6 +21,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.webkit.GeolocationPermissions
+import android.webkit.JavascriptInterface
+import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -28,17 +32,23 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.lankago.R
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.Priority
+import com.google.android.gms.location.SettingsClient
+import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -49,21 +59,16 @@ import java.util.Locale
 
 /**
  * Principal Map Screen for LankaGo powered by OpenStreetMap (OSM) & Leaflet.js.
- * 
- * 100% Free - Requires NO API Key, NO Credit Card, NO Cloud Billing.
- * 
- * Features:
- * 1. Interactive full-screen OpenStreetMap with custom tiles and smooth zoom.
- * 2. Real-time GPS location tracking via FusedLocationProviderClient + LocationCallback.
- * 3. Live coordinate display (Latitude & Longitude) on UI.
- * 4. Destination Geocoder search and animated route plotting.
- * 5. Re-center to user location, distance & ETA calculator, and turn-by-turn navigation launcher.
+ *
+ * Guarantees that whenever opened (from Bottom Navigation or Destination Detail),
+ * it starts directly at the user's real-time current GPS location.
  */
 open class MapFragment : Fragment() {
 
     private lateinit var mapWebView: WebView
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var isMapLoaded: Boolean = false
+    private var hasCenteredOnUser: Boolean = false
 
     // Location State
     private var currentUserLocation: Location? = null
@@ -78,7 +83,9 @@ open class MapFragment : Fragment() {
     private lateinit var btnFindRoute: MaterialButton
     private lateinit var pbMapLoading: ProgressBar
     private lateinit var fabRecenterLocation: FloatingActionButton
+    private lateinit var cardCurrentLocationStatus: MaterialCardView
     private lateinit var locationTextView: TextView
+    private lateinit var tvGpsLiveBadge: TextView
 
     private lateinit var cardRouteSummary: MaterialCardView
     private lateinit var tvDestTitle: TextView
@@ -91,7 +98,8 @@ open class MapFragment : Fragment() {
     // Location Updates
     private var locationRequest: LocationRequest? = null
     private var locationCallback: LocationCallback? = null
-    private var isFirstLocationFix: Boolean = true
+    private var systemLocationListener: android.location.LocationListener? = null
+    private var cancellationTokenSource: CancellationTokenSource? = null
 
     // Permission Launcher
     private val locationPermissionsLauncher = registerForActivityResult(
@@ -101,15 +109,29 @@ open class MapFragment : Fragment() {
         val coarseGranted = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
 
         if (fineGranted || coarseGranted) {
-            startLocationUpdates()
-            fetchInitialLocation()
+            checkGpsAndAcquireLocation()
         } else {
             Toast.makeText(
                 requireContext(),
-                "Location permission denied. Please enable GPS permissions in Settings.",
+                "Location permission denied. Please enable GPS in Settings to see your live position.",
                 Toast.LENGTH_SHORT
             ).show()
-            locationTextView.text = "📍 Location permission denied\nPlease grant GPS permission in Settings"
+            locationTextView.text = "📍 Tap here to enable Location permissions"
+            tvGpsLiveBadge.text = "OFF"
+        }
+    }
+
+    // Google Play Services GPS Resolution Launcher
+    private val enableGpsLauncher = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+            startLocationUpdates()
+            fetchInitialLocation()
+        } else {
+            locationTextView.text = "⚠️ GPS is turned off. Tap to turn on Location."
+            tvGpsLiveBadge.text = "OFF"
+            Toast.makeText(requireContext(), "Please turn on device location to view your position.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -148,7 +170,9 @@ open class MapFragment : Fragment() {
         btnFindRoute = view.findViewById(R.id.btn_find_route)
         pbMapLoading = view.findViewById(R.id.pb_map_loading)
         fabRecenterLocation = view.findViewById(R.id.fab_recenter_location)
+        cardCurrentLocationStatus = view.findViewById(R.id.card_current_location_status)
         locationTextView = view.findViewById(R.id.locationTextView)
+        tvGpsLiveBadge = view.findViewById(R.id.tv_gps_live_badge)
 
         cardRouteSummary = view.findViewById(R.id.card_route_summary)
         tvDestTitle = view.findViewById(R.id.tv_dest_title)
@@ -170,20 +194,25 @@ open class MapFragment : Fragment() {
             builtInZoomControls = false
             displayZoomControls = false
             cacheMode = WebSettings.LOAD_DEFAULT
+            setGeolocationEnabled(true)
         }
+
+        mapWebView.webChromeClient = object : WebChromeClient() {
+            override fun onGeolocationPermissionsShowPrompt(
+                origin: String?,
+                callback: GeolocationPermissions.Callback?
+            ) {
+                callback?.invoke(origin, true, false)
+            }
+        }
+
+        // Bridge connecting Leaflet Javascript events back to Android
+        mapWebView.addJavascriptInterface(AndroidBridge(), "AndroidBridge")
 
         mapWebView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                isMapLoaded = true
-                currentUserLocation?.let { loc ->
-                    updateMapLocation(loc.latitude, loc.longitude, shouldCenter = true)
-                }
-                val dLat = destLat
-                val dLng = destLng
-                if (dLat != null && dLng != null) {
-                    plotRouteToDestination(dLat, dLng, destTitle, destAddress)
-                }
+                onMapReadyCallback()
             }
         }
 
@@ -218,13 +247,32 @@ open class MapFragment : Fragment() {
             triggerDestinationSearch()
         }
 
+        // Recenter FAB button
         fabRecenterLocation.setOnClickListener {
-            currentUserLocation?.let { loc ->
-                updateMapLocation(loc.latitude, loc.longitude, shouldCenter = true)
-            } ?: run {
-                mapWebView.evaluateJavascript("recenterToUser();", null)
+            val loc = currentUserLocation
+            if (loc != null) {
+                updateMapLocation(loc.latitude, loc.longitude, shouldCenter = true, accuracy = loc.accuracy)
+                Toast.makeText(requireContext(), "📍 Centering on your location", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "📍 Pinpointing your GPS location...", Toast.LENGTH_SHORT).show()
+                checkGpsAndAcquireLocation()
             }
-            Toast.makeText(requireContext(), "📍 Centering on your location", Toast.LENGTH_SHORT).show()
+        }
+
+        // Location Info Card click
+        cardCurrentLocationStatus.setOnClickListener {
+            if (!hasLocationPermission()) {
+                checkLocationPermissionAndStart()
+            } else if (!isGpsEnabled()) {
+                promptEnableGps()
+            } else {
+                currentUserLocation?.let { loc ->
+                    updateMapLocation(loc.latitude, loc.longitude, shouldCenter = true, accuracy = loc.accuracy)
+                    Toast.makeText(requireContext(), "📍 Centering on your location", Toast.LENGTH_SHORT).show()
+                } ?: run {
+                    fetchInitialLocation()
+                }
+            }
         }
 
         btnCloseSummary.setOnClickListener {
@@ -251,23 +299,13 @@ open class MapFragment : Fragment() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
-                    currentUserLocation = location
-                    updateLocationUI(location)
-                    updateMapLocation(location.latitude, location.longitude, shouldCenter = isFirstLocationFix)
-                    if (isFirstLocationFix) {
-                        isFirstLocationFix = false
-                        val dLat = destLat
-                        val dLng = destLng
-                        if (dLat != null && dLng != null) {
-                            plotRouteToDestination(dLat, dLng, destTitle, destAddress)
-                        }
-                    }
+                    onNewLocationReceived(location, isImmediateFix = false)
                 }
             }
         }
     }
 
-    private fun checkLocationPermissionAndStart() {
+    private fun hasLocationPermission(): Boolean {
         val fineGranted = ContextCompat.checkSelfPermission(
             requireContext(),
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -276,10 +314,17 @@ open class MapFragment : Fragment() {
             requireContext(),
             Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
+        return fineGranted || coarseGranted
+    }
 
-        if (fineGranted || coarseGranted) {
-            startLocationUpdates()
-            fetchInitialLocation()
+    private fun isGpsEnabled(): Boolean {
+        val lm = context?.getSystemService(Context.LOCATION_SERVICE) as? LocationManager ?: return false
+        return lm.isProviderEnabled(LocationManager.GPS_PROVIDER) || lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+    private fun checkLocationPermissionAndStart() {
+        if (hasLocationPermission()) {
+            checkGpsAndAcquireLocation()
         } else {
             locationPermissionsLauncher.launch(
                 arrayOf(
@@ -290,95 +335,193 @@ open class MapFragment : Fragment() {
         }
     }
 
+    private fun checkGpsAndAcquireLocation() {
+        if (!isGpsEnabled()) {
+            locationTextView.text = "⚠️ Location is turned off. Tap here to enable GPS."
+            tvGpsLiveBadge.text = "OFF"
+            promptEnableGps()
+        } else {
+            tvGpsLiveBadge.text = "LIVE GPS"
+            startLocationUpdates()
+            fetchInitialLocation()
+        }
+    }
+
+    private fun promptEnableGps() {
+        val req = locationRequest ?: LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 2000).build()
+        val builder = LocationSettingsRequest.Builder()
+            .addLocationRequest(req)
+            .setAlwaysShow(true)
+
+        val client: SettingsClient = LocationServices.getSettingsClient(requireActivity())
+        client.checkLocationSettings(builder.build())
+            .addOnSuccessListener {
+                tvGpsLiveBadge.text = "LIVE GPS"
+                startLocationUpdates()
+                fetchInitialLocation()
+            }
+            .addOnFailureListener { exception ->
+                if (exception is ResolvableApiException) {
+                    try {
+                        val intentSenderRequest = IntentSenderRequest.Builder(exception.resolution).build()
+                        enableGpsLauncher.launch(intentSenderRequest)
+                    } catch (_: Exception) {
+                        openLocationSettingsFallback()
+                    }
+                } else {
+                    openLocationSettingsFallback()
+                }
+            }
+    }
+
+    private fun openLocationSettingsFallback() {
+        try {
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(intent)
+            Toast.makeText(requireContext(), "Please turn on Location / GPS in Settings", Toast.LENGTH_SHORT).show()
+        } catch (_: Exception) {}
+    }
+
     @SuppressLint("MissingPermission")
     private fun fetchInitialLocation() {
-        // 1. Immediately check system LocationManager (fastest on-device hardware GPS fix)
-        val lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as? LocationManager
-        val lastKnownGps = try { lm?.getLastKnownLocation(LocationManager.GPS_PROVIDER) } catch (_: SecurityException) { null }
-        val lastKnownNet = try { lm?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) } catch (_: SecurityException) { null }
-        val bestInitial = lastKnownGps ?: lastKnownNet
+        if (!hasLocationPermission()) return
 
+        locationTextView.text = "📍 Finding your current GPS location..."
+        pbMapLoading.visibility = View.VISIBLE
+
+        // 1. Immediately query hardware LocationManager (fastest on-device cache)
+        val lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+        val lastGps = try { lm?.getLastKnownLocation(LocationManager.GPS_PROVIDER) } catch (_: Exception) { null }
+        val lastNet = try { lm?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) } catch (_: Exception) { null }
+        val lastPassive = try { lm?.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER) } catch (_: Exception) { null }
+
+        val bestInitial = listOfNotNull(lastGps, lastNet, lastPassive).maxByOrNull { it.time }
         if (bestInitial != null) {
-            currentUserLocation = bestInitial
-            updateLocationUI(bestInitial)
-            updateMapLocation(bestInitial.latitude, bestInitial.longitude, shouldCenter = true)
-            isFirstLocationFix = false
-            val dLat = destLat
-            val dLng = destLng
-            if (dLat != null && dLng != null) {
-                plotRouteToDestination(dLat, dLng, destTitle, destAddress)
-            }
-        } else {
-            locationTextView.text = "📍 Finding your current GPS location..."
+            onNewLocationReceived(bestInitial, isImmediateFix = true)
         }
 
-        // 2. Query FusedLocationProviderClient for cached last location
+        // 2. Query FusedLocationProviderClient cached last location
         fusedLocationClient.lastLocation.addOnSuccessListener { lastLoc: Location? ->
             if (lastLoc != null) {
-                val shouldUpdate = currentUserLocation == null || lastLoc.time > (currentUserLocation?.time ?: 0)
-                if (shouldUpdate) {
-                    currentUserLocation = lastLoc
-                    updateLocationUI(lastLoc)
-                    updateMapLocation(lastLoc.latitude, lastLoc.longitude, shouldCenter = isFirstLocationFix)
-                    if (isFirstLocationFix) {
-                        isFirstLocationFix = false
-                        val dLat = destLat
-                        val dLng = destLng
-                        if (dLat != null && dLng != null) {
-                            plotRouteToDestination(dLat, dLng, destTitle, destAddress)
-                        }
-                    }
+                val isNewer = currentUserLocation == null || lastLoc.time > (currentUserLocation?.time ?: 0)
+                if (isNewer) {
+                    onNewLocationReceived(lastLoc, isImmediateFix = true)
                 }
             }
         }
 
-        // 3. Request fresh single high-accuracy location fix
-        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+        // 3. Request fresh high-accuracy location fix
+        cancellationTokenSource?.cancel()
+        val cts = CancellationTokenSource()
+        cancellationTokenSource = cts
+
+        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, cts.token)
             .addOnSuccessListener { location: Location? ->
+                pbMapLoading.visibility = View.GONE
                 if (location != null) {
-                    currentUserLocation = location
-                    updateLocationUI(location)
-                    updateMapLocation(location.latitude, location.longitude, shouldCenter = isFirstLocationFix)
-                    if (isFirstLocationFix) {
-                        isFirstLocationFix = false
-                        val dLat = destLat
-                        val dLng = destLng
-                        if (dLat != null && dLng != null) {
-                            plotRouteToDestination(dLat, dLng, destTitle, destAddress)
-                        }
-                    }
+                    onNewLocationReceived(location, isImmediateFix = true)
                 }
+            }
+            .addOnFailureListener {
+                pbMapLoading.visibility = View.GONE
             }
     }
 
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
-        val fineGranted = ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-        val coarseGranted = ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
+        if (!hasLocationPermission()) return
 
-        if (fineGranted || coarseGranted) {
-            val req = locationRequest ?: return
-            val cb = locationCallback ?: return
-            fusedLocationClient.requestLocationUpdates(req, cb, Looper.getMainLooper())
-        }
+        val req = locationRequest ?: return
+        val cb = locationCallback ?: return
+        fusedLocationClient.requestLocationUpdates(req, cb, Looper.getMainLooper())
+
+        // Hardware LocationManager listener fallback
+        try {
+            val lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+            if (systemLocationListener == null) {
+                systemLocationListener = android.location.LocationListener { loc ->
+                    onNewLocationReceived(loc, isImmediateFix = false)
+                }
+            }
+            systemLocationListener?.let { listener ->
+                if (lm?.isProviderEnabled(LocationManager.GPS_PROVIDER) == true) {
+                    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000L, 2f, listener, Looper.getMainLooper())
+                }
+                if (lm?.isProviderEnabled(LocationManager.NETWORK_PROVIDER) == true) {
+                    lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000L, 2f, listener, Looper.getMainLooper())
+                }
+            }
+        } catch (_: Exception) {}
     }
 
     private fun stopLocationUpdates() {
         locationCallback?.let { cb ->
             fusedLocationClient.removeLocationUpdates(cb)
         }
+        systemLocationListener?.let { listener ->
+            try {
+                val lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+                lm?.removeUpdates(listener)
+            } catch (_: Exception) {}
+        }
+        cancellationTokenSource?.cancel()
     }
 
+    /**
+     * Unified location receiver handler ensuring the map is centered on current location.
+     */
+    private fun onNewLocationReceived(location: Location, isImmediateFix: Boolean) {
+        currentUserLocation = location
+        updateLocationUI(location)
+
+        // Centering policy: If user navigated here via Bottom Nav Map (destLat == null),
+        // we MUST center on their current location on first fix or immediate request.
+        val shouldCenter = (!hasCenteredOnUser && destLat == null) || isImmediateFix
+        if (shouldCenter) {
+            hasCenteredOnUser = true
+        }
+
+        if (isMapLoaded) {
+            updateMapLocation(location.latitude, location.longitude, shouldCenter = shouldCenter, accuracy = location.accuracy)
+            val dLat = destLat
+            val dLng = destLng
+            if (dLat != null && dLng != null) {
+                plotRouteToDestination(dLat, dLng, destTitle, destAddress)
+            }
+        }
+    }
+
+    /**
+     * Triggered when WebView Leaflet map has finished loading and is ready for coordinates.
+     */
+    private fun onMapReadyCallback() {
+        isMapLoaded = true
+        activity?.runOnUiThread {
+            pbMapLoading.visibility = View.GONE
+            val loc = currentUserLocation
+            if (loc != null) {
+                val shouldCenter = !hasCenteredOnUser || destLat == null
+                hasCenteredOnUser = true
+                updateMapLocation(loc.latitude, loc.longitude, shouldCenter = shouldCenter, accuracy = loc.accuracy)
+
+                val dLat = destLat
+                val dLng = destLng
+                if (dLat != null && dLng != null) {
+                    plotRouteToDestination(dLat, dLng, destTitle, destAddress)
+                }
+            } else {
+                // If map loaded before GPS resolved, request GPS right away
+                fetchInitialLocation()
+            }
+        }
+    }
+
+    @Suppress("DEPRECATION")
     private fun updateLocationUI(location: Location) {
         val lat = String.format(Locale.US, "%.4f", location.latitude)
         val lng = String.format(Locale.US, "%.4f", location.longitude)
         locationTextView.text = "📍 Lat: $lat, Lng: $lng"
+        tvGpsLiveBadge.text = "LIVE GPS"
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             try {
@@ -388,7 +531,7 @@ open class MapFragment : Fragment() {
                 val city = address?.locality
                     ?: address?.subAdminArea
                     ?: address?.adminArea
-                val label = if (city != null) "📍 $city, Sri Lanka\n$lat° N, $lng° E" else "📍 Lat: $lat, Lng: $lng"
+                val label = if (city != null) "📍 $city\n$lat° N, $lng° E" else "📍 Lat: $lat, Lng: $lng"
                 withContext(Dispatchers.Main) {
                     locationTextView.text = label
                 }
@@ -396,9 +539,10 @@ open class MapFragment : Fragment() {
         }
     }
 
-    private fun updateMapLocation(lat: Double, lng: Double, shouldCenter: Boolean) {
+    private fun updateMapLocation(lat: Double, lng: Double, shouldCenter: Boolean, accuracy: Float? = null) {
         if (!isMapLoaded) return
-        val js = "updateUserLocation($lat, $lng, $shouldCenter);"
+        val accParam = accuracy ?: 40f
+        val js = "updateUserLocation($lat, $lng, $shouldCenter, $accParam);"
         mapWebView.evaluateJavascript(js, null)
     }
 
@@ -528,7 +672,9 @@ open class MapFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         mapWebView.onResume()
-        startLocationUpdates()
+        if (hasLocationPermission() && isGpsEnabled()) {
+            startLocationUpdates()
+        }
     }
 
     override fun onPause() {
@@ -540,6 +686,30 @@ open class MapFragment : Fragment() {
     override fun onDestroyView() {
         mapWebView.destroy()
         super.onDestroyView()
+    }
+
+    /**
+     * JavaScript Interface facilitating communication from Leaflet HTML page to Android.
+     */
+    inner class AndroidBridge {
+        @JavascriptInterface
+        fun onMapReady() {
+            onMapReadyCallback()
+        }
+
+        @JavascriptInterface
+        fun onHtml5LocationReceived(lat: Double, lng: Double) {
+            activity?.runOnUiThread {
+                if (currentUserLocation == null) {
+                    val fallbackLoc = Location("HTML5_GEOLOCATION").apply {
+                        latitude = lat
+                        longitude = lng
+                        time = System.currentTimeMillis()
+                    }
+                    onNewLocationReceived(fallbackLoc, isImmediateFix = true)
+                }
+            }
+        }
     }
 
     private data class Quadruple<A, B, C, D>(
