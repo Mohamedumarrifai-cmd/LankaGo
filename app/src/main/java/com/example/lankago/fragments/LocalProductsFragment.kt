@@ -23,15 +23,9 @@ import com.example.lankago.repository.AdminRepository
 import com.example.lankago.utils.safeNavigate
 import kotlinx.coroutines.launch
 
-/**
- * Fragment rendering the Local Products showcase screen matching local_products.xml.
- * Features:
- * - Real-time observation of live admin-added products from Firebase Realtime Database
- * - Dynamic RecyclerView presenting new artisan additions with photo, price, and region
- * - Category filter chips ("Arts & Crafts", "Products", "Markets", "Medicines")
- * - Cultural Heritage highlights with SafeArgs navigation to LocalItemDetailsFragment
- * - Bottom Navigation for seamless cross-module routing
- */
+
+ // Fragment rendering the Local Products showcase screen matching local_products.xml.
+
 class LocalProductsFragment : Fragment() {
 
     private val adminRepository = AdminRepository()

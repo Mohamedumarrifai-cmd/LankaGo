@@ -30,14 +30,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-/**
- * Production-ready Trip History screen for LankaGo travelers.
- * Fetches and displays past & scheduled itineraries from Firebase Realtime Database (/users/{uid}/tripHistory).
- * Features:
- * - Realtime cloud syncing with offline local fallbacks via [TripManager].
- * - Standard loading spinners and empty state handling via [showLoadingState] and [showEmptyState].
- * - Fail-safe debounced navigation to trip creation and trip details.
- */
+
+ // Production-ready Trip History screen for LankaGo travelers.
+
 class TripHistoryFragment : Fragment() {
 
     private lateinit var rvTrips: RecyclerView

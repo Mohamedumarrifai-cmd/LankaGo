@@ -1,8 +1,8 @@
 package com.example.lankago.data
 
-/**
- * Type of reservation made by the traveler.
- */
+
+  //Type of reservation made by the traveler.
+
 enum class BookingType {
     RENTAL,
     ACTIVITY

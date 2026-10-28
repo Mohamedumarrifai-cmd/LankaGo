@@ -55,7 +55,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx")
 
-    // Crashlytics KTX & Analytics (අලුතින් එකතු කළ කොටස)
+    // Crashlytics KTX & Analytics
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
 

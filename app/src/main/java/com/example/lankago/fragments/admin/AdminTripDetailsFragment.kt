@@ -20,10 +20,9 @@ import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-/**
- * Admin screen for confirming trips and triggering automated SMS notifications
- * to all booked travelers via [SmsNotificationRepository].
- */
+//  Admin screen for confirming trips and triggering automated SMS notifications
+//  to all booked travelers via [SmsNotificationRepository].
+
 class AdminTripDetailsFragment : Fragment() {
 
     private val smsNotificationRepository = SmsNotificationRepository()
@@ -67,9 +66,7 @@ class AdminTripDetailsFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        // =========================================================================
         // REQUIREMENT: Admin clicks "Confirm Trip" -> "Sending SMS..." state -> Dispatches SMS
-        // =========================================================================
         btnConfirmTrip.setOnSafeClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Confirm Trip & Dispatch SMS")

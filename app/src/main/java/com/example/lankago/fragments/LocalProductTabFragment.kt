@@ -19,11 +19,6 @@ import com.example.lankago.viewmodels.LocalProductsViewModel
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
-/**
- * Child tab page fragment hosted inside ViewPager2 in LocalProductsFragment.
- * Observes ViewModel StateFlow and gracefully toggles between the items list
- * and the Material 3 Empty State UI.
- */
 class LocalProductTabFragment : Fragment() {
 
     private val viewModel: LocalProductsViewModel by activityViewModels()

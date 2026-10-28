@@ -1,9 +1,9 @@
 package com.example.lankago.data
 
-/**
- * Data model for traditional cultural activities, artisan craft workshops, and masterclasses.
- * Every property has a default value so that Firebase Realtime Database deserialization works seamlessly.
- */
+
+ //Data model for traditional cultural activities, artisan craft workshops, and masterclasses.
+  //Every property has a default value so that Firebase Realtime Database deserialization works seamlessly.
+
 data class TraditionalActivity(
     val id: String = "",
     val title: String = "",

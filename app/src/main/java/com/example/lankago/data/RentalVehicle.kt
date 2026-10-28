@@ -1,8 +1,8 @@
 package com.example.lankago.data
 
-/**
- * Data model for vehicle and bike rental items in Sri Lanka.
- */
+
+ // Data model for vehicle and bike rental items in Sri Lanka.
+
 data class RentalVehicle(
     val id: String = "",
     val name: String = "",

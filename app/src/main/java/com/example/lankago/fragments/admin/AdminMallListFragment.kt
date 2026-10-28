@@ -26,14 +26,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
-/**
- * Admin screen displaying all Shopping Malls directly synced with Firebase Realtime Database.
- * Features:
- * - Real-time observation of `/malls` node.
- * - FAB to create a new mall (Havelock City, GCC, CCC, etc.).
- * - Edit action navigating to AddEditMallFragment with mallId.
- * - Delete action with confirmation dialog calling `removeValue()`.
- */
+
 class AdminMallListFragment : Fragment() {
 
     private val adminRepository = AdminRepository()

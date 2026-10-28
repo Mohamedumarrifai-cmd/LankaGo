@@ -1,8 +1,8 @@
 package com.example.lankago.data
 
-/**
- * Data model representing a verified rental agency or vehicle vendor in Sri Lanka.
- */
+
+  //Data model representing a verified rental agency or vehicle vendor in Sri Lanka.
+
 data class RentalProvider(
     val id: String = "",
     val name: String = "",

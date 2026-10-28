@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-/**
- * ViewModel managing detailed view for cultural activities, workshops, and tours.
- * Checks live Firebase Realtime Database (/activities) with fallback to local catalogue.
- */
+
+  //ViewModel managing detailed view for cultural activities, workshops, and tours.
+  //Checks live Firebase Realtime Database (/activities) with fallback to local catalogue.
+
 class TraditionalActivityDetailViewModel : ViewModel() {
 
     private val adminRepository = AdminRepository()

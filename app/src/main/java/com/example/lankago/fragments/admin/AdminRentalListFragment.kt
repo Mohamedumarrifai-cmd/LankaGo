@@ -24,14 +24,9 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
-/**
- * Production-grade Admin Screen displaying all rental shops directly from Firebase Realtime Database.
- * Features:
- * - Real-time observation of `/rentals` node.
- * - FAB to create a new rental shop.
- * - Edit action navigating to AddEditRentalFragment with SafeArgs ID.
- * - Delete action with MaterialAlertDialog confirmation calling `removeValue()`.
- */
+
+ // Production-grade Admin Screen displaying all rental shops directly from Firebase Realtime Database.
+
 class AdminRentalListFragment : Fragment() {
 
     private val adminRepository = AdminRepository()

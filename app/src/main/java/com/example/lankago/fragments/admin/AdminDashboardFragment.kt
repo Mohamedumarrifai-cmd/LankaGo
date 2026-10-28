@@ -18,10 +18,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-/**
- * Modern Material Design Admin Dashboard connected to Firebase.
- * Displays management shortcuts in a responsive grid and collects live metrics from Firebase Realtime Database.
- */
+
+//  Modern Material Design Admin Dashboard connected to Firebase.
+//  Displays management shortcuts in a responsive grid and collects live metrics from Firebase Realtime Database.
+
 class AdminDashboardFragment : Fragment() {
 
     private val adminRepository = AdminRepository()

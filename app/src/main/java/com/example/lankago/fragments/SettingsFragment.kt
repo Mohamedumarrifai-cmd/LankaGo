@@ -32,11 +32,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/**
- * SettingsFragment supporting complete, production-grade preferences management
- * and seamless A-to-Z navigation across system settings, map routes, offline saved
- * itineraries, notifications, support hotline, and storage management.
- */
+
+ // SettingsFragment supporting complete, production-grade preferences management
+
 class SettingsFragment : Fragment() {
 
     private val imagePickerHelper = ImagePickerHelper(this) { uri: Uri ->

@@ -17,9 +17,9 @@ import com.example.lankago.data.AppNotification
 import com.example.lankago.data.NotificationType
 import com.example.lankago.utils.LankaGoNotificationHelper
 
-/**
- * Screen displaying user notifications with smart deep-link routing on click.
- */
+
+ // Screen displaying user notifications with smart deep-link routing on click.
+
 class NotificationsFragment : Fragment() {
 
     private lateinit var notificationsAdapter: NotificationsAdapter
@@ -133,9 +133,9 @@ class NotificationsFragment : Fragment() {
         }
     }
 
-    /**
-     * Smart Deep-Link Navigation: Reads notification.type and targetId to route to exact screen.
-     */
+
+      //Smart Deep-Link Navigation: Reads notification.type and targetId to route to exact screen.
+
     private fun handleNotificationNavigation(notification: AppNotification) {
         val navController = findNavController()
 

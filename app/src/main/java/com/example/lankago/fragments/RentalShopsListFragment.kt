@@ -24,11 +24,9 @@ import com.example.lankago.viewmodels.RentalShopsViewModel
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
-/**
- * Dedicated Rental Shops List screen.
- * Displays available vehicle & bike rental places/shops across Sri Lanka.
- * When a user clicks a card, seamlessly navigates to the separate full-page ShopDetailsFragment.
- */
+
+ // Dedicated Rental Shops List screen.
+
 class RentalShopsListFragment : Fragment() {
 
     private val viewModel: RentalShopsViewModel by viewModels()

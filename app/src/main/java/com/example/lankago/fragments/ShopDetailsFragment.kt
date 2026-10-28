@@ -32,16 +32,9 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
-/**
- * Separate, full-page screen displaying complete details for a selected Rental Shop.
- * Features:
- * - High-res cover hero image filling the top section seamlessly using Glide
- * - Shop and Fleet info (operating hours, fleet chips, address)
- * - Safe Google Maps Intent with geo URI
- * - Safe Phone Call Intent (ACTION_DIAL)
- * - Safe WhatsApp Intent
- * - Embedded Customer Reviews RecyclerView
- */
+
+ // Separate, full-page screen displaying complete details for a selected Rental Shop.
+
 class ShopDetailsFragment : Fragment() {
 
     private val viewModel: RentalShopsViewModel by viewModels()

@@ -15,9 +15,9 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-/**
- * Screen providing dedicated administrator authentication.
- */
+
+  //Screen providing dedicated administrator authentication.
+
 class AdminLoginFragment : Fragment() {
 
     private val adminViewModel: AdminViewModel by activityViewModels()

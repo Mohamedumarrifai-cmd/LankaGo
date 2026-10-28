@@ -23,10 +23,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 
-/**
- * Admin Fragment to Add a New Mall or Edit an Existing Mall.
- * Supports image picker with Firebase Storage / Base64 upload and Realtime Database sync.
- */
+
+  //Admin Fragment to Add a New Mall or Edit an Existing Mall.
+  //Supports image picker with Firebase Storage / Base64 upload and Realtime Database sync.
+
 class AddEditMallFragment : Fragment() {
 
     private val adminRepository = AdminRepository()

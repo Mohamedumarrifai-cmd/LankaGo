@@ -7,9 +7,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-/**
- * Singleton Retrofit Client configured with OkHttp and HTTP Logging for SMS Gateway integration.
- */
+
+  //Singleton Retrofit Client configured with OkHttp and HTTP Logging for SMS Gateway integration.
+
 object SmsApiClient {
 
     // Base URL for Twilio REST API
@@ -20,10 +20,9 @@ object SmsApiClient {
     const val TWILIO_AUTH_TOKEN = "your_auth_token_here"
     const val TWILIO_SENDER_NUMBER = "+12025550199" // Registered Twilio sender
 
-    /**
-     * Generates HTTP Basic Auth header value for Twilio API requests:
-     * Basic base64(AccountSid:AuthToken)
-     */
+
+     // Generates HTTP Basic Auth header value for Twilio API requests:
+
     fun getBasicAuthHeader(
         accountSid: String = TWILIO_ACCOUNT_SID,
         authToken: String = TWILIO_AUTH_TOKEN

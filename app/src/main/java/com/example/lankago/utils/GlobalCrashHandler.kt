@@ -16,11 +16,10 @@ import java.util.Date
 import java.util.Locale
 import kotlin.system.exitProcess
 
-/**
- * Pre-Release Production QA Global Crash Handler.
- * Intercepts uncaught thread exceptions and coroutine failures across the application.
- * Prevents abrupt force-closes, records diagnostic crash telemetry, and ensures Play Store readiness.
- */
+//  Pre-Release Production QA Global Crash Handler.
+//  Intercepts uncaught thread exceptions and coroutine failures across the application.
+//  Prevents abrupt force-closes, records diagnostic crash telemetry, and ensures Play Store readiness.
+
 class GlobalCrashHandler private constructor(
     private val application: Application,
     private val defaultHandler: Thread.UncaughtExceptionHandler?

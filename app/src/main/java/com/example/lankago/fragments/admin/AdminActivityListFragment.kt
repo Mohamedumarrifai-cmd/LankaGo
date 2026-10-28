@@ -24,14 +24,14 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
-/**
- * Production-ready Admin screen displaying all Cultural Activities & Tours directly from Firebase Realtime Database.
- * Features:
- * - Real-time observation of `/activities` node.
- * - FAB to create a new activity.
- * - Edit action navigating to AddEditActivityFragment with SafeArgs activityId.
- * - Delete action with MaterialAlertDialog confirmation calling `removeValue()` and Storage photo cleanup.
- */
+
+//  Production-ready Admin screen displaying all Cultural Activities & Tours directly from Firebase Realtime Database.
+//  Features:
+//  - Real-time observation of `/activities` node.
+//  - FAB to create a new activity.
+//  - Edit action navigating to AddEditActivityFragment with SafeArgs activityId.
+//  - Delete action with MaterialAlertDialog confirmation calling `removeValue()` and Storage photo cleanup.
+
 class AdminActivityListFragment : Fragment() {
 
     private val adminRepository = AdminRepository()

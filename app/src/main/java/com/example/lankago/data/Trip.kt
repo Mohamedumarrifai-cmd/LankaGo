@@ -2,10 +2,10 @@ package com.example.lankago.data
 
 import com.example.lankago.utils.Place
 
-/**
- * Data model representing a user-created travel itinerary in LankaGo.
- * Includes traveler verification details and booked rentals / activities.
- */
+
+ //Data model representing a user-created travel itinerary in LankaGo.
+ //Includes traveler verification details and booked rentals / activities.
+
 data class Trip(
     val id: String = "",
     val tripName: String = "",

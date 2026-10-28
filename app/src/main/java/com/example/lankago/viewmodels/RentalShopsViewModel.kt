@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-/**
- * UI State for the Rental Shops Listing screen.
- */
+
+  //UI State for the Rental Shops Listing screen.
+
 data class RentalShopsUiState(
     val shops: List<RentalShop> = emptyList(),
     val searchQuery: String = "",

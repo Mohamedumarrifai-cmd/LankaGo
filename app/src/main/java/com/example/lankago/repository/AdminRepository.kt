@@ -38,12 +38,12 @@ class AdminRepository(
 
     // 1. FIREBASE STORAGE: IMAGE UPLOADS (WITH BASE64 FALLBACK)
 
-    /**
-      Upload an image file from the device to Firebase Storage.
-      If Cloud Storage is not enabled or provisioned (e.g. Spark free plan without billing),
-      it automatically compresses and encodes the image into a Base64 data URI to store
-      directly in the Realtime Database for 100% free hosting.
-     */
+
+//      Upload an image file from the device to Firebase Storage.
+//      If Cloud Storage is not enabled or provisioned (e.g. Spark free plan without billing),
+//      it automatically compresses and encodes the image into a Base64 data URI to store
+//      directly in the Realtime Database for 100% free hosting.
+
     suspend fun uploadImage(imageUri: Uri, folder: String = "rentals"): String {
         // 1. Attempt Cloud Storage upload if provisioned
         try {

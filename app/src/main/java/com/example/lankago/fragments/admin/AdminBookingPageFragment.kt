@@ -22,10 +22,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
-/**
- * Child page fragment hosted within ViewPager2 in AdminBookingsListFragment.
- * Filters reservations according to bookingType ("RENTAL", "ACTIVITY", or "ALL").
- */
+
+//  Child page fragment hosted within ViewPager2 in AdminBookingsListFragment.
+//  Filters reservations according to bookingType ("RENTAL", "ACTIVITY", or "ALL").
+
 class AdminBookingPageFragment : Fragment() {
 
     private val adminRepository = AdminRepository()

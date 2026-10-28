@@ -1,8 +1,8 @@
 package com.example.lankago.data
 
-/**
- * Data model for bookable activities, excursions, and guided tours in Sri Lanka.
- */
+
+ // Data model for bookable activities, excursions, and guided tours in Sri Lanka.
+
 data class ActivityItem(
     val id: String = "",
     val title: String = "",

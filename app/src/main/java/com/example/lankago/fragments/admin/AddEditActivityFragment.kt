@@ -25,14 +25,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 
-/**
- * Production-ready Fragment for Adding and Editing Cultural Activities, Workshops, and Tours in LankaGo.
- * Supports:
- * - Cover image gallery picker via ActivityResultContracts.
- * - Firebase Storage photo uploading to `/activities/`.
- * - Firebase Realtime Database writes (`setValue` / `updateChildren`) to `/activities/{id}`.
- * - Form validation with feedback.
- */
+
+ // Production-ready Fragment for Adding and Editing Cultural Activities, Workshops, and Tours in LankaGo.
+
 class AddEditActivityFragment : Fragment() {
 
     private val adminRepository = AdminRepository()

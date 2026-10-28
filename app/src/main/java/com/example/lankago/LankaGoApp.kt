@@ -9,11 +9,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlin.system.exitProcess
 
-/**
- * Production Application class for LankaGo.
- * Configures the Global Uncaught Exception Handler to capture fatal crashes,
- * log telemetry to Firebase Crashlytics, and present a recovery error activity.
- */
+
+//  Production Application class for LankaGo.
+//  Configures the Global Uncaught Exception Handler to capture fatal crashes,
+//  log telemetry to Firebase Crashlytics, and present a recovery error activity.
+
 class LankaGoApp : Application() {
 
     override fun onCreate() {

@@ -22,13 +22,9 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 
-/**
- * Centralized manager ensuring persistent, per-user profile image storage.
- * Synchronizes across:
- * 1. User-specific local file cache (avatar_{uid}.jpg) for instant offline display
- * 2. Firebase Realtime Database (/users/{uid}/profileImageUrl) as Base64 Data URI (100% reliable)
- * 3. Firebase Cloud Storage (/profile_pictures/{uid}.jpg) when available
- */
+
+ // Centralized manager ensuring persistent, per-user profile image storage.
+
 object ProfileAvatarManager {
 
     private const val TAG = "ProfileAvatarManager"

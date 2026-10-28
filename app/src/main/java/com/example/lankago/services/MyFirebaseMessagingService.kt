@@ -19,13 +19,9 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
-/**
- * Production-ready Firebase Messaging Service for LankaGo.
- * Handles:
- * - Realtime device FCM token lifecycle and automatic syncing to `/users/{uid}/fcmToken`.
- * - High-priority Heads-Up push notifications with Android 8.0+ custom Notification Channels.
- * - Deep linking PendingIntent to route travelers and admins directly to their bookings.
- */
+
+ // Production-ready Firebase Messaging Service for LankaGo.
+
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     companion object {

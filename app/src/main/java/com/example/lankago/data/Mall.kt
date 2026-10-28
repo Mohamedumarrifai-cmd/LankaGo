@@ -2,10 +2,10 @@ package com.example.lankago.data
 
 import java.io.Serializable
 
-/**
- * Domain model representing a Shopping Mall in Sri Lanka.
- * Supports Firebase Realtime Database serialization and Serializable for navigation/intent transfer.
- */
+
+  //Domain model representing a Shopping Mall in Sri Lanka.
+  //Supports Firebase Realtime Database serialization and Serializable for navigation/intent transfer.
+
 data class Mall(
     val id: String = "",
     val name: String = "",

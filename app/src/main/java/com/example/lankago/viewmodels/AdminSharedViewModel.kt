@@ -19,9 +19,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-/**
- * Single-event UI notification bus for the Admin panel.
- */
+
+  //Single-event UI notification bus for the Admin panel.
+
 sealed class AdminSharedUiEvent {
     data class ShowSnackbar(val message: String, val isError: Boolean = false) : AdminSharedUiEvent()
     data class OperationSuccess(val message: String) : AdminSharedUiEvent()

@@ -25,16 +25,9 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
-/**
- * Detailed Screen for Sri Lankan Local Cultural Products, Markets, and Traditional Medicine.
- * Displays deep real-world attributes:
- * - High-res cover hero image filling the top section seamlessly using Glide
- * - Detailed Description
- * - Primary Usage & Benefits
- * - Famous City / Region
- * - Cultural & Historical Importance
- * - Map Navigation Intent
- */
+
+ // Detailed Screen for Sri Lankan Local Cultural Products, Markets, and Traditional Medicine.
+
 class LocalItemDetailsFragment : Fragment() {
 
     private val viewModel: LocalItemDetailsViewModel by viewModels()

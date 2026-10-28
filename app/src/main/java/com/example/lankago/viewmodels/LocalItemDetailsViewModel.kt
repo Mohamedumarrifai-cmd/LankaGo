@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-/**
- * ViewModel managing deep details for a specific cultural item, market, or traditional medicine.
- * Resiliently connects to both local mock data and live Firebase Realtime Database `/products/{id}`.
- */
+
+  //ViewModel managing deep details for a specific cultural item, market, or traditional medicine.
+  //Resiliently connects to both local mock data and live Firebase Realtime Database `/products/{id}`.
+
 class LocalItemDetailsViewModel : ViewModel() {
 
     private val _selectedItem = MutableStateFlow<LocalItem?>(null)

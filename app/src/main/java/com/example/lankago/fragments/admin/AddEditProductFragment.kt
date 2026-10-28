@@ -25,14 +25,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 
-/**
- * Production-ready Fragment for Adding and Editing Sri Lankan Local Products in LankaGo.
- * Supports:
- * - Cover image gallery picker via ActivityResultContracts.
- * - Firebase Storage photo uploading to `/products/`.
- * - Firebase Realtime Database writes (`setValue` / `updateChildren`) to `/products/{id}`.
- * - Form validation with feedback.
- */
+
+ // Production-ready Fragment for Adding and Editing Sri Lankan Local Products in LankaGo.
+
 class AddEditProductFragment : Fragment() {
 
     private val adminRepository = AdminRepository()

@@ -25,13 +25,9 @@ import com.example.lankago.utils.safeNavigate
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-/**
- * Rentals & Transport Fragment:
- * - Restores the exact, complete, high-fidelity XML layout with authentic rental shops.
- * - Interactive category chips ("All", "Scooters", "Bikes", "Cars", "Vans", "Tuk Tuk", "Buses").
- * - Dynamic container for real-time Firebase Admin added rentals.
- * - Navigates to ShopDetailsFragment / RentalDetailsFragment on item click.
- */
+
+ // Rentals & Transport Fragment:
+
 class RentalsTransportFragment : Fragment() {
 
     private val adminRepository = AdminRepository()

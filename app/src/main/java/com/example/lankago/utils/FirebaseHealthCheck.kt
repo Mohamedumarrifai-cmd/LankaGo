@@ -14,21 +14,18 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-/**
- * Diagnostic utility to verify that Firebase Authentication, Realtime Database,
- * and Firebase Storage are fully operational and connected in LankaGo.
- */
+
+//  Diagnostic utility to verify that Firebase Authentication, Realtime Database,
+//  and Firebase Storage are fully operational and connected in LankaGo.
+
 object FirebaseHealthCheck {
 
     private const val TAG = "FirebaseHealthCheck"
 
-    /**
-     * Executes asynchronous health checks across Firebase Auth, Realtime Database, and Storage.
-     * Can be invoked directly from any Fragment, Activity, or View callback.
-     *
-     * @param context Application or Activity context used to display user-facing Toast messages.
-     * @param onResult Optional callback delivering (isSuccess, diagnosticMessage).
-     */
+
+     //Executes asynchronous health checks across Firebase Auth, Realtime Database, and Storage.
+     // Can be invoked directly from any Fragment, Activity, or View callback.
+
     fun runFullDatabaseDiagnostics(
         context: Context,
         onResult: ((isSuccess: Boolean, message: String) -> Unit)? = null
@@ -39,9 +36,7 @@ object FirebaseHealthCheck {
                 Log.i(TAG, "  STARTING FIREBASE COMPREHENSIVE HEALTH CHECK    ")
                 Log.i(TAG, "==================================================")
 
-                // -----------------------------------------------------------------
-                // STEP 1: AUTHENTICATION CHECK
-                // -----------------------------------------------------------------
+                //  AUTHENTICATION CHECK
                 val auth = FirebaseAuth.getInstance()
                 val currentUser = auth.currentUser
 
@@ -52,9 +47,7 @@ object FirebaseHealthCheck {
                 }
                 Log.i(TAG, "[1/3 AUTH CHECK]: SUCCESS -> $authSummary")
 
-                // -----------------------------------------------------------------
-                // STEP 2: REALTIME DATABASE WRITE & READ CHECK
-                // -----------------------------------------------------------------
+                //  REALTIME DATABASE WRITE & READ CHECK
                 val rtdbRef = FirebaseDatabase.getInstance().reference
                 val testNodeRef = rtdbRef.child("system_tests").child("last_check")
 
@@ -82,9 +75,7 @@ object FirebaseHealthCheck {
                     throw IllegalStateException("RTDB snapshot at /system_tests/last_check was empty after successful write operation.")
                 }
 
-                // -----------------------------------------------------------------
-                // STEP 3: FIREBASE STORAGE WRITE & DOWNLOAD URL CHECK
-                // -----------------------------------------------------------------
+                //  FIREBASE STORAGE WRITE & DOWNLOAD URL CHECK
                 val storageRef = FirebaseStorage.getInstance().reference
                 val testFileRef = storageRef.child("tests").child("check.txt")
 
@@ -97,9 +88,7 @@ object FirebaseHealthCheck {
                 Log.i(TAG, "[3/3 STORAGE]: SUCCESS -> Uploaded check.txt to Firebase Storage. URL: $downloadUrl")
                 Log.i(TAG, "Storage: SUCCESS")
 
-                // -----------------------------------------------------------------
                 // ALL TESTS PASSED
-                // -----------------------------------------------------------------
                 Log.i(TAG, "==================================================")
                 Log.i(TAG, "  FIREBASE HEALTH CHECK COMPLETED: ALL SYSTEMS GO ")
                 Log.i(TAG, "==================================================")

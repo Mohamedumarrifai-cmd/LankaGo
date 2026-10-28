@@ -7,17 +7,14 @@ import android.widget.TextView
 import com.example.lankago.R
 import com.google.android.material.button.MaterialButton
 
-/**
- * Extension functions for standardizing UI Loading, Empty, and Content states across LankaGo.
- * Seamlessly pairs with [R.layout.layout_empty_state].
- */
+// Extension functions for standardizing UI Loading, Empty, and Content states across LankaGo.
+//  Seamlessly pairs with [R.layout.layout_empty_state].
 
-/**
- * Transitions the screen to a Loading state:
- * - Hides the main content view.
- * - Shows the empty state root with its circular progress spinner visible.
- * - Hides the empty state text and action buttons during progress.
- */
+// Transitions the screen to a Loading state:
+//  - Hides the main content view.
+//  - Shows the empty state root with its circular progress spinner visible.
+//  - Hides the empty state text and action buttons during progress.
+
 fun View.showLoadingState(
     contentView: View? = null,
     emptyStateLayout: View? = null
@@ -47,11 +44,11 @@ fun View.showContentState(
     contentView?.visibility = View.VISIBLE
 }
 
-/**
- * Transitions the screen to an Empty state ("No Data Found"):
- * - Hides the content view and loading spinner.
- * - Shows the empty state container with customizable title, subtitle, icon, and action button.
- */
+
+// Transitions the screen to an Empty state ("No Data Found"):
+//  - Hides the content view and loading spinner.
+//  - Shows the empty state container with customizable title, subtitle, icon, and action button.
+
 fun View.showEmptyState(
     contentView: View? = null,
     emptyStateLayout: View? = null,

@@ -14,9 +14,9 @@ import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Locale
 
-/**
- * UI State for the Local Products, Markets, and Traditional Medicine Hub.
- */
+
+  //UI State for the Local Products, Markets, and Traditional Medicine Hub.
+
 data class LocalProductsUiState(
     val localProducts: List<LocalItem> = emptyList(),
     val markets: List<LocalItem> = emptyList(),

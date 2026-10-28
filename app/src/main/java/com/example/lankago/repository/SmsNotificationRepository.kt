@@ -8,9 +8,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-/**
- * Result data model returned upon completion of SMS dispatch.
- */
+
+  //Result data model returned upon completion of SMS dispatch.
+
 data class SmsDispatchResult(
     val totalFound: Int,
     val successCount: Int,
@@ -19,23 +19,23 @@ data class SmsDispatchResult(
     val statusMessage: String
 )
 
-/**
- * Repository responsible for fetching passenger phone numbers associated with a confirmed trip
- * from Firebase Realtime Database and dispatching SMS notifications via Retrofit.
- */
+
+  //Repository responsible for fetching passenger phone numbers associated with a confirmed trip
+  //from Firebase Realtime Database and dispatching SMS notifications via Retrofit.
+
 class SmsNotificationRepository {
 
     private val databaseRef = FirebaseDatabase.getInstance().reference
     private val smsApi = SmsApiClient.apiService
 
-    /**
-     * Coroutine function that queries `/bookings` for travelers of [tripId],
-     * resolves their phone numbers from `/users/{uid}`, and dispatches SMS via Retrofit.
-     *
-     * @param tripId The unique identifier of the confirmed trip or activity.
-     * @param tripRoute The destination route or item title (e.g. "Colombo to Ella Scenic Express").
-     * @param tripDate The confirmed departure date (e.g. "Oct 28, 2026").
-     */
+
+//      Coroutine function that queries `/bookings` for travelers of [tripId],
+//      resolves their phone numbers from `/users/{uid}`, and dispatches SMS via Retrofit.
+
+//      @param tripId The unique identifier of the confirmed trip or activity.
+//      @param tripRoute The destination route or item title (e.g. "Colombo to Ella Scenic Express").
+//      @param tripDate The confirmed departure date (e.g. "Oct 28, 2026").
+
     suspend fun fetchNumbersAndSendSms(
         tripId: String,
         tripRoute: String,

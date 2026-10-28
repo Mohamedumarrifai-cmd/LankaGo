@@ -5,9 +5,9 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-/**
- * Data class representing a travel destination / place in LankaGo.
- */
+
+  //Data class representing a travel destination / place in LankaGo.
+
 data class Place(
     val id: String = "",
     val name: String = "",

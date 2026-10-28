@@ -24,14 +24,9 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
-/**
- * Production-ready Admin screen displaying all Local Products directly from Firebase Realtime Database.
- * Features:
- * - Real-time observation of `/products` node.
- * - FAB to create a new product.
- * - Edit action navigating to AddEditProductFragment with SafeArgs productId.
- * - Delete action with MaterialAlertDialog confirmation calling `removeValue()` and Storage deletion.
- */
+
+ // Production-ready Admin screen displaying all Local Products directly from Firebase Realtime Database.
+
 class AdminProductListFragment : Fragment() {
 
     private val adminRepository = AdminRepository()

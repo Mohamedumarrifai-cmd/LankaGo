@@ -44,16 +44,9 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 
-/**
- * Production-ready Route Tracking screen using Google Maps, FusedLocationProviderClient,
- * and the Google Maps Directions API.
- * Features:
- * - Runtime GPS location permission requests (Fine + Coarse).
- * - Realtime device location acquisition.
- * - Directions API polyline decoding and animated polyline rendering.
- * - Live Distance & ETA calculation with fallback algorithm.
- * - Turn-by-Turn Google Navigation intent launcher.
- */
+
+ // Production-ready Route Tracking screen using Google Maps, FusedLocationProviderClient,
+
 class RouteTrackingFragment : Fragment(), OnMapReadyCallback {
 
     private val httpClient = OkHttpClient()
@@ -393,9 +386,9 @@ class RouteTrackingFragment : Fragment(), OnMapReadyCallback {
         return poly
     }
 
-    /**
-     * Fallback generator creating a smooth multi-point path between origin and destination.
-     */
+
+      //Fallback generator creating a smooth multi-point path between origin and destination.
+
     private fun generateInterpolatedPath(start: LatLng, end: LatLng): List<LatLng> {
         val points = mutableListOf<LatLng>()
         val segments = 10
@@ -408,9 +401,9 @@ class RouteTrackingFragment : Fragment(), OnMapReadyCallback {
         return points
     }
 
-    /**
-     * Launches external Google Maps App for active Turn-by-Turn GPS voice navigation.
-     */
+
+      //Launches external Google Maps App for active Turn-by-Turn GPS voice navigation.
+
     private fun launchExternalGoogleMapsNavigation() {
         try {
             val gmmIntentUri = Uri.parse("google.navigation:q=$destLat,$destLng&mode=d")

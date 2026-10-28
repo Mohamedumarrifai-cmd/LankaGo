@@ -30,12 +30,9 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.launch
 
-/**
- * Modern screen showcasing top Sri Lankan shopping malls:
- * Havelock City Mall, One Galle Face (GCC), Colombo City Centre (CCC),
- * Kandy City Centre (KCC), Marino Mall, Crescat, etc.
- * Features real-time sync with Firebase Realtime Database and interactive detail bottom sheet.
- */
+
+ // Modern screen showcasing top Sri Lankan shopping malls:
+
 class MallsFragment : Fragment() {
 
     private val adminRepository = AdminRepository()

@@ -2,19 +2,9 @@ package com.example.lankago.data
 
 import com.example.lankago.R
 
-/**
- * Domain model representing a verified physical vehicle/bike rental shop.
- *
- * Specific required schema:
- * - [id]: Unique shop identifier
- * - [name]: Rental business name
- * - [description]: Short and detailed business overview
- * - [lat]: Latitude for Google Maps navigation
- * - [lng]: Longitude for Google Maps navigation
- * - [contactNumber]: Phone number for ACTION_DIAL
- * - [operatingHours]: Daily operating time range
- * - [imageUrl]: Cover image web URL
- */
+
+ // Domain model representing a verified physical vehicle/bike rental shop.
+
 data class RentalShop(
     val id: String = "",
     val name: String = "",

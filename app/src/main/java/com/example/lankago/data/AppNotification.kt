@@ -1,8 +1,6 @@
 package com.example.lankago.data
 
-/**
- * Domain model representing an in-app or push notification.
- */
+//Domain model representing an in-app or push notification.
 data class AppNotification(
     val id: String = "",
     val title: String = "",

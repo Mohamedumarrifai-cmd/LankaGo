@@ -14,9 +14,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-/**
- * Authentication states for the Admin module.
- */
+
+  //Authentication states for the Admin module.
+
 sealed class AdminAuthState {
     object Idle : AdminAuthState()
     data class Authenticated(val username: String) : AdminAuthState()

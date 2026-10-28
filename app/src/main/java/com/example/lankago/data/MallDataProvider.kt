@@ -2,10 +2,10 @@ package com.example.lankago.data
 
 import com.example.lankago.R
 
-/**
- * Preloaded catalog of Sri Lanka's prime shopping malls.
- * Used as immediate fallback and baseline if Firebase Realtime Database is cold.
- */
+
+ // Preloaded catalog of Sri Lanka's prime shopping malls.
+  //Used as immediate fallback and baseline if Firebase Realtime Database is cold.
+
 object MallDataProvider {
     val defaultMalls: List<Mall> = listOf(
         Mall(

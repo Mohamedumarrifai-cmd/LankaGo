@@ -15,16 +15,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-/**
-  Production Firebase Realtime Database Initializer and Synchronizer.
-  Guarantees that essential nodes exist for both Administrators and Travelers:
-  1. Admin Super User (/users/admin_super_user with role = "admin")
-  2. Active User role validation (/users/{uid}/role)
-  3. Default Rentals (/rentals)
-  4. Default Activities (/activities)
-  5. Default Destinations (/destinations)
-  6. Sample Customer Bookings (/bookings) for Admin panel management
- */
+//  Production Firebase Realtime Database Initializer and Synchronizer.
+//  Guarantees that essential nodes exist for both Administrators and Travelers:
+//  1. Admin Super User (/users/admin_super_user with role = "admin")
+//  2. Active User role validation (/users/{uid}/role)
+//  3. Default Rentals (/rentals)
+//  4. Default Activities (/activities)
+//  5. Default Destinations (/destinations)
+//  6. Sample Customer Bookings (/bookings) for Admin panel management
+
 object FirebaseDataSeeder {
 
     private const val TAG = "FirebaseDataSeeder"

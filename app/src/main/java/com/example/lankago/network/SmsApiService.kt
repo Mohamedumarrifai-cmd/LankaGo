@@ -8,9 +8,9 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-/**
- * Standard SMS Gateway Response Model compatible with Twilio and REST SMS providers.
- */
+
+  //Standard SMS Gateway Response Model compatible with Twilio and REST SMS providers.
+
 data class SmsResponse(
     @SerializedName("sid")
     val sid: String? = null,
@@ -37,14 +37,14 @@ data class SmsResponse(
     val errorCode: Int? = null
 )
 
-/**
- * Retrofit API interface for SMS Gateways (Twilio / Standard REST SMS).
- */
+
+  //Retrofit API interface for SMS Gateways (Twilio / Standard REST SMS).
+
 interface SmsApiService {
 
-    /**
-     * Dispatches an SMS via Twilio Programmable Messaging HTTP POST.
-     */
+
+      //Dispatches an SMS via Twilio Programmable Messaging HTTP POST.
+
     @FormUrlEncoded
     @POST("2010-04-01/Accounts/{accountSid}/Messages.json")
     suspend fun sendTwilioSms(
@@ -55,9 +55,9 @@ interface SmsApiService {
         @Field("Body") body: String
     ): Response<SmsResponse>
 
-    /**
-     * Dispatches an SMS via a standard generic SMS REST Gateway.
-     */
+
+      //Dispatches an SMS via a standard generic SMS REST Gateway.
+
     @FormUrlEncoded
     @POST("api/v1/sms/send")
     suspend fun sendGenericSms(

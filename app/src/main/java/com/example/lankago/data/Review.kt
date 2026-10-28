@@ -1,8 +1,8 @@
 package com.example.lankago.data
 
-/**
- * Data model for customer ratings and community reviews.
- */
+
+ // Data model for customer ratings and community reviews.
+
 data class Review(
     val id: String = "",
     val userName: String = "",

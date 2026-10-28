@@ -13,13 +13,13 @@ import com.example.lankago.R
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-/**
- * Production-ready Admin screen displaying customer reservations.
- * Organized cleanly via TabLayout and ViewPager2 into:
- * 1. "Rental Bookings"
- * 2. "Activity Bookings"
- * 3. "All Bookings"
- */
+
+//  Production-ready Admin screen displaying customer reservations.
+//  Organized cleanly via TabLayout and ViewPager2 into:
+//  "Rental Bookings"
+//  "Activity Bookings"
+//  "All Bookings"
+
 class AdminBookingsListFragment : Fragment() {
 
     override fun onCreateView(

@@ -1,8 +1,8 @@
 package com.example.lankago.data
 
-/**
- * Domain model representing a Sri Lankan local artisan product, spice, tea, or handicraft.
- */
+
+  //Domain model representing a Sri Lankan local artisan product, spice, tea, or handicraft.
+
 data class LocalProduct(
     val id: String = "",
     val name: String = "",

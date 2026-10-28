@@ -1,8 +1,8 @@
 package com.example.lankago.data
 
-/**
- * Schedule event or ritual occurring in the festival timeline.
- */
+
+ // Schedule event or ritual occurring in the festival timeline.
+
 data class FestivalScheduleItem(
     val dayLabel: String,
     val time: String,

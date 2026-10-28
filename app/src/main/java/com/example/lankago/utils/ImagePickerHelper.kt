@@ -13,14 +13,14 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
 
-/**
- * Production-ready helper that manages the complete A-Z lifecycle of image selection:
- * - Runtime CAMERA permission request
- * - FileProvider temporary URI creation in internal cache
- * - ActivityResultContracts.TakePicture for direct hardware Camera capture
- * - ActivityResultContracts.GetContent for device Gallery picking
- * - Material 3 option chooser dialog
- */
+
+//  Production-ready helper that manages the complete A-Z lifecycle of image selection:
+//  - Runtime CAMERA permission request
+//  - FileProvider temporary URI creation in internal cache
+//  - ActivityResultContracts.TakePicture for direct hardware Camera capture
+//  - ActivityResultContracts.GetContent for device Gallery picking
+//  - Material 3 option chooser dialog
+
 class ImagePickerHelper(
     private val fragment: Fragment,
     private val onImageSelected: (Uri) -> Unit

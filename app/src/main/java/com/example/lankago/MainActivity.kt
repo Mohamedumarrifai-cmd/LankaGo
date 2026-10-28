@@ -95,9 +95,9 @@ class MainActivity : AppCompatActivity() {
         handleNotificationIntent()
     }
 
-    /**
-     * Handles incoming notification payload when app is opened via Heads-Up Notification tap.
-     */
+
+     // Handles incoming notification payload when app is opened via Heads-Up Notification tap.
+
     private fun handleNotificationIntent() {
         val openDest = intent?.getStringExtra("open_destination")
         if (openDest == "tripHistoryFragment") {
@@ -116,9 +116,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Configures the global BottomNavigationView and NavController integration.
-     */
+
+     // Configures the global BottomNavigationView and NavController integration.
+
     private fun setupGlobalNavigation() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as? NavHostFragment

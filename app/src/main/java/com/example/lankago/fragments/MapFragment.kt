@@ -57,12 +57,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 
-/**
- * Principal Map Screen for LankaGo powered by OpenStreetMap (OSM) & Leaflet.js.
- *
- * Guarantees that whenever opened (from Bottom Navigation or Destination Detail),
- * it starts directly at the user's real-time current GPS location.
- */
+
+ // Principal Map Screen for LankaGo powered by OpenStreetMap (OSM) & Leaflet.js.
+
 open class MapFragment : Fragment() {
 
     private lateinit var mapWebView: WebView

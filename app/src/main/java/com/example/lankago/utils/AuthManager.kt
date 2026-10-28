@@ -3,9 +3,9 @@ package com.example.lankago.utils
 import android.content.Context
 import android.content.SharedPreferences
 
-/**
- * Singleton managing local user session persistence for LankaGo.
- */
+
+  //Singleton managing local user session persistence for LankaGo.
+
 object AuthManager {
 
     private const val PREF_NAME = "lankago_auth_pref"

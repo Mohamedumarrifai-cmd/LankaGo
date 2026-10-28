@@ -2,20 +2,10 @@ package com.example.lankago.data
 
 import com.example.lankago.R
 
-/**
- * Domain model representing a Sri Lankan local cultural product, artisanal bazaar/market,
- * or indigenous traditional medicine (Hela Wedakama / Ayurveda).
- *
- * Exact required schema:
- * - [id]: Unique identifier
- * - [title]: Product / Market / Medicine name
- * - [category]: "Local Products", "Markets", or "Traditional Medicine"
- * - [description]: Detailed description of what the product actually is
- * - [primaryUsage]: Primary usage, applications, and health/lifestyle benefits
- * - [famousCity]: The exact local city or region best known for this product
- * - [culturalImportance]: Cultural & historical significance to Sri Lankan heritage
- * - [imageUrl]: High-resolution image URL (or fallback resource identifier)
- */
+
+//  Domain model representing a Sri Lankan local cultural product, artisanal bazaar/market,
+//  or indigenous traditional medicine (Hela Wedakama / Ayurveda).
+
 data class LocalItem(
     val id: String,
     val title: String,

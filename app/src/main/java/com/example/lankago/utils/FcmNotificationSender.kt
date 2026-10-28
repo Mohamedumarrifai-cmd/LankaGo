@@ -9,10 +9,9 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 
-/**
- * Utility for dispatching high-priority FCM Push Notification payloads to specific target devices
- * (e.g. notifying a traveler when Admin updates booking status, or notifying Admin of new bookings).
- */
+
+ // Utility for dispatching high-priority FCM Push Notification payloads to specific target devices
+
 object FcmNotificationSender {
 
     private const val TAG = "FcmNotificationSender"

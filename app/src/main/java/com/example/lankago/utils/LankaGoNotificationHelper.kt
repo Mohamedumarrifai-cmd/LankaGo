@@ -29,13 +29,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.util.Locale
 
-/**
- * Universal Notification Dispatcher for LankaGo.
- * Responsibilities:
- * 1. Creates and registers high-priority Android Notification Channels.
- * 2. Emits immediate Heads-up Status Bar notifications with sound and vibration upon trip creation / booking.
- * 3. Persists in-app notification records to Firebase RTDB (/users/{uid}/notifications) and local SharedPreferences.
- */
+
+//  Universal Notification Dispatcher for LankaGo.
+//  Responsibilities:
+//  1. Creates and registers high-priority Android Notification Channels.
+//  2. Emits immediate Heads-up Status Bar notifications with sound and vibration upon trip creation / booking.
+//  3. Persists in-app notification records to Firebase RTDB (/users/{uid}/notifications) and local SharedPreferences.
+
 object LankaGoNotificationHelper {
 
     private const val TAG = "LankaGoNotification"

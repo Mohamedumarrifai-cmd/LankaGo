@@ -7,10 +7,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 
-/**
- * Extension functions for NavController to guard against rapid multi-click race conditions,
- * invalid destination calls, and unexpected fragment transition states.
- */
+
+ // Extension functions for NavController to guard against rapid multi-click race conditions,
+ // invalid destination calls, and unexpected fragment transition states.
+
 fun NavController.safeNavigate(
     @IdRes resId: Int,
     args: Bundle? = null,

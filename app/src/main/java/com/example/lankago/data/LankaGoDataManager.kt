@@ -1,8 +1,8 @@
 package com.example.lankago.data
 
-/**
- * Data model representing a travel destination in LankaGo.
- */
+
+ // Data model representing a travel destination in LankaGo.
+
 data class Destination(
     val id: String,
     val name: String,
