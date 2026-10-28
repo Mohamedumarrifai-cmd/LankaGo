@@ -69,6 +69,14 @@ class UserProductAdapter(
             tvRating.text = "★ ${String.format(Locale.US, "%.1f", product.rating)} (${product.originRegion.ifBlank { "Sri Lanka" }})"
 
             val imageSource: Any = when {
+                product.imageUrl.startsWith("data:image") -> {
+                    try {
+                        val base64Data = product.imageUrl.substringAfter(",")
+                        android.util.Base64.decode(base64Data, android.util.Base64.DEFAULT)
+                    } catch (_: Exception) {
+                        R.drawable.ceylon_tea_set
+                    }
+                }
                 product.imageUrl.isNotBlank() -> product.imageUrl
                 product.imageRes != 0 -> product.imageRes
                 else -> R.drawable.ceylon_tea_set
