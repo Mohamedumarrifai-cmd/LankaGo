@@ -107,7 +107,7 @@ class TraditionalActivitiesFragment : Fragment() {
             )
         }
 
-        rvFirebaseActivities.layoutManager = LinearLayoutManager(requireContext())
+        rvFirebaseActivities.layoutManager = androidx.recyclerview.widget.GridLayoutManager(requireContext(), 2)
         rvFirebaseActivities.adapter = userActivityAdapter
         rvFirebaseActivities.isNestedScrollingEnabled = false
     }

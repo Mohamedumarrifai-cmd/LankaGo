@@ -458,7 +458,7 @@ class AdminRepository(
         val snapshot = database.child("activities").get().await()
         val list = mutableListOf<com.example.lankago.data.TraditionalActivity>()
         for (child in snapshot.children) {
-            child.getValue(com.example.lankago.data.TraditionalActivity::class.java)?.let { list.add(it) }
+            parseActivitySafe(child)?.let { list.add(it) }
         }
         return list
     }
@@ -468,7 +468,7 @@ class AdminRepository(
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list = mutableListOf<com.example.lankago.data.TraditionalActivity>()
                 for (child in snapshot.children) {
-                    child.getValue(com.example.lankago.data.TraditionalActivity::class.java)?.let { list.add(it) }
+                    parseActivitySafe(child)?.let { list.add(it) }
                 }
                 trySend(list)
             }
@@ -480,6 +480,52 @@ class AdminRepository(
         val ref = database.child("activities")
         ref.addValueEventListener(listener)
         awaitClose { ref.removeEventListener(listener) }
+    }
+
+    private fun parseActivitySafe(child: DataSnapshot): com.example.lankago.data.TraditionalActivity? {
+        return try {
+            child.getValue(com.example.lankago.data.TraditionalActivity::class.java)
+        } catch (_: Exception) {
+            val key = child.key ?: ""
+            val title = child.child("title").getValue(String::class.java) ?: return null
+            val category = child.child("category").getValue(String::class.java) ?: "Culture"
+            val location = child.child("location").getValue(String::class.java) ?: "Sri Lanka"
+            val address = child.child("address").getValue(String::class.java) ?: location
+            val duration = child.child("duration").getValue(String::class.java) ?: "2.0 Hours"
+            val hostName = child.child("hostName").getValue(String::class.java) ?: "Master Artisan"
+            val hostTitle = child.child("hostTitle").getValue(String::class.java) ?: "Traditional Craftsman"
+            val description = child.child("description").getValue(String::class.java) ?: ""
+            val imageUrl = child.child("imageUrl").getValue(String::class.java) ?: ""
+
+            val priceVal = child.child("priceLkr").value
+            val priceLkr = when (priceVal) {
+                is Number -> priceVal.toDouble()
+                is String -> priceVal.toDoubleOrNull() ?: 0.0
+                else -> 0.0
+            }
+
+            val ratingVal = child.child("rating").value
+            val rating = when (ratingVal) {
+                is Number -> ratingVal.toFloat()
+                is String -> ratingVal.toFloatOrNull() ?: 5.0f
+                else -> 5.0f
+            }
+
+            com.example.lankago.data.TraditionalActivity(
+                id = key,
+                title = title,
+                category = category,
+                location = location,
+                address = address,
+                duration = duration,
+                priceLkr = priceLkr,
+                rating = rating,
+                hostName = hostName,
+                hostTitle = hostTitle,
+                description = description,
+                imageUrl = imageUrl
+            )
+        }
     }
 
     // 4. REALTIME DATABASE: USER BOOKINGS (/bookings)

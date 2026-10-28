@@ -1,108 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="14dp"
+    android:layout_margin="4dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="#FFFFFF"
-    app:cardCornerRadius="20dp"
-    app:cardElevation="2dp"
-    app:strokeColor="#E2E8F0"
-    app:strokeWidth="1dp">
+    app:cardCornerRadius="24dp"
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp"
-        android:gravity="center_vertical">
+        android:background="@drawable/bg_card_24"
+        android:orientation="vertical"
+        android:padding="12dp">
 
-        <!-- Activity Image Thumbnail -->
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_user_activity_image"
-            android:layout_width="88dp"
-            android:layout_height="88dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/traditional_dance"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
 
-        <!-- Activity Info -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <LinearLayout
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_user_activity_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pot_making"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium" />
 
-                <TextView
-                    android:id="@+id/tv_user_activity_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:fontFamily="sans-serif-black"
-                    android:maxLines="1"
-                    android:textColor="#1A2B4C"
-                    android:textSize="16sp"
-                    tools:text="Kandy Fire Dance &amp; Drumming" />
+            <ImageView
+                android:id="@+id/iv_user_activity_favorite"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="8dp"
+                android:background="@drawable/bg_white_circle"
+                android:padding="6dp"
+                android:src="@android:drawable/btn_star_big_off"
+                app:tint="#E53935"
+                android:contentDescription="Favorite" />
+        </FrameLayout>
 
-                <!-- Category Badge -->
-                <TextView
-                    android:id="@+id/tv_user_activity_badge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:background="@drawable/bg_badge_approved"
-                    android:fontFamily="sans-serif-bold"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="2dp"
-                    android:textColor="#059669"
-                    android:textSize="11sp"
-                    tools:text="Workshops" />
-            </LinearLayout>
+        <TextView
+            android:id="@+id/tv_user_activity_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-black"
+            android:maxLines="1"
+            android:textColor="#1A2B4C"
+            android:textSize="15sp"
+            tools:text="Mask Painting" />
 
-            <TextView
-                android:id="@+id/tv_user_activity_meta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:ellipsize="end"
-                android:fontFamily="sans-serif-medium"
-                android:maxLines="1"
-                android:textColor="#5D5FEF"
-                android:textSize="12sp"
-                tools:text="2.0 Hours · Kandy" />
+        <TextView
+            android:id="@+id/tv_user_activity_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#8A8F98"
+            android:textSize="12sp"
+            tools:text="Galle" />
 
-            <TextView
-                android:id="@+id/tv_user_activity_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="sans-serif-black"
-                android:textColor="#10B981"
-                android:textSize="15sp"
-                tools:text="LKR 4,500 / person" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@android:drawable/btn_star_big_on"
+                app:tint="#FFC107"
+                android:contentDescription="Star" />
 
             <TextView
                 android:id="@+id/tv_user_activity_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="#64748B"
-                android:textSize="12sp"
-                tools:text="★ 5.0 (Certified Artisan Guide)" />
+                android:layout_marginStart="4dp"
+                android:textColor="#444444"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                tools:text="4.8" />
         </LinearLayout>
     </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>

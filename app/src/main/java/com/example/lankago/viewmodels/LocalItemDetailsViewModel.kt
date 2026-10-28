@@ -38,7 +38,52 @@ class LocalItemDetailsViewModel : ViewModel() {
             try {
                 val snapshot = FirebaseDatabase.getInstance().reference
                     .child("products").child(itemId).get().await()
-                val prod = snapshot.getValue(LocalProduct::class.java)
+                var prod = try {
+                    snapshot.getValue(LocalProduct::class.java)
+                } catch (_: Exception) {
+                    null
+                }
+
+                if (prod == null && snapshot.exists()) {
+                    val id = snapshot.child("id").getValue(String::class.java) ?: snapshot.key ?: itemId
+                    val name = snapshot.child("name").getValue(String::class.java) ?: ""
+                    val category = snapshot.child("category").getValue(String::class.java) ?: "Local Product"
+                    val desc = snapshot.child("description").getValue(String::class.java) ?: ""
+                    val priceVal = snapshot.child("priceLkr").value
+                    val price = when (priceVal) {
+                        is Number -> priceVal.toDouble()
+                        is String -> priceVal.toDoubleOrNull() ?: 0.0
+                        else -> 0.0
+                    }
+                    val origin = snapshot.child("originRegion").getValue(String::class.java) ?: "Sri Lanka"
+                    val imageUrl = snapshot.child("imageUrl").getValue(String::class.java) ?: ""
+                    val ratingVal = snapshot.child("rating").value
+                    val rating = when (ratingVal) {
+                        is Number -> ratingVal.toFloat()
+                        is String -> ratingVal.toFloatOrNull() ?: 5.0f
+                        else -> 5.0f
+                    }
+                    val reviewVal = snapshot.child("reviewCount").value
+                    val reviewCount = when (reviewVal) {
+                        is Number -> reviewVal.toInt()
+                        is String -> reviewVal.toIntOrNull() ?: 1
+                        else -> 1
+                    }
+                    if (name.isNotBlank()) {
+                        prod = LocalProduct(
+                            id = id,
+                            name = name,
+                            category = category,
+                            description = desc,
+                            priceLkr = price,
+                            originRegion = origin,
+                            imageUrl = imageUrl,
+                            rating = rating,
+                            reviewCount = reviewCount
+                        )
+                    }
+                }
+
                 if (prod != null) {
                     val convertedItem = LocalItem(
                         id = prod.id,

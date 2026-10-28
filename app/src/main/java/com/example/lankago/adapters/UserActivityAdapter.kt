@@ -39,23 +39,15 @@ class UserActivityAdapter(
     ) : RecyclerView.ViewHolder(itemView) {
         private val ivImage: ShapeableImageView = itemView.findViewById(R.id.iv_user_activity_image)
         private val tvTitle: TextView = itemView.findViewById(R.id.tv_user_activity_title)
-        private val tvBadge: TextView = itemView.findViewById(R.id.tv_user_activity_badge)
-        private val tvMeta: TextView = itemView.findViewById(R.id.tv_user_activity_meta)
-        private val tvPrice: TextView = itemView.findViewById(R.id.tv_user_activity_price)
+        private val tvLocation: TextView = itemView.findViewById(R.id.tv_user_activity_location)
         private val tvRating: TextView = itemView.findViewById(R.id.tv_user_activity_rating)
 
         fun bind(activity: TraditionalActivity) {
             val context = itemView.context
 
             tvTitle.text = activity.title
-            tvBadge.text = activity.category.ifBlank { "Experience" }
-            tvMeta.text = "${activity.duration.ifBlank { "2.0 Hours" }} · ${activity.location.ifBlank { "Sri Lanka" }}"
-
-            val formatter = NumberFormat.getNumberInstance(Locale.US)
-            tvPrice.text = "LKR ${formatter.format(activity.priceLkr)} / person"
-
-            val hostLabel = if (activity.hostName.isNotBlank()) activity.hostName else "Certified Artisan Guide"
-            tvRating.text = "★ ${String.format(Locale.US, "%.1f", activity.rating)} · $hostLabel"
+            tvLocation.text = activity.location.ifBlank { "Sri Lanka" }
+            tvRating.text = String.format(Locale.US, "%.1f", if (activity.rating > 0) activity.rating else 4.8f)
 
             val imageSource: Any = when {
                 activity.imageUrl.startsWith("data:image") -> {

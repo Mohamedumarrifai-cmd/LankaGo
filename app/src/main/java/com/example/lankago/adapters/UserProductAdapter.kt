@@ -38,35 +38,17 @@ class UserProductAdapter(
     ) : RecyclerView.ViewHolder(itemView) {
         private val ivImage: ShapeableImageView = itemView.findViewById(R.id.iv_user_product_image)
         private val tvName: TextView = itemView.findViewById(R.id.tv_user_product_name)
-        private val tvCategory: TextView = itemView.findViewById(R.id.tv_user_product_category)
+        private val tvRegion: TextView = itemView.findViewById(R.id.tv_user_product_region)
         private val tvPrice: TextView = itemView.findViewById(R.id.tv_user_product_price)
-        private val tvBadge: TextView = itemView.findViewById(R.id.tv_user_product_badge)
-        private val tvRating: TextView = itemView.findViewById(R.id.tv_user_product_rating)
 
         fun bind(product: LocalProduct) {
             val context = itemView.context
 
             tvName.text = product.name
-            tvCategory.text = if (product.originRegion.isNotBlank()) {
-                "${product.category} · ${product.originRegion}"
-            } else {
-                product.category
-            }
+            tvRegion.text = if (product.originRegion.isNotBlank()) product.originRegion else product.category
 
             val formatter = NumberFormat.getNumberInstance(Locale.US)
             tvPrice.text = "LKR ${formatter.format(product.priceLkr)}"
-
-            if (product.stockQuantity > 0) {
-                tvBadge.text = "In Stock"
-                tvBadge.background = ContextCompat.getDrawable(context, R.drawable.bg_badge_approved)
-                tvBadge.setTextColor(ContextCompat.getColor(context, R.color.admin_success))
-            } else {
-                tvBadge.text = "Out of Stock"
-                tvBadge.background = ContextCompat.getDrawable(context, R.drawable.bg_badge_pending)
-                tvBadge.setTextColor(ContextCompat.getColor(context, R.color.admin_danger))
-            }
-
-            tvRating.text = "★ ${String.format(Locale.US, "%.1f", product.rating)} (${product.originRegion.ifBlank { "Sri Lanka" }})"
 
             val imageSource: Any = when {
                 product.imageUrl.startsWith("data:image") -> {

@@ -90,7 +90,7 @@ class LocalProductsFragment : Fragment() {
             )
         }
 
-        rvFirebaseProducts.layoutManager = LinearLayoutManager(requireContext())
+        rvFirebaseProducts.layoutManager = androidx.recyclerview.widget.GridLayoutManager(requireContext(), 2)
         rvFirebaseProducts.adapter = userProductAdapter
         rvFirebaseProducts.isNestedScrollingEnabled = false
     }

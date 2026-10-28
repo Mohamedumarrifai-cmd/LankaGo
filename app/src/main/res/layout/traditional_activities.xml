@@ -169,26 +169,6 @@
             android:paddingHorizontal="16dp"
             android:paddingBottom="24dp">
 
-            <!-- Live Activities from Admin / Firebase Realtime Database (/activities) -->
-            <TextView
-                android:id="@+id/tv_admin_activities_heading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:fontFamily="sans-serif-black"
-                android:text="✨ Experiences &amp; Masterclasses"
-                android:textColor="#1A2B4C"
-                android:textSize="18sp"
-                android:visibility="gone" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_firebase_activities"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:layout_marginBottom="16dp"
-                android:visibility="gone" />
-
             <TextView
                 android:id="@+id/tv_cultural_heritage_heading"
                 android:layout_width="wrap_content"
@@ -716,6 +696,27 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
+
+            <!-- Live Activities from Admin / Firebase Realtime Database (/activities) -->
+            <TextView
+                android:id="@+id/tv_admin_activities_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="sans-serif-black"
+                android:text="✨ More Cultural Experiences"
+                android:textColor="#1A2B4C"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_firebase_activities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -16,6 +16,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import android.util.Base64
 import com.bumptech.glide.Glide
 import com.example.lankago.R
 import com.example.lankago.data.LocalItem
@@ -169,14 +170,30 @@ class LocalItemDetailsFragment : Fragment() {
         tvRating.text = String.format("%.2f", item.rating)
         tvReviewsCount.text = "(${item.reviewCount} verified reviews)"
 
-        // Seamless image loading: Use Glide for web URLs with local fallback
+        // Seamless image loading: Use Glide for web URLs and Base64 data with local fallback
         if (!item.imageUrl.isNullOrBlank()) {
-            Glide.with(this)
-                .load(item.imageUrl)
-                .placeholder(if (item.imageRes != 0) item.imageRes else R.drawable.ceylon_tea_set)
-                .error(if (item.imageRes != 0) item.imageRes else R.drawable.ceylon_tea_set)
-                .centerCrop()
-                .into(ivCover)
+            if (item.imageUrl.startsWith("data:image") || item.imageUrl.contains("base64,")) {
+                try {
+                    val base64Data = item.imageUrl.substringAfter("base64,")
+                    val imageBytes = Base64.decode(base64Data, Base64.DEFAULT)
+                    Glide.with(this)
+                        .asBitmap()
+                        .load(imageBytes)
+                        .placeholder(if (item.imageRes != 0) item.imageRes else R.drawable.ceylon_tea_set)
+                        .error(if (item.imageRes != 0) item.imageRes else R.drawable.ceylon_tea_set)
+                        .centerCrop()
+                        .into(ivCover)
+                } catch (_: Exception) {
+                    ivCover.setImageResource(if (item.imageRes != 0) item.imageRes else R.drawable.ceylon_tea_set)
+                }
+            } else {
+                Glide.with(this)
+                    .load(item.imageUrl)
+                    .placeholder(if (item.imageRes != 0) item.imageRes else R.drawable.ceylon_tea_set)
+                    .error(if (item.imageRes != 0) item.imageRes else R.drawable.ceylon_tea_set)
+                    .centerCrop()
+                    .into(ivCover)
+            }
         } else if (item.imageRes != 0) {
             ivCover.setImageResource(item.imageRes)
         } else {

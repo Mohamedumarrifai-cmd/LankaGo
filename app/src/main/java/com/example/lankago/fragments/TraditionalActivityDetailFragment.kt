@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import android.util.Base64
 import com.bumptech.glide.Glide
 import com.example.lankago.R
 import com.example.lankago.data.ActivityItem
@@ -107,12 +108,28 @@ class TraditionalActivityDetailFragment : Fragment() {
             ?: view.findViewById<ImageView>(R.id.ivCoverImage)
         if (ivHero != null) {
             if (!item.imageUrl.isNullOrBlank()) {
-                Glide.with(this)
-                    .load(item.imageUrl)
-                    .placeholder(if (item.imageRes != 0) item.imageRes else R.drawable.pot_making)
-                    .error(if (item.imageRes != 0) item.imageRes else R.drawable.pot_making)
-                    .centerCrop()
-                    .into(ivHero)
+                if (item.imageUrl.startsWith("data:image") || item.imageUrl.contains("base64,")) {
+                    try {
+                        val base64Data = item.imageUrl.substringAfter("base64,")
+                        val imageBytes = Base64.decode(base64Data, Base64.DEFAULT)
+                        Glide.with(this)
+                            .asBitmap()
+                            .load(imageBytes)
+                            .placeholder(if (item.imageRes != 0) item.imageRes else R.drawable.pot_making)
+                            .error(if (item.imageRes != 0) item.imageRes else R.drawable.pot_making)
+                            .centerCrop()
+                            .into(ivHero)
+                    } catch (_: Exception) {
+                        ivHero.setImageResource(if (item.imageRes != 0) item.imageRes else R.drawable.pot_making)
+                    }
+                } else {
+                    Glide.with(this)
+                        .load(item.imageUrl)
+                        .placeholder(if (item.imageRes != 0) item.imageRes else R.drawable.pot_making)
+                        .error(if (item.imageRes != 0) item.imageRes else R.drawable.pot_making)
+                        .centerCrop()
+                        .into(ivHero)
+                }
             } else if (item.imageRes != 0) {
                 ivHero.setImageResource(item.imageRes)
             } else {
