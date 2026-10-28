@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    android:fillViewport="true"
+    tools:context=".admin.AdminDashboardFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <!-- Admin Header Section -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#1E293B"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="6dp"
+            app:strokeWidth="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="24dp">
+
+                <TextView
+                    android:id="@+id/tvAdminTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Admin Control Panel"
+                    android:textColor="#FFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvAdminSubtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Manage platform services, inventories, and user bookings"
+                    android:textColor="#94A3B8"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvAdminTitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Section Label -->
+        <TextView
+            android:id="@+id/tvManagementHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Management Modules"
+            android:textColor="#334155"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardHeader" />
+
+        <!-- Grid Container using GridLayout -->
+        <GridLayout
+            android:id="@+id/gridModules"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:columnCount="2"
+            android:rowCount="2"
+            android:alignmentMode="alignMargins"
+            android:columnOrderPreserved="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvManagementHeader">
+
+            <!-- Card 1: Manage Rentals -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardManageRentals"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp"
+                app:strokeColor="#E2E8F0"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_circle_blue"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_rentals"
+                        app:tint="#0284C7"
+                        android:contentDescription="Manage Rentals Icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Manage Rentals"
+                        android:textColor="#0F172A"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="Shops &amp; Fleet"
+                        android:textColor="#64748B"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 2: Manage Products -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardManageProducts"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp"
+                app:strokeColor="#E2E8F0"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_circle_purple"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_products"
+                        app:tint="#7C3AED"
+                        android:contentDescription="Manage Products Icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Manage Products"
+                        android:textColor="#0F172A"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="Local Goods &amp; Craft"
+                        android:textColor="#64748B"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 3: Manage Activities -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardManageActivities"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp"
+                app:strokeColor="#E2E8F0"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_circle_green"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_activities"
+                        app:tint="#059669"
+                        android:contentDescription="Manage Activities Icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Manage Activities"
+                        android:textColor="#0F172A"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="Tours &amp; Experiences"
+                        android:textColor="#64748B"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Card 4: View User Bookings -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardUserBookings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp"
+                app:strokeColor="#E2E8F0"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_circle_pink"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_bookings"
+                        app:tint="#DB2777"
+                        android:contentDescription="User Bookings Icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="User Bookings"
+                        android:textColor="#0F172A"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="Orders &amp; Tickets"
+                        android:textColor="#64748B"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </GridLayout>
+
+        <!-- Card 5: Logout -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardLogout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="#FEF2F2"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeColor="#FCA5A5"
+            app:strokeWidth="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gridModules">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_circle_grey"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_logout"
+                    app:tint="#DC2626"
+                    android:contentDescription="Logout Icon" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Logout"
+                        android:textColor="#991B1B"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="End current admin session"
+                        android:textColor="#EF4444"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_forward"
+                    app:tint="#DC2626"
+                    android:contentDescription="Arrow Right" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
