@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
-    id("com.google.firebase.crashlytics") // අලුතින් එකතු කළ කොටස
+    id("com.google.firebase.crashlytics")
 }
 
 android {

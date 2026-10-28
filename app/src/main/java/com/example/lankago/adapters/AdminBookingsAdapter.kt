@@ -16,14 +16,12 @@ import com.google.android.material.button.MaterialButton
 import java.text.NumberFormat
 import java.util.Locale
 
-/**
- * Production-ready ListAdapter for administering customer bookings in LankaGo.
- * Supports:
- * - Realtime updates via DiffUtil.
- * - Dynamic color tokens for booking types (RENTAL vs ACTIVITY).
- * - Dynamic pill backgrounds for booking states (CONFIRMED, PENDING, CANCELLED).
- * - Status update interaction.
- */
+//  Production-ready ListAdapter for administering customer bookings in LankaGo.
+//  Supports:
+//  - Realtime updates via DiffUtil.
+//  - Dynamic color tokens for booking types (RENTAL vs ACTIVITY).
+//  - Dynamic pill backgrounds for booking states (CONFIRMED, PENDING, CANCELLED).
+//  - Status update interaction.
 class AdminBookingsAdapter(
     private val onStatusChangeClick: (Booking) -> Unit
 ) : ListAdapter<Booking, AdminBookingsAdapter.BookingViewHolder>(BookingDiffCallback()) {

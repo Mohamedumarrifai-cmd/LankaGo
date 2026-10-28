@@ -48,7 +48,7 @@ class ReviewsFragment : Fragment() {
 
     private val rtdbRef by lazy {
         FirebaseDatabase.getInstance().reference.child("reviews")
-    }
+    }       //.references-Database root eka access karanawa.
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,6 +90,8 @@ class ReviewsFragment : Fragment() {
         if (!json.isNullOrBlank()) {
             try {
                 val type = object : TypeToken<List<CloudReview>>() {}.type
+
+                //Gson convert to Json
                 val cached: List<CloudReview> = gson.fromJson(json, type)
                 if (cached.isNotEmpty()) {
                     reviewsList.clear()
@@ -106,10 +108,13 @@ class ReviewsFragment : Fragment() {
         val context = context ?: return
         try {
             val prefs = context.getSharedPreferences("lankago_reviews_pref", Context.MODE_PRIVATE)
+            //save the reviews
             prefs.edit().putString("cached_reviews", gson.toJson(list)).apply()
         } catch (_: Exception) {}
     }
 
+
+    //read the reviews from firebase
     private fun listenToFirebaseReviews() {
         reviewsListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -250,6 +255,7 @@ class ReviewsFragment : Fragment() {
         }
     }
 
+    //add the review
     private fun showAddReviewDialog() {
         val context = context ?: return
         val dialog = Dialog(context)
@@ -305,7 +311,7 @@ class ReviewsFragment : Fragment() {
                 "timestamp" to newReview.timestamp,
                 "comment" to newReview.comment
             )
-            rtdbRef.child(reviewId).setValue(map)
+            rtdbRef.child(reviewId).setValue(map)  //save the review details
 
             // Add locally immediately
             reviewsList.add(0, newReview)

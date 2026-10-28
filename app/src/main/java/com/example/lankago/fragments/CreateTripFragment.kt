@@ -34,14 +34,14 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-/**
- * Production-ready Fragment for planning and creating trips in LankaGo.
- * Responsibilities:
- * 1. Collects and validates trip destination, dates, and traveler count.
- * 2. Persists planned trips locally in [TripManager] for offline resiliency.
- * 3. Pushes trip record to Firebase Realtime Database node: `/users/{uid}/tripHistory/{tripId}`.
- * 4. Navigates smoothly to Trip History or Rental selection without UI freezes or navigation crashes.
- */
+
+//  Production-ready Fragment for planning and creating trips in LankaGo.
+//  Responsibilities:
+//  1. Collects and validates trip destination, dates, and traveler count.
+//  2. Persists planned trips locally in [TripManager] for offline resiliency.
+//  3. Pushes trip record to Firebase Realtime Database node: `/users/{uid}/tripHistory/{tripId}`.
+//  4. Navigates smoothly to Trip History or Rental selection without UI freezes or navigation crashes.
+
 class CreateTripFragment : Fragment() {
 
     private lateinit var tilDestination: TextInputLayout
@@ -176,6 +176,7 @@ class CreateTripFragment : Fragment() {
                     withContext(Dispatchers.IO) {
                         try {
                             // Primary requirement: /users/{uid}/tripHistory/{tripId}
+                            //realtime database eke save karanawa
                             databaseRef.child("users")
                                 .child(uid)
                                 .child("tripHistory")

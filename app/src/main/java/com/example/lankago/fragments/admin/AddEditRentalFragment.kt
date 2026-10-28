@@ -25,14 +25,12 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.launch
 
-/**
- * Production-ready Fragment for Admins to Add or Edit a Rental Shop.
- * Implements real-time Firebase Storage uploads and Realtime Database writes:
- * 1. Photo selection from local gallery.
- * 2. Coroutine-based upload of cover image to `/rentals/` in Firebase Storage.
- * 3. Saving complete record with lat/lng coordinates to `/rentals/{shopId}` in Realtime Database.
- * 4. Backstack pop upon successful operation.
- */
+
+
+//  1. Photo selection from local gallery.
+//  2. Coroutine-based upload of cover image to `/rentals/` in Firebase Storage.
+//  3. Saving complete record with lat/lng coordinates to `/rentals/{shopId}` in Realtime Database.
+//  4. Backstack pop upon successful operation.
 class AddEditRentalFragment : Fragment() {
 
     private val adminRepository = AdminRepository()

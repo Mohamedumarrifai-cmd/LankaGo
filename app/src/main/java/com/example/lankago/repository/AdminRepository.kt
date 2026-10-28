@@ -23,27 +23,26 @@ import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import java.util.UUID
 
-/**
- * Production-ready Repository handling Firebase operations:
- * - Authentication & User Nodes (`/users/{uid}`)
- * - Realtime Database CRUD (`/rentals`, `/products`, `/bookings`)
- * - Firebase Storage Image Uploads with Base64 fallback for Spark free tier
- */
+
+// Production-ready Repository handling Firebase operations:
+// Authentication & User Nodes (`/users/{uid}`)
+// Realtime Database CRUD (`/rentals`, `/products`, `/bookings`)
+// Firebase Storage Image Uploads with Base64 fallback for Spark free tier
+
 class AdminRepository(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
     private val database: DatabaseReference = FirebaseDatabase.getInstance().reference,
     private val storage: StorageReference = FirebaseStorage.getInstance().reference
 ) {
 
-    // =========================================================================
+
     // 1. FIREBASE STORAGE: IMAGE UPLOADS (WITH BASE64 FALLBACK)
-    // =========================================================================
 
     /**
-     * Upload an image file from the device to Firebase Storage.
-     * If Cloud Storage is not enabled or provisioned (e.g. Spark free plan without billing),
-     * it automatically compresses and encodes the image into a Base64 data URI to store
-     * directly in the Realtime Database for 100% free hosting.
+      Upload an image file from the device to Firebase Storage.
+      If Cloud Storage is not enabled or provisioned (e.g. Spark free plan without billing),
+      it automatically compresses and encodes the image into a Base64 data URI to store
+      directly in the Realtime Database for 100% free hosting.
      */
     suspend fun uploadImage(imageUri: Uri, folder: String = "rentals"): String {
         // 1. Attempt Cloud Storage upload if provisioned
@@ -123,15 +122,13 @@ class AdminRepository(
         }
     }
 
-    // =========================================================================
     // 2. REALTIME DATABASE: RENTAL SHOPS CRUD (/rentals)
-    // =========================================================================
 
     /**
-     * Create and push a new rental shop to the `/rentals` node.
-     * 1. Uploads the image to Firebase Storage if an [imageUri] is provided.
-     * 2. Generates a unique key using `push().key`.
-     * 3. Sets the complete object in the database using `setValue()`.
+     Create and push a new rental shop to the `/rentals` node.
+     1. Uploads the image to Firebase Storage if an [imageUri] is provided.
+     2. Generates a unique key using `push().key`.
+     3. Sets the complete object in the database using `setValue()`.
      */
     suspend fun addRentalShop(
         name: String,
@@ -247,10 +244,7 @@ class AdminRepository(
         awaitClose { ref.removeEventListener(listener) }
     }
 
-    // =========================================================================
     // 3. REALTIME DATABASE: LOCAL PRODUCTS CRUD (/products)
-    // =========================================================================
-
     suspend fun addProduct(
         name: String,
         category: String,
@@ -336,10 +330,7 @@ class AdminRepository(
         awaitClose { ref.removeEventListener(listener) }
     }
 
-    // =========================================================================
     // 3.5. REALTIME DATABASE: TRADITIONAL ACTIVITIES & TOURS CRUD (/activities)
-    // =========================================================================
-
     suspend fun addActivity(
         title: String,
         category: String,
@@ -436,10 +427,7 @@ class AdminRepository(
         awaitClose { ref.removeEventListener(listener) }
     }
 
-    // =========================================================================
     // 4. REALTIME DATABASE: USER BOOKINGS (/bookings)
-    // =========================================================================
-
     suspend fun addBooking(booking: com.example.lankago.data.Booking): com.example.lankago.data.Booking {
         val bookingsRef = database.child("bookings")
         val key = booking.id.ifBlank { bookingsRef.push().key ?: UUID.randomUUID().toString() }
@@ -480,13 +468,11 @@ class AdminRepository(
         database.child("bookings").child(bookingId).child("status").setValue(newStatus).await()
     }
 
-    // =========================================================================
-    // 5. AUTHENTICATION & USER NODE MANAGEMENT (/users/{uid})
-    // =========================================================================
 
-    /**
-     * Save user profile details to `/users/{uid}` with role.
-     */
+    // 5. AUTHENTICATION & USER NODE MANAGEMENT (/users/{uid})
+
+//      Save user profile details to `/users/{uid}` with role.
+
     suspend fun saveUserNode(uid: String, name: String, email: String, role: String = "user") {
         val user = User(
             uid = uid,
@@ -498,26 +484,22 @@ class AdminRepository(
         database.child("users").child(uid).setValue(user).await()
     }
 
-    /**
-     * Retrieve the user role from `/users/{uid}/role`.
-     */
+
+// Retrieve the user role from `/users/{uid}/role`.
+
     suspend fun getUserRole(uid: String): String {
         val snapshot = database.child("users").child(uid).child("role").get().await()
         return snapshot.getValue(String::class.java) ?: "user"
     }
 
-    /**
-     * Verify if currently logged-in user has "admin" role.
-     */
+//     Verify if currently logged-in user has "admin" role.
+
     suspend fun isCurrentUserAdmin(): Boolean {
         val currentUid = auth.currentUser?.uid ?: return false
         return getUserRole(currentUid) == "admin"
     }
 
-    // =========================================================================
     // 6. REALTIME DATABASE: SHOPPING MALLS CRUD (/malls)
-    // =========================================================================
-
     suspend fun addMall(
         name: String,
         city: String = "Colombo",

@@ -49,10 +49,9 @@ class LoginFragment : Fragment() {
 
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    /**
-     * Modern Activity Result API launcher for Google Sign-In.
-     * Catches and decodes all status codes so issues (like missing SHA-1 or Web Client ID) are never silent.
-     */
+//     Modern Activity Result API launcher for Google Sign-In.
+//     Catches and decodes all status codes so issues (like missing SHA-1 or Web Client ID) are never silent.
+
     private val googleSignInLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             Log.d(TAG, "Google Sign-In ActivityResult: resultCode=${result.resultCode}")     //for using google sign in
@@ -231,9 +230,9 @@ class LoginFragment : Fragment() {
         }
     }
 
-    /**
-     * Initializes GoogleSignInOptions with default_web_client_id.
-     */
+
+//     Initializes GoogleSignInOptions with default_web_client_id.
+
     private fun setupGoogleSignIn() {
         val webClientId = getString(R.string.default_web_client_id)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -244,9 +243,9 @@ class LoginFragment : Fragment() {
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
     }
 
-    /**
-     * Clears cached sign-in state to guarantee the account chooser dialog is always presented.
-     */
+
+//      Clears cached sign-in state to guarantee the account chooser dialog is always presented.
+
     private fun handleGoogleSignInClick(view: View) {
         val webClientId = getString(R.string.default_web_client_id)
         if (webClientId.isBlank() || webClientId == "PASTE_YOUR_WEB_CLIENT_ID_HERE") {
@@ -265,9 +264,9 @@ class LoginFragment : Fragment() {
         }
     }
 
-    /**
-     * Authenticates the received Google ID Token with Firebase Authentication.
-     */
+
+//      Authenticates the received Google ID Token with Firebase Authentication.
+     //meken tamai authentication success kiyala show karanne
     private fun firebaseAuthWithGoogle(idToken: String, displayName: String?, email: String?) {
         setLoading(true)
         val credential = GoogleAuthProvider.getCredential(idToken, null)
@@ -293,10 +292,9 @@ class LoginFragment : Fragment() {
             }
     }
 
-    /**
-     * Saves user details in Firebase Realtime Database at `/users/{uid}`.
-     * Preserves existing role/contact if this is a returning user, otherwise initializes with user role.
-     */
+
+//     Saves user details in Firebase Realtime Database at `/users/{uid}`.
+//     Preserves existing role/contact if this is a returning user, otherwise initializes with user role.
     private fun saveGoogleUserToDatabase(uid: String, name: String, email: String) {
         val databaseRef = FirebaseDatabase.getInstance().reference.child("users").child(uid)
 

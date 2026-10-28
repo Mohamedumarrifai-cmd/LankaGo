@@ -13,10 +13,9 @@ import com.example.lankago.R
 import com.example.lankago.utils.Place
 import com.google.android.material.button.MaterialButton
 
-/**
- * Production-ready Adapter for displaying travel destinations in Admin Panel.
- * Includes photo preview, category tag, location, entrance fee, and Edit / Delete actions.
- */
+//  Production-ready Adapter for displaying travel destinations in Admin Panel.
+//  Includes photo preview, category tag, location, entrance fee, and Edit / Delete actions.
+
 class AdminPlaceAdapter(
     private val onEditClick: (Place) -> Unit,
     private val onDeleteClick: (Place) -> Unit

@@ -63,9 +63,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    /**
-     * Called when a new token for the default Firebase project is generated.
-     */
+
+//      Called when a new token for the default Firebase project is generated.
+
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d(TAG, "New FCM Device Token received: $token")
@@ -80,9 +80,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    /**
-     * Called when a message is received from Firebase Cloud Messaging.
-     */
+
+//      Called when a message is received from Firebase Cloud Messaging.
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         Log.d(TAG, "From: ${remoteMessage.from}")

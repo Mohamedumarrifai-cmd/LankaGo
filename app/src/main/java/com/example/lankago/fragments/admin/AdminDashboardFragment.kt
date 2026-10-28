@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
 class AdminDashboardFragment : Fragment() {
 
     private val adminRepository = AdminRepository()
+    //create admin repository object
 
     override fun onCreateView(
         inflater: LayoutInflater,

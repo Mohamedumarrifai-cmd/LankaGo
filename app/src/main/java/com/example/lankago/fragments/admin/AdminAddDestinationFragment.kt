@@ -75,6 +75,8 @@ class AdminAddDestinationFragment : Fragment() {
                 return@setOnClickListener
             }
 
+
+            //when admin select photo that show the url
             val imageUriString = selectedImageUri?.toString()
                 ?: "android.resource://com.example.lankago/drawable/sigiriya"
 

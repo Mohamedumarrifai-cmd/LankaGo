@@ -15,10 +15,10 @@ import com.google.android.material.imageview.ShapeableImageView
 import java.text.NumberFormat
 import java.util.Locale
 
-/**
- * Production-ready ListAdapter for administering Cultural Activities & Tours in LankaGo.
- * Supports Glide image loading with placeholder/fallback and fast DiffUtil comparisons.
- */
+
+//  Production-ready ListAdapter for administering Cultural Activities & Tours in LankaGo.
+//  Supports Glide image loading with placeholder/fallback and fast DiffUtil comparisons.
+
 class AdminActivityAdapter(
     private val onEditClick: (TraditionalActivity) -> Unit,  //call the function when click the edit button
     private val onDeleteClick: (TraditionalActivity) -> Unit

@@ -68,12 +68,12 @@ class MainActivity : AppCompatActivity() {
         if (FirebaseAuth.getInstance().currentUser != null) {
             MyFirebaseMessagingService.syncCurrentUserToken()
         }
-    }
+    }  //user kenek login wela innawada kiyala show karanawa
 
-    /**
-     * Checks and requests runtime notification permission for Android 13+ (API 33).
-     */
-    private fun checkAndRequestNotificationPermission() {
+
+//    Checks and requests runtime notification permission for Android 13+ (API 33).
+
+    private fun checkAndRequestNotificationPermission() {   //notification permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
                     this,

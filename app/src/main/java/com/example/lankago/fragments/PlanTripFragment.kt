@@ -51,13 +51,13 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-/**
- * Fragment handling creation of customized travel itineraries with COMPULSORY traveler ID verification
- * and integrated Vehicle & Bike Rental selection with instant receipt and notifications.
- */
+
+//  Fragment handling creation of customized travel itineraries with COMPULSORY traveler ID verification
+//  and integrated Vehicle & Bike Rental selection with instant receipt and notifications.
+
 open class PlanTripFragment : Fragment() {
 
-    private var travelerCount = 2
+    private var travelerCount = 2       //default travellers la gaana
     private var selectedTripImageUri: Uri? = null
     private var selectedRental: RentalVehicle? = null
 
@@ -369,7 +369,7 @@ open class PlanTripFragment : Fragment() {
                     val tripId = "trip_${System.currentTimeMillis()}"
                     val tripTitle = "$destination Adventure ($travelerCount Travelers)"
                     val rentalList = if (selectedRental != null) mutableListOf(selectedRental!!) else mutableListOf()
-
+                            //create new trip object
                     val newTrip = Trip(
                         id = tripId,
                         tripName = tripTitle,

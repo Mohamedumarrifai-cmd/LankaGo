@@ -74,7 +74,7 @@ class ActivityBookingFragment : Fragment() {
     }
 
 
-            //get the data fronm view model
+            //get the data from view model
     private fun observeData(view: View) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.activity.collectLatest { item ->

@@ -27,6 +27,7 @@ import kotlinx.coroutines.tasks.await
 
 class RegisterFragment : Fragment() {
 
+            //lazy--first time access karana welawedi instance eka initialize karanawa.
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val database: FirebaseDatabase by lazy { FirebaseDatabase.getInstance() }
 
@@ -78,7 +79,7 @@ class RegisterFragment : Fragment() {
             tilContactNumber?.error = null
             tilAddress?.error = null
 
-            // Comprehensive field validations
+            // Comprehensive field validations(input validation)
             if (name.isEmpty()) {
                 tilName?.error = "Please enter your full name"
                 etName?.requestFocus()
@@ -93,7 +94,7 @@ class RegisterFragment : Fragment() {
 
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 tilEmail?.error = "Please enter a valid email address"
-                etEmail?.requestFocus()
+                etEmail?.requestFocus()         //check the valid email format
                 return@setOnClickListener
             }
 
@@ -146,7 +147,7 @@ class RegisterFragment : Fragment() {
                         createdAt = System.currentTimeMillis()
                     )
 
-                    database.reference
+                    database.reference      //save details to realtime database
                         .child("users")
                         .child(uid)
                         .setValue(userProfile)

@@ -143,7 +143,7 @@ class ProfileFragment : Fragment() {
 
         // 2. Fetch User display name from Firebase Realtime Database
         viewLifecycleOwner.lifecycleScope.launch {
-            try {
+            try {           //database eken user ge name eka read karanawa
                 val snapshot = database.reference.child("users").child(uid).get().await()
                 val name = snapshot.child("name").getValue(String::class.java)
 
@@ -161,7 +161,7 @@ class ProfileFragment : Fragment() {
     private fun onProfilePhotoSelected(uri: Uri) {
         val view = view ?: return
         val ivAvatar = view.findViewById<ImageView>(R.id.iv_profile_avatar) ?: return
-
+                    //profile photo save karana eka
         com.example.lankago.utils.ProfileAvatarManager.saveAvatar(this, uri, ivAvatar) { success, msg ->
             if (isAdded) {
                 Snackbar.make(view, if (success) "✓ Profile photo saved for your account!" else msg, Snackbar.LENGTH_SHORT).show()

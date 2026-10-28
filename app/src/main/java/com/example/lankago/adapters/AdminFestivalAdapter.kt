@@ -13,9 +13,8 @@ import com.example.lankago.R
 import com.example.lankago.data.CulturalFestival
 import com.google.android.material.button.MaterialButton
 
-/**
- * Adapter for Admin Festival & Shows list with banners, details, and Edit / Delete actions.
- */
+// Adapter for Admin Festival & Shows list with banners, details, and Edit / Delete actions.
+
 class AdminFestivalAdapter(
     private val onEditClick: (CulturalFestival) -> Unit,
     private val onDeleteClick: (CulturalFestival) -> Unit

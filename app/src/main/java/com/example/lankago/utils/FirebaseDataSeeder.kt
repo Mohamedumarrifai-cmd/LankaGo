@@ -16,23 +16,23 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 /**
- * Production Firebase Realtime Database Initializer and Synchronizer.
- * Guarantees that essential nodes exist for both Administrators and Travelers:
- * 1. Admin Super User (/users/admin_super_user with role = "admin")
- * 2. Active User role validation (/users/{uid}/role)
- * 3. Default Rentals (/rentals)
- * 4. Default Activities (/activities)
- * 5. Default Destinations (/destinations)
- * 6. Sample Customer Bookings (/bookings) for Admin panel management
+  Production Firebase Realtime Database Initializer and Synchronizer.
+  Guarantees that essential nodes exist for both Administrators and Travelers:
+  1. Admin Super User (/users/admin_super_user with role = "admin")
+  2. Active User role validation (/users/{uid}/role)
+  3. Default Rentals (/rentals)
+  4. Default Activities (/activities)
+  5. Default Destinations (/destinations)
+  6. Sample Customer Bookings (/bookings) for Admin panel management
  */
 object FirebaseDataSeeder {
 
     private const val TAG = "FirebaseDataSeeder"
     private val database = FirebaseDatabase.getInstance().reference
 
-    /**
-     * Non-blocking background sync triggered on application launch.
-     */
+
+//      Non-blocking background sync triggered on application launch.
+
     fun syncDatabase() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -49,9 +49,9 @@ object FirebaseDataSeeder {
         }
     }
 
-    /**
-     * Seeds default Administrator account node in Firebase Realtime Database.
-     */
+
+//      Seeds default Administrator account node in Firebase Realtime Database.
+
     private suspend fun seedAdminSuperUser() {
         try {
             val adminSnapshot = database.child("users").child("admin_super_user").get().await()
@@ -77,9 +77,9 @@ object FirebaseDataSeeder {
         }
     }
 
-    /**
-     * If current authenticated user has an admin email, ensures their role is "admin".
-     */
+
+//     If current authenticated user has an admin email, ensures their role is "admin".
+
     private suspend fun syncCurrentUserRole() {
         try {
             val currentUser = FirebaseAuth.getInstance().currentUser ?: return
@@ -93,9 +93,9 @@ object FirebaseDataSeeder {
         }
     }
 
-    /**
-     * Seeds rentals if the node does not exist or has 0 children.
-     */
+
+//     Seeds rentals if the node does not exist or has 0 children.
+
     private suspend fun seedRentalsIfEmpty() {
         try {
             val snapshot = database.child("rentals").get().await()
@@ -110,9 +110,9 @@ object FirebaseDataSeeder {
         }
     }
 
-    /**
-     * Seeds traditional cultural activities if the node is empty.
-     */
+
+//      Seeds traditional cultural activities if the node is empty.
+
     private suspend fun seedActivitiesIfEmpty() {
         try {
             val snapshot = database.child("activities").get().await()
@@ -127,9 +127,9 @@ object FirebaseDataSeeder {
         }
     }
 
-    /**
-     * Seeds travel destinations if the node is empty.
-     */
+
+//      Seeds travel destinations if the node is empty.
+
     private suspend fun seedDestinationsIfEmpty() {
         try {
             val snapshot = database.child("destinations").get().await()
@@ -144,9 +144,9 @@ object FirebaseDataSeeder {
         }
     }
 
-    /**
-     * Seeds initial customer bookings for the Admin Dashboard to monitor.
-     */
+
+//      Seeds initial customer bookings for the Admin Dashboard to monitor.
+
     private suspend fun seedBookingsIfEmpty() {
         try {
             val snapshot = database.child("bookings").get().await()

@@ -13,10 +13,10 @@ import com.example.lankago.data.Mall
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.imageview.ShapeableImageView
 
-/**
- * ListAdapter for administering Shopping Malls in LankaGo.
- * Provides Edit and Delete action callbacks with DiffUtil item animations.
- */
+
+//  ListAdapter for administering Shopping Malls in LankaGo.
+//  Provides Edit and Delete action callbacks with DiffUtil item animations.
+
 class AdminMallAdapter(
     private val onEditClick: (Mall) -> Unit,
     private val onDeleteClick: (Mall) -> Unit
