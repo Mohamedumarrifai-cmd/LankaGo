@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.lankago.R
 import com.example.lankago.data.Review
 
-/**
- * ListAdapter for rendering customer reviews in ShopDetailsFragment.
- */
+
+ // ListAdapter for rendering customer reviews in ShopDetailsFragment.
+
 class ShopReviewAdapter : ListAdapter<Review, ShopReviewAdapter.ReviewViewHolder>(ReviewDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {

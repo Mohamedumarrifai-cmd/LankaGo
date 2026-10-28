@@ -11,10 +11,10 @@ import com.example.lankago.R
 import com.example.lankago.data.Trip
 import com.example.lankago.utils.setOnSafeClickListener
 
-/**
- * High-performance Material ListAdapter for displaying past and planned trips in LankaGo.
- * Uses DiffUtil for smooth insertions and updates.
- */
+
+  //High-performance Material ListAdapter for displaying past and planned trips in LankaGo.
+  //Uses DiffUtil for smooth insertions and updates.
+
 class TripHistoryAdapter(
     private val onTripClick: (Trip) -> Unit
 ) : ListAdapter<Trip, TripHistoryAdapter.TripHistoryViewHolder>(TripDiffCallback()) {

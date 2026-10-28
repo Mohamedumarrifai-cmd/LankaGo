@@ -13,10 +13,9 @@ import com.example.lankago.R
 import com.example.lankago.data.RentalShop
 import java.util.Locale
 
-/**
- * ListAdapter for rendering rental cards in RentalsTransportFragment
- * matching the user's exact UI design style.
- */
+//  ListAdapter for rendering rental cards in RentalsTransportFragment
+//  matching the user's exact UI design style.
+
 class RentalTransportAdapter(
     private val onShopClick: (RentalShop) -> Unit
 ) : ListAdapter<RentalShop, RentalTransportAdapter.ViewHolder>(DiffCallback()) {
@@ -88,9 +87,9 @@ class RentalTransportAdapter(
     }
 
     companion object {
-        /**
-         * Resolves the distinct authentic logo or vehicle graphic for any given rental shop.
-         */
+
+        //  Resolves the distinct authentic logo or vehicle graphic for any given rental shop.
+
         fun resolveShopDrawable(shop: RentalShop): Int {
             if (shop.imageRes != 0) return shop.imageRes
 

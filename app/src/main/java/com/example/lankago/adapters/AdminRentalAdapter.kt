@@ -13,9 +13,8 @@ import com.example.lankago.R
 import com.example.lankago.data.RentalShop
 import com.google.android.material.button.MaterialButton
 
-/**
- * RecyclerView Adapter for displaying rental shops with Admin Edit and Delete controls.
- */
+//  RecyclerView Adapter for displaying rental shops with Admin Edit and Delete controls.
+
 class AdminRentalAdapter(
     private val onEditClick: (RentalShop) -> Unit,
     private val onDeleteClick: (RentalShop) -> Unit

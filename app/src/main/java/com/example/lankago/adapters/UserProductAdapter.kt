@@ -15,9 +15,9 @@ import com.google.android.material.imageview.ShapeableImageView
 import java.text.NumberFormat
 import java.util.Locale
 
-/**
- * ListAdapter for rendering live Firebase-backed local products in LocalProductsFragment.
- */
+
+ // ListAdapter for rendering live Firebase-backed local products in LocalProductsFragment.
+
 class UserProductAdapter(
     private val onProductClick: (LocalProduct) -> Unit
 ) : ListAdapter<LocalProduct, UserProductAdapter.UserProductViewHolder>(ProductDiffCallback()) {

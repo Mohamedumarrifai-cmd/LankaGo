@@ -13,9 +13,9 @@ import com.example.lankago.data.AppNotification
 import com.example.lankago.data.NotificationType
 import com.google.android.material.card.MaterialCardView
 
-/**
- * ListAdapter for rendering notifications with smart click handling.
- */
+
+ // ListAdapter for rendering notifications with smart click handling.
+
 class NotificationsAdapter(
     private val onNotificationClick: (AppNotification) -> Unit
 ) : ListAdapter<AppNotification, NotificationsAdapter.NotificationViewHolder>(NotificationDiffCallback()) {

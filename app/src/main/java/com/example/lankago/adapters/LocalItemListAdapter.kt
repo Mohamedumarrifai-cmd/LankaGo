@@ -13,9 +13,8 @@ import com.example.lankago.data.LocalItem
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 
-/**
- * Modern ListAdapter for rendering items in the Local Products, Markets, and Traditional Medicine tabs.
- */
+//  Modern ListAdapter for rendering items in the Local Products, Markets, and Traditional Medicine tabs.
+
 class LocalItemListAdapter(
     private val onItemClick: (LocalItem) -> Unit
 ) : ListAdapter<LocalItem, LocalItemListAdapter.LocalItemViewHolder>(LocalItemDiffCallback()) {

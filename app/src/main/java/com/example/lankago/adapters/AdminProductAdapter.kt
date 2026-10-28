@@ -16,11 +16,10 @@ import com.google.android.material.imageview.ShapeableImageView
 import java.text.NumberFormat
 import java.util.Locale
 
-/**
- * Production-ready ListAdapter for administering Local Products in LankaGo.
- * Supports Glide image loading with placeholder/fallback, stock badge color state,
- * and high-performance DiffUtil comparisons.
- */
+// Production-ready ListAdapter for administering Local Products in LankaGo.
+// Supports Glide image loading with placeholder/fallback, stock badge color state,
+// and high-performance DiffUtil comparisons.
+
 class AdminProductAdapter(
     private val onEditClick: (LocalProduct) -> Unit,
     private val onDeleteClick: (LocalProduct) -> Unit
