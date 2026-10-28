@@ -22,6 +22,8 @@ import com.example.lankago.adapters.RentalTransportAdapter
 import com.example.lankago.data.RentalShop
 import com.example.lankago.repository.AdminRepository
 import com.example.lankago.utils.safeNavigate
+import android.util.Base64
+import android.util.Log
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -301,6 +303,7 @@ class RentalsTransportFragment : Fragment() {
                     )
 
                     val newAdminShops = firebaseShops.filter { !defaultIds.contains(it.id) }
+                    Log.d("RentalsSync", "Found ${newAdminShops.size} custom admin rental shops to display")
                     for (shop in newAdminShops) {
                         val cardView = layoutInflater.inflate(R.layout.item_rental_transport_card, container, false)
                         val ivThumb = cardView.findViewById<ImageView>(R.id.img_rental_thumb)
@@ -316,13 +319,28 @@ class RentalsTransportFragment : Fragment() {
                         tvRating.text = "★ ${String.format(Locale.US, "%.1f", if (shop.rating > 0f) shop.rating else 4.9f)}"
 
                         val fallbackRes = RentalTransportAdapter.resolveShopDrawable(shop)
-                        if (shop.imageUrl.isNotBlank() && (shop.imageUrl.startsWith("data:image") || shop.imageUrl.startsWith("http"))) {
-                            Glide.with(this@RentalsTransportFragment)
-                                .load(shop.imageUrl)
-                                .placeholder(fallbackRes)
-                                .error(fallbackRes)
-                                .fitCenter()
-                                .into(ivThumb)
+                        if (shop.imageUrl.isNotBlank()) {
+                            if (shop.imageUrl.startsWith("data:image") || shop.imageUrl.contains("base64,")) {
+                                try {
+                                    val base64Data = shop.imageUrl.substringAfter("base64,")
+                                    val imageBytes = Base64.decode(base64Data, Base64.DEFAULT)
+                                    Glide.with(this@RentalsTransportFragment)
+                                        .asBitmap()
+                                        .load(imageBytes)
+                                        .placeholder(fallbackRes)
+                                        .error(fallbackRes)
+                                        .into(ivThumb)
+                                } catch (e: Exception) {
+                                    ivThumb.setImageResource(fallbackRes)
+                                }
+                            } else {
+                                Glide.with(this@RentalsTransportFragment)
+                                    .load(shop.imageUrl)
+                                    .placeholder(fallbackRes)
+                                    .error(fallbackRes)
+                                    .fitCenter()
+                                    .into(ivThumb)
+                            }
                         } else {
                             ivThumb.setImageResource(fallbackRes)
                         }

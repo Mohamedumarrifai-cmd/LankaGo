@@ -48,26 +48,38 @@ class PlaceAdapter(
             holder.tvFee.visibility = if (place.entranceFee.isNotBlank()) View.VISIBLE else View.GONE
         }
 
-        // Safely load thumbnail with Glide & drawable name resolution
+        // Safely load thumbnail with Glide & drawable name resolution + Base64 support
         try {
-            val resName = place.imageUri.substringAfterLast("/")
-            val resId = context.resources.getIdentifier(resName, "drawable", context.packageName)
-            if (resId != 0) {
+            if (place.imageUri.startsWith("data:image") || place.imageUri.contains("base64,")) {
+                val base64Data = place.imageUri.substringAfter("base64,")
+                val imageBytes = android.util.Base64.decode(base64Data, android.util.Base64.DEFAULT)
                 com.bumptech.glide.Glide.with(context)
-                    .load(resId)
-                    .centerCrop()
-                    .placeholder(R.drawable.heritage_sigiriya)
-                    .error(R.drawable.heritage_sigiriya)
-                    .into(holder.ivThumbnail)
-            } else if (place.imageUri.isNotBlank()) {
-                com.bumptech.glide.Glide.with(context)
-                    .load(place.imageUri)
+                    .asBitmap()
+                    .load(imageBytes)
                     .centerCrop()
                     .placeholder(R.drawable.heritage_sigiriya)
                     .error(R.drawable.heritage_sigiriya)
                     .into(holder.ivThumbnail)
             } else {
-                holder.ivThumbnail.setImageResource(R.drawable.heritage_sigiriya)
+                val resName = place.imageUri.substringAfterLast("/")
+                val resId = context.resources.getIdentifier(resName, "drawable", context.packageName)
+                if (resId != 0) {
+                    com.bumptech.glide.Glide.with(context)
+                        .load(resId)
+                        .centerCrop()
+                        .placeholder(R.drawable.heritage_sigiriya)
+                        .error(R.drawable.heritage_sigiriya)
+                        .into(holder.ivThumbnail)
+                } else if (place.imageUri.isNotBlank()) {
+                    com.bumptech.glide.Glide.with(context)
+                        .load(place.imageUri)
+                        .centerCrop()
+                        .placeholder(R.drawable.heritage_sigiriya)
+                        .error(R.drawable.heritage_sigiriya)
+                        .into(holder.ivThumbnail)
+                } else {
+                    holder.ivThumbnail.setImageResource(R.drawable.heritage_sigiriya)
+                }
             }
         } catch (e: Exception) {
             holder.ivThumbnail.setImageResource(R.drawable.heritage_sigiriya)

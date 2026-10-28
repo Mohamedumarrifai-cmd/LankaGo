@@ -57,6 +57,15 @@ class SearchFragment : Fragment() {
         setupChips()
         setupRecyclerView()
         setupSearch()
+
+        // Real-time synchronization with Firebase /destinations
+        context?.let { ctx ->
+            LankaGoDataManager.syncWithFirebase(ctx) {
+                if (isAdded) {
+                    filterData()
+                }
+            }
+        }
     }
 
     private fun initViews(view: View) {

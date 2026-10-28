@@ -229,12 +229,19 @@ class AdminRepository(
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list = mutableListOf<RentalShop>()
                 for (child in snapshot.children) {
-                    child.getValue(RentalShop::class.java)?.let { list.add(it) }
+                    try {
+                        val shop = parseRentalShopSafe(child)
+                        if (shop != null) list.add(shop)
+                    } catch (e: Exception) {
+                        Log.e("RentalsSync", "Failed to parse rental shop ${child.key}: ${e.message}")
+                    }
                 }
+                Log.d("RentalsSync", "Live Firebase /rentals update: ${list.size} shops parsed")
                 trySend(list)
             }
 
             override fun onCancelled(error: DatabaseError) {
+                Log.e("RentalsSync", "Firebase /rentals cancelled: ${error.message}")
                 close(error.toException())
             }
         }
@@ -242,6 +249,54 @@ class AdminRepository(
         val ref = database.child("rentals")
         ref.addValueEventListener(listener)
         awaitClose { ref.removeEventListener(listener) }
+    }
+
+    private fun parseRentalShopSafe(child: DataSnapshot): RentalShop? {
+        return try {
+            child.getValue(RentalShop::class.java)
+        } catch (_: Exception) {
+            val id = child.child("id").getValue(String::class.java) ?: child.key ?: ""
+            val name = child.child("name").getValue(String::class.java) ?: ""
+            if (name.isBlank() && id.isBlank()) return null
+
+            val desc = child.child("description").getValue(String::class.java) ?: ""
+            val lat = (child.child("lat").value as? Number)?.toDouble() ?: 6.9271
+            val lng = (child.child("lng").value as? Number)?.toDouble() ?: 79.8612
+            val contact = child.child("contactNumber").getValue(String::class.java) ?: ""
+            val hours = child.child("operatingHours").getValue(String::class.java) ?: ""
+            val imageUrl = child.child("imageUrl").getValue(String::class.java) ?: ""
+            val rating = (child.child("rating").value as? Number)?.toFloat() ?: 4.9f
+            val reviewCount = (child.child("reviewCount").value as? Number)?.toInt() ?: 1
+            val address = child.child("address").getValue(String::class.java) ?: ""
+            val city = child.child("city").getValue(String::class.java) ?: "Sri Lanka"
+            val whatsapp = child.child("whatsappNumber").getValue(String::class.java) ?: ""
+            val price = child.child("priceStartingFrom").getValue(String::class.java) ?: "LKR 3,500/day"
+            val fleet = mutableListOf<String>()
+            child.child("fleetAvailable").children.forEach { f ->
+                f.getValue(String::class.java)?.let { fleet.add(it) }
+            }
+            if (fleet.isEmpty()) {
+                fleet.addAll(listOf("Automatic Scooters", "Helmets Included", "Roadside Assistance"))
+            }
+
+            RentalShop(
+                id = id,
+                name = name,
+                description = desc,
+                lat = lat,
+                lng = lng,
+                contactNumber = contact,
+                operatingHours = hours,
+                imageUrl = imageUrl,
+                rating = rating,
+                reviewCount = reviewCount,
+                address = address,
+                city = city,
+                whatsappNumber = whatsapp,
+                fleetAvailable = fleet,
+                priceStartingFrom = price
+            )
+        }
     }
 
     // 3. REALTIME DATABASE: LOCAL PRODUCTS CRUD (/products)

@@ -2,6 +2,11 @@ package com.example.lankago.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -23,15 +28,17 @@ data class Place(
 
 /**
  * Singleton repository holding Place data locally.
- * Uses SharedPreferences and Gson to ensure newly published places persist across app restarts.
+ * Synchronizes with Firebase Realtime Database node `/destinations` and caches via SharedPreferences & Gson.
  */
 object LankaGoDataManager {
 
+    private const val TAG = "PlacesSync"
     private const val PREFS_NAME = "lankago_places_pref"
     private const val KEY_PLACES_JSON = "saved_places_json"
     private const val DATA_VERSION = 3 // Updated with exact user drawable images for all places
     private const val KEY_DATA_VERSION = "saved_places_version"
     private val gson = Gson()
+    private var firebaseListener: ValueEventListener? = null
 
     // In-memory cache for fast access
     val placesList = ArrayList<Place>()
@@ -70,18 +77,32 @@ object LankaGoDataManager {
     }
 
     /**
-     * Adds a newly submitted destination from Admin panel and persists to disk.
+     * Adds a newly submitted destination from Admin panel and persists to disk and Firebase.
      */
     fun addPlace(context: Context, place: Place) {
         val current = getPlaces(context).toMutableList()
+        current.removeAll { it.id == place.id }
         current.add(0, place)
         savePlacesToPrefs(context, current)
         placesList.clear()
         placesList.addAll(current)
+
+        try {
+            val db = FirebaseDatabase.getInstance().reference.child("destinations")
+            db.child(place.id).setValue(place)
+                .addOnSuccessListener {
+                    Log.d(TAG, "Place successfully pushed to Firebase /destinations: ${place.name}")
+                }
+                .addOnFailureListener { e ->
+                    Log.e(TAG, "Failed to push place to Firebase: ${e.message}")
+                }
+        } catch (e: Exception) {
+            Log.e(TAG, "Firebase unavailable for addPlace: ${e.message}")
+        }
     }
 
     /**
-     * Updates an existing destination and persists changes to disk.
+     * Updates an existing destination and persists changes to disk and Firebase.
      */
     fun updatePlace(context: Context, place: Place) {
         val current = getPlaces(context).toMutableList()
@@ -92,10 +113,23 @@ object LankaGoDataManager {
             placesList.clear()
             placesList.addAll(current)
         }
+
+        try {
+            val db = FirebaseDatabase.getInstance().reference.child("destinations")
+            db.child(place.id).setValue(place)
+                .addOnSuccessListener {
+                    Log.d(TAG, "Place successfully updated in Firebase: ${place.name}")
+                }
+                .addOnFailureListener { e ->
+                    Log.e(TAG, "Failed to update place in Firebase: ${e.message}")
+                }
+        } catch (e: Exception) {
+            Log.e(TAG, "Firebase unavailable for updatePlace: ${e.message}")
+        }
     }
 
     /**
-     * Permanently deletes a destination by ID and persists changes to disk.
+     * Permanently deletes a destination by ID and persists changes to disk and Firebase.
      */
     fun deletePlace(context: Context, placeId: String) {
         val current = getPlaces(context).toMutableList()
@@ -104,6 +138,97 @@ object LankaGoDataManager {
             savePlacesToPrefs(context, current)
             placesList.clear()
             placesList.addAll(current)
+        }
+
+        try {
+            val db = FirebaseDatabase.getInstance().reference.child("destinations")
+            db.child(placeId).removeValue()
+                .addOnSuccessListener {
+                    Log.d(TAG, "Place deleted from Firebase: $placeId")
+                }
+                .addOnFailureListener { e ->
+                    Log.e(TAG, "Failed to delete place from Firebase: ${e.message}")
+                }
+        } catch (e: Exception) {
+            Log.e(TAG, "Firebase unavailable for deletePlace: ${e.message}")
+        }
+    }
+
+    /**
+     * Real-time bidirectional synchronization with Firebase Realtime Database `/destinations`.
+     * Fetches places published by Admin, merges with local defaults, and refreshes the user UI.
+     */
+    fun syncWithFirebase(context: Context, onSynced: (() -> Unit)? = null) {
+        try {
+            val ref = FirebaseDatabase.getInstance().reference.child("destinations")
+            if (firebaseListener != null) {
+                ref.removeEventListener(firebaseListener!!)
+            }
+
+            firebaseListener = object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val firebasePlaces = mutableListOf<Place>()
+                    for (child in snapshot.children) {
+                        try {
+                            val id = child.child("id").getValue(String::class.java) ?: child.key ?: ""
+                            val name = child.child("name").getValue(String::class.java) ?: ""
+                            val category = child.child("category").getValue(String::class.java) ?: "Heritage"
+                            val location = child.child("location").getValue(String::class.java) ?: "Sri Lanka"
+                            val imageUri = child.child("imageUri").getValue(String::class.java) ?: ""
+                            val description = child.child("description").getValue(String::class.java) ?: ""
+                            val rating = child.child("rating").getValue(String::class.java) ?: "4.8"
+                            val entranceFee = child.child("entranceFee").getValue(String::class.java) ?: "Free"
+                            val lat = (child.child("lat").value as? Number)?.toDouble() ?: 0.0
+                            val lng = (child.child("lng").value as? Number)?.toDouble() ?: 0.0
+
+                            if (name.isNotBlank()) {
+                                firebasePlaces.add(
+                                    Place(
+                                        id = id,
+                                        name = name,
+                                        category = category,
+                                        location = location,
+                                        imageUri = imageUri,
+                                        description = description,
+                                        rating = rating,
+                                        entranceFee = entranceFee,
+                                        lat = lat,
+                                        lng = lng
+                                    )
+                                )
+                            }
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Error parsing place snapshot: ${e.message}")
+                        }
+                    }
+
+                    Log.d(TAG, "Synced ${firebasePlaces.size} destinations from Firebase /destinations")
+
+                    if (firebasePlaces.isNotEmpty()) {
+                        val defaults = getDefaultPlaces()
+                        val firebaseIds = firebasePlaces.map { it.id }.toSet()
+                        val merged = mutableListOf<Place>()
+                        merged.addAll(firebasePlaces)
+                        for (def in defaults) {
+                            if (!firebaseIds.contains(def.id)) {
+                                merged.add(def)
+                            }
+                        }
+                        savePlacesToPrefs(context, merged)
+                        placesList.clear()
+                        placesList.addAll(merged)
+                    }
+                    onSynced?.invoke()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "Firebase /destinations listener cancelled: ${error.message}")
+                }
+            }
+
+            ref.addValueEventListener(firebaseListener!!)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to start Firebase sync: ${e.message}")
         }
     }
 

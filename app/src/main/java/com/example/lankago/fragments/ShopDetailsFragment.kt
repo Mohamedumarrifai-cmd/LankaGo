@@ -20,6 +20,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.util.Base64
 import com.bumptech.glide.Glide
 import com.example.lankago.R
 import com.example.lankago.adapters.ShopReviewAdapter
@@ -198,13 +199,29 @@ class ShopDetailsFragment : Fragment() {
 
         // Seamless image loading: Use Glide for web/base64 URLs with accurate authentic fallback
         val fallbackRes = com.example.lankago.adapters.RentalTransportAdapter.resolveShopDrawable(shop)
-        if (!shop.imageUrl.isNullOrBlank() && (shop.imageUrl.startsWith("data:image") || shop.imageUrl.startsWith("http"))) {
-            Glide.with(this)
-                .load(shop.imageUrl)
-                .placeholder(fallbackRes)
-                .error(fallbackRes)
-                .centerCrop()
-                .into(ivCover)
+        if (!shop.imageUrl.isNullOrBlank()) {
+            if (shop.imageUrl.startsWith("data:image") || shop.imageUrl.contains("base64,")) {
+                try {
+                    val base64Data = shop.imageUrl.substringAfter("base64,")
+                    val imageBytes = Base64.decode(base64Data, Base64.DEFAULT)
+                    Glide.with(this)
+                        .asBitmap()
+                        .load(imageBytes)
+                        .placeholder(fallbackRes)
+                        .error(fallbackRes)
+                        .centerCrop()
+                        .into(ivCover)
+                } catch (e: Exception) {
+                    ivCover.setImageResource(fallbackRes)
+                }
+            } else {
+                Glide.with(this)
+                    .load(shop.imageUrl)
+                    .placeholder(fallbackRes)
+                    .error(fallbackRes)
+                    .centerCrop()
+                    .into(ivCover)
+            }
         } else {
             ivCover.setImageResource(fallbackRes)
         }

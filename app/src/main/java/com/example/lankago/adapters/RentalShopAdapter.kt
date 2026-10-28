@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import android.util.Base64
 import com.example.lankago.R
 import com.example.lankago.data.RentalShop
 import com.google.android.material.button.MaterialButton
@@ -55,13 +56,29 @@ class RentalShopAdapter(
             tvPriceStart.text = shop.priceStartingFrom
 
             val fallbackRes = RentalTransportAdapter.resolveShopDrawable(shop)
-            if (!shop.imageUrl.isNullOrBlank() && (shop.imageUrl.startsWith("data:image") || shop.imageUrl.startsWith("http"))) {
-                Glide.with(itemView.context)
-                    .load(shop.imageUrl)
-                    .placeholder(fallbackRes)
-                    .error(fallbackRes)
-                    .centerCrop()
-                    .into(ivImage)
+            if (!shop.imageUrl.isNullOrBlank()) {
+                if (shop.imageUrl.startsWith("data:image") || shop.imageUrl.contains("base64,")) {
+                    try {
+                        val base64Data = shop.imageUrl.substringAfter("base64,")
+                        val imageBytes = Base64.decode(base64Data, Base64.DEFAULT)
+                        Glide.with(itemView.context)
+                            .asBitmap()
+                            .load(imageBytes)
+                            .placeholder(fallbackRes)
+                            .error(fallbackRes)
+                            .centerCrop()
+                            .into(ivImage)
+                    } catch (e: Exception) {
+                        ivImage.setImageResource(fallbackRes)
+                    }
+                } else {
+                    Glide.with(itemView.context)
+                        .load(shop.imageUrl)
+                        .placeholder(fallbackRes)
+                        .error(fallbackRes)
+                        .centerCrop()
+                        .into(ivImage)
+                }
             } else {
                 ivImage.setImageResource(fallbackRes)
             }

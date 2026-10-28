@@ -524,13 +524,13 @@ object RentalRepository {
         val sId = shopId?.lowercase() ?: ""
         val cat = shopCategory?.lowercase() ?: ""
 
-        return when {
+        val fleet = when {
             // Bike & Scooter Shops: Show bikes only (Dio, PCX, NMAX, FZ-S, Pulsar NS200, Royal Enfield)
             sId.contains("epic_ride") || sId.contains("colombo_scooter") ||
             sId.contains("unawatuna") || sId.contains("dambulla") ||
             sId.contains("hikkaduwa") || sId.contains("kandy_bike") ||
             sId.contains("ella_bike") || sId.contains("arugam") ||
-            cat == "scooter" || cat == "bike" -> {
+            cat == "scooter" || cat == "bike" || cat.contains("scooter") || cat.contains("bike") || cat.contains("moto") -> {
                 sampleVehicles.filter {
                     it.type.contains("Bike", ignoreCase = true) ||
                     it.type.contains("Scooter", ignoreCase = true) ||
@@ -541,7 +541,7 @@ object RentalRepository {
             // Car Rental Shops: Show cars only (Alto, Wagon R, Aqua, Prius, Grace, X-Trail, Montero)
             sId.contains("malkey_car") || sId.contains("casons_car") ||
             sId.contains("kings_car") || sId.contains("euro_car") ||
-            cat == "car" -> {
+            cat == "car" || cat.contains("car") || cat.contains("sedan") || cat.contains("suv") -> {
                 sampleVehicles.filter {
                     it.type.contains("Car", ignoreCase = true) ||
                     it.type.contains("Sedan", ignoreCase = true) ||
@@ -552,7 +552,7 @@ object RentalRepository {
             }
 
             // Van & Coach Shops: Show vans & large passenger transport
-            sId.contains("van") || sId.contains("bus") || cat == "van" || cat == "bus" -> {
+            sId.contains("van") || sId.contains("bus") || cat == "van" || cat == "bus" || cat.contains("van") || cat.contains("bus") || cat.contains("coach") -> {
                 sampleVehicles.filter {
                     it.type.contains("Van", ignoreCase = true) ||
                     it.name.contains("KDH", ignoreCase = true) ||
@@ -562,7 +562,7 @@ object RentalRepository {
             }
 
             // Tuk-Tuk Shops: Show tuk-tuks
-            sId.contains("tuktuk") && !sId.contains("colombo_tuktuk") && !sId.contains("mirissa") || cat == "tuktuk" -> {
+            (sId.contains("tuktuk") && !sId.contains("colombo_tuktuk") && !sId.contains("mirissa")) || cat == "tuktuk" || cat.contains("tuk") -> {
                 sampleVehicles.filter {
                     it.type.contains("Tuk", ignoreCase = true)
                 }
@@ -588,5 +588,7 @@ object RentalRepository {
             !location.isNullOrBlank() -> getVehiclesByLocation(location)
             else -> sampleVehicles
         }
+
+        return if (fleet.isNotEmpty()) fleet else sampleVehicles
     }
 }
