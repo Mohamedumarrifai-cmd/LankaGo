@@ -113,9 +113,22 @@ class RentalShopsViewModel : ViewModel() {
 
     fun loadShopDetails(shopId: String) {
         viewModelScope.launch {
-            val fromCache = allCachedShops.find { it.id == shopId }
-            val shop = fromCache ?: RentalShopDataProvider.getShopById(shopId)
-            _uiState.value = _uiState.value.copy(selectedShop = shop)
+            val fromCache = allCachedShops.find { it.id.equals(shopId, ignoreCase = true) }
+            if (fromCache != null) {
+                _uiState.value = _uiState.value.copy(selectedShop = fromCache)
+                return@launch
+            }
+            val fromStatic = RentalShopDataProvider.getShopById(shopId)
+            if (fromStatic != null) {
+                _uiState.value = _uiState.value.copy(selectedShop = fromStatic)
+            }
+            try {
+                val firebaseShops = adminRepository.getAllRentalsOnce()
+                val foundInFirebase = firebaseShops.find { it.id.equals(shopId, ignoreCase = true) }
+                if (foundInFirebase != null) {
+                    _uiState.value = _uiState.value.copy(selectedShop = foundInFirebase)
+                }
+            } catch (_: Exception) {}
         }
     }
 }

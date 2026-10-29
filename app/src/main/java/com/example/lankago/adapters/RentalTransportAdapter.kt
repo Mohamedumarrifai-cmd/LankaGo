@@ -106,10 +106,11 @@ class RentalTransportAdapter(
                 name.contains("hikka") -> R.drawable.hikka_rent
                 name.contains("kandy") && (name.contains("bike") || name.contains("ride")) -> R.drawable.kandy_bike
                 name.contains("ella") -> R.drawable.ella_rental
-                name.contains("mirissa") -> R.drawable.beach_mirissa
+                name.contains("mirissa") -> R.drawable.tuktuk_rental
                 name.contains("arugam") || name.contains("bentota") -> R.drawable.beach_bentota
                 name.contains("malkey") && all.contains("van") -> R.drawable.casons_rent
-                name.contains("malkey") || name.contains("kings") -> R.drawable.aqua
+                name.contains("kings") -> R.drawable.kings_rent
+                name.contains("malkey") -> R.drawable.malkey_rent
                 name.contains("casons") && all.contains("van") -> R.drawable.casons_rent
                 name.contains("casons") || name.contains("euro") -> R.drawable.alto
                 all.contains("tuktuk") || all.contains("tuk tuk") || all.contains("tuk-tuk") || all.contains("three wheel") -> {

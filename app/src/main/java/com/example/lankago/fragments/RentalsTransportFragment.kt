@@ -172,12 +172,12 @@ class RentalsTransportFragment : Fragment() {
         }
         try {
             findNavController().navigate(
-                R.id.action_rentalsTransportFragment_to_rentalListFragment,
+                R.id.action_rentalsTransportFragment_to_shopDetailsFragment,
                 bundle
             )
         } catch (_: Exception) {
             findNavController().navigate(
-                R.id.action_rentalsTransportFragment_to_rentalDetailsFragment,
+                R.id.action_rentalsTransportFragment_to_rentalListFragment,
                 bundle
             )
         }
@@ -216,12 +216,12 @@ class RentalsTransportFragment : Fragment() {
 
         // 7. Mirissa Bike Rental (Mirissa) - Bikes & Tuk-Tuks (Both)
         view.findViewById<CardView>(R.id.card_mirissa_bike)?.setOnClickListener {
-            openShopFleet("shop_mirissa_bike", "Mirissa Bike & Tuk-Tuk Rental", "both", "Mirissa")
+            openShopFleet("shop_mirissa_tuktuk", "Mirissa Coastline Tuk-Tuk & Bike Rentals", "both", "Mirissa")
         }
 
         // 8. Ella Bike Rental (Ella) - Mountain Adventures
         view.findViewById<CardView>(R.id.card_ella_bike)?.setOnClickListener {
-            openShopFleet("shop_ella_bike", "Ella Bike Rental", "bike", "Ella")
+            openShopFleet("shop_ella_moto", "Ella Mountain Moto Adventures", "bike", "Ella")
         }
 
         // 9. Arugam Bay Bike Rental (Arugam Bay)

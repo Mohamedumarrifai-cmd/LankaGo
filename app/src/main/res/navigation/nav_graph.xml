@@ -824,6 +824,27 @@
             android:name="shopId"
             app:argType="string"
             android:defaultValue="shop_galle_bike" />
+        <argument
+            android:name="shopName"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="shopCategory"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="destinationLocation"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_shopDetailsFragment_to_rentalListFragment"
+            app:destination="@id/rentalListFragment" />
+        <action
+            android:id="@+id/action_shopDetailsFragment_to_routeTrackingFragment"
+            app:destination="@id/routeTrackingFragment" />
     </fragment>
 
     <!-- 22. Advanced Google Maps Route Tracking Screen -->

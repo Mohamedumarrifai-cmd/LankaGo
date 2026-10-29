@@ -24,22 +24,30 @@ import android.util.Base64
 import com.bumptech.glide.Glide
 import com.example.lankago.R
 import com.example.lankago.adapters.ShopReviewAdapter
+import com.example.lankago.adapters.RentalTransportAdapter
 import com.example.lankago.data.RentalShop
 import com.example.lankago.data.RentalShopDataProvider
 import com.example.lankago.viewmodels.RentalShopsViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
-
- // Separate, full-page screen displaying complete details for a selected Rental Shop.
-
+/**
+ * Separate, full-page screen displaying complete details for a selected Rental Shop.
+ * Shows:
+ * 1. Picture / Logo
+ * 2. Details (Name, rating, city, address, operating hours, description, fleet)
+ * 3. Direct Contact phone number (clickable & Call button)
+ * 4. WhatsApp chat number (clickable & WhatsApp button)
+ * 5. Google Maps integration
+ * 6. "View Vehicles" button to see the shop's fleet (bikes for bike rentals, both for bike & vehicle rentals).
+ */
 class ShopDetailsFragment : Fragment() {
 
     private val viewModel: RentalShopsViewModel by viewModels()
     private lateinit var reviewAdapter: ShopReviewAdapter
+    private var currentShop: RentalShop? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,15 +60,24 @@ class ShopDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Retrieve shop ID passed via SafeArgs / bundle with resilient fallback
+        // Retrieve arguments passed via SafeArgs / bundle
         val shopId = arguments?.getString("shopId")
             ?: arguments?.getString("rentalShopId")
             ?: "shop_epic_ride"
+        val passedShopName = arguments?.getString("shopName")
+        val passedShopCategory = arguments?.getString("shopCategory")
+        val passedLocation = arguments?.getString("destinationLocation")
+            ?: arguments?.getString("city")
+            ?: ""
+        val activeTripId = arguments?.getString("activeTripId") ?: ""
+        val isSelectMode = arguments?.getBoolean("isSelectMode") == true ||
+                arguments?.getString("mode") == "select_rental"
 
         // Initialize Views
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar_shop_details)
         val tvToolbarName = view.findViewById<TextView>(R.id.tv_toolbar_shop_name)
         val ivCover = view.findViewById<ImageView>(R.id.ivCoverImage)
+        val ivShopLogo = view.findViewById<ImageView>(R.id.iv_shop_logo)
         val btnShare = view.findViewById<ImageButton>(R.id.btn_shop_share)
 
         val tvName = view.findViewById<TextView>(R.id.tv_detail_shop_name)
@@ -70,12 +87,18 @@ class ShopDetailsFragment : Fragment() {
         val tvPriceStarting = view.findViewById<TextView>(R.id.tv_detail_price_starting)
         val tvDescription = view.findViewById<TextView>(R.id.tv_detail_description)
 
+        val btnViewVehicles = view.findViewById<MaterialButton>(R.id.btn_view_vehicles)
+        val btnWhatsApp = view.findViewById<MaterialButton>(R.id.btn_shop_whatsapp)
+        val btnCall = view.findViewById<MaterialButton>(R.id.btn_shop_call)
+        val rowPhone = view.findViewById<View>(R.id.row_contact_phone)
+        val tvPhoneDisplay = view.findViewById<TextView>(R.id.tv_shop_phone_display)
+        val rowWhatsapp = view.findViewById<View>(R.id.row_contact_whatsapp)
+        val tvWhatsappDisplay = view.findViewById<TextView>(R.id.tv_shop_whatsapp_display)
+
         val tvHours = view.findViewById<TextView>(R.id.tv_detail_hours)
         val tvAddress = view.findViewById<TextView>(R.id.tv_detail_address)
         val chipGroupFleet = view.findViewById<ChipGroup>(R.id.chip_group_shop_fleet)
 
-        val btnWhatsApp = view.findViewById<MaterialButton>(R.id.btn_shop_whatsapp)
-        val btnCall = view.findViewById<MaterialButton>(R.id.btn_shop_call)
         val btnGoogleMaps = view.findViewById<MaterialButton>(R.id.btn_view_on_google_maps)
 
         val rvReviews = view.findViewById<RecyclerView>(R.id.rv_shop_reviews)
@@ -93,8 +116,7 @@ class ShopDetailsFragment : Fragment() {
         rvReviews.adapter = reviewAdapter
 
         btnShare.setOnClickListener {
-            val shop = viewModel.uiState.value.selectedShop
-                ?: RentalShopDataProvider.getShopById(shopId)
+            val shop = currentShop ?: RentalShopDataProvider.getShopById(shopId)
             if (shop != null) {
                 val shareIntent = Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
@@ -108,14 +130,41 @@ class ShopDetailsFragment : Fragment() {
             }
         }
 
+        // Action: "View Vehicles" Button -> Navigate to RentalListFragment to see vehicles
+        btnViewVehicles.setOnClickListener {
+            val shop = currentShop ?: RentalShopDataProvider.getShopById(shopId)
+            val category = resolveShopCategory(shop, passedShopCategory)
+            val bundle = bundleOf(
+                "shopId" to (shop?.id ?: shopId),
+                "shopName" to (shop?.name ?: passedShopName ?: "Rental Shop"),
+                "shopCategory" to category,
+                "destinationLocation" to (shop?.city ?: passedLocation.ifBlank { "Sri Lanka" }),
+                "activeTripId" to activeTripId,
+                "isSelectMode" to isSelectMode
+            )
+            try {
+                findNavController().navigate(
+                    R.id.action_shopDetailsFragment_to_rentalListFragment,
+                    bundle
+                )
+            } catch (_: Exception) {
+                findNavController().navigate(
+                    R.id.rentalListFragment,
+                    bundle
+                )
+            }
+        }
+
         // Instant pre-binding to guarantee the top section is never blank while StateFlow initializes
         val immediateShop = RentalShopDataProvider.getShopById(shopId)
             ?: RentalShopDataProvider.shops.firstOrNull()
-        if (immediateShop != null && ivCover != null) {
+        if (immediateShop != null) {
+            currentShop = immediateShop
             bindShopDetails(
                 shop = immediateShop,
                 tvToolbarName = tvToolbarName,
                 ivCover = ivCover,
+                ivLogo = ivShopLogo,
                 tvName = tvName,
                 tvRating = tvRating,
                 tvReviewCount = tvReviewCount,
@@ -127,6 +176,10 @@ class ShopDetailsFragment : Fragment() {
                 chipGroupFleet = chipGroupFleet,
                 btnWhatsApp = btnWhatsApp,
                 btnCall = btnCall,
+                rowPhone = rowPhone,
+                tvPhoneDisplay = tvPhoneDisplay,
+                rowWhatsapp = rowWhatsapp,
+                tvWhatsappDisplay = tvWhatsappDisplay,
                 btnGoogleMaps = btnGoogleMaps,
                 tvReviewsHeaderCount = tvReviewsHeaderCount,
                 tvNoReviews = tvNoReviews
@@ -139,11 +192,13 @@ class ShopDetailsFragment : Fragment() {
                 viewModel.uiState.collect { state ->
                     val shop = state.selectedShop
                         ?: RentalShopDataProvider.getShopById(shopId)
-                    if (shop != null && ivCover != null) {
+                    if (shop != null) {
+                        currentShop = shop
                         bindShopDetails(
                             shop = shop,
                             tvToolbarName = tvToolbarName,
                             ivCover = ivCover,
+                            ivLogo = ivShopLogo,
                             tvName = tvName,
                             tvRating = tvRating,
                             tvReviewCount = tvReviewCount,
@@ -155,6 +210,10 @@ class ShopDetailsFragment : Fragment() {
                             chipGroupFleet = chipGroupFleet,
                             btnWhatsApp = btnWhatsApp,
                             btnCall = btnCall,
+                            rowPhone = rowPhone,
+                            tvPhoneDisplay = tvPhoneDisplay,
+                            rowWhatsapp = rowWhatsapp,
+                            tvWhatsappDisplay = tvWhatsappDisplay,
                             btnGoogleMaps = btnGoogleMaps,
                             tvReviewsHeaderCount = tvReviewsHeaderCount,
                             tvNoReviews = tvNoReviews
@@ -171,6 +230,7 @@ class ShopDetailsFragment : Fragment() {
         shop: RentalShop,
         tvToolbarName: TextView,
         ivCover: ImageView,
+        ivLogo: ImageView,
         tvName: TextView,
         tvRating: TextView,
         tvReviewCount: TextView,
@@ -182,6 +242,10 @@ class ShopDetailsFragment : Fragment() {
         chipGroupFleet: ChipGroup,
         btnWhatsApp: MaterialButton,
         btnCall: MaterialButton,
+        rowPhone: View?,
+        tvPhoneDisplay: TextView?,
+        rowWhatsapp: View?,
+        tvWhatsappDisplay: TextView?,
         btnGoogleMaps: MaterialButton,
         tvReviewsHeaderCount: TextView,
         tvNoReviews: TextView
@@ -198,7 +262,7 @@ class ShopDetailsFragment : Fragment() {
         tvAddress.text = shop.address
 
         // Seamless image loading: Use Glide for web/base64 URLs with accurate authentic fallback
-        val fallbackRes = com.example.lankago.adapters.RentalTransportAdapter.resolveShopDrawable(shop)
+        val fallbackRes = RentalTransportAdapter.resolveShopDrawable(shop)
         if (!shop.imageUrl.isNullOrBlank()) {
             if (shop.imageUrl.startsWith("data:image") || shop.imageUrl.contains("base64,")) {
                 try {
@@ -211,8 +275,17 @@ class ShopDetailsFragment : Fragment() {
                         .error(fallbackRes)
                         .centerCrop()
                         .into(ivCover)
+
+                    Glide.with(this)
+                        .asBitmap()
+                        .load(imageBytes)
+                        .placeholder(fallbackRes)
+                        .error(fallbackRes)
+                        .fitCenter()
+                        .into(ivLogo)
                 } catch (e: Exception) {
                     ivCover.setImageResource(fallbackRes)
+                    ivLogo.setImageResource(fallbackRes)
                 }
             } else {
                 Glide.with(this)
@@ -221,9 +294,17 @@ class ShopDetailsFragment : Fragment() {
                     .error(fallbackRes)
                     .centerCrop()
                     .into(ivCover)
+
+                Glide.with(this)
+                    .load(shop.imageUrl)
+                    .placeholder(fallbackRes)
+                    .error(fallbackRes)
+                    .fitCenter()
+                    .into(ivLogo)
             }
         } else {
             ivCover.setImageResource(fallbackRes)
+            ivLogo.setImageResource(fallbackRes)
         }
 
         // Fleet Chips
@@ -239,24 +320,37 @@ class ShopDetailsFragment : Fragment() {
             chipGroupFleet.addView(chip)
         }
 
-        // Action Buttons: WhatsApp Intent
-        btnWhatsApp.setOnClickListener {
-            val phone = if (shop.whatsappNumber.isNotBlank()) shop.whatsappNumber else shop.contactNumber
-            val cleaned = phone.replace("+", "").replace(" ", "").replace("-", "")
+        // Direct phone number & WhatsApp number display
+        val phoneNum = if (shop.contactNumber.isNotBlank()) shop.contactNumber else "+94112345678"
+        val waNum = if (shop.whatsappNumber.isNotBlank()) shop.whatsappNumber else shop.contactNumber
+        tvPhoneDisplay?.text = phoneNum
+        tvWhatsappDisplay?.text = waNum
+
+        // Action Buttons & Row: WhatsApp Intent
+        val waClickListener = View.OnClickListener {
+            val cleaned = waNum.replace("+", "").replace(" ", "").replace("-", "")
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse("https://api.whatsapp.com/send?phone=$cleaned&text=Hello%20${Uri.encode(shop.name)},%20I%20am%20inquiring%20about%20rentals%20via%20LankaGo")
             }
             try {
                 startActivity(intent)
             } catch (_: Exception) {
-                Toast.makeText(requireContext(), "WhatsApp is not installed on this device", Toast.LENGTH_SHORT).show()
+                // Fallback direct web link
+                try {
+                    val fallbackIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/$cleaned"))
+                    startActivity(fallbackIntent)
+                } catch (_: Exception) {
+                    Toast.makeText(requireContext(), "WhatsApp is not installed on this device", Toast.LENGTH_SHORT).show()
+                }
             }
         }
+        btnWhatsApp.setOnClickListener(waClickListener)
+        rowWhatsapp?.setOnClickListener(waClickListener)
 
-        // Action Buttons: Phone Call Intent (ACTION_DIAL)
-        btnCall.setOnClickListener {
+        // Action Buttons & Row: Phone Call Intent (ACTION_DIAL)
+        val callClickListener = View.OnClickListener {
             val intent = Intent(Intent.ACTION_DIAL).apply {
-                data = Uri.parse("tel:${shop.contactNumber}")
+                data = Uri.parse("tel:$phoneNum")
             }
             try {
                 startActivity(intent)
@@ -264,16 +358,40 @@ class ShopDetailsFragment : Fragment() {
                 Toast.makeText(requireContext(), "Unable to open phone dialer", Toast.LENGTH_SHORT).show()
             }
         }
+        btnCall.setOnClickListener(callClickListener)
+        rowPhone?.setOnClickListener(callClickListener)
 
-        // Action Buttons: Route Tracking & Live GPS Navigation
+        // Action Buttons: Open in Google Maps (App / Web / Route Tracking)
         btnGoogleMaps.setOnClickListener {
-            val bundle = bundleOf(
-                "destLat" to shop.lat,
-                "destLng" to shop.lng,
-                "destTitle" to shop.name,
-                "destAddress" to "${shop.address}, ${shop.city}"
-            )
-            findNavController().navigate(R.id.routeTrackingFragment, bundle)
+            val geoUri = Uri.parse("geo:${shop.lat},${shop.lng}?q=${shop.lat},${shop.lng}(${Uri.encode(shop.name)})")
+            val mapIntent = Intent(Intent.ACTION_VIEW, geoUri).apply {
+                setPackage("com.google.android.apps.maps")
+            }
+            try {
+                startActivity(mapIntent)
+            } catch (_: Exception) {
+                // Fallback 1: Web Google Maps
+                try {
+                    val webMapIntent = Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://www.google.com/maps/search/?api=1&query=${shop.lat},${shop.lng}")
+                    )
+                    startActivity(webMapIntent)
+                } catch (_: Exception) {
+                    // Fallback 2: In-App Route Tracking
+                    val bundle = bundleOf(
+                        "destLat" to shop.lat,
+                        "destLng" to shop.lng,
+                        "destTitle" to shop.name,
+                        "destAddress" to "${shop.address}, ${shop.city}"
+                    )
+                    try {
+                        findNavController().navigate(R.id.action_shopDetailsFragment_to_routeTrackingFragment, bundle)
+                    } catch (_: Exception) {
+                        findNavController().navigate(R.id.routeTrackingFragment, bundle)
+                    }
+                }
+            }
         }
 
         // Reviews Binding
@@ -285,6 +403,40 @@ class ShopDetailsFragment : Fragment() {
             tvNoReviews.visibility = View.GONE
             tvReviewsHeaderCount.text = "(${shop.reviews.size})"
             reviewAdapter.submitList(shop.reviews)
+        }
+    }
+
+    /**
+     * Resolves whether the shop is bike-only, vehicle-only, or both (bike and vehicle rental).
+     */
+    private fun resolveShopCategory(shop: RentalShop?, passedCategory: String?): String {
+        if (!passedCategory.isNullOrBlank() && (passedCategory == "both" || passedCategory == "bike_and_vehicle")) {
+            return "both"
+        }
+        if (shop == null) return passedCategory ?: "all"
+
+        val sId = shop.id.lowercase()
+        if (sId.contains("mirissa") || sId.contains("colombo_tuktuk") || sId.contains("kandy_rides")) {
+            return "both"
+        }
+
+        val combined = "${shop.name} ${shop.description} ${shop.fleetAvailable.joinToString(" ")}".lowercase()
+        val hasBike = combined.contains("scooter") || combined.contains("bike") || combined.contains("moto") || combined.contains("two-wheeler")
+        val hasVehicle = combined.contains("car") || combined.contains("suv") || combined.contains("sedan") || combined.contains("van") || combined.contains("kdh") || combined.contains("tuktuk") || combined.contains("tuk tuk") || combined.contains("tuk-tuk")
+
+        return when {
+            hasBike && hasVehicle -> "both"
+            passedCategory == "both" || passedCategory == "bike_and_vehicle" -> "both"
+            hasBike -> "bike"
+            hasVehicle -> {
+                when {
+                    combined.contains("van") || combined.contains("kdh") || combined.contains("bus") -> "van"
+                    combined.contains("tuktuk") || combined.contains("tuk") -> "tuktuk"
+                    else -> "car"
+                }
+            }
+            !passedCategory.isNullOrBlank() -> passedCategory
+            else -> "both"
         }
     }
 }

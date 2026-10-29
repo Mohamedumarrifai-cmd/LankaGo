@@ -105,13 +105,20 @@ class RentalListFragment : Fragment() {
     private fun filterVehicles(checkedId: Int, view: View) {
         val filtered = when (checkedId) {
             R.id.chip_filter_bikes -> allVehicles.filter {
-                it.type.contains("Bike", ignoreCase = true) || it.type.contains("Scooter", ignoreCase = true)
+                it.type.contains("Bike", ignoreCase = true) ||
+                it.type.contains("Scooter", ignoreCase = true) ||
+                it.type.contains("Motorcycle", ignoreCase = true)
             }
             R.id.chip_filter_tuktuk -> allVehicles.filter {
                 it.type.contains("Tuk", ignoreCase = true)
             }
             R.id.chip_filter_cars -> allVehicles.filter {
-                it.type.contains("Car", ignoreCase = true) || it.type.contains("SUV", ignoreCase = true) || it.type.contains("4x4", ignoreCase = true)
+                it.type.contains("Car", ignoreCase = true) ||
+                it.type.contains("SUV", ignoreCase = true) ||
+                it.type.contains("4x4", ignoreCase = true) ||
+                it.type.contains("Van", ignoreCase = true) ||
+                it.type.contains("Sedan", ignoreCase = true) ||
+                it.type.contains("Hatchback", ignoreCase = true)
             }
             else -> allVehicles
         }

@@ -524,13 +524,38 @@ object RentalRepository {
         val sId = shopId?.lowercase() ?: ""
         val cat = shopCategory?.lowercase() ?: ""
 
+        val isBoth = cat == "both" || cat == "bike_and_vehicle" || cat == "all" ||
+                sId.contains("mirissa") || sId.contains("colombo_tuktuk") || sId.contains("kandy_rides")
+
+        val isBikeOnly = !isBoth && (
+            cat == "bike" || cat == "scooter" || cat.contains("bike") || cat.contains("scooter") || cat.contains("moto") ||
+            sId.contains("epic_ride") || sId.contains("colombo_scooter") || sId.contains("unawatuna") ||
+            sId.contains("dambulla") || sId.contains("hikkaduwa") || sId.contains("kandy_bike") ||
+            sId.contains("ella_bike") || sId.contains("ella_moto") || sId.contains("arugam")
+        )
+
+        val isCarOnly = !isBoth && !isBikeOnly && (
+            cat == "car" || cat.contains("car") || cat.contains("sedan") || cat.contains("suv") ||
+            sId.contains("malkey_car") || sId.contains("casons_car") || sId.contains("kings_car") || sId.contains("euro_car")
+        )
+
+        val isVanOnly = !isBoth && !isBikeOnly && (
+            cat == "van" || cat == "bus" || cat.contains("van") || cat.contains("bus") || cat.contains("coach") ||
+            sId.contains("van") || sId.contains("bus")
+        )
+
+        val isTukTukOnly = !isBoth && !isBikeOnly && (
+            cat == "tuktuk" || cat.contains("tuk") || sId.contains("tuktuk")
+        )
+
         val fleet = when {
-            // Bike & Scooter Shops: Show bikes only (Dio, PCX, NMAX, FZ-S, Pulsar NS200, Royal Enfield)
-            sId.contains("epic_ride") || sId.contains("colombo_scooter") ||
-            sId.contains("unawatuna") || sId.contains("dambulla") ||
-            sId.contains("hikkaduwa") || sId.contains("kandy_bike") ||
-            sId.contains("ella_bike") || sId.contains("arugam") ||
-            cat == "scooter" || cat == "bike" || cat.contains("scooter") || cat.contains("bike") || cat.contains("moto") -> {
+            // 1. BIKE AND VEHICLE RENTAL: Show BOTH bikes and vehicles (cars, vans, tuk-tuks, scooters, motorcycles)
+            isBoth -> {
+                sampleVehicles
+            }
+
+            // 2. BIKE RENTAL ONLY: Show bikes & scooters ONLY
+            isBikeOnly -> {
                 sampleVehicles.filter {
                     it.type.contains("Bike", ignoreCase = true) ||
                     it.type.contains("Scooter", ignoreCase = true) ||
@@ -538,10 +563,8 @@ object RentalRepository {
                 }
             }
 
-            // Car Rental Shops: Show cars only (Alto, Wagon R, Aqua, Prius, Grace, X-Trail, Montero)
-            sId.contains("malkey_car") || sId.contains("casons_car") ||
-            sId.contains("kings_car") || sId.contains("euro_car") ||
-            cat == "car" || cat.contains("car") || cat.contains("sedan") || cat.contains("suv") -> {
+            // 3. CAR RENTAL ONLY: Show cars, sedans, SUVs
+            isCarOnly -> {
                 sampleVehicles.filter {
                     it.type.contains("Car", ignoreCase = true) ||
                     it.type.contains("Sedan", ignoreCase = true) ||
@@ -551,8 +574,8 @@ object RentalRepository {
                 }
             }
 
-            // Van & Coach Shops: Show vans & large passenger transport
-            sId.contains("van") || sId.contains("bus") || cat == "van" || cat == "bus" || cat.contains("van") || cat.contains("bus") || cat.contains("coach") -> {
+            // 4. VAN RENTAL ONLY: Show vans & large passenger transport
+            isVanOnly -> {
                 sampleVehicles.filter {
                     it.type.contains("Van", ignoreCase = true) ||
                     it.name.contains("KDH", ignoreCase = true) ||
@@ -561,27 +584,10 @@ object RentalRepository {
                 }
             }
 
-            // Tuk-Tuk Shops: Show tuk-tuks
-            (sId.contains("tuktuk") && !sId.contains("colombo_tuktuk") && !sId.contains("mirissa")) || cat == "tuktuk" || cat.contains("tuk") -> {
+            // 5. TUK-TUK RENTAL ONLY: Show tuk-tuks
+            isTukTukOnly -> {
                 sampleVehicles.filter {
                     it.type.contains("Tuk", ignoreCase = true)
-                }
-            }
-
-            // Combined Shops (Bikes + Tuk-Tuks or Cars + Tuk-Tuks): Show both!
-            sId.contains("mirissa") -> {
-                sampleVehicles.filter {
-                    it.type.contains("Bike", ignoreCase = true) ||
-                    it.type.contains("Scooter", ignoreCase = true) ||
-                    it.type.contains("Tuk", ignoreCase = true)
-                }
-            }
-            sId.contains("colombo_tuktuk") -> {
-                sampleVehicles.filter {
-                    it.type.contains("Tuk", ignoreCase = true) ||
-                    it.name.contains("Alto", ignoreCase = true) ||
-                    it.name.contains("Wagon", ignoreCase = true) ||
-                    it.name.contains("Dio", ignoreCase = true)
                 }
             }
 

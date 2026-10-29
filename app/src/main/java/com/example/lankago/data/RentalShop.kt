@@ -531,6 +531,23 @@ object RentalShopDataProvider {
     fun getAllShops(): List<RentalShop> = shops
 
     fun getShopById(id: String): RentalShop? {
-        return shops.firstOrNull { it.id == id } ?: shops.firstOrNull()
+        val normalized = id.trim().lowercase()
+        return shops.firstOrNull { it.id.equals(normalized, ignoreCase = true) }
+            ?: shops.firstOrNull { it.id.contains(normalized, ignoreCase = true) || normalized.contains(it.id, ignoreCase = true) }
+            ?: when {
+                normalized.contains("mirissa") -> shops.find { it.id == "shop_mirissa_tuktuk" }
+                normalized.contains("ella") -> shops.find { it.id == "shop_ella_moto" }
+                normalized.contains("hikka") -> shops.find { it.id == "shop_hikkaduwa" }
+                normalized.contains("kandy") && normalized.contains("bike") -> shops.find { it.id == "shop_kandy_bike" }
+                normalized.contains("kandy") && normalized.contains("van") -> shops.find { it.id == "shop_kandy_van" }
+                normalized.contains("colombo") && normalized.contains("scooter") -> shops.find { it.id == "shop_colombo_scooter" }
+                normalized.contains("malkey") && normalized.contains("van") -> shops.find { it.id == "shop_malkey_van" }
+                normalized.contains("malkey") -> shops.find { it.id == "shop_malkey_car" }
+                normalized.contains("casons") && normalized.contains("van") -> shops.find { it.id == "shop_casons_van" }
+                normalized.contains("casons") -> shops.find { it.id == "shop_casons_car" }
+                normalized.contains("kings") -> shops.find { it.id == "shop_kings_car" }
+                else -> null
+            }
+            ?: shops.firstOrNull()
     }
 }
